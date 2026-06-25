@@ -1655,3 +1655,8 @@ footer .default_footer_link a {
     background-color: #ce982e !important;
     border-color: #ce982e !important;
 }
+
+/* ─── إخفاء زر "اضغط هنا لنسخ رابط التتبع" ─── */
+.order_invoice_container button[title] {
+    display: none !important;
+}
