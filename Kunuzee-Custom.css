@@ -1631,10 +1631,13 @@ footer .default_footer_link a {
 /* ─── منع فلاشة الألوان القديمة في الأنيميشن ─── */
 .thanks_container svg {
     opacity: 0 !important;
-    transition: opacity 0.4s ease !important;
+    visibility: hidden !important;
+    transition: opacity 0.35s ease 0.05s !important;
 }
-.thanks_container svg[data-kunuzi-ready="true"] {
+
+.thanks_container.kunuzee-svg-ready svg {
     opacity: 1 !important;
+    visibility: visible !important;
 }
 
 /* ─── تباعد زر "العودة للرئيسية" عن العنوان ─── */
