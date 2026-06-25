@@ -507,8 +507,11 @@ setInterval(fixHeader, 300);
         });
 
         // إظهار الأنيميشن بعد ما الألوان تتغير
-        if (changed && !svg.dataset.kunuziReady) {
-            svg.dataset.kunuziReady = 'true';
+        if (changed) {
+            var container = document.querySelector('.thanks_container');
+            if (container && !container.classList.contains('kunuzee-svg-ready')) {
+                container.classList.add('kunuzee-svg-ready');
+            }
         }
     }
 
