@@ -1367,3 +1367,57 @@ footer .default_footer_link a {
     opacity: 0 !important;
     visibility: hidden !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 14: SEARCH STYLING — تخصيص البحث
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Label "بحث" */
+[data-search="container"] label,
+[data-search="container"] label.text-sm,
+[data-search="container"] label.font-medium {
+    color: #ce982e !important;
+    font-weight: 700 !important;
+}
+
+/* Input نفسه */
+[data-search="container"] input,
+[data-search="container"] input[type="text"] {
+    color: #bf6000 !important;
+    border-color: #ce982e !important;
+}
+
+[data-search="container"] input::placeholder {
+    color: #ce982e !important;
+}
+
+[data-search="container"] input:focus {
+    outline: none !important;
+    border-color: #ce982e !important;
+    box-shadow: 0 0 0 1px #ce982e !important;
+    --tw-ring-color: #ce982e !important;
+    --tw-ring-offset-color: #ce982e !important;
+}
+
+/* زرار "بحث" */
+[data-search="button"],
+button[data-search="button"] {
+    height: 38px !important;
+    min-height: 38px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #ffffff !important;
+    color: #ce982e !important;
+    border-color: #ce982e !important;
+}
+
+[data-search="button"]:hover,
+button[data-search="button"]:hover {
+    background-color: #ce982e !important;
+    color: #ffffff !important;
+    border-color: #ce982e !important;
+}
