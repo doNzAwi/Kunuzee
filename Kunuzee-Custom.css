@@ -1621,3 +1621,9 @@ footer .default_footer_link a {
     display: block !important;
     white-space: nowrap !important;
 }
+
+/* ─── إخفاء "عرض أحدث العروض" ─── */
+.thanks_container p.underline,
+.thanks_container p[class*="underline-offset-8"] {
+    display: none !important;
+}
