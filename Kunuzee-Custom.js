@@ -453,19 +453,20 @@ setInterval(fixHeader, 300);
     'use strict';
 
     const COLOR_MAP = {
-        // بنفسجي / أزرق → برتقالي
+        // ─── بنفسجي / أزرق / أزرق-بنفسجي → برتقالي #bf6000 ───
         'rgb(110,35,250)': '#bf6000', 'rgb(96,12,252)': '#bf6000',
         'rgb(134,69,255)': '#bf6000', 'rgb(105,25,255)': '#bf6000',
         'rgb(83,88,253)': '#bf6000', 'rgb(89,0,255)': '#bf6000',
         'rgb(115,42,249)': '#bf6000', 'rgb(92,17,232)': '#bf6000',
         'rgb(107,32,248)': '#bf6000', 'rgb(106,28,251)': '#bf6000',
-        'rgb(93,8,251)': '#bf6000',
-        // بنفسجي / أزرق فاتح → ذهبي
+        'rgb(93,8,251)': '#bf6000', 'rgb(90,2,252)': '#bf6000',
+        'rgb(106,26,253)': '#bf6000',
+        // ─── بنفسجي فاتح / أزرق فاتح → ذهبي #ce982e ───
         'rgb(178,137,255)': '#ce982e', 'rgb(139,96,220)': '#ce982e',
-        'rgb(184,151,246)': '#ce982e',
+        'rgb(184,151,246)': '#ce982e', 'rgb(175,133,253)': '#ce982e',
         'rgb(0,182,255)': '#ce982e', 'rgb(2,181,252)': '#ce982e',
         'rgb(0,181,254)': '#ce982e',
-        // أخضر مائي / فيروزي → أخضر داكن
+        // ─── أخضر مائي / سماوي / فيروزي → أخضر داكن #134f4f ───
         'rgb(0,193,162)': '#134f4f', 'rgb(44,195,170)': '#134f4f',
         'rgb(66,234,206)': '#134f4f', 'rgb(16,253,214)': '#134f4f',
         'rgb(26,253,215)': '#134f4f', 'rgb(0,221,179)': '#134f4f',
@@ -474,7 +475,7 @@ setInterval(fixHeader, 300);
         'rgb(15,250,210)': '#134f4f', 'rgb(57,248,216)': '#134f4f',
         'rgb(20,255,215)': '#134f4f', 'rgb(89,92,185)': '#134f4f',
         'rgb(9,97,82)': '#134f4f', 'rgb(53,114,104)': '#134f4f',
-        // رمادي → بيج
+        // ─── رمادي فاتح (خلفية الدائرة) → بيج #f2e4be ───
         'rgb(216,216,216)': '#f2e4be'
     };
 
@@ -483,24 +484,34 @@ setInterval(fixHeader, 300);
         if (!svg) return;
 
         var elements = svg.querySelectorAll('*');
+        var changed = false;
+
         elements.forEach(function(el) {
             var fill = el.getAttribute('fill');
             var stroke = el.getAttribute('stroke');
 
-            if (fill && COLOR_MAP[fill]) {
+            if (fill && fill.startsWith('rgb(') && COLOR_MAP[fill]) {
                 el.setAttribute('fill', COLOR_MAP[fill]);
+                changed = true;
             }
-            if (stroke && COLOR_MAP[stroke]) {
+            if (stroke && stroke.startsWith('rgb(') && COLOR_MAP[stroke]) {
                 el.setAttribute('stroke', COLOR_MAP[stroke]);
+                changed = true;
             }
         });
     }
 
-    // Run immediately + keep running because Lottie re-renders SVG constantly
+    // Run immediately on load
     fixThankYouSvg();
-    setInterval(fixThankYouSvg, 100);
 
-    // Also catch SPA navigation
+    // Keep running in sync with display refresh (60fps) to catch any Lottie re-renders
+    function loop() {
+        fixThankYouSvg();
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    // Also catch SPA navigation / dynamic insertion
     var observer = new MutationObserver(function() {
         fixThankYouSvg();
     });
