@@ -574,7 +574,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 
 /* ─── هوفر أيقونات البحث والسلة — Search & Cart Icons Hover ─── */
 .default_header_container svg:hover {
-    color: #f2e4be !important;
+    color: #ce982e !important;
     transition: color 0.2s ease !important;
 }
 
