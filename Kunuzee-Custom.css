@@ -37,26 +37,35 @@
 }
 
 /* إخفاء container الأزرار بالكامل */
-.group .absolute.bottom-2.right-2.flex.flex-col,
-.group > .flex.relative > div[class*="absolute bottom-2 right-2"],
-.group > div > div.absolute.bottom-2.right-2,
-.group[class*="hover:shadow-product"] .absolute.bottom-2.right-2,
-.home_products_grid_card .absolute.bottom-2.right-2,
-.default_product_list_card .absolute.bottom-2.right-2,
-.default_product_featured_card .absolute.bottom-2.right-2 {
+.group .absolute.bottom-2.right-2,
+.group .absolute[class*="bottom-2"][class*="right-2"],
+.group [class*="absolute"][class*="bottom-2"][class*="right-2"],
+.group [class*="group-hover:opacity-100"],
+.group [class*="lg:opacity-0"][class*="group-hover:opacity-100"],
+.home_products_grid_card .absolute[class*="bottom-2"][class*="right-2"],
+.default_product_list_card .absolute[class*="bottom-2"][class*="right-2"],
+.default_product_featured_card .absolute[class*="bottom-2"][class*="right-2"],
+[class*="hover:shadow-product"] .absolute[class*="bottom-2"][class*="right-2"],
+[class*="hover:shadow-product"] [class*="group-hover:opacity-100"] {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    z-index: -9999 !important;
 }
 
 /* إخفاء الأزرار نفسها لو ظهرت */
-.group .absolute.bottom-2.right-2 button,
-.group .absolute.bottom-2.right-2 svg,
-.group .absolute.bottom-2.right-2 .cursor-pointer,
-.group[class*="hover:shadow-product"] button:has(svg),
+.group .absolute[class*="bottom-2"] button,
+.group .absolute[class*="right-2"] button,
+[class*="hover:shadow-product"] button[aria-label*="Add"],
+[class*="hover:shadow-product"] button:has(svg[viewBox="0 0 24 24"]),
 .home_products_grid_card button:has(svg),
-.default_product_list_card button:has(svg) {
+.default_product_list_card button:has(svg),
+.default_product_featured_card button:has(svg) {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
