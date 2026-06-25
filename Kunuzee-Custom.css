@@ -567,6 +567,16 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     overflow: visible !important;
 }
 
+/* ─── أيقونات البحث والسلة — Search & Cart Icons ─── */
+.default_header_container svg {
+    color: #bf6000 !important;
+}
+
+/* ─── خط الفاصل تحت الهيدر — Header Border Line ─── */
+.default_header_container .border-b {
+    border-bottom-color: #ce982e !important;
+}
+
 .default_header_container .border-b > div.h-14.flex.items-center,
 .default_header_container .border-b > div.flex.items-center {
     height: auto !important;
