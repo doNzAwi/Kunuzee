@@ -1642,3 +1642,16 @@ footer .default_footer_link a {
     display: inline-block !important;
     margin-top: 2.5rem !important;
 }
+
+/* ─── زر "العودة للرئيسية" ─── */
+.thanks_container a[href="/"] {
+    background-color: #bf6000 !important;
+    border-color: #bf6000 !important;
+    color: #ffffff !important;
+    transition: background-color 0.25s ease, border-color 0.25s ease !important;
+}
+
+.thanks_container a[href="/"]:hover {
+    background-color: #ce982e !important;
+    border-color: #ce982e !important;
+}
