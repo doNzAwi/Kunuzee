@@ -1,3 +1,8 @@
+/* ═══════════════════════════════════════════════════════════════
+   KUNUZI STORE — CUSTOM STYLESHEET
+   Platform: Easy Orders
+   ═══════════════════════════════════════════════════════════════ */
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
    ─────────────────────────────────────────────────────────────── */
@@ -49,7 +54,7 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ─── EGP السعر الحالي — صفحة المنتج ─── */
+/* EGP السعر الحالي — صفحة المنتج */
 .product_price .font-\[inherit\]::after,
 #price .font-\[inherit\]::after {
     font-size: 1.2rem !important;
@@ -127,7 +132,7 @@
 }
 
 /* ───────────────────────────────────────────────────────────────
-   SECTION 3: FEATURED PRODUCTS — بلوك ١
+   SECTION 3: BLOCK 1 — FEATURED PRODUCTS (فيتشر)
    ─────────────────────────────────────────────────────────────── */
 
 /* ─── السعر الواحد (مفيش خصم) — الرقم ─── */
@@ -138,7 +143,7 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ═══════ EGP السعر الواحد — Featured ═══════ */
+/* EGP السعر الواحد — Featured */
 .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading .font-\[inherit\]::after {
     color: #bf6000 !important;
     font-size: 0.9rem !important;
@@ -158,7 +163,7 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ═══════ EGP السعر المشطوب — Featured ═══════ */
+/* EGP السعر المشطوب — Featured */
 .default_product_featured_card .mt-2.flex.flex-row-reverse > del span.font-\[inherit\]::after {
     color: #ce982e !important;
     font-size: 0.8rem !important;
@@ -171,6 +176,17 @@
     text-decoration-line: none !important;
 }
 
+/* ─── عنوان المنتج — Featured ─── */
+.default_product_featured_card .default_product_featured_card_name {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 4: BLOCK 2 — PRODUCT LIST (ليست)
+   ─────────────────────────────────────────────────────────────── */
+
 /* ─── السعر الحالي بعد الخصم — الرقم ─── */
 .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
@@ -179,7 +195,7 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ═══════ EGP السعر الحالي (خصم) — Featured ═══════ */
+/* EGP السعر الحالي (خصم) — List */
 .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
     color: #bf6000 !important;
     font-size: 0.8rem !important;
@@ -188,7 +204,7 @@
     margin-right: 0.05rem !important;
 }
 
-/* ─── السعر المشطوب — الرقم (Featured) ─── */
+/* ─── السعر الحالي (في خصم) — الرقم ─── */
 .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
@@ -204,7 +220,7 @@
     margin-right: 0.05rem !important;
 }
 
-/* ═══════ EGP السعر المشطوب — Featured ═══════ */
+/* ─── السعر المشطوب — List ─── */
 .default_product_list_card .flex.items-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
@@ -226,10 +242,18 @@
     text-decoration-line: none !important;
 }
 
+/* ─── عنوان المنتج — List ─── */
+.default_product_list_card h3.text-heading {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
-   SECTION 4: PRODUCT GRID — بلوك ٣
+   SECTION 5: BLOCK 3 — PRODUCT GRID (جريد)
    ─────────────────────────────────────────────────────────────── */
 
+/* ─── السعر الواحد (مفيش خصم) — الرقم ─── */
 .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
@@ -237,6 +261,7 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* EGP السعر الواحد — Grid */
 .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
     color: #bf6000 !important;
     font-size: 0.8rem !important;
@@ -245,6 +270,7 @@
     margin-right: 0.05rem !important;
 }
 
+/* ─── السعر الحالي (في خصم) — الرقم ─── */
 .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
@@ -260,6 +286,7 @@
     margin-right: 0.05rem !important;
 }
 
+/* ─── السعر المشطوب — Grid ─── */
 .home_products_grid_card .flex.items-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
@@ -281,27 +308,132 @@
     text-decoration-line: none !important;
 }
 
-.default_product_featured_card .default_product_featured_card_name {
-    font-size: 1.3rem !important;
-    font-weight: 700 !important;
-    line-height: 1.4 !important;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SECTION 5: PRODUCT TITLES — عناوين المنتجات
-   ─────────────────────────────────────────────────────────────── */
-
-.default_product_list_card h3.text-heading {
-    font-size: 0.95rem !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-}
-
+/* ─── عنوان المنتج — Grid ─── */
 .home_products_grid_card h3.text-heading {
     font-size: 0.95rem !important;
     font-weight: 600 !important;
     line-height: 1.4 !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 6: BLOCK 4 — SEARCH PRODUCT CARDS (كروت البحث)
+   ─────────────────────────────────────────────────────────────── */
+
+/* 
+   بنية كروت البحث (من الـ HTML Element):
+   <div class="group box-border flex overflow-hidden rounded-[14px]... hover:shadow-product">
+     <div class="flex relative">
+       <div class="relative overflow-hidden...">
+         <img ...>
+         <span class="absolute top-3 left-3... bg-[#C4301C]">خصم 21%</span>
+         <div class="absolute bottom-2 right-2 flex flex-col..."> (أزرار الهوفر)
+       </div>
+       <div class="text-center w-full px-2">
+         <h3 class="text-heading...">اسم المنتج</h3>
+         <div class="flex items-center justify-center text-heading mt-3.5 font-bold text-xl md:text-2xl">
+           <span class="flex items-center gap-1 text-[#131316]">550<span class="font-[inherit]">ج.م</span></span>
+           <del class="font-thin text-gray-600 text-base flex items-center gap-1 ms-2">700<span class="font-[inherit]">ج.م</span></del>
+         </div>
+       </div>
+     </div>
+   </div>
+*/
+
+/* ─── بوردر الكرت ─── */
+.group[class*="hover:shadow-product"] {
+    border-color: #f2e4be !important;
+}
+
+/* ─── ظل الهوفر ─── */
+.group[class*="hover:shadow-product"]:hover {
+    box-shadow: 0 7px 3px #ce982e !important;
+}
+
+/* ─── عنوان المنتج — Search ─── */
+.group[class*="hover:shadow-product"] h3.text-heading {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: #134f4f !important;
+}
+
+/* ─── السعر الحالي (مفيش خصم) — الرقم ─── */
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP السعر الحالي — Search */
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
+    color: #bf6000 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+}
+
+/* ─── السعر الحالي (في خصم) — الرقم ─── */
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
+    color: #bf6000 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+}
+
+/* ─── السعر المشطوب — Search ─── */
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del {
+    font-size: 1.2rem !important;
+    font-weight: 100 !important;
+    color: #ce982e !important;
+    text-decoration: line-through !important;
+    opacity: 1 !important;
+    font-family: 'Tajawal', sans-serif !important;
+    margin-left: 8px !important;
+}
+
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del span.font-\[inherit\]::after {
+    color: #ce982e !important;
+    font-size: 0.65rem !important;
+    font-weight: 100 !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+    opacity: 1 !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+}
+
+/* ─── إخفاء أزرار الهوفر — Search ─── */
+.group[class*="hover:shadow-product"] .absolute.bottom-2.right-2 {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* ─── GPU Acceleration — Search ─── */
+.group[class*="hover:shadow-product"] {
+    contain: layout paint !important;
+}
+
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading {
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 7: CART — العربة
+   ─────────────────────────────────────────────────────────────── */
 
 .cart-item p[data-cart="item-price"],
 .checkout_cart_items_container p[data-cart="item-price"] {
@@ -311,10 +443,6 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   SECTION 6: CART — العربة
-   ─────────────────────────────────────────────────────────────── */
-
 .cart-item .font-\[inherit\]::after,
 .checkout_order_summary .font-\[inherit\]::after {
     font-size: 11px !important;
@@ -322,6 +450,7 @@
     margin-right: -1px !important;
 }
 
+/* ─── الفاتورة — Invoice ─── */
 dd[data-invoice="invoice-subtotal-value"],
 [data-invoice="invoice-subtotal-value"] {
     font-size: 23px !important;
@@ -343,6 +472,7 @@ dd[data-invoice="invoice-subtotal-value"],
     margin-right: -1px !important;
 }
 
+/* ─── البحث — Search Results EGP ─── */
 [class*="search"] .font-\[inherit\]::after,
 [class*="search-result"] .font-\[inherit\]::after,
 [class*="search_results"] .font-\[inherit\]::after,
@@ -360,6 +490,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     background: #ffffff !important;
 }
 
+/* ─── React Select — Governorate Dropdown ─── */
 .select__single-value {
     display: flex !important;
     align-items: center !important;
@@ -427,7 +558,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 }
 
 /* ───────────────────────────────────────────────────────────────
-   SECTION 7: HEADER — الهيدر
+   SECTION 8: HEADER — الهيدر
    ─────────────────────────────────────────────────────────────── */
 
 .default_header_container .border-b {
@@ -447,6 +578,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     align-items: center !important;
 }
 
+/* ─── اللوجو: يمين (RTL) ─── */
 .default_header_logo {
     width: 120px !important;
     min-width: 120px !important;
@@ -475,6 +607,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     display: block !important;
 }
 
+/* ─── القائمة: توسيط أفقي ─── */
 .default_header_container div.hidden.lg\:ms-8.lg\:block.lg\:self-stretch,
 .default_header_container div[class*="lg:ms-8"][class*="lg:block"][class*="lg:self-stretch"] {
     align-self: center !important;
@@ -495,6 +628,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     gap: 28px !important;
 }
 
+/* ─── الروابط العادية ─── */
 .default_header_container .space-s-8 > a {
     margin-inline-start: 0 !important;
     margin-inline-end: 0 !important;
@@ -528,6 +662,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     width: 100% !important;
 }
 
+/* ─── الأقسام المنسدلة (Click) ─── */
 .default_header_container .space-s-8 > div[data-headlessui-state],
 .default_header_container .space-s-8 > div.relative {
     position: relative !important;
@@ -599,6 +734,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     width: 100% !important;
 }
 
+/* ─── أيقونات العربة/البحث: يسار (RTL) ─── */
 .default_header_container .ms-auto.flex.items-center {
     width: 120px !important;
     min-width: 120px !important;
@@ -653,6 +789,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
 }
 
+/* إخفاء الصور */
 [id*="headlessui-popover-panel"] .rounded-lg,
 [id*="headlessui-popover-panel"] [class*="bg-gray-100"],
 [id*="headlessui-popover-panel"] [class*="overflow-hidden"],
@@ -661,6 +798,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     display: none !important;
 }
 
+/* إخفاء "تصفح القسم" */
 [id*="headlessui-popover-panel"] span[aria-hidden="true"],
 [id*="headlessui-popover-panel"] p[aria-hidden="true"],
 [id*="headlessui-popover-panel"] [class*="mt-1"],
@@ -668,6 +806,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     display: none !important;
 }
 
+/* كسر الـ Grid وتحويله لقائمة رأسية */
 [id*="headlessui-popover-panel"] .grid,
 [id*="headlessui-popover-panel"] [class*="grid"] {
     display: flex !important;
@@ -687,6 +826,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     padding: 0 !important;
 }
 
+/* الأقسام الفرعية — نص رأسي فقط */
 [id*="headlessui-popover-panel"] a,
 [id*="headlessui-popover-panel"] [class*="group"] a,
 [id*="headlessui-popover-panel"] [role="menuitem"] {
@@ -713,6 +853,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     color: #ce982e !important;
 }
 
+/* فاصل بين الأقسام */
 [id*="headlessui-popover-panel"] .grid > div:not(:last-child),
 [id*="headlessui-popover-panel"] [class*="grid"] > div:not(:last-child) {
     border-bottom: 1px solid #e2e8f0 !important;
@@ -722,7 +863,10 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     border-bottom: none !important;
 }
 
-/* ─── General Text Colors ─── */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 9: GENERAL TEXT COLORS — الألوان العامة
+   ─────────────────────────────────────────────────────────────── */
+
 .category_section_header_title,
 h1[class*="category_section_header_title"],
 .text-heading {
@@ -771,7 +915,61 @@ h1.product_name,
     color: #bf6000 !important;
 }
 
-/* ─── Search Styling ─── */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 10: SEARCH STYLING — تخصيص البحث
+   ─────────────────────────────────────────────────────────────── */
+
+/* Label "بحث" */
+[data-search="container"] label,
+[data-search="container"] label.text-sm,
+[data-search="container"] label.font-medium {
+    color: #ce982e !important;
+    font-weight: 700 !important;
+}
+
+/* Input نفسه */
+[data-search="container"] input,
+[data-search="container"] input[type="text"] {
+    color: #bf6000 !important;
+    border-color: #ce982e !important;
+}
+
+[data-search="container"] input::placeholder {
+    color: #ce982e !important;
+}
+
+[data-search="container"] input:focus {
+    outline: none !important;
+    border-color: #ce982e !important;
+    box-shadow: 0 0 0 1px #ce982e !important;
+    --tw-ring-color: #ce982e !important;
+    --tw-ring-offset-color: #ce982e !important;
+}
+
+/* زرار "بحث" */
+[data-search="button"],
+button[data-search="button"] {
+    height: 38px !important;
+    min-height: 38px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #ffffff !important;
+    color: #ce982e !important;
+    border-color: #ce982e !important;
+}
+
+[data-search="button"]:hover,
+button[data-search="button"]:hover {
+    background-color: #ce982e !important;
+    color: #ffffff !important;
+    border-color: #ce982e !important;
+}
+
+/* نتائج البحث — خلفية */
 .flex.flex-col.mt-4.rounded-xl.border.divide-y.border-gray-300,
 [class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"][class*="border"][class*="border-gray-300"] {
     background-color: #fcf5e2 !important;
@@ -779,7 +977,7 @@ h1.product_name,
 }
 
 .flex.flex-col.mt-4.rounded-xl.border.divide-y.border-gray-300 > *,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"][class*="divide-y"] > * {
+[class*="flex"][class*="flex-col"][class*="mt-4"][class*="divide-y"] > * {
     border-color: #bf6000 !important;
 }
 
@@ -803,32 +1001,16 @@ h1.product_name,
     filter: brightness(0) saturate(100%) invert(23%) sepia(32%) saturate(1047%) hue-rotate(131deg) brightness(94%) contrast(91%) !important;
 }
 
-/* ─── Product Preview Popup ─── */
-.product_description .ql-editor p,
-.product_description .ql-direction-rtl,
-.product_description [class*="ql-direction-rtl"],
-.product_description .ql-editor strong,
-.product_description .ql-editor b {
-    color: #134f4f !important;
-}
-
-.default_header_container svg {
-    color: #bf6000 !important;
-}
-
-.default_header_container .border-b {
-    border-bottom-color: #ce982e !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 8: POPUP PRICES — أسعار البوب-أب
-   ═══════════════════════════════════════════════════════════════ */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 11: POPUP PRICES — أسعار البوب-أب
+   ─────────────────────────────────────────────────────────────── */
 
 [data-product-preview="title"],
 h1[data-product-preview="title"] {
     color: #134f4f !important;
 }
 
+/* السعر الأصلي/الواحد — الرقم */
 [data-product-preview="price"] > [data-product-preview="current-price"]:only-child {
     font-size: 1.5rem !important;
     font-weight: 700 !important;
@@ -836,6 +1018,7 @@ h1[data-product-preview="title"] {
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* EGP السعر الأصلي/الواحد — Popup */
 [data-product-preview="price"] > [data-product-preview="current-price"]:only-child .font-\[inherit\]::after {
     color: #bf6000 !important;
     font-size: 0.6rem !important;
@@ -843,6 +1026,7 @@ h1[data-product-preview="title"] {
     margin-right: 0.1rem !important;
 }
 
+/* السعر الحالي بعد الخصم — الرقم */
 [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] {
     font-size: 1.5rem !important;
     font-weight: 700 !important;
@@ -850,6 +1034,7 @@ h1[data-product-preview="title"] {
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* EGP السعر الحالي (خصم) — Popup */
 [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] .font-\[inherit\]::after {
     color: #bf6000 !important;
     font-size: 0.6rem !important;
@@ -857,6 +1042,7 @@ h1[data-product-preview="title"] {
     margin-right: 0.1rem !important;
 }
 
+/* السعر المشطوب — الرقم */
 [data-product-preview="price"] > [data-product-preview="original-price"] {
     font-size: 0.9rem !important;
     font-weight: 400 !important;
@@ -867,6 +1053,7 @@ h1[data-product-preview="title"] {
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* EGP السعر المشطوب — Popup */
 [data-product-preview="price"] > [data-product-preview="original-price"] .font-\[inherit\]::after {
     color: #ce982e !important;
     font-size: 0.5rem !important;
@@ -878,11 +1065,13 @@ h1[data-product-preview="title"] {
     text-decoration-line: none !important;
 }
 
+/* إخفاء عداد القطع */
 [data-product-preview="quantity-control"],
 div[data-product-preview="quantity-control"] {
     display: none !important;
 }
 
+/* زر "أضف للسلة" — نفس عرض "إتمام الطلب" */
 [data-product-preview="add-to-cart"],
 button[data-product-preview="add-to-cart"] {
     width: 100% !important;
@@ -890,6 +1079,7 @@ button[data-product-preview="add-to-cart"] {
     max-width: none !important;
 }
 
+/* رابط "فلاش كاردز" */
 [data-product-preview="category"],
 a[data-product-preview="category"] {
     color: #ce982e !important;
@@ -919,9 +1109,18 @@ div.p-5 a:hover {
     color: #bf6000 !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 9: CHECKOUT — صفحة الدفع
-   ═══════════════════════════════════════════════════════════════ */
+/* وصف المنتج في البوب-أب */
+.product_description .ql-editor p,
+.product_description .ql-direction-rtl,
+.product_description [class*="ql-direction-rtl"],
+.product_description .ql-editor strong,
+.product_description .ql-editor b {
+    color: #134f4f !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 12: CHECKOUT — صفحة الدفع
+   ─────────────────────────────────────────────────────────────── */
 
 #contact-info-heading,
 .contact-info-heading h2,
@@ -940,6 +1139,7 @@ section[aria-labelledby="summary-heading"] h2,
     margin-bottom: -13px !important;
 }
 
+/* صناديق الإدخال */
 .checkout_form input,
 .contact-info-heading input,
 .checkout_container input,
@@ -967,6 +1167,7 @@ section.contact-info-heading input::placeholder {
     opacity: 1 !important;
 }
 
+/* Labels */
 .contact-info-heading label.block,
 .contact-info-heading label.text-sm,
 .contact-info-heading label.font-medium,
@@ -987,6 +1188,7 @@ label[style*="color"] {
     color: #134f4f !important;
 }
 
+/* Dropdown — بوردر الصندوق */
 .select__control,
 [class*="select__control"] {
     border-color: #f2e4be !important;
@@ -998,6 +1200,7 @@ label[style*="color"] {
     box-shadow: 0 0 0 1px #f2e4be !important;
 }
 
+/* سهم dropdown لأسفل */
 .select__indicator svg,
 .select__dropdown-indicator svg,
 [class*="indicator"] svg {
@@ -1006,6 +1209,7 @@ label[style*="color"] {
     fill: #f2e4be !important;
 }
 
+/* الفاصل الرأسي في صندوق المحافظة */
 .select__indicator-separator,
 [class*="indicator-separator"],
 .select__control .css-1wy0on6 span,
@@ -1013,11 +1217,13 @@ label[style*="color"] {
     background-color: #f2e4be !important;
 }
 
+/* المحافظة المختارة (بعد الاختيار) */
 .select__single-value,
 [class*="singleValue"] {
     color: #bf6000 !important;
 }
 
+/* لستة المحافظات جوا القايمة */
 .select__option,
 [class*="select__option"]:not([class*="is-selected"]) {
     color: #ce982e !important;
@@ -1053,7 +1259,7 @@ body {
     position: relative !important;
 }
 
-/* ─── Payment Cards (Kashier) ─── */
+/* ─── بوابة الدفع — Kashier ─── */
 .payment_card,
 button.payment_card {
     display: grid !important;
@@ -1127,7 +1333,7 @@ span.text-lg.font-bold.text-gray-700,
     margin-bottom: 16px !important;
 }
 
-/* ─── Cart Items ─── */
+/* ─── العربة — Checkout Cart Items ─── */
 p[data-cart="item-total"] {
     display: none !important;
 }
@@ -1172,6 +1378,7 @@ section.checkout_order_summary .border-gray-200,
     border-color: #ce982e !important;
 }
 
+/* الفاتورة — Invoice */
 dt.text-gray-600,
 [data-invoice="invoice-subtotal"] dt,
 dl[data-invoice="invoice"] dt {
@@ -1218,9 +1425,9 @@ dl[data-invoice="invoice"] p,
     font-size: 17px !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 10: FOOTER — الفوتر
-   ═══════════════════════════════════════════════════════════════ */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 13: FOOTER — الفوتر
+   ─────────────────────────────────────────────────────────────── */
 
 footer.bg-gray-50,
 footer {
@@ -1233,6 +1440,7 @@ footer .default_footer {
     border-color: transparent !important;
 }
 
+/* نلغي المسافات العمودية الافتراضية */
 footer .mt-8,
 footer .mt-4,
 footer .mt-2,
@@ -1244,22 +1452,26 @@ footer .-my-2 {
     margin-bottom: 0 !important;
 }
 
+/* نلغي الـ padding العمودي */
 footer .py-2,
 footer .default_footer_link {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
 }
 
+/* المسافة الموحدة بين العناصر المباشرة */
 footer .default_footer > nav,
 footer .default_footer > div {
     margin-bottom: 12px !important;
 }
 
+/* آخر عنصر مالوش مسافة */
 footer .default_footer > *:last-child {
     margin-top: 4px !important;
     margin-bottom: 0px !important;
 }
 
+/* كل النصوص والروابط */
 footer,
 footer p,
 footer span,
@@ -1270,11 +1482,13 @@ footer address {
     color: #134f4f !important;
 }
 
+/* هوفر الروابط */
 footer a:hover {
     color: #ce982e !important;
     transition: color 0.2s ease !important;
 }
 
+/* رابط "المزيد" في عناوين الأقسام */
 .home_section_top_container > a,
 .home_section_top_container > a[href*="/collections"] {
     color: #134f4f !important;
@@ -1286,14 +1500,15 @@ footer a:hover {
     color: #ce982e !important;
 }
 
+/* توسيط الإيميل في الفوتر */
 .footer_store_info > span {
     align-items: center !important;
     justify-content: center !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 11: GPU ACCELERATION — تسريع الرسوميات
-   ═══════════════════════════════════════════════════════════════ */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 14: GPU ACCELERATION — تسريع الرسوميات
+   ─────────────────────────────────────────────────────────────── */
 
 footer .default_footer,
 footer .default_footer_links_container,
@@ -1316,14 +1531,15 @@ footer .default_footer_link a {
 
 .default_product_featured_card .mt-2.flex.flex-row-reverse,
 .default_product_list_card .flex.items-center.text-heading,
-.home_products_grid_card .flex.items-center.text-heading {
+.home_products_grid_card .flex.items-center.text-heading,
+.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading {
     transform: translateZ(0) !important;
     backface-visibility: hidden !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 12: DISCOUNT BADGE — شكل badge الخصم
-   ═══════════════════════════════════════════════════════════════ */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 15: DISCOUNT BADGE — شكل badge الخصم
+   ─────────────────────────────────────────────────────────────── */
 
 .featured-discount-badge {
     background: #C4301C !important;
@@ -1338,9 +1554,9 @@ footer .default_footer_link a {
     z-index: 10 !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 13: HIDE PRODUCT CARD HOVER BUTTONS — إخفاء أزرار الهوفر
-   ═══════════════════════════════════════════════════════════════ */
+/* ───────────────────────────────────────────────────────────────
+   SECTION 16: HIDE PRODUCT CARD HOVER BUTTONS — إخفاء أزرار الهوفر
+   ─────────────────────────────────────────────────────────────── */
 
 /* إخفاء container الأزرار بالكامل */
 .group .absolute.bottom-2.right-2.flex.flex-col,
@@ -1366,58 +1582,4 @@ footer .default_footer_link a {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 14: SEARCH STYLING — تخصيص البحث
-   ═══════════════════════════════════════════════════════════════ */
-
-/* Label "بحث" */
-[data-search="container"] label,
-[data-search="container"] label.text-sm,
-[data-search="container"] label.font-medium {
-    color: #ce982e !important;
-    font-weight: 700 !important;
-}
-
-/* Input نفسه */
-[data-search="container"] input,
-[data-search="container"] input[type="text"] {
-    color: #bf6000 !important;
-    border-color: #ce982e !important;
-}
-
-[data-search="container"] input::placeholder {
-    color: #ce982e !important;
-}
-
-[data-search="container"] input:focus {
-    outline: none !important;
-    border-color: #ce982e !important;
-    box-shadow: 0 0 0 1px #ce982e !important;
-    --tw-ring-color: #ce982e !important;
-    --tw-ring-offset-color: #ce982e !important;
-}
-
-/* زرار "بحث" */
-[data-search="button"],
-button[data-search="button"] {
-    height: 38px !important;
-    min-height: 38px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    line-height: 42px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background-color: #ffffff !important;
-    color: #ce982e !important;
-    border-color: #ce982e !important;
-}
-
-[data-search="button"]:hover,
-button[data-search="button"]:hover {
-    background-color: #ce982e !important;
-    color: #ffffff !important;
-    border-color: #ce982e !important;
 }
