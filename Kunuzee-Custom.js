@@ -445,3 +445,105 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// FUNCTION 6: fixThankYouSvg — تغيير ألوان أنيميشن صفحة الشكر
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    const COLOR_MAP = {
+        // ─── بنفسجي / أزرق / أزرق-بنفسجي → برتقالي #bf6000 ───
+        'rgb(110,35,250)': '#bf6000',
+        'rgb(96,12,252)': '#bf6000',
+        'rgb(134,69,255)': '#bf6000',
+        'rgb(105,25,255)': '#bf6000',
+        'rgb(83,88,253)': '#bf6000',
+        'rgb(89,0,255)': '#bf6000',
+        'rgb(115,42,249)': '#bf6000',
+        'rgb(92,17,232)': '#bf6000',
+        'rgb(107,32,248)': '#bf6000',
+        'rgb(106,28,251)': '#bf6000',
+        'rgb(93,8,251)': '#bf6000',
+        'rgb(96,12,252)': '#bf6000',
+        // ─── بنفسجي فاتح / أزرق فاتح → ذهبي #ce982e ───
+        'rgb(178,137,255)': '#ce982e',
+        'rgb(139,96,220)': '#ce982e',
+        'rgb(0,182,255)': '#ce982e',
+        'rgb(2,181,252)': '#ce982e',
+        'rgb(0,181,254)': '#ce982e',
+        // ─── أخضر مائي / سماوي / فيروزي → أخضر داكن #134f4f ───
+        'rgb(0,193,162)': '#134f4f',
+        'rgb(44,195,170)': '#134f4f',
+        'rgb(66,234,206)': '#134f4f',
+        'rgb(16,253,214)': '#134f4f',
+        'rgb(26,253,215)': '#134f4f',
+        'rgb(0,221,179)': '#134f4f',
+        'rgb(35,178,154)': '#134f4f',
+        'rgb(15,245,206)': '#134f4f',
+        'rgb(4,244,204)': '#134f4f',
+        'rgb(2,252,210)': '#134f4f',
+        'rgb(15,250,210)': '#134f4f',
+        'rgb(57,248,216)': '#134f4f',
+        'rgb(20,255,215)': '#134f4f',
+        'rgb(89,92,185)': '#134f4f',
+        'rgb(9,97,82)': '#134f4f',
+        'rgb(53,114,104)': '#134f4f',
+        // ─── رمادي فاتح (خلفية الدائرة) → بيج #f2e4be ───
+        'rgb(216,216,216)': '#f2e4be'
+    };
+
+    function fixThankYouSvg() {
+        var svg = document.querySelector('.thanks_container svg');
+        if (!svg || svg.dataset.kunuziFixed === 'true') return;
+
+        svg.dataset.kunuziFixed = 'true';
+
+        var elements = svg.querySelectorAll('*');
+        elements.forEach(function(el) {
+            var fill = el.getAttribute('fill');
+            var stroke = el.getAttribute('stroke');
+
+            if (fill && COLOR_MAP[fill]) {
+                el.setAttribute('fill', COLOR_MAP[fill]);
+            }
+            if (stroke && COLOR_MAP[stroke]) {
+                el.setAttribute('stroke', COLOR_MAP[stroke]);
+            }
+        });
+    }
+
+    // Run immediately
+    fixThankYouSvg();
+
+    // Re-run for SPA navigation
+    var observer = new MutationObserver(function(mutations) {
+        var hasThanks = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('thanks_container') ||
+                    node.querySelector?.('.thanks_container')
+                )) {
+                    hasThanks = true;
+                }
+            });
+        });
+        if (hasThanks) {
+            setTimeout(fixThankYouSvg, 0);
+            setTimeout(fixThankYouSvg, 100);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Run on URL change
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(fixThankYouSvg, 300);
+            setTimeout(fixThankYouSvg, 600);
+        }
+    }, 300);
+})();
