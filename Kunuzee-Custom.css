@@ -572,6 +572,12 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     color: #bf6000 !important;
 }
 
+/* ─── هوفر أيقونات البحث والسلة — Search & Cart Icons Hover ─── */
+.default_header_container svg:hover {
+    color: #f2e4be !important;
+    transition: color 0.2s ease !important;
+}
+
 /* ─── خط الفاصل تحت الهيدر — Header Border Line ─── */
 .default_header_container .border-b {
     border-bottom-color: #ce982e !important;
