@@ -1599,3 +1599,25 @@ footer .default_footer_link a {
     opacity: 0 !important;
     visibility: hidden !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 17: THANK YOU PAGE — صفحة الشكر
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── تغيير نص "شكرا لاتمامك الطلب" + تلوينه ─── */
+.thanks_container h1 {
+    font-size: 0 !important;
+    color: transparent !important;
+    position: relative !important;
+    display: inline-block !important;
+}
+
+.thanks_container h1::after {
+    content: "شكراً لشرائكم من كنوزي" !important;
+    font-size: 2.25rem !important;        /* نفس text-4xl */
+    font-weight: 700 !important;
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+    display: block !important;
+    white-space: nowrap !important;
+}
