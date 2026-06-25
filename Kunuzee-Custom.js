@@ -446,19 +446,17 @@ setInterval(fixHeader, 300);
     }, 300);
 })();
 
-// ═══════════════════════════════════════════════════════════════
+// ───────────────────────────────────────────────────────────────
 // FUNCTION 6: fixThankYouSvg — تغيير ألوان أنيميشن صفحة الشكر
-// ═══════════════════════════════════════════════════════════════
+// ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
-    // Normalize: تشيل المسافات بعد الكوما وتحط lowercase
     function norm(c) {
         return c ? c.replace(/\s*,\s*/g, ',').trim().toLowerCase() : '';
     }
 
     const COLOR_MAP = {
-        // ─── بنفسجي / أزرق → برتقالي #bf6000 ───
         'rgb(110,35,250)': '#bf6000', 'rgb(96,12,252)': '#bf6000',
         'rgb(134,69,255)': '#bf6000', 'rgb(105,25,255)': '#bf6000',
         'rgb(83,88,253)': '#bf6000', 'rgb(89,0,255)': '#bf6000',
@@ -466,12 +464,10 @@ setInterval(fixHeader, 300);
         'rgb(107,32,248)': '#bf6000', 'rgb(106,28,251)': '#bf6000',
         'rgb(93,8,251)': '#bf6000', 'rgb(90,2,252)': '#bf6000',
         'rgb(106,26,253)': '#bf6000',
-        // ─── بنفسجي / أزرق فاتح → ذهبي #ce982e ───
         'rgb(178,137,255)': '#ce982e', 'rgb(139,96,220)': '#ce982e',
         'rgb(184,151,246)': '#ce982e', 'rgb(175,133,253)': '#ce982e',
         'rgb(0,182,255)': '#ce982e', 'rgb(2,181,252)': '#ce982e',
         'rgb(0,181,254)': '#ce982e',
-        // ─── أخضر مائي / فيروزي → أخضر داكن #134f4f ───
         'rgb(0,193,162)': '#134f4f', 'rgb(44,195,170)': '#134f4f',
         'rgb(66,234,206)': '#134f4f', 'rgb(16,253,214)': '#134f4f',
         'rgb(26,253,215)': '#134f4f', 'rgb(0,221,179)': '#134f4f',
@@ -480,7 +476,6 @@ setInterval(fixHeader, 300);
         'rgb(15,250,210)': '#134f4f', 'rgb(57,248,216)': '#134f4f',
         'rgb(20,255,215)': '#134f4f', 'rgb(89,92,185)': '#134f4f',
         'rgb(9,97,82)': '#134f4f', 'rgb(53,114,104)': '#134f4f',
-        // ─── رمادي → بيج #f2e4be ───
         'rgb(216,216,216)': '#f2e4be'
     };
 
@@ -489,31 +484,34 @@ setInterval(fixHeader, 300);
         if (!svg) return;
 
         var elements = svg.querySelectorAll('*');
+        var changed = false;
+
         elements.forEach(function(el) {
-            // ─── 1. Attributes العادية ───
             var fillAttr = norm(el.getAttribute('fill'));
             var strokeAttr = norm(el.getAttribute('stroke'));
-            if (COLOR_MAP[fillAttr]) el.setAttribute('fill', COLOR_MAP[fillAttr]);
-            if (COLOR_MAP[strokeAttr]) el.setAttribute('stroke', COLOR_MAP[strokeAttr]);
+            if (COLOR_MAP[fillAttr]) { el.setAttribute('fill', COLOR_MAP[fillAttr]); changed = true; }
+            if (COLOR_MAP[strokeAttr]) { el.setAttribute('stroke', COLOR_MAP[strokeAttr]); changed = true; }
 
-            // ─── 2. Inline style properties (el.style.fill / el.style.stroke) ───
             var fillStyle = norm(el.style.fill);
             var strokeStyle = norm(el.style.stroke);
-            if (COLOR_MAP[fillStyle]) el.style.fill = COLOR_MAP[fillStyle];
-            if (COLOR_MAP[strokeStyle]) el.style.stroke = COLOR_MAP[strokeStyle];
+            if (COLOR_MAP[fillStyle]) { el.style.fill = COLOR_MAP[fillStyle]; changed = true; }
+            if (COLOR_MAP[strokeStyle]) { el.style.stroke = COLOR_MAP[strokeStyle]; changed = true; }
 
-            // ─── 3. Style attribute string (regex يمسك أي rgb بأي مسافة) ───
             var styleStr = el.getAttribute('style');
             if (styleStr) {
                 var newStyle = styleStr.replace(/rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/gi, function(match) {
                     return COLOR_MAP[norm(match)] || match;
                 });
-                if (newStyle !== styleStr) el.setAttribute('style', newStyle);
+                if (newStyle !== styleStr) { el.setAttribute('style', newStyle); changed = true; }
             }
         });
+
+        // إظهار الأنيميشن بعد ما الألوان تتغير
+        if (changed && !svg.dataset.kunuziReady) {
+            svg.dataset.kunuziReady = 'true';
+        }
     }
 
-    // Run immediately + loop on every frame
     fixThankYouSvg();
     function loop() {
         fixThankYouSvg();
@@ -521,7 +519,6 @@ setInterval(fixHeader, 300);
     }
     requestAnimationFrame(loop);
 
-    // Catch SPA navigation / dynamic insertion
     var observer = new MutationObserver(function() {
         fixThankYouSvg();
     });
