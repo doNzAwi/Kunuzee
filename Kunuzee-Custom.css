@@ -985,38 +985,6 @@ button[data-search="button"]:hover {
     border-color: #ce982e !important;
 }
 
-/* نتائج البحث — خلفية */
-.flex.flex-col.mt-4.rounded-xl.border.divide-y.border-gray-300,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"][class*="border"][class*="border-gray-300"] {
-    background-color: #fcf5e2 !important;
-    border-color: #ce982e !important;
-}
-
-.flex.flex-col.mt-4.rounded-xl.border.divide-y.border-gray-300 > *,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="divide-y"] > * {
-    border-color: #bf6000 !important;
-}
-
-.flex.flex-col.mt-4.rounded-xl.border button,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"] button {
-    color: #134f4f !important;
-}
-
-.flex.flex-col.mt-4.rounded-xl.border button svg,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"] button svg {
-    color: #134f4f !important;
-}
-
-.flex.flex-col.mt-4.rounded-xl.border [class*="transform"] p,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"] [class*="transform"] p {
-    color: #bf6000 !important;
-}
-
-.flex.flex-col.mt-4.rounded-xl.border button img,
-[class*="flex"][class*="flex-col"][class*="mt-4"][class*="rounded-xl"] button img {
-    filter: brightness(0) saturate(100%) invert(23%) sepia(32%) saturate(1047%) hue-rotate(131deg) brightness(94%) contrast(91%) !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 11: POPUP PRICES — أسعار البوب-أب
    ─────────────────────────────────────────────────────────────── */
