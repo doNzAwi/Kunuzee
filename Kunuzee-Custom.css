@@ -1663,3 +1663,10 @@ footer .default_footer_link a {
 .order_invoice_container button[title] {
     display: none !important;
 }
+
+/* ─── الخط الفاصل + بوردرات أجزاء الفاتورة ─── */
+.order_invoice_container .border-t,
+.order_invoice_container .border,
+.order_invoice_container [class*="border-gray-200"] {
+    border-color: #f2e4be !important;
+}
