@@ -36,6 +36,32 @@
     text-decoration-line: none !important;
 }
 
+/* إخفاء container الأزرار بالكامل */
+.group .absolute.bottom-2.right-2.flex.flex-col,
+.group > .flex.relative > div[class*="absolute bottom-2 right-2"],
+.group > div > div.absolute.bottom-2.right-2,
+.group[class*="hover:shadow-product"] .absolute.bottom-2.right-2,
+.home_products_grid_card .absolute.bottom-2.right-2,
+.default_product_list_card .absolute.bottom-2.right-2,
+.default_product_featured_card .absolute.bottom-2.right-2 {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* إخفاء الأزرار نفسها لو ظهرت */
+.group .absolute.bottom-2.right-2 button,
+.group .absolute.bottom-2.right-2 svg,
+.group .absolute.bottom-2.right-2 .cursor-pointer,
+.group[class*="hover:shadow-product"] button:has(svg),
+.home_products_grid_card button:has(svg),
+.default_product_list_card button:has(svg) {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 2: PRODUCT PAGE — صفحة المنتج
    ─────────────────────────────────────────────────────────────── */
