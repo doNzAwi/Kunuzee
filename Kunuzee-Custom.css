@@ -36,6 +36,34 @@
     text-decoration-line: none !important;
 }
 
+/* إخفاء container الأزرار بالكامل — جميع الكروت */
+.group .absolute.bottom-2.right-2,
+.group [class*="absolute"][class*="bottom-2"][class*="right-2"],
+.group > .flex.relative > div[class*="absolute"],
+.home_products_grid_card [class*="absolute"][class*="bottom-2"][class*="right-2"],
+.default_product_list_card [class*="absolute"][class*="bottom-2"][class*="right-2"],
+.default_product_featured_card [class*="absolute"][class*="bottom-2"][class*="right-2"],
+[class*="hover:shadow-product"] [class*="absolute"][class*="bottom-2"][class*="right-2"],
+[class*="hover:shadow-product"] .absolute[class*="bottom-2"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* إخفاء الأزرار نفسها لو ظهرت */
+.group [class*="absolute"][class*="bottom-2"] button,
+.group [class*="absolute"][class*="right-2"] button,
+.group [class*="group-hover:opacity-100"] button,
+[class*="hover:shadow-product"] button:has(svg),
+.home_products_grid_card button:has(svg[viewBox="0 0 24 24"]),
+.default_product_list_card button:has(svg[viewBox="0 0 24 24"]),
+.default_product_featured_card button:has(svg[viewBox="0 0 24 24"]) {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 2: PRODUCT PAGE — صفحة المنتج
    ─────────────────────────────────────────────────────────────── */
