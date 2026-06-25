@@ -1627,3 +1627,18 @@ footer .default_footer_link a {
 .thanks_container p[class*="underline-offset-8"] {
     display: none !important;
 }
+
+/* ─── منع فلاشة الألوان القديمة في الأنيميشن ─── */
+.thanks_container svg {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease !important;
+}
+.thanks_container svg[data-kunuzi-ready="true"] {
+    opacity: 1 !important;
+}
+
+/* ─── تباعد زر "العودة للرئيسية" عن العنوان ─── */
+.thanks_container a[href="/"] {
+    display: inline-block !important;
+    margin-top: 2.5rem !important;
+}
