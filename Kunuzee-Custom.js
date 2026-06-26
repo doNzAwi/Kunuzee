@@ -691,16 +691,27 @@ setInterval(fixHeader, 300);
     'use strict';
 
     function fixDeliveryBox() {
+        console.log('=== fixDeliveryBox started ===');
+
         var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
+        console.log('box found:', !!box);
+
         if (!box) return;
 
-        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
-        if (box.dataset.deliveryFixed === 'true') return;
+        console.log('box.dataset.deliveryFixed:', box.dataset.deliveryFixed);
+
+        if (box.dataset.deliveryFixed === 'true') {
+            console.log('already fixed, skipping');
+            return;
+        }
 
         var dl = box.querySelector('div.flex.flex-col');
+        console.log('dl found:', !!dl);
+
         if (!dl) return;
 
-        // نغيّر الكلمات في الـ innerHTML كله
+        console.log('dl innerHTML before:', dl.innerHTML.substring(0, 200));
+
         var html = dl.innerHTML;
 
         html = html.replace(/المدينة:/g, 'المحافظة:');
@@ -712,14 +723,19 @@ setInterval(fixHeader, 300);
 
         dl.innerHTML = html;
 
+        console.log('dl innerHTML after:', dl.innerHTML.substring(0, 200));
+
         box.dataset.deliveryFixed = 'true';
+        console.log('=== fixDeliveryBox done ===');
     }
 
     fixDeliveryBox();
     setTimeout(fixDeliveryBox, 500);
     setTimeout(fixDeliveryBox, 1000);
+    setTimeout(fixDeliveryBox, 2000);
 
     var observer = new MutationObserver(function() {
+        console.log('mutation detected');
         setTimeout(fixDeliveryBox, 200);
     });
     observer.observe(document.body, { childList: true, subtree: true });
