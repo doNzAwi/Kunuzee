@@ -693,8 +693,6 @@ setInterval(fixHeader, 300);
     function fixDeliveryBox() {
         var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
         if (!box) return;
-
-        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
         if (box.dataset.deliveryFixed === 'true') return;
 
         var dl = box.querySelector('div.flex.flex-col');
@@ -703,7 +701,7 @@ setInterval(fixHeader, 300);
         var dts = Array.from(dl.querySelectorAll('dt'));
         if (dts.length === 0) return;
 
-        // 1. تبديل الترتيب: نعمل map للـ dt الحالي
+        // نعمل map للـ dt الحالي
         var orderMap = {};
         dts.forEach(function(dt) {
             var span = dt.querySelector('span');
@@ -712,52 +710,44 @@ setInterval(fixHeader, 300);
             orderMap[label] = dt;
         });
 
-        // 2. الترتيب الجديد المطلوب
-        var newOrder = [
-            'المدينة:',      // → المحافظة
-            'الاسم:',         // → الإسم
-            'البريد الالكتروني:', // → البريد الإلكتروني
-            'الهاتف:',        // → رقم المحمول
-            'بيانات الدفع:'   // → وسيلة الدفع
-        ];
+        // الترتيب المطلوب: المحافظة → الإسم → البريد الإلكتروني → رقم المحمول → وسيلة الدفع
+        var newOrder = ['المدينة:', 'الاسم:', 'البريد الالكتروني:', 'الهاتف:', 'بيانات الدفع:'];
 
-        // 3. نبدّل الترتيب في الـ DOM
-        newOrder.forEach(function(oldLabel, index) {
+        // نعمل DocumentFragment عشان نرتب
+        var fragment = document.createDocumentFragment();
+
+        newOrder.forEach(function(oldLabel) {
             var dt = orderMap[oldLabel];
             if (!dt) return;
 
-            // نغيّر النصوص الأول
             var span = dt.querySelector('span');
             if (span) {
                 var text = span.textContent.trim();
 
-                if (text === 'المدينة:') {
-                    span.textContent = 'المحافظة:';
-                } else if (text === 'الاسم:') {
-                    span.textContent = 'الإسم:';
-                } else if (text === 'البريد الالكتروني:') {
-                    span.textContent = 'البريد الإلكتروني:';
-                } else if (text === 'الهاتف:') {
-                    span.textContent = 'رقم المحمول:';
-                } else if (text === 'بيانات الدفع:') {
-                    span.textContent = 'وسيلة الدفع:';
+                if (text === 'المدينة:') span.textContent = 'المحافظة:';
+                else if (text === 'الاسم:') span.textContent = 'الإسم:';
+                else if (text === 'البريد الالكتروني:') span.textContent = 'البريد الإلكتروني:';
+                else if (text === 'الهاتف:') span.textContent = 'رقم المحمول:';
+                else if (text === 'بيانات الدفع:') span.textContent = 'وسيلة الدفع:';
+            }
+
+            // نغيّر "kashier" لـ "Kashier" في الـ text nodes
+            if (oldLabel === 'بيانات الدفع:') {
+                var walker = document.createTreeWalker(dt, NodeFilter.SHOW_TEXT, null, false);
+                var node;
+                while (node = walker.nextNode()) {
+                    if (node.textContent.trim().toLowerCase() === 'kashier') {
+                        node.textContent = ' Kashier';
+                    }
                 }
             }
 
-            // نغيّر "kashier" لـ "Kashier" في الـ text node
-            if (oldLabel === 'بيانات الدفع:') {
-                Array.from(dt.childNodes).forEach(function(node) {
-                    if (node.nodeType === 3 && node.textContent.trim().toLowerCase() === 'kashier') {
-                        node.textContent = ' Kashier';
-                    }
-                });
-            }
-
-            // ننقل الـ dt للترتيب الجديد
-            dl.appendChild(dt);
+            fragment.appendChild(dt);
         });
 
-        // ✅ علّم إن البوكس اتعدل
+        // نضيف الـ fragment للـ dl
+        dl.appendChild(fragment);
+
         box.dataset.deliveryFixed = 'true';
     }
 
@@ -768,14 +758,14 @@ setInterval(fixHeader, 300);
         mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
                 if (node.nodeType === 1 && (
-                    node.classList?.contains('border') && node.classList?.contains('p-4') ||
+                    (node.classList?.contains('border') && node.classList?.contains('p-4')) ||
                     node.querySelector?.('.border.p-4.rounded-lg.shadow-sm')
                 )) {
                     hasBox = true;
                 }
             });
         });
-        if (hasBox) setTimeout(fixDeliveryBox, 100);
+        if (hasBox) setTimeout(fixDeliveryBox, 200);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -786,7 +776,7 @@ setInterval(fixHeader, 300);
             lastUrl = location.href;
             var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
             if (box) box.dataset.deliveryFixed = '';
-            setTimeout(fixDeliveryBox, 300);
+            setTimeout(fixDeliveryBox, 500);
         }
     }, 300);
 })();
