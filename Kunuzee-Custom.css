@@ -1666,7 +1666,7 @@ footer .default_footer_link a {
 /* تساوي المسافات بين عناصر الـ address */
 .order_invoice_container address span {
     margin: 0 !important;
-    line-height: 1.9 !important;
+    line-height: 2.1 !important;
 }
 
 /* إخفاء الهاتف بالكامل */
@@ -1737,14 +1737,14 @@ footer .default_footer_link a {
 
 /* المسافة بين العنوان الرئيسي والعناصر — 12px */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
-    margin-top: 14px !important;
+    margin-top: 18px !important;
 }
 
 /* نلغي أي margin/padding على الـ dt */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
     margin: 0 !important;
     padding: 0 !important;
-    line-height: 1.7 !important;
+    line-height: 1.9 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
