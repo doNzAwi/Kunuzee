@@ -1699,18 +1699,21 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* البيانات (النص بعد الـ span) */
+/* البيانات */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm dt {
     color: #bf6000 !important;
     font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* إلغاء الهوفر بالكامل */
+/* إلغاء الهوفر بالكامل — override أي CSS تاني */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm dt:hover,
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm dt span:hover,
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm h3:hover {
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm h3:hover,
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm dt *:hover {
     color: inherit !important;
+    background: none !important;
+    text-decoration: none !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
