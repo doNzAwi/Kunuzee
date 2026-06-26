@@ -1639,6 +1639,72 @@ footer .default_footer_link a {
     border-color: #f2e4be !important;
 }
 
+/* ─── بوكس "كنوزي" — كل العناصر داخله ─── */
+.order_invoice_container address {
+    color: #134f4f !important;
+}
+
+/* كل الـ spans والـ links والنصوص داخل الـ address */
+.order_invoice_container address *,
+.order_invoice_container address h3,
+.order_invoice_container address span,
+.order_invoice_container address a {
+    color: #134f4f !important;
+}
+
+/* كلمة "كنوزي" — تقيلة */
+.order_invoice_container address h3 {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* إخفاء الهاتف */
+.order_invoice_container address a[href^="tel:"],
+.order_invoice_container address a[href="tel:undefined"] {
+    display: none !important;
+}
+
+/* إخفاء "العنوان:" الفارغ (الـ span اللي بعده مفيش فيه حاجة) */
+.order_invoice_container address span:has(+ span:empty),
+.order_invoice_container address span.text-gray-600:has(+ span:empty) {
+    display: none !important;
+}
+
+/* إخفاء الـ span الفارغ نفسه */
+.order_invoice_container address span:empty {
+    display: none !important;
+}
+
+/* إخفاء "العنوان:" لو الـ span التالي فاضي */
+.order_invoice_container address > span:last-child {
+    display: none !important;
+}
+
+/* ─── ألوان الروابط المحددة فقط ─── */
+.order_invoice_container address a[href*="kunuzee.com"],
+.order_invoice_container address a[href^="mailto:"] {
+    color: #bf6000 !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+.order_invoice_container address a[href*="kunuzee.com"]:hover,
+.order_invoice_container address a[href^="mailto:"]:hover {
+    color: #ce982e !important;
+}
+
+/* ─── إخفاء "الهاتف:" و"العنوان:" الأصلية ─── */
+.order_invoice_container address span.text-gray-600:has(+ a[href^="tel:"]),
+.order_invoice_container address a[href^="tel:"] {
+    display: none !important;
+}
+
+/* إخفاء الـ span الفارغ اللي بعد "العنوان:" */
+.order_invoice_container address span:has(> span.text-gray-600):has(+ span:empty) {
+    display: none !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
