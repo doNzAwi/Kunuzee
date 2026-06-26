@@ -534,15 +534,32 @@ setInterval(fixHeader, 300);
 (function() {
     'use strict';
 
+    function findRefundBox(container) {
+        var buttons = container.querySelectorAll('button');
+        for (var i = 0; i < buttons.length; i++) {
+            var img = buttons[i].querySelector('img[alt="refund"]');
+            if (img) {
+                return buttons[i].closest('div.rounded-lg, div.rounded-xl, div.border');
+            }
+        }
+        return null;
+    }
+
     function swapRefundAndTimeline() {
         var container = document.querySelector('.order_invoice_container .flex.flex-col.gap-5');
         if (!container) return;
 
-        var refundBox = container.querySelector('div:has(> div > button img[alt="refund"])');
-        var timelineBox = container.querySelector('ul.rounded-lg.border');
+        var refundBox = findRefundBox(container);
+        var timelineBox = container.querySelector('ul.rounded-lg.border, ul.border');
 
         if (!refundBox || !timelineBox) return;
-        if (refundBox.nextElementSibling === timelineBox) return; // Already in correct order
+
+        // Check if already in correct order (timeline before refund)
+        var children = Array.from(container.children);
+        var refundIndex = children.indexOf(refundBox);
+        var timelineIndex = children.indexOf(timelineBox);
+
+        if (timelineIndex < refundIndex) return; // Already correct
 
         container.insertBefore(timelineBox, refundBox);
     }
