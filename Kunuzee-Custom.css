@@ -1734,7 +1734,7 @@ footer .default_footer_link a {
 
 /* تساوي المسافات بين العناصر الداخلية — كلهم 6px */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) .flex.flex-col.gap-2 {
-    gap: 6px !important;
+    gap: 4px !important;
 }
 
 /* نلغي أي margin على الـ dt عشان الـ gap يتحكم لوحده */
