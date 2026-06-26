@@ -602,6 +602,9 @@ setInterval(fixHeader, 300);
         var address = document.querySelector('.order_invoice_container address');
         if (!address) return;
 
+        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
+        if (address.dataset.kunuzeeFixed === 'true') return;
+
         // 1. إخفاء الهاتف بالكامل
         var phoneLink = address.querySelector('a[href^="tel:"], a[href="tel:undefined"]');
         if (phoneLink) {
@@ -645,6 +648,9 @@ setInterval(fixHeader, 300);
             
             emailWrapper.parentNode.insertBefore(addressWrapper, emailWrapper);
         }
+
+        // ✅ علّم إن الـ address اتعدل
+        address.dataset.kunuzeeFixed = 'true';
     }
 
     fixKunuzeeBox();
@@ -670,6 +676,9 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
+            // ✅ لما الـ URL يتغير، شيل العلامة عشان يتعدل من جديد
+            var address = document.querySelector('.order_invoice_container address');
+            if (address) address.dataset.kunuzeeFixed = '';
             setTimeout(fixKunuzeeBox, 300);
         }
     }, 300);
