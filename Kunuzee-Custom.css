@@ -1652,21 +1652,7 @@ footer .default_footer_link a {
 .order_invoice_container address h3 {
     font-weight: 700 !important;
     font-size: 1.1rem !important;
-    margin-bottom: 0 !important;
     font-family: 'Tajawal', sans-serif !important;
-}
-
-/* المسافة بين "كنوزي" والعناصر اللي تحتها — 12px */
-.order_invoice_container address h3 + span,
-.order_invoice_container address h3 + .flex {
-    margin-top: 12px !important;
-    display: block !important;
-}
-
-/* تساوي المسافات بين عناصر الـ address */
-.order_invoice_container address span {
-    margin: 0 !important;
-    line-height: 2.1 !important;
 }
 
 /* إخفاء الهاتف بالكامل */
@@ -1692,6 +1678,16 @@ footer .default_footer_link a {
 .order_invoice_container address a[href*="kunuzee.com"]:hover,
 .order_invoice_container address a[href^="mailto:"]:hover {
     color: #ce982e !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── الحاوية الرئيسية — بوردر ذهبي في كل الأماكن ─── */
+div:has(> div > button img[alt="refund"]) {
+    background-color: #fcf5e2 !important;
+    border-color: #ce982e !important;
 }
 
 /* ══════════════
@@ -1728,7 +1724,7 @@ footer .default_footer_link a {
     font-weight: 400 !important;
 }
 
-/* الـ container الداخلي — نلغي الـ gap الأصلي */
+/* الـ container الداخلي */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) > .flex.flex-col.gap-2 {
     gap: 6px !important;
     margin: 0 !important;
@@ -1737,25 +1733,17 @@ footer .default_footer_link a {
 
 /* المسافة بين العنوان الرئيسي والعناصر — 12px */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
-    margin-top: 18px !important;
+    margin-top: 12px !important;
 }
 
 /* نلغي أي margin/padding على الـ dt */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
     margin: 0 !important;
     padding: 0 !important;
-    line-height: 1.9 !important;
+    line-height: 1.5 !important;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
-   ─────────────────────────────────────────────────────────────── */
 
-/* ─── الحاوية الرئيسية — بوردر ذهبي في كل الأماكن ─── */
-div:has(> div > button img[alt="refund"]) {
-    background-color: #fcf5e2 !important;
-    border-color: #ce982e !important;
-}
 
 /* ─── العناصر الداخلية (الخط الفاصل) ─── */
 div:has(> div > button img[alt="refund"]) > * {
