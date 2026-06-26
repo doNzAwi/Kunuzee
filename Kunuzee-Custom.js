@@ -527,3 +527,50 @@ setInterval(fixHeader, 300);
     });
     observer.observe(document.body, { childList: true, subtree: true });
 })();
+
+// ───────────────────────────────────────────────────────────────────
+// FUNCTION 7: swapRefundAndTimeline — تبديل صندوقي سياسة الاسترداد والـ Timeline
+// ───────────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function swapRefundAndTimeline() {
+        var container = document.querySelector('.order_invoice_container .flex.flex-col.gap-5');
+        if (!container) return;
+
+        var refundBox = container.querySelector('div:has(> div > button img[alt="refund"])');
+        var timelineBox = container.querySelector('ul.rounded-lg.border');
+
+        if (!refundBox || !timelineBox) return;
+        if (refundBox.nextElementSibling === timelineBox) return; // Already in correct order
+
+        container.insertBefore(timelineBox, refundBox);
+    }
+
+    swapRefundAndTimeline();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasInvoice = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('order_invoice_container') ||
+                    node.querySelector?.('.order_invoice_container')
+                )) {
+                    hasInvoice = true;
+                }
+            });
+        });
+        if (hasInvoice) setTimeout(swapRefundAndTimeline, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(swapRefundAndTimeline, 300);
+        }
+    }, 300);
+})();
