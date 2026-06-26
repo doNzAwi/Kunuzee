@@ -1568,9 +1568,9 @@ footer .default_footer_link a {
     visibility: hidden !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ──────────────────────────────────────
    SECTION 17: THANK YOU PAGE — صفحة الشكر
-   ═══════════════════════════════════════════════════════════════ */
+   ────────────────────────────────────── */
 
 /* ─── تغيير نص "شكرا لاتمامك الطلب" + تلوينه ─── */
 .thanks_container h1 {
@@ -1678,6 +1678,42 @@ footer .default_footer_link a {
 .order_invoice_container address a[href*="kunuzee.com"]:hover,
 .order_invoice_container address a[href^="mailto:"]:hover {
     color: #ce982e !important;
+}
+
+/* ════════════════
+   بوكس "بيانات التوصيل"
+   ════════════════ */
+
+/* العنوان الرئيسي "بيانات التوصيل" */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm > h3 {
+    color: #134f4f !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* كل الـ spans (العناوين) داخل البوكس */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm dt span {
+    color: #134f4f !important;
+    font-weight: 600 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* كل البيانات (النص بعد الـ span) */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm dt {
+    color: #bf6000 !important;
+    font-weight: 500 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* مفيش هوفر جوا البوكس */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm * {
+    transition: none !important;
+}
+
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm dt:hover,
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm span:hover {
+    color: inherit !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
