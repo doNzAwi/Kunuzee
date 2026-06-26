@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════
-// KUNUZI STORE — CUSTOM JAVASCRIPT
+// KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
 
@@ -588,76 +588,6 @@ setInterval(fixHeader, 300);
         if (location.href !== lastUrl) {
             lastUrl = location.href;
             setTimeout(swapRefundAndTimeline, 300);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────
-// FUNCTION 8: alignInvoiceColumns — توازي أعمدة الفاتورة من الأسفل
-// ───────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    function findRefundBox(container) {
-        var buttons = container.querySelectorAll('button');
-        for (var i = 0; i < buttons.length; i++) {
-            if (buttons[i].querySelector('img[alt="refund"]')) {
-                return buttons[i].closest('div.rounded-lg, div.rounded-xl, div.border');
-            }
-        }
-        return null;
-    }
-
-    function alignInvoiceBottom() {
-        if (window.innerWidth < 768) return;
-
-        var grid = document.querySelector('.order_invoice_container .grid-cols-3, .order_invoice_container [class*="grid-cols-3"]');
-        if (!grid) return;
-
-        var columns = grid.children;
-        if (columns.length < 2) return;
-
-        var leftCol = columns[0];
-        var rightCol = columns[columns.length - 1];
-
-        var statusBox = leftCol.querySelector('div.flex.flex-col.gap-6');
-        var deliveryBox = rightCol.querySelector('div.border.p-4.rounded-lg');
-
-        if (!statusBox || !deliveryBox) return;
-
-        // نرجع أي تعديلات قديمة
-        statusBox.style.minHeight = '';
-        deliveryBox.style.minHeight = '';
-
-        // نستخدم scrollHeight (بدون التأثيرات البصرية)
-        var leftHeight = leftCol.scrollHeight;
-        var rightHeight = rightCol.scrollHeight;
-
-        // منتجات كتيرة → نكبر بيانات التوصيل
-        if (leftHeight > rightHeight + 5) {
-            var diff = leftHeight - rightHeight;
-            deliveryBox.style.minHeight = (deliveryBox.scrollHeight + diff) + 'px';
-        }
-        // منتجات قليلة → نكبر حالة الطلب
-        else if (rightHeight > leftHeight + 5) {
-            var diff = rightHeight - leftHeight;
-            statusBox.style.minHeight = (statusBox.scrollHeight + diff) + 'px';
-        }
-    }
-
-    alignInvoiceBottom();
-    window.addEventListener('resize', alignInvoiceBottom);
-
-    var observer = new MutationObserver(function() {
-        setTimeout(alignInvoiceBottom, 300);
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            setTimeout(alignInvoiceBottom, 500);
         }
     }, 300);
 })();
