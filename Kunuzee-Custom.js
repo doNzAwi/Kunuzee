@@ -604,19 +604,37 @@ setInterval(fixHeader, 300);
         var grid = document.querySelector('.order_invoice_container .md\\:grid.grid-cols-3');
         if (!grid) return;
 
+        // نضمن إن الـ grid items يتمددوا عمودياً
+        grid.style.alignItems = 'stretch';
+
         var rightCol = grid.children[0];
         var leftCol = grid.children[1];
         if (!rightCol || !leftCol) return;
 
-        // Reset
+        // نلغي أي min-height سابقة
         rightCol.style.minHeight = '';
         leftCol.style.minHeight = '';
+        var allRightChildren = rightCol.querySelectorAll('*');
+        var allLeftChildren = leftCol.querySelectorAll('*');
+        for (var i = 0; i < allRightChildren.length; i++) {
+            allRightChildren[i].style.minHeight = '';
+        }
+        for (var i = 0; i < allLeftChildren.length; i++) {
+            allLeftChildren[i].style.minHeight = '';
+        }
+
+        // نلغي h-fit اللي بيمنع التوسع
+        var addressBox = rightCol.querySelector('address.h-fit');
+        if (addressBox) {
+            addressBox.classList.remove('h-fit');
+            addressBox.style.height = 'auto';
+        }
 
         // عدد المنتجات
         var productItems = leftCol.querySelectorAll('.flex.flex-col.gap-4.md\\:flex-row');
         var productCount = productItems.length;
 
-        // نلاقي بيانات التوصيل بالنص
+        // نلاقي بيانات التوصيل
         var deliveryBox = null;
         for (var i = 0; i < rightCol.children.length; i++) {
             var child = rightCol.children[i];
@@ -627,32 +645,25 @@ setInterval(fixHeader, 300);
             }
         }
 
-        // نلاقي صندوق حالة الطلب بالنص
-        var orderStatusBox = null;
-        for (var i = 0; i < leftCol.children.length; i++) {
-            var child = leftCol.children[i];
-            if (child.textContent.includes('حالة الطلب')) {
-                orderStatusBox = child;
-                break;
-            }
-        }
+        // نلاقي صندوق حالة الطلب (أول child في العمود الأيسر)
+        var orderStatusBox = leftCol.children[0];
 
-        if (deliveryBox) deliveryBox.style.minHeight = '';
-        if (orderStatusBox) orderStatusBox.style.minHeight = '';
-
+        // Force reflow
         void grid.offsetHeight;
 
-        var rightHeight = rightCol.offsetHeight;
-        var leftHeight = leftCol.offsetHeight;
+        var rightHeight = rightCol.getBoundingClientRect().height;
+        var leftHeight = leftCol.getBoundingClientRect().height;
 
         if (productCount >= 3) {
             // منتجات كتير: نطول بيانات التوصيل (العمود الأيمن)
             if (rightHeight < leftHeight) {
                 var diff = leftHeight - rightHeight;
                 if (deliveryBox) {
-                    deliveryBox.style.minHeight = (deliveryBox.offsetHeight + diff) + 'px';
-                } else {
-                    rightCol.style.minHeight = leftHeight + 'px';
+                    deliveryBox.style.minHeight = (deliveryBox.getBoundingClientRect().height + diff) + 'px';
+                }
+                // نطول الـ address كمان عشان يتوازن
+                if (addressBox) {
+                    addressBox.style.minHeight = (addressBox.getBoundingClientRect().height + diff * 0.3) + 'px';
                 }
             }
         } else {
@@ -660,18 +671,41 @@ setInterval(fixHeader, 300);
             if (leftHeight < rightHeight) {
                 var diff = rightHeight - leftHeight;
                 if (orderStatusBox) {
-                    orderStatusBox.style.minHeight = (orderStatusBox.offsetHeight + diff) + 'px';
-                } else {
-                    leftCol.style.minHeight = rightHeight + 'px';
+                    orderStatusBox.style.minHeight = (orderStatusBox.getBoundingClientRect().height + diff) + 'px';
                 }
             }
         }
     }
 
+    function waitForImages(callback) {
+        var images = document.querySelectorAll('.order_invoice_container img');
+        var total = images.length;
+        var loaded = 0;
+        if (total === 0) {
+            callback();
+            return;
+        }
+        images.forEach(function(img) {
+            if (img.complete) {
+                loaded++;
+                if (loaded === total) callback();
+            } else {
+                img.onload = img.onerror = function() {
+                    loaded++;
+                    if (loaded === total) callback();
+                };
+            }
+        });
+        // Fallback: شغل بعد 2 ثانية لو الصور معلقة
+        setTimeout(callback, 2000);
+    }
+
     function run() {
-        setTimeout(balanceColumns, 400);
-        setTimeout(balanceColumns, 800);
-        setTimeout(balanceColumns, 1200);
+        waitForImages(function() {
+            balanceColumns();
+            setTimeout(balanceColumns, 300);
+            setTimeout(balanceColumns, 600);
+        });
     }
 
     if (document.readyState === 'loading') {
@@ -689,7 +723,7 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            setTimeout(balanceColumns, 500);
+            setTimeout(run, 500);
         }
     }, 300);
 })();
