@@ -1684,7 +1684,7 @@ footer .default_footer_link a {
    بوكس "بيانات التوصيل"
    ════════════════ */
 
-/* العنوان الرئيسي "بيانات التوصيل" */
+/* العنوان الرئيسي "بيانات التوصيل" — تقيل بس */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm > h3 {
     color: #134f4f !important;
     font-weight: 700 !important;
@@ -1692,27 +1692,24 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* كل الـ spans (العناوين) داخل البوكس */
+/* العناوين الداخلية (span) — عادية */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm dt span {
     color: #134f4f !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* كل البيانات (النص بعد الـ span) */
+/* البيانات (النص بعد الـ span) */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm dt {
     color: #bf6000 !important;
     font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* مفيش هوفر جوا البوكس */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm * {
-    transition: none !important;
-}
-
+/* إلغاء الهوفر بالكامل */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm dt:hover,
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm span:hover {
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm dt span:hover,
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm h3:hover {
     color: inherit !important;
 }
 
