@@ -598,7 +598,20 @@ setInterval(fixHeader, 300);
 (function() {
     'use strict';
 
-    function alignInvoiceColumns() {
+    function findRefundBox(container) {
+        var buttons = container.querySelectorAll('button');
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].querySelector('img[alt="refund"]')) {
+                return buttons[i].closest('div.rounded-lg, div.rounded-xl, div.border');
+            }
+        }
+        return null;
+    }
+
+    function alignInvoiceBottom() {
+        // بس على الكمبيوتر
+        if (window.innerWidth < 768) return;
+
         var grid = document.querySelector('.order_invoice_container .grid-cols-3, .order_invoice_container [class*="grid-cols-3"]');
         if (!grid) return;
 
@@ -608,7 +621,7 @@ setInterval(fixHeader, 300);
         var leftCol = columns[0];
         var rightCol = columns[columns.length - 1];
 
-        // نلاقي الصناديق
+        // الصناديق اللي هنكبرها
         var statusBox = leftCol.querySelector('div.flex.flex-col.gap-6');
         var deliveryBox = rightCol.querySelector('div.border.p-4.rounded-lg');
 
@@ -618,17 +631,17 @@ setInterval(fixHeader, 300);
         statusBox.style.minHeight = '';
         deliveryBox.style.minHeight = '';
 
-        // نحسب الـ height بعد ما نرجع للطبيعي
+        // نحسب ارتفاع كل عمود
         var leftHeight = leftCol.getBoundingClientRect().height;
         var rightHeight = rightCol.getBoundingClientRect().height;
 
-        // لو العمود الأيسر أطول → نكبر بيانات التوصيل
+        // منتجات كتيرة → العمود الأيسر أطول → نكبر بيانات التوصيل من اليمين
         if (leftHeight > rightHeight + 5) {
             var diff = leftHeight - rightHeight;
             var currentHeight = deliveryBox.getBoundingClientRect().height;
             deliveryBox.style.minHeight = (currentHeight + diff) + 'px';
         }
-        // لو العمود الأيمن أطول → نكبر حالة الطلب
+        // منتجات قليلة → العمود الأيمن أطول → نكبر حالة الطلب من الشمال
         else if (rightHeight > leftHeight + 5) {
             var diff = rightHeight - leftHeight;
             var currentHeight = statusBox.getBoundingClientRect().height;
@@ -636,11 +649,11 @@ setInterval(fixHeader, 300);
         }
     }
 
-    alignInvoiceColumns();
-    window.addEventListener('resize', alignInvoiceColumns);
+    alignInvoiceBottom();
+    window.addEventListener('resize', alignInvoiceBottom);
 
     var observer = new MutationObserver(function() {
-        setTimeout(alignInvoiceColumns, 200);
+        setTimeout(alignInvoiceBottom, 300);
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
@@ -648,7 +661,7 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            setTimeout(alignInvoiceColumns, 500);
+            setTimeout(alignInvoiceBottom, 500);
         }
     }, 300);
 })();
