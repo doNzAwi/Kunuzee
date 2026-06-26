@@ -609,7 +609,6 @@ setInterval(fixHeader, 300);
     }
 
     function alignInvoiceBottom() {
-        // بس على الكمبيوتر
         if (window.innerWidth < 768) return;
 
         var grid = document.querySelector('.order_invoice_container .grid-cols-3, .order_invoice_container [class*="grid-cols-3"]');
@@ -621,7 +620,6 @@ setInterval(fixHeader, 300);
         var leftCol = columns[0];
         var rightCol = columns[columns.length - 1];
 
-        // الصناديق اللي هنكبرها
         var statusBox = leftCol.querySelector('div.flex.flex-col.gap-6');
         var deliveryBox = rightCol.querySelector('div.border.p-4.rounded-lg');
 
@@ -631,21 +629,19 @@ setInterval(fixHeader, 300);
         statusBox.style.minHeight = '';
         deliveryBox.style.minHeight = '';
 
-        // نحسب ارتفاع كل عمود
-        var leftHeight = leftCol.getBoundingClientRect().height;
-        var rightHeight = rightCol.getBoundingClientRect().height;
+        // نستخدم scrollHeight (بدون التأثيرات البصرية)
+        var leftHeight = leftCol.scrollHeight;
+        var rightHeight = rightCol.scrollHeight;
 
-        // منتجات كتيرة → العمود الأيسر أطول → نكبر بيانات التوصيل من اليمين
+        // منتجات كتيرة → نكبر بيانات التوصيل
         if (leftHeight > rightHeight + 5) {
             var diff = leftHeight - rightHeight;
-            var currentHeight = deliveryBox.getBoundingClientRect().height;
-            deliveryBox.style.minHeight = (currentHeight + diff) + 'px';
+            deliveryBox.style.minHeight = (deliveryBox.scrollHeight + diff) + 'px';
         }
-        // منتجات قليلة → العمود الأيمن أطول → نكبر حالة الطلب من الشمال
+        // منتجات قليلة → نكبر حالة الطلب
         else if (rightHeight > leftHeight + 5) {
             var diff = rightHeight - leftHeight;
-            var currentHeight = statusBox.getBoundingClientRect().height;
-            statusBox.style.minHeight = (currentHeight + diff) + 'px';
+            statusBox.style.minHeight = (statusBox.scrollHeight + diff) + 'px';
         }
     }
 
