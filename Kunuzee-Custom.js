@@ -683,3 +683,87 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 9: fixDeliveryBox — تعديل بوكس "بيانات التوصيل" في صفحة الشكر
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixDeliveryBox() {
+        var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
+        if (!box) return;
+
+        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
+        if (box.dataset.deliveryFixed === 'true') return;
+
+        var dts = box.querySelectorAll('dt');
+        
+        dts.forEach(function(dt) {
+            var span = dt.querySelector('span');
+            if (!span) return;
+
+            var label = span.textContent.trim();
+
+            // 1. المحافظة (بدل المدينة)
+            if (label === 'المدينة:') {
+                span.textContent = 'المحافظة:';
+            }
+            // 2. الإسم (بدل الاسم)
+            else if (label === 'الاسم:') {
+                span.textContent = 'الإسم:';
+            }
+            // 3. البريد الإلكتروني (بدل البريد الالكتروني)
+            else if (label === 'البريد الالكتروني:') {
+                span.textContent = 'البريد الإلكتروني:';
+            }
+            // 4. رقم المحمول (بدل الهاتف)
+            else if (label === 'الهاتف:') {
+                span.textContent = 'رقم المحمول:';
+            }
+            // 5. وسيلة الدفع (بدل بيانات الدفع) + Kashier
+            else if (label === 'بيانات الدفع:') {
+                span.textContent = 'وسيلة الدفع:';
+                // نغيّر "kashier" لـ "Kashier"
+                var textNode = Array.from(dt.childNodes).find(function(node) {
+                    return node.nodeType === 3 && node.textContent.trim().toLowerCase() === 'kashier';
+                });
+                if (textNode) {
+                    textNode.textContent = ' Kashier';
+                }
+            }
+        });
+
+        // ✅ علّم إن البوكس اتعدل
+        box.dataset.deliveryFixed = 'true';
+    }
+
+    fixDeliveryBox();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasBox = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('border') && node.classList?.contains('p-4') ||
+                    node.querySelector?.('.border.p-4.rounded-lg.shadow-sm')
+                )) {
+                    hasBox = true;
+                }
+            });
+        });
+        if (hasBox) setTimeout(fixDeliveryBox, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
+            if (box) box.dataset.deliveryFixed = '';
+            setTimeout(fixDeliveryBox, 300);
+        }
+    }, 300);
+})();
