@@ -1568,9 +1568,9 @@ footer .default_footer_link a {
     visibility: hidden !important;
 }
 
-/* ───────────────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════
    SECTION 17: THANK YOU PAGE — صفحة الشكر
-   ─────────────────────────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════════ */
 
 /* ─── تغيير نص "شكرا لاتمامك الطلب" + تلوينه ─── */
 .thanks_container h1 {
@@ -1582,7 +1582,7 @@ footer .default_footer_link a {
 
 .thanks_container h1::after {
     content: "شكراً لشرائكم من كنوزي" !important;
-    font-size: 2.25rem !important;        /* نفس text-4xl */
+    font-size: 2.25rem !important;
     font-weight: 700 !important;
     color: #bf6000 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -1612,10 +1612,6 @@ footer .default_footer_link a {
 .thanks_container a[href="/"] {
     display: inline-block !important;
     margin-top: 2.5rem !important;
-}
-
-/* ─── زر "العودة للرئيسية" ─── */
-.thanks_container a[href="/"] {
     background-color: #bf6000 !important;
     border-color: #bf6000 !important;
     color: #ffffff !important;
@@ -1639,16 +1635,14 @@ footer .default_footer_link a {
     border-color: #f2e4be !important;
 }
 
-/* ─── بوكس "كنوزي" — كل العناصر داخله ─── */
-.order_invoice_container address {
-    color: #134f4f !important;
-}
+/* ══════════════════════
+   بوكس "كنوزي" — بيانات المتجر
+   ══════════════════════ */
 
-/* كل الـ spans والـ links والنصوص داخل الـ address */
-.order_invoice_container address *,
+/* كل العناصر داخل الـ address */
+.order_invoice_container address,
 .order_invoice_container address h3,
-.order_invoice_container address span,
-.order_invoice_container address a {
+.order_invoice_container address span {
     color: #134f4f !important;
 }
 
@@ -1659,29 +1653,18 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* إخفاء الهاتف */
+/* إخفاء الهاتف بالكامل */
 .order_invoice_container address a[href^="tel:"],
 .order_invoice_container address a[href="tel:undefined"] {
     display: none !important;
 }
 
-/* إخفاء "العنوان:" الفارغ (الـ span اللي بعده مفيش فيه حاجة) */
-.order_invoice_container address span:has(+ span:empty),
-.order_invoice_container address span.text-gray-600:has(+ span:empty) {
-    display: none !important;
-}
-
-/* إخفاء الـ span الفارغ نفسه */
+/* إخفاء العنوان الفارغ */
 .order_invoice_container address span:empty {
     display: none !important;
 }
 
-/* إخفاء "العنوان:" لو الـ span التالي فاضي */
-.order_invoice_container address > span:last-child {
-    display: none !important;
-}
-
-/* ─── ألوان الروابط المحددة فقط ─── */
+/* الـ links المحددة — لونها برتقالي */
 .order_invoice_container address a[href*="kunuzee.com"],
 .order_invoice_container address a[href^="mailto:"] {
     color: #bf6000 !important;
@@ -1689,20 +1672,10 @@ footer .default_footer_link a {
     transition: color 0.2s ease !important;
 }
 
+/* هوفر الـ links — ذهبي */
 .order_invoice_container address a[href*="kunuzee.com"]:hover,
 .order_invoice_container address a[href^="mailto:"]:hover {
     color: #ce982e !important;
-}
-
-/* ─── إخفاء "الهاتف:" و"العنوان:" الأصلية ─── */
-.order_invoice_container address span.text-gray-600:has(+ a[href^="tel:"]),
-.order_invoice_container address a[href^="tel:"] {
-    display: none !important;
-}
-
-/* إخفاء الـ span الفارغ اللي بعد "العنوان:" */
-.order_invoice_container address span:has(> span.text-gray-600):has(+ span:empty) {
-    display: none !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
