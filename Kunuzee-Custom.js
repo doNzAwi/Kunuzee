@@ -695,25 +695,28 @@ setInterval(fixHeader, 300);
 
         var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
         console.log('box found:', !!box);
-
         if (!box) return;
 
         console.log('box.dataset.deliveryFixed:', box.dataset.deliveryFixed);
+        if (box.dataset.deliveryFixed === 'true') return;
 
-        if (box.dataset.deliveryFixed === 'true') {
-            console.log('already fixed, skipping');
+        // هلقط الـ div اللي جواه dt elements
+        var dl = box.querySelector('div:has(dt)');
+        console.log('dl found (div:has(dt)):', !!dl);
+
+        if (!dl) {
+            // جرب كل الـ divs جوه الـ box
+            var allDivs = box.querySelectorAll('div');
+            console.log('all divs count:', allDivs.length);
+            allDivs.forEach(function(div, i) {
+                console.log('div', i, 'classes:', div.className);
+            });
             return;
         }
-
-        var dl = box.querySelector('div.flex.flex-col');
-        console.log('dl found:', !!dl);
-
-        if (!dl) return;
 
         console.log('dl innerHTML before:', dl.innerHTML.substring(0, 200));
 
         var html = dl.innerHTML;
-
         html = html.replace(/المدينة:/g, 'المحافظة:');
         html = html.replace(/الاسم:/g, 'الإسم:');
         html = html.replace(/البريد الالكتروني:/g, 'البريد الإلكتروني:');
@@ -735,7 +738,6 @@ setInterval(fixHeader, 300);
     setTimeout(fixDeliveryBox, 2000);
 
     var observer = new MutationObserver(function() {
-        console.log('mutation detected');
         setTimeout(fixDeliveryBox, 200);
     });
     observer.observe(document.body, { childList: true, subtree: true });
