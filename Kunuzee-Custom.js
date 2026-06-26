@@ -693,33 +693,24 @@ setInterval(fixHeader, 300);
     function fixDeliveryBox() {
         var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
         if (!box) return;
+
+        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
         if (box.dataset.deliveryFixed === 'true') return;
 
-        var spans = box.querySelectorAll('dt span');
-        spans.forEach(function(span) {
-            var text = span.textContent.trim();
+        var dl = box.querySelector('div.flex.flex-col');
+        if (!dl) return;
 
-            if (text === 'المدينة:') {
-                span.textContent = 'المحافظة:';
-            } else if (text === 'الاسم:') {
-                span.textContent = 'الإسم:';
-            } else if (text === 'البريد الالكتروني:') {
-                span.textContent = 'البريد الإلكتروني:';
-            } else if (text === 'الهاتف:') {
-                span.textContent = 'رقم المحمول:';
-            } else if (text === 'بيانات الدفع:') {
-                span.textContent = 'وسيلة الدفع:';
-            }
-        });
+        // نغيّر الكلمات في الـ innerHTML كله
+        var html = dl.innerHTML;
 
-        // نغيّر "kashier" لـ "Kashier"
-        var dts = box.querySelectorAll('dt');
-        dts.forEach(function(dt) {
-            var html = dt.innerHTML;
-            if (html.toLowerCase().includes('kashier')) {
-                dt.innerHTML = html.replace(/kashier/gi, 'Kashier');
-            }
-        });
+        html = html.replace(/المدينة:/g, 'المحافظة:');
+        html = html.replace(/الاسم:/g, 'الإسم:');
+        html = html.replace(/البريد الالكتروني:/g, 'البريد الإلكتروني:');
+        html = html.replace(/الهاتف:/g, 'رقم المحمول:');
+        html = html.replace(/بيانات الدفع:/g, 'وسيلة الدفع:');
+        html = html.replace(/kashier/gi, 'Kashier');
+
+        dl.innerHTML = html;
 
         box.dataset.deliveryFixed = 'true';
     }
