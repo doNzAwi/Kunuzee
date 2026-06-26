@@ -1690,7 +1690,7 @@ footer .default_footer_link a {
     color: #134f4f !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
 }
 
 /* العناوين (labels) */
@@ -1698,20 +1698,20 @@ footer .default_footer_link a {
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) dt .text-gray-500,
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) dt > span:first-child {
     color: #134f4f !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* البيانات (values) */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) dt {
     color: #bf6000 !important;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* تساوي المسافات بين السطور */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) .flex.flex-col.gap-2 {
-    gap: 12px !important;
+    gap: 10px !important;
 }
 
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) dt {
