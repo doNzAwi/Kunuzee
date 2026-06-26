@@ -591,3 +591,89 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ──────────────────────────────────────────────────────
+// FUNCTION 8: fixKunuzeeBox — تعديل بوكس "كنوزي" في صفحة الشكر
+// ──────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixKunuzeeBox() {
+        var address = document.querySelector('.order_invoice_container address');
+        if (!address) return;
+
+        // 1. إخفاء الهاتف
+        var phoneLink = address.querySelector('a[href^="tel:"], a[href="tel:undefined"]');
+        if (phoneLink) {
+            // إخفاء الـ span "الهاتف: " اللي قبله
+            var prev = phoneLink.previousElementSibling;
+            if (prev && prev.textContent.includes('الهاتف')) {
+                prev.style.display = 'none';
+            }
+            phoneLink.style.display = 'none';
+        }
+
+        // 2. إخفاء "العنوان:" الفارغ
+        var spans = address.querySelectorAll('span');
+        spans.forEach(function(span) {
+            if (span.textContent.includes('العنوان:') || span.textContent.includes('العنوان')) {
+                // نشوف الـ span اللي بعده
+                var next = span.nextElementSibling;
+                if (!next || next.textContent.trim() === '') {
+                    span.style.display = 'none';
+                    if (next) next.style.display = 'none';
+                }
+            }
+        });
+
+        // 3. تغيير نص "البريد الالكتروني" لـ "البريد الإلكتروني"
+        var emailSpan = null;
+        spans.forEach(function(span) {
+            if (span.textContent.includes('البريد الالكتروني')) {
+                emailSpan = span;
+            }
+        });
+
+        // 4. إضافة "العنوان: kunuzee.com" قبل البريد الإلكتروني
+        var emailLink = address.querySelector('a[href^="mailto:"]');
+        if (emailLink && emailSpan) {
+            // نغيّر النص
+            emailSpan.textContent = 'البريد الإلكتروني: ';
+
+            // ننشئ العنصر الجديد
+            var addressWrapper = document.createElement('span');
+            addressWrapper.className = 'flex items-center gap-2 flex-wrap';
+            addressWrapper.innerHTML = '<span class="text-gray-600">العنوان: </span><a href="https://kunuzee.com" target="_blank" rel="noopener noreferrer">kunuzee.com</a>';
+
+            // نحطه قبل الـ emailSpan
+            emailSpan.parentNode.insertBefore(addressWrapper, emailSpan);
+        }
+    }
+
+    fixKunuzeeBox();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasAddress = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.tagName === 'ADDRESS' ||
+                    node.querySelector?.('address')
+                )) {
+                    hasAddress = true;
+                }
+            });
+        });
+        if (hasAddress) setTimeout(fixKunuzeeBox, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(fixKunuzeeBox, 300);
+        }
+    }, 300);
+})();
