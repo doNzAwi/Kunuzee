@@ -1712,7 +1712,8 @@ footer .default_footer_link a {
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
     font-weight: 700 !important;
     font-size: 1.1rem !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* العناوين (labels) — عادي 400 */
@@ -1727,19 +1728,22 @@ footer .default_footer_link a {
     font-weight: 400 !important;
 }
 
-/* المسافة بين العنوان الرئيسي والعناصر — 12px زي بوكس "كنوزي" */
+/* الـ container الداخلي — نلغي الـ gap الأصلي */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) > .flex.flex-col.gap-2 {
+    gap: 6px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* المسافة بين العنوان الرئيسي والعناصر — 12px */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
     margin-top: 12px !important;
 }
 
-/* تساوي المسافات بين العناصر الداخلية — كلهم 6px */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) .flex.flex-col.gap-2 {
-    gap: 6px !important;
-}
-
-/* نلغي أي margin على الـ dt عشان الـ gap يتحكم لوحده */
+/* نلغي أي margin/padding على الـ dt */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
     margin: 0 !important;
+    padding: 0 !important;
     line-height: 1.5 !important;
     align-items: center !important;
 }
