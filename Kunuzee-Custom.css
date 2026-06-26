@@ -1638,3 +1638,51 @@ footer .default_footer_link a {
 .order_invoice_container [class*="border-gray-200"] {
     border-color: #f2e4be !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── الحاوية الرئيسية ─── */
+div:has(> div > button img[alt="refund"]) {
+    background-color: #fcf5e2 !important;
+    border-color: #ce982e !important;
+}
+
+/* ─── العناصر الداخلية (الخط الفاصل) ─── */
+div:has(> div > button img[alt="refund"]) > * {
+    border-color: #bf6000 !important;
+}
+
+/* ─── زر الـ Accordion ─── */
+button:has(img[alt="refund"]) {
+    color: #134f4f !important;
+    font-weight: 700 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* ─── أيقونة السهم ─── */
+button:has(img[alt="refund"]) svg {
+    color: #134f4f !important;
+}
+
+/* ─── أيقونة refund ─── */
+button img[alt="refund"] {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(32%) saturate(1047%) hue-rotate(131deg) brightness(94%) contrast(91%) !important;
+}
+
+/* ─── هوفر الزر ─── */
+button:has(img[alt="refund"]):hover {
+    opacity: 1 !important;
+    color: #ce982e !important;
+}
+
+button:has(img[alt="refund"]):hover svg {
+    color: #ce982e !important;
+}
+
+/* ─── المحتوى المنسدح (لما يتفتح) ─── */
+div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
+    color: #134f4f !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
