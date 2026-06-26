@@ -1666,9 +1666,9 @@ button img[alt="refund"] {
     filter: brightness(0) saturate(100%) invert(23%) sepia(32%) saturate(1047%) hue-rotate(131deg) brightness(94%) contrast(91%) !important;
 }
 
-/* ─── أيقونة السهم — لونها الأصلي رمادي ─── */
+/* ─── أيقونة السهم — لونها أخضر داكن ─── */
 button:has(img[alt="refund"]) svg {
-    color: #6b7280 !important;
+    color: #134f4f !important;
     transition: color 0.2s ease !important;
 }
 
