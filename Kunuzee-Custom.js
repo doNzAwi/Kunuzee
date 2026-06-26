@@ -691,11 +691,9 @@ setInterval(fixHeader, 300);
     'use strict';
 
     function fixDeliveryInfoBox() {
-        // Find the delivery info box - it's the div with class "border p-4 rounded-lg shadow-sm" that contains delivery data
-        var deliveryBox = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt)');
-
-        // More specific: find the one that has "بيانات التوصيل" heading
+        // Find the delivery info box
         var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
+        var deliveryBox = null;
         for (var i = 0; i < allBoxes.length; i++) {
             var h3 = allBoxes[i].querySelector('h3');
             if (h3 && h3.textContent.includes('بيانات التوصيل')) {
@@ -730,42 +728,47 @@ setInterval(fixHeader, 300);
             if (label.includes('الدفع')) paymentVal = value;
         });
 
-        // Clear and rebuild with new order
+        // Clear and rebuild with new order + styling
         dl.innerHTML = '';
+        dl.style.cssText = 'gap: 6px !important; margin-top: 12px !important;';
+
+        // Helper to create styled dt
+        function createStyledDt(labelText, valueText) {
+            var dt = document.createElement('dt');
+            dt.className = 'flex flex-wrap justify-between';
+            dt.style.cssText = 'line-height: 1.5 !important; margin: 0 !important; padding: 0 !important;';
+
+            var labelSpan = document.createElement('span');
+            labelSpan.textContent = labelText;
+            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-family: "Tajawal", sans-serif !important;';
+
+            var valueSpan = document.createElement('span');
+            valueSpan.textContent = ' ' + valueText;
+            valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-family: "Tajawal", sans-serif !important;';
+
+            dt.appendChild(labelSpan);
+            dt.appendChild(valueSpan);
+            return dt;
+        }
 
         // 1. المحافظة (was المدينة, position 4 -> 1)
-        var dt1 = document.createElement('dt');
-        dt1.className = 'flex flex-wrap justify-between';
-        dt1.innerHTML = '<span>المحافظة:</span> ' + (cityVal || '');
-        dl.appendChild(dt1);
+        dl.appendChild(createStyledDt('المحافظة:', cityVal || ''));
 
         // 2. الإسم (was الاسم, position 1 -> 2)
-        var dt2 = document.createElement('dt');
-        dt2.className = 'flex flex-wrap justify-between';
-        dt2.innerHTML = '<span>الإسم:</span> ' + (nameVal || '');
-        dl.appendChild(dt2);
+        dl.appendChild(createStyledDt('الإسم:', nameVal || ''));
 
         // 3. البريد الإلكتروني (same position, updated label)
-        var dt3 = document.createElement('dt');
-        dt3.className = 'flex flex-wrap justify-between';
-        dt3.innerHTML = '<span>البريد الإلكتروني:</span> ' + (emailVal || '');
-        dl.appendChild(dt3);
+        dl.appendChild(createStyledDt('البريد الإلكتروني:', emailVal || ''));
 
         // 4. رقم المحمول (was الهاتف, position 2 -> 4)
-        var dt4 = document.createElement('dt');
-        dt4.className = 'flex flex-wrap justify-between';
-        dt4.innerHTML = '<span>رقم المحمول:</span> ' + (phoneVal || '');
-        dl.appendChild(dt4);
+        dl.appendChild(createStyledDt('رقم المحمول:', phoneVal || ''));
 
         // 5. وسيلة الدفع (was بيانات الدفع, same position, capitalize Kashier)
-        var dt5 = document.createElement('dt');
-        dt5.className = 'flex flex-wrap justify-between';
         var paymentDisplay = paymentVal;
         if (paymentDisplay && paymentDisplay.toLowerCase() === 'kashier') {
             paymentDisplay = 'Kashier';
         }
-        dt5.innerHTML = '<span>وسيلة الدفع:</span> ' + (paymentDisplay || '');
-        dl.appendChild(dt5);
+        dl.appendChild(createStyledDt('وسيلة الدفع:', paymentDisplay || ''));
 
         // ✅ علّم إن البوكس اتعدل
         deliveryBox.dataset.deliveryFixed = 'true';
@@ -794,7 +797,6 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            // ✅ لما الـ URL يتغير، شيل العلامة عشان يتعدل من جديد
             var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
             allBoxes.forEach(function(box) {
                 var h3 = box.querySelector('h3');
