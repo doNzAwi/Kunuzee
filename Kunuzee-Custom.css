@@ -1685,7 +1685,6 @@ footer .default_footer_link a {
    ══════════════ */
 
 /* كل العناصر داخل البوكس */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(> h3.font-medium:only-of-type),
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3,
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt,
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span,
@@ -1699,28 +1698,33 @@ footer .default_footer_link a {
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
     font-weight: 700 !important;
     font-size: 1.1rem !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
+}
+
+/* العناوين (labels) — عادي 400 */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span {
+    color: #134f4f !important;
+    font-weight: 400 !important;
 }
 
 /* البيانات (values) — برتقالي */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
     color: #bf6000 !important;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
 }
 
-/* العناوين (labels) — أخضر داكن */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span {
-    color: #134f4f !important;
-    font-weight: 600 !important;
+/* المسافة بين العنوان الرئيسي والعناصر — أكبر */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
+    margin-top: 4px !important;
 }
 
-/* تساوي المسافات بين السطور */
+/* تساوي المسافات بين العناصر الداخلية — مظبوطة */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) .flex.flex-col.gap-2 {
-    gap: 10px !important;
+    gap: 6px !important;
 }
 
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
-    line-height: 1.6 !important;
+    line-height: 1.5 !important;
     align-items: center !important;
 }
 
