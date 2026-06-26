@@ -1711,7 +1711,7 @@ footer .default_footer_link a {
 
 /* تساوي المسافات بين السطور */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) .flex.flex-col.gap-2 {
-    gap: 10px !important;
+    gap: 6px !important;
 }
 
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt) dt {
