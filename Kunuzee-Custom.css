@@ -1698,7 +1698,7 @@ footer .default_footer_link a {
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
     font-weight: 700 !important;
     font-size: 1.1rem !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 0 !important;
 }
 
 /* العناوين (labels) — عادي 400 */
@@ -1713,17 +1713,19 @@ footer .default_footer_link a {
     font-weight: 400 !important;
 }
 
-/* المسافة بين العنوان الرئيسي والعناصر — أكبر */
+/* المسافة بين العنوان الرئيسي والعناصر — على الـ container */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
-    margin-top: 4px !important;
+    margin-top: 12px !important;
 }
 
-/* تساوي المسافات بين العناصر الداخلية — مظبوطة */
+/* تساوي المسافات بين العناصر الداخلية — كلهم 6px */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) .flex.flex-col.gap-2 {
     gap: 6px !important;
 }
 
+/* نلغي أي margin على الـ dt عشان الـ gap يتحكم لوحده */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
+    margin: 0 !important;
     line-height: 1.5 !important;
     align-items: center !important;
 }
