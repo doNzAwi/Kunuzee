@@ -697,41 +697,64 @@ setInterval(fixHeader, 300);
         // ✅ لو اتعدل قبل كده، ماتعدلش تاني
         if (box.dataset.deliveryFixed === 'true') return;
 
-        var dts = box.querySelectorAll('dt');
-        
+        var dl = box.querySelector('div.flex.flex-col');
+        if (!dl) return;
+
+        var dts = Array.from(dl.querySelectorAll('dt'));
+        if (dts.length === 0) return;
+
+        // 1. تبديل الترتيب: نعمل map للـ dt الحالي
+        var orderMap = {};
         dts.forEach(function(dt) {
             var span = dt.querySelector('span');
             if (!span) return;
-
             var label = span.textContent.trim();
+            orderMap[label] = dt;
+        });
 
-            // 1. المحافظة (بدل المدينة)
-            if (label === 'المدينة:') {
-                span.textContent = 'المحافظة:';
-            }
-            // 2. الإسم (بدل الاسم)
-            else if (label === 'الاسم:') {
-                span.textContent = 'الإسم:';
-            }
-            // 3. البريد الإلكتروني (بدل البريد الالكتروني)
-            else if (label === 'البريد الالكتروني:') {
-                span.textContent = 'البريد الإلكتروني:';
-            }
-            // 4. رقم المحمول (بدل الهاتف)
-            else if (label === 'الهاتف:') {
-                span.textContent = 'رقم المحمول:';
-            }
-            // 5. وسيلة الدفع (بدل بيانات الدفع) + Kashier
-            else if (label === 'بيانات الدفع:') {
-                span.textContent = 'وسيلة الدفع:';
-                // نغيّر "kashier" لـ "Kashier"
-                var textNode = Array.from(dt.childNodes).find(function(node) {
-                    return node.nodeType === 3 && node.textContent.trim().toLowerCase() === 'kashier';
-                });
-                if (textNode) {
-                    textNode.textContent = ' Kashier';
+        // 2. الترتيب الجديد المطلوب
+        var newOrder = [
+            'المدينة:',      // → المحافظة
+            'الاسم:',         // → الإسم
+            'البريد الالكتروني:', // → البريد الإلكتروني
+            'الهاتف:',        // → رقم المحمول
+            'بيانات الدفع:'   // → وسيلة الدفع
+        ];
+
+        // 3. نبدّل الترتيب في الـ DOM
+        newOrder.forEach(function(oldLabel, index) {
+            var dt = orderMap[oldLabel];
+            if (!dt) return;
+
+            // نغيّر النصوص الأول
+            var span = dt.querySelector('span');
+            if (span) {
+                var text = span.textContent.trim();
+
+                if (text === 'المدينة:') {
+                    span.textContent = 'المحافظة:';
+                } else if (text === 'الاسم:') {
+                    span.textContent = 'الإسم:';
+                } else if (text === 'البريد الالكتروني:') {
+                    span.textContent = 'البريد الإلكتروني:';
+                } else if (text === 'الهاتف:') {
+                    span.textContent = 'رقم المحمول:';
+                } else if (text === 'بيانات الدفع:') {
+                    span.textContent = 'وسيلة الدفع:';
                 }
             }
+
+            // نغيّر "kashier" لـ "Kashier" في الـ text node
+            if (oldLabel === 'بيانات الدفع:') {
+                Array.from(dt.childNodes).forEach(function(node) {
+                    if (node.nodeType === 3 && node.textContent.trim().toLowerCase() === 'kashier') {
+                        node.textContent = ' Kashier';
+                    }
+                });
+            }
+
+            // ننقل الـ dt للترتيب الجديد
+            dl.appendChild(dt);
         });
 
         // ✅ علّم إن البوكس اتعدل
