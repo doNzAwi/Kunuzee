@@ -1644,6 +1644,8 @@ footer .default_footer_link a {
 .order_invoice_container address h3,
 .order_invoice_container address span {
     color: #134f4f !important;
+    font-size: 1rem !important;
+    font-family: 'Tajawal', sans-serif !important;
 }
 
 /* كلمة "كنوزي" — تقيلة */
