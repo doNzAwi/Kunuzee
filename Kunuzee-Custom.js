@@ -591,3 +591,64 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ───────────────────────────────────────────────────────
+// FUNCTION 8: alignInvoiceColumns — توازي أعمدة الفاتورة من الأسفل
+// ───────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function alignInvoiceColumns() {
+        var grid = document.querySelector('.order_invoice_container .grid-cols-3, .order_invoice_container [class*="grid-cols-3"]');
+        if (!grid) return;
+
+        var columns = grid.children;
+        if (columns.length < 2) return;
+
+        var leftCol = columns[0];
+        var rightCol = columns[columns.length - 1];
+
+        // نلاقي الصناديق
+        var statusBox = leftCol.querySelector('div.flex.flex-col.gap-6');
+        var deliveryBox = rightCol.querySelector('div.border.p-4.rounded-lg');
+
+        if (!statusBox || !deliveryBox) return;
+
+        // نرجع أي تعديلات قديمة
+        statusBox.style.minHeight = '';
+        deliveryBox.style.minHeight = '';
+
+        // نحسب الـ height بعد ما نرجع للطبيعي
+        var leftHeight = leftCol.getBoundingClientRect().height;
+        var rightHeight = rightCol.getBoundingClientRect().height;
+
+        // لو العمود الأيسر أطول → نكبر بيانات التوصيل
+        if (leftHeight > rightHeight + 5) {
+            var diff = leftHeight - rightHeight;
+            var currentHeight = deliveryBox.getBoundingClientRect().height;
+            deliveryBox.style.minHeight = (currentHeight + diff) + 'px';
+        }
+        // لو العمود الأيمن أطول → نكبر حالة الطلب
+        else if (rightHeight > leftHeight + 5) {
+            var diff = rightHeight - leftHeight;
+            var currentHeight = statusBox.getBoundingClientRect().height;
+            statusBox.style.minHeight = (currentHeight + diff) + 'px';
+        }
+    }
+
+    alignInvoiceColumns();
+    window.addEventListener('resize', alignInvoiceColumns);
+
+    var observer = new MutationObserver(function() {
+        setTimeout(alignInvoiceColumns, 200);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(alignInvoiceColumns, 500);
+        }
+    }, 300);
+})();
