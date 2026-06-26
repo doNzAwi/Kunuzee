@@ -1680,6 +1680,54 @@ footer .default_footer_link a {
     color: #ce982e !important;
 }
 
+/* ══════════════
+   بوكس "بيانات التوصيل"
+   ══════════════ */
+
+/* كل العناصر داخل البوكس */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3,
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt,
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span,
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt a {
+    color: #134f4f !important;
+    font-size: 1rem !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* العنوان الرئيسي "بيانات التوصيل" — تقيل */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 12px !important;
+}
+
+/* العناوين (labels) — عادي 400 */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span {
+    color: #134f4f !important;
+    font-weight: 400 !important;
+}
+
+/* البيانات (values) — برتقالي */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
+    color: #bf6000 !important;
+    font-weight: 400 !important;
+}
+
+/* المسافة بين العنوان الرئيسي والعناصر — أكبر */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
+    margin-top: 4px !important;
+}
+
+/* تساوي المسافات بين العناصر الداخلية — مظبوطة */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) .flex.flex-col.gap-2 {
+    gap: 6px !important;
+}
+
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
+    line-height: 1.5 !important;
+    align-items: center !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
