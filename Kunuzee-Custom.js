@@ -685,7 +685,7 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryBox — تعديل بوكس "بيانات التوصيل" في صفحة الشكر
+// FUNCTION 9: fixDeliveryBox — تعديل بوكس "بيانات التوصيل"
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
@@ -695,88 +695,41 @@ setInterval(fixHeader, 300);
         if (!box) return;
         if (box.dataset.deliveryFixed === 'true') return;
 
-        var dl = box.querySelector('div.flex.flex-col');
-        if (!dl) return;
+        var spans = box.querySelectorAll('dt span');
+        spans.forEach(function(span) {
+            var text = span.textContent.trim();
 
-        var dts = Array.from(dl.querySelectorAll('dt'));
-        if (dts.length === 0) return;
+            if (text === 'المدينة:') {
+                span.textContent = 'المحافظة:';
+            } else if (text === 'الاسم:') {
+                span.textContent = 'الإسم:';
+            } else if (text === 'البريد الالكتروني:') {
+                span.textContent = 'البريد الإلكتروني:';
+            } else if (text === 'الهاتف:') {
+                span.textContent = 'رقم المحمول:';
+            } else if (text === 'بيانات الدفع:') {
+                span.textContent = 'وسيلة الدفع:';
+            }
+        });
 
-        // نعمل map للـ dt الحالي
-        var orderMap = {};
+        // نغيّر "kashier" لـ "Kashier"
+        var dts = box.querySelectorAll('dt');
         dts.forEach(function(dt) {
-            var span = dt.querySelector('span');
-            if (!span) return;
-            var label = span.textContent.trim();
-            orderMap[label] = dt;
-        });
-
-        // الترتيب المطلوب: المحافظة → الإسم → البريد الإلكتروني → رقم المحمول → وسيلة الدفع
-        var newOrder = ['المدينة:', 'الاسم:', 'البريد الالكتروني:', 'الهاتف:', 'بيانات الدفع:'];
-
-        // نعمل DocumentFragment عشان نرتب
-        var fragment = document.createDocumentFragment();
-
-        newOrder.forEach(function(oldLabel) {
-            var dt = orderMap[oldLabel];
-            if (!dt) return;
-
-            var span = dt.querySelector('span');
-            if (span) {
-                var text = span.textContent.trim();
-
-                if (text === 'المدينة:') span.textContent = 'المحافظة:';
-                else if (text === 'الاسم:') span.textContent = 'الإسم:';
-                else if (text === 'البريد الالكتروني:') span.textContent = 'البريد الإلكتروني:';
-                else if (text === 'الهاتف:') span.textContent = 'رقم المحمول:';
-                else if (text === 'بيانات الدفع:') span.textContent = 'وسيلة الدفع:';
+            var html = dt.innerHTML;
+            if (html.toLowerCase().includes('kashier')) {
+                dt.innerHTML = html.replace(/kashier/gi, 'Kashier');
             }
-
-            // نغيّر "kashier" لـ "Kashier" في الـ text nodes
-            if (oldLabel === 'بيانات الدفع:') {
-                var walker = document.createTreeWalker(dt, NodeFilter.SHOW_TEXT, null, false);
-                var node;
-                while (node = walker.nextNode()) {
-                    if (node.textContent.trim().toLowerCase() === 'kashier') {
-                        node.textContent = ' Kashier';
-                    }
-                }
-            }
-
-            fragment.appendChild(dt);
         });
-
-        // نضيف الـ fragment للـ dl
-        dl.appendChild(fragment);
 
         box.dataset.deliveryFixed = 'true';
     }
 
     fixDeliveryBox();
+    setTimeout(fixDeliveryBox, 500);
+    setTimeout(fixDeliveryBox, 1000);
 
-    var observer = new MutationObserver(function(mutations) {
-        var hasBox = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    (node.classList?.contains('border') && node.classList?.contains('p-4')) ||
-                    node.querySelector?.('.border.p-4.rounded-lg.shadow-sm')
-                )) {
-                    hasBox = true;
-                }
-            });
-        });
-        if (hasBox) setTimeout(fixDeliveryBox, 200);
+    var observer = new MutationObserver(function() {
+        setTimeout(fixDeliveryBox, 200);
     });
-
     observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            var box = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
-            if (box) box.dataset.deliveryFixed = '';
-            setTimeout(fixDeliveryBox, 500);
-        }
-    }, 300);
 })();
