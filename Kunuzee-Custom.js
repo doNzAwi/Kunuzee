@@ -599,63 +599,47 @@ setInterval(fixHeader, 300);
     'use strict';
 
     function balanceColumns() {
-        // مش على الموبايل (الـ grid مش شغال تحت md)
         if (window.innerWidth < 768) return;
 
         var grid = document.querySelector('.order_invoice_container .md\\:grid.grid-cols-3');
         if (!grid) return;
 
-        // العمود الأيمن (بيانات التوصيل + timeline + سياسة الاسترداد)
         var rightCol = grid.children[0];
-        // العمود الأيسر (المنتجات + الفاتورة)
         var leftCol = grid.children[1];
         if (!rightCol || !leftCol) return;
 
-        // عدد المنتجات (الأيتم اللي فيه صورة + تفاصيل)
-        var productItems = leftCol.querySelectorAll('.flex.flex-col.gap-4.md\\:flex-row, .flex.flex-col.gap-4');
-        var productCount = productItems.length;
-
-        // Reset styles
+        // Reset
         rightCol.style.minHeight = '';
         leftCol.style.minHeight = '';
 
-        // بيانات التوصيل = تاني عنصر في العمود الأيمن
-        var deliveryBox = rightCol.children[1];
-        if (deliveryBox) {
-            var h3 = deliveryBox.querySelector('h3');
-            if (!h3 || h3.textContent.trim() !== 'بيانات التوصيل') {
-                deliveryBox = null;
-                for (var i = 0; i < rightCol.children.length; i++) {
-                    var child = rightCol.children[i];
-                    var childH3 = child.querySelector('h3');
-                    if (childH3 && childH3.textContent.trim() === 'بيانات التوصيل') {
-                        deliveryBox = child;
-                        break;
-                    }
-                }
+        // عدد المنتجات
+        var productItems = leftCol.querySelectorAll('.flex.flex-col.gap-4.md\\:flex-row');
+        var productCount = productItems.length;
+
+        // نلاقي بيانات التوصيل بالنص
+        var deliveryBox = null;
+        for (var i = 0; i < rightCol.children.length; i++) {
+            var child = rightCol.children[i];
+            var h3 = child.querySelector('h3');
+            if (h3 && h3.textContent.trim() === 'بيانات التوصيل') {
+                deliveryBox = child;
+                break;
             }
         }
 
-        // حالة الطلب / المنتجات = أول عنصر في العمود الأيسر
-        var orderStatusBox = leftCol.children[0];
-        if (orderStatusBox) {
-            var hasStatus = orderStatusBox.querySelector('dt');
-            if (!hasStatus || !orderStatusBox.textContent.includes('حالة الطلب')) {
-                orderStatusBox = null;
-                for (var i = 0; i < leftCol.children.length; i++) {
-                    var child = leftCol.children[i];
-                    if (child.querySelector('dt') && child.textContent.includes('حالة الطلب')) {
-                        orderStatusBox = child;
-                        break;
-                    }
-                }
+        // نلاقي صندوق حالة الطلب بالنص
+        var orderStatusBox = null;
+        for (var i = 0; i < leftCol.children.length; i++) {
+            var child = leftCol.children[i];
+            if (child.textContent.includes('حالة الطلب')) {
+                orderStatusBox = child;
+                break;
             }
         }
 
         if (deliveryBox) deliveryBox.style.minHeight = '';
         if (orderStatusBox) orderStatusBox.style.minHeight = '';
 
-        // Force reflow
         void grid.offsetHeight;
 
         var rightHeight = rightCol.offsetHeight;
