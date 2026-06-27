@@ -782,3 +782,91 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 10: fixTimelineTime — تحويل وقت التايم لاين لـ 24 ساعة
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function convertTo24Hour(timeStr) {
+        // النمط: "6/23/2026, 5:51:53 AM" أو "12/31/2025, 11:59:59 PM"
+        var match = timeStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4}),\s*(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)$/i);
+        if (!match) return null;
+
+        var month = match[1].padStart(2, '0');
+        var day = match[2].padStart(2, '0');
+        var year = match[3];
+        var hour = parseInt(match[4], 10);
+        var minute = match[5];
+        var second = match[6];
+        var period = match[7].toUpperCase();
+
+        if (period === 'PM' && hour !== 12) hour += 12;
+        if (period === 'AM' && hour === 12) hour = 0;
+
+        var hour24 = hour.toString().padStart(2, '0');
+
+        // صيغة بريطانية: DD/MM/YYYY, HH:MM:SS
+        return day + '/' + month + '/' + year + ', ' + hour24 + ':' + minute + ':' + second;
+    }
+
+    function fixTimelineTime() {
+        var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
+        if (!timeline) return;
+        if (timeline.dataset.timeFixed === 'true') return;
+
+        var items = timeline.querySelectorAll('li');
+        items.forEach(function(li) {
+            var timeSpan = li.querySelector('span.text-gray-500, span:last-child');
+            if (!timeSpan) return;
+
+            var original = timeSpan.textContent.trim();
+            var converted = convertTo24Hour(original);
+
+            if (converted) {
+                // نحتفظ بالنص الأصلي في attribute عشان لو حبينا نرجعه
+                if (!timeSpan.dataset.originalTime) {
+                    timeSpan.dataset.originalTime = original;
+                }
+                timeSpan.textContent = converted;
+            }
+        });
+
+        timeline.dataset.timeFixed = 'true';
+    }
+
+    fixTimelineTime();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasTimeline = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.tagName === 'UL' && node.classList.contains('rounded-lg') ||
+                    node.querySelector?.('ul.rounded-lg.border')
+                )) {
+                    hasTimeline = true;
+                }
+            });
+        });
+        if (hasTimeline) {
+            // نشيل العلامة عشان يتعادل على التايم لاين الجديد
+            var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
+            if (timeline) timeline.dataset.timeFixed = '';
+            setTimeout(fixTimelineTime, 100);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
+            if (timeline) timeline.dataset.timeFixed = '';
+            setTimeout(fixTimelineTime, 300);
+        }
+    }, 300);
+})();
