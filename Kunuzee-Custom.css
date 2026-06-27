@@ -1834,6 +1834,12 @@ footer .default_footer_link a {
     margin-top: 0 !important;
 }
 
+/* ─── إخفاء "عدد القطع" و"سعر القطعة" من الفاتورة ─── */
+.order_invoice_container .col-span-2 p.flex.text-gray-500,
+.order_invoice_container .col-span-2 p.flex.items-center.gap-1:has(> span.font-\[inherit\]) {
+    display: none !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
