@@ -1840,6 +1840,30 @@ footer .default_footer_link a {
     display: none !important;
 }
 
+/* ─── توسيط اسم المنتج والإجمالي عمودياً مع الصورة ─── */
+/* الـ container الرئيسي للمنتج */
+.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row {
+    align-items: center !important;
+}
+
+/* "الإجمالي" — إلغاء items-baseline وخليه توسط */
+.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row p.text-lg.flex.items-baseline {
+    align-items: center !important;
+    align-self: center !important;
+}
+
+/* اسم المنتج — توسط عمودي */
+.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row h4 {
+    margin-bottom: 0 !important;
+    align-self: center !important;
+}
+
+/* الـ div الداخلي (اسم المنتج + التفاصيل) — توسط عمودي */
+.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row > div.flex.flex-1 {
+    justify-content: center !important;
+    align-items: center !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
