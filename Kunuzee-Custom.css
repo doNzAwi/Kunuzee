@@ -1798,6 +1798,9 @@ footer .default_footer_link a {
     right: 0 !important;
     top: 0 !important;
     white-space: nowrap !important;
+}
+
+.order_invoice_container ul.rounded-lg.border > li > span::after {
     color: #134f4f !important;
     font-weight: 700 !important;
     font-size: inherit !important;
