@@ -1818,16 +1818,16 @@ footer .default_footer_link a {
    بوكس "حالة الطلب"
    ════════════════════ */
 
-/* العنوان "حالة الطلب:" — إلغاء mt-2 */
-.order_invoice_container .col-span-2 > div:first-child dt > span:first-child {
+/* العنوان "حالة الطلب:" */
+.order_invoice_container dt.flex.flex-wrap.justify-between:not(:has(> div)) > span:first-child {
     color: #134f4f !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
     margin-top: 0 !important;
 }
 
-/* البيان "تم الدفع" — إلغاء mt-2 */
-.order_invoice_container .col-span-2 > div:first-child dt > span:nth-child(2) {
+/* البيان "تم الدفع" */
+.order_invoice_container dt.flex.flex-wrap.justify-between:not(:has(> div)) > span:last-child {
     color: #bf6000 !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
