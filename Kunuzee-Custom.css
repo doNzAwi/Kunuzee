@@ -1666,7 +1666,7 @@ footer .default_footer_link a {
 /* تساوي المسافات بين عناصر الـ address */
 .order_invoice_container address span {
     margin: 0 !important;
-    line-height: 1.9 !important;
+    line-height: 2 !important;
 }
 
 /* إخفاء الهاتف بالكامل */
