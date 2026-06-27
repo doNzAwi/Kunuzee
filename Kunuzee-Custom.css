@@ -1841,27 +1841,13 @@ footer .default_footer_link a {
 }
 
 /* ─── ترتيب اسم المنتج والإجمالي ─── */
-/* الـ container الرئيسي — نرجع justify-between */
+/* الـ container الرئيسي للمنتج */
 .order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row {
     align-items: center !important;
-    justify-content: space-between !important; /* زي ما كانت */
 }
 
-/* اسم المنتج — يلزق في الصورة */
-.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row > div.flex.flex-1 {
-    justify-content: flex-start !important; /* بدل center */
-    align-items: center !important;
-    flex: 0 1 auto !important; /* ما يتمددش */
-}
-
-/* الـ h4 — margin 0 */
+/* اسم المنتج — توسط عمودي */
 .order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row h4 {
-    margin: 0 !important;
-}
-
-/* الإجمالي — في آخر السطر (زي ما كان) */
-.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row p.text-lg {
-    align-items: center !important;
     margin: 0 !important;
 }
 
