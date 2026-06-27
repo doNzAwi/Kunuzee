@@ -1760,12 +1760,25 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* Values (البيانات) — #bf6000، 400، 1rem (نفس الحجم) */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span:last-child {
+/* الـ dt نفسه — لون البيانات (الـ text node هيرثه) */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
     color: #bf6000 !important;
     font-weight: 400 !important;
     font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
+}
+
+/* Label: الـ span الأول (اللي هو العنوان) — أخضر */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt > span:first-child {
+    color: #134f4f !important;
+    font-weight: 400 !important;
+    font-size: 1rem !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* Value: لو الـ value wrapped في span تاني */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt > span:first-child + span {
+    color: #bf6000 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
