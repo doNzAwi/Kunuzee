@@ -685,17 +685,18 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل" (آمن)
+// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل"
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
     function fixDeliveryInfoBox() {
+        // ندور على البوكس بالـ h3
         var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
         var deliveryBox = null;
         for (var i = 0; i < allBoxes.length; i++) {
             var h3 = allBoxes[i].querySelector('h3');
-            if (h3 && h3.textContent.includes('بيانات التوصيل')) {
+            if (h3 && h3.textContent.trim().indexOf('بيانات التوصيل') !== -1) {
                 deliveryBox = allBoxes[i];
                 break;
             }
@@ -703,35 +704,37 @@ setInterval(fixHeader, 300);
         if (!deliveryBox) return;
         if (deliveryBox.dataset.deliveryFixed === 'true') return;
 
-        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2');
+        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2, div[class*="flex-col"]');
         if (!dl) return;
 
         var items = dl.querySelectorAll('dt');
-        if (items.length < 4) return;
+        if (items.length < 3) return;
 
+        // نعمل loop على كل dt ونعدلها
         items.forEach(function(dt) {
-            // نجيب الـ spans المباشرة (children) مش querySelector
-            var spans = dt.querySelectorAll(':scope > span');
-            if (spans.length < 2) return;
-            
-            var labelSpan = spans[0];
-            var valueSpan = spans[1];
-            var label = labelSpan.textContent.trim();
+            // نجيب كل الـ span children المباشرين
+            var children = dt.children;
+            if (children.length < 2) return;
 
-            // نغير النصوص
-            if (label.includes('الاسم')) {
+            var labelSpan = children[0];
+            var valueSpan = children[1];
+            
+            var originalLabel = labelSpan.textContent.trim();
+
+            // نغير النصوص حسب الـ original label
+            if (originalLabel.indexOf('الاسم') !== -1) {
                 dt.classList.add('order-item-name');
                 labelSpan.textContent = 'الإسم:';
-            } else if (label.includes('الهاتف')) {
+            } else if (originalLabel.indexOf('الهاتف') !== -1) {
                 dt.classList.add('order-item-phone');
                 labelSpan.textContent = 'رقم المحمول:';
-            } else if (label.includes('البريد')) {
+            } else if (originalLabel.indexOf('البريد') !== -1) {
                 dt.classList.add('order-item-email');
                 labelSpan.textContent = 'البريد الإلكتروني:';
-            } else if (label.includes('المدينة')) {
+            } else if (originalLabel.indexOf('المدينة') !== -1) {
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
-            } else if (label.includes('الدفع')) {
+            } else if (originalLabel.indexOf('الدفع') !== -1) {
                 dt.classList.add('order-item-payment');
                 labelSpan.textContent = 'وسيلة الدفع:';
                 // capitalize Kashier
@@ -741,41 +744,60 @@ setInterval(fixHeader, 300);
                 }
             }
 
-            // Label: #134f4f، 400، 1rem
-            labelSpan.style.setProperty('color', '#134f4f', 'important');
-            labelSpan.style.setProperty('font-weight', '400', 'important');
-            labelSpan.style.setProperty('font-size', '1rem', 'important');
-            labelSpan.style.setProperty('font-family', 'Tajawal, sans-serif', 'important');
+            // ─── Label styling ───
+            labelSpan.style.color = '#134f4f';
+            labelSpan.style.fontWeight = '400';
+            labelSpan.style.fontSize = '1rem';
+            labelSpan.style.fontFamily = 'Tajawal, sans-serif';
             
-            // Value: #bf6000، 400، 1rem
-            valueSpan.style.setProperty('color', '#bf6000', 'important');
-            valueSpan.style.setProperty('font-weight', '400', 'important');
-            valueSpan.style.setProperty('font-size', '1rem', 'important');
-            valueSpan.style.setProperty('font-family', 'Tajawal, sans-serif', 'important');
+            // ─── Value styling ───
+            valueSpan.style.color = '#bf6000';
+            valueSpan.style.fontWeight = '400';
+            valueSpan.style.fontSize = '1rem';
+            valueSpan.style.fontFamily = 'Tajawal, sans-serif';
         });
 
+        // نضيف class للـ dl عشان CSS يعمل الـ order
         dl.classList.add('delivery-info-reordered');
+
+        // نخلي الـ gap صفر
+        dl.style.gap = '0px';
+
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
-    fixDeliveryInfoBox();
+    // نرن الفانكشن فوراً + بعد شوية + مع كل mutation
+    function run() {
+        fixDeliveryInfoBox();
+        setTimeout(fixDeliveryInfoBox, 200);
+        setTimeout(fixDeliveryInfoBox, 500);
+        setTimeout(fixDeliveryInfoBox, 1000);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
+    }
 
     var observer = new MutationObserver(function(mutations) {
-        var hasDelivery = false;
+        var shouldRun = false;
         mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.querySelector?.('h3')?.textContent?.includes('بيانات التوصيل') ||
-                    node.textContent?.includes('بيانات التوصيل')
-                )) {
-                    hasDelivery = true;
+                if (node.nodeType === 1) {
+                    if (node.textContent && node.textContent.indexOf('بيانات التوصيل') !== -1) {
+                        shouldRun = true;
+                    }
+                    if (node.querySelector && node.querySelector('h3')) {
+                        var h3Text = node.querySelector('h3').textContent;
+                        if (h3Text.indexOf('بيانات التوصيل') !== -1) {
+                            shouldRun = true;
+                        }
+                    }
                 }
             });
         });
-        if (hasDelivery) {
-            setTimeout(fixDeliveryInfoBox, 100);
-            setTimeout(fixDeliveryInfoBox, 500);
-        }
+        if (shouldRun) run();
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -787,12 +809,11 @@ setInterval(fixHeader, 300);
             var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
             allBoxes.forEach(function(box) {
                 var h3 = box.querySelector('h3');
-                if (h3 && h3.textContent.includes('بيانات التوصيل')) {
+                if (h3 && h3.textContent.indexOf('بيانات التوصيل') !== -1) {
                     box.dataset.deliveryFixed = '';
                 }
             });
-            setTimeout(fixDeliveryInfoBox, 300);
-            setTimeout(fixDeliveryInfoBox, 800);
+            run();
         }
     }, 300);
 })();
