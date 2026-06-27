@@ -742,7 +742,7 @@ setInterval(fixHeader, 300);
 
             var labelSpan = document.createElement('span');
             labelSpan.textContent = labelText;
-            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 700 !important; font-family: "Tajawal", sans-serif !important;';
+            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-family: "Tajawal", sans-serif !important;';
 
             var valueSpan = document.createElement('span');
             valueSpan.textContent = ' ' + valueText;
