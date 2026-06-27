@@ -1708,12 +1708,20 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* العنوان الرئيسي "بيانات التوصيل" — تقيل */
+/* العنوان الرئيسي "بيانات التوصيل" → "بيانات الطلب" — تقيل */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
-    font-weight: 700 !important;
-    font-size: 1.1rem !important;
+    font-size: 0 !important;
+    color: transparent !important;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3::after {
+    content: 'بيانات الطلب' !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #134f4f !important;
+    font-family: 'Tajawal', sans-serif !important;
 }
 
 /* العناوين (labels) — عادي 400 */
