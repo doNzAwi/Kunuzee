@@ -710,46 +710,48 @@ setInterval(fixHeader, 300);
         if (items.length < 4) return;
 
         items.forEach(function(dt) {
-            var labelSpan = dt.querySelector('span:first-child');
-            var valueSpan = dt.querySelector('span:last-child');
-            if (!labelSpan) return;
+            // نجيب الـ spans المباشرة (children) مش querySelector
+            var spans = dt.querySelectorAll(':scope > span');
+            if (spans.length < 2) return;
+            
+            var labelSpan = spans[0];
+            var valueSpan = spans[1];
             var label = labelSpan.textContent.trim();
 
+            // نغير النصوص
             if (label.includes('الاسم')) {
                 dt.classList.add('order-item-name');
                 labelSpan.textContent = 'الإسم:';
-            }
-            if (label.includes('الهاتف')) {
+            } else if (label.includes('الهاتف')) {
                 dt.classList.add('order-item-phone');
                 labelSpan.textContent = 'رقم المحمول:';
-            }
-            if (label.includes('البريد')) {
+            } else if (label.includes('البريد')) {
                 dt.classList.add('order-item-email');
                 labelSpan.textContent = 'البريد الإلكتروني:';
-            }
-            if (label.includes('المدينة')) {
+            } else if (label.includes('المدينة')) {
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
-            }
-            if (label.includes('الدفع')) {
+            } else if (label.includes('الدفع')) {
                 dt.classList.add('order-item-payment');
                 labelSpan.textContent = 'وسيلة الدفع:';
                 // capitalize Kashier
-                if (valueSpan) {
-                    var val = valueSpan.textContent.trim();
-                    if (val.toLowerCase() === 'kashier') {
-                        valueSpan.textContent = ' Kashier';
-                    }
+                var val = valueSpan.textContent.trim();
+                if (val.toLowerCase() === 'kashier') {
+                    valueSpan.textContent = ' Kashier';
                 }
             }
 
             // Label: #134f4f، 400، 1rem
-            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
+            labelSpan.style.setProperty('color', '#134f4f', 'important');
+            labelSpan.style.setProperty('font-weight', '400', 'important');
+            labelSpan.style.setProperty('font-size', '1rem', 'important');
+            labelSpan.style.setProperty('font-family', 'Tajawal, sans-serif', 'important');
             
-            // Value: #bf6000، 400، 1rem (نفس الحجم)
-            if (valueSpan) {
-                valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
-            }
+            // Value: #bf6000، 400، 1rem
+            valueSpan.style.setProperty('color', '#bf6000', 'important');
+            valueSpan.style.setProperty('font-weight', '400', 'important');
+            valueSpan.style.setProperty('font-size', '1rem', 'important');
+            valueSpan.style.setProperty('font-family', 'Tajawal, sans-serif', 'important');
         });
 
         dl.classList.add('delivery-info-reordered');
@@ -770,7 +772,10 @@ setInterval(fixHeader, 300);
                 }
             });
         });
-        if (hasDelivery) setTimeout(fixDeliveryInfoBox, 100);
+        if (hasDelivery) {
+            setTimeout(fixDeliveryInfoBox, 100);
+            setTimeout(fixDeliveryInfoBox, 500);
+        }
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -787,6 +792,7 @@ setInterval(fixHeader, 300);
                 }
             });
             setTimeout(fixDeliveryInfoBox, 300);
+            setTimeout(fixDeliveryInfoBox, 800);
         }
     }, 300);
 })();
