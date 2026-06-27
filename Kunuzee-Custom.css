@@ -1814,6 +1814,24 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* ════════════════════
+   بوكس "حالة الطلب"
+   ════════════════════ */
+
+/* العنوان "حالة الطلب:" */
+.order_invoice_container .flex.flex-col.gap-5 .col-span-2 > div:first-child dt > span:first-child {
+    color: #134f4f !important;
+    font-weight: 700 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* البيان "تم الدفع" */
+.order_invoice_container .flex.flex-col.gap-5 .col-span-2 > div:first-child dt > span:last-child {
+    color: #bf6000 !important;
+    font-weight: 700 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
