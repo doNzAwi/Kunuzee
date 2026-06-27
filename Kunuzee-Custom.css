@@ -1698,20 +1698,25 @@ footer .default_footer_link a {
    بوكس "بيانات التوصيل"
    ══════════════ */
 
-/* العنوان الرئيسي "بيانات التوصيل" → "بيانات الطلب" — تقيل 700 */
+/* ─── عنوان "بيانات التوصيل" → "بيانات الطلب" ─── */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
-    font-size: 0 !important;
-    color: transparent !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    visibility: hidden !important;
+    position: relative !important;
+    /* نشيل font-size:0 و color:transparent اللي بيسببوا التشويه */
 }
 
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3::after {
     content: 'بيانات الطلب' !important;
+    visibility: visible !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
     font-size: 1.1rem !important;
     font-weight: 700 !important;
     color: #134f4f !important;
     font-family: 'Tajawal', sans-serif !important;
+    display: block !important;
+    white-space: nowrap !important;
 }
 
 /* الـ container الداخلي */
