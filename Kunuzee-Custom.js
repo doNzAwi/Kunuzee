@@ -744,17 +744,11 @@ setInterval(fixHeader, 300);
             }
 
             // Label: #134f4f، 400، 1rem
-            labelSpan.style.setProperty('color', '#134f4f', 'important');
-            labelSpan.style.setProperty('font-weight', '400', 'important');
-            labelSpan.style.setProperty('font-size', '1rem', 'important');
-            labelSpan.style.setProperty('font-family', 'Tajawal, sans-serif', 'important');
+            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
             
             // Value: #bf6000، 400، 1rem (نفس الحجم)
             if (valueSpan) {
-                valueSpan.style.setProperty('color', '#bf6000', 'important');
-                valueSpan.style.setProperty('font-weight', '400', 'important');
-                valueSpan.style.setProperty('font-size', '1rem', 'important');
-                valueSpan.style.setProperty('font-family', 'Tajawal, sans-serif', 'important');';
+                valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
             }
         });
 
