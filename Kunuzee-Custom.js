@@ -742,14 +742,6 @@ setInterval(fixHeader, 300);
                     }
                 }
             }
-
-            // Label: #134f4f، 400، 1rem
-            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
-            
-            // Value: #bf6000، 400، 1rem (نفس الحجم)
-            if (valueSpan) {
-                valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
-            }
         });
 
         dl.classList.add('delivery-info-reordered');
