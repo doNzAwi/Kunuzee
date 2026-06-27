@@ -685,18 +685,17 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل"
+// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل" (آمن)
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
     function fixDeliveryInfoBox() {
-        // ندور على البوكس بالـ h3
         var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
         var deliveryBox = null;
         for (var i = 0; i < allBoxes.length; i++) {
             var h3 = allBoxes[i].querySelector('h3');
-            if (h3 && h3.textContent.trim().indexOf('بيانات التوصيل') !== -1) {
+            if (h3 && h3.textContent.includes('بيانات التوصيل')) {
                 deliveryBox = allBoxes[i];
                 break;
             }
@@ -704,100 +703,68 @@ setInterval(fixHeader, 300);
         if (!deliveryBox) return;
         if (deliveryBox.dataset.deliveryFixed === 'true') return;
 
-        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2, div[class*="flex-col"]');
+        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2');
         if (!dl) return;
 
         var items = dl.querySelectorAll('dt');
-        if (items.length < 3) return;
+        if (items.length < 4) return;
 
-        // نعمل loop على كل dt ونعدلها
+        // نضيف classes مميزة + نغير النصوص + font-weight
         items.forEach(function(dt) {
-            // نجيب كل الـ span children المباشرين
-            var children = dt.children;
-            if (children.length < 2) return;
+            var span = dt.querySelector('span');
+            if (!span) return;
+            var label = span.textContent.trim();
 
-            var labelSpan = children[0];
-            var valueSpan = children[1];
-            
-            var originalLabel = labelSpan.textContent.trim();
-
-            // نغير النصوص حسب الـ original label
-            if (originalLabel.indexOf('الاسم') !== -1) {
+            if (label.includes('الاسم')) {
                 dt.classList.add('order-item-name');
-                labelSpan.textContent = 'الإسم:';
-            } else if (originalLabel.indexOf('الهاتف') !== -1) {
+                span.textContent = 'الإسم:';
+            }
+            if (label.includes('الهاتف')) {
                 dt.classList.add('order-item-phone');
-                labelSpan.textContent = 'رقم المحمول:';
-            } else if (originalLabel.indexOf('البريد') !== -1) {
+                span.textContent = 'رقم المحمول:';
+            }
+            if (label.includes('البريد')) {
                 dt.classList.add('order-item-email');
-                labelSpan.textContent = 'البريد الإلكتروني:';
-            } else if (originalLabel.indexOf('المدينة') !== -1) {
+                span.textContent = 'البريد الإلكتروني:';
+            }
+            if (label.includes('المدينة')) {
                 dt.classList.add('order-item-city');
-                labelSpan.textContent = 'المحافظة:';
-            } else if (originalLabel.indexOf('الدفع') !== -1) {
+                span.textContent = 'المحافظة:';
+            }
+            if (label.includes('الدفع')) {
                 dt.classList.add('order-item-payment');
-                labelSpan.textContent = 'وسيلة الدفع:';
                 // capitalize Kashier
-                var val = valueSpan.textContent.trim();
-                if (val.toLowerCase() === 'kashier') {
+                var valueSpan = dt.querySelector('span:last-child');
+                if (valueSpan && valueSpan.textContent.trim().toLowerCase() === 'kashier') {
                     valueSpan.textContent = ' Kashier';
                 }
             }
 
-            // ─── Label styling ───
-            labelSpan.style.color = '#134f4f';
-            labelSpan.style.fontWeight = '400';
-            labelSpan.style.fontSize = '1rem';
-            labelSpan.style.fontFamily = 'Tajawal, sans-serif';
-            
-            // ─── Value styling ───
-            valueSpan.style.color = '#bf6000';
-            valueSpan.style.fontWeight = '400';
-            valueSpan.style.fontSize = '1rem';
-            valueSpan.style.fontFamily = 'Tajawal, sans-serif';
+            // font-weight للـ label
+            span.style.fontWeight = '400';
         });
 
-        // نضيف class للـ dl عشان CSS يعمل الـ order
+        // class للـ dl عشان CSS يعمل الـ order
         dl.classList.add('delivery-info-reordered');
-
-        // نخلي الـ gap صفر
-        dl.style.gap = '0px';
 
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
-    // نرن الفانكشن فوراً + بعد شوية + مع كل mutation
-    function run() {
-        fixDeliveryInfoBox();
-        setTimeout(fixDeliveryInfoBox, 200);
-        setTimeout(fixDeliveryInfoBox, 500);
-        setTimeout(fixDeliveryInfoBox, 1000);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', run);
-    } else {
-        run();
-    }
+    fixDeliveryInfoBox();
 
     var observer = new MutationObserver(function(mutations) {
-        var shouldRun = false;
+        var hasDelivery = false;
         mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1) {
-                    if (node.textContent && node.textContent.indexOf('بيانات التوصيل') !== -1) {
-                        shouldRun = true;
-                    }
-                    if (node.querySelector && node.querySelector('h3')) {
-                        var h3Text = node.querySelector('h3').textContent;
-                        if (h3Text.indexOf('بيانات التوصيل') !== -1) {
-                            shouldRun = true;
-                        }
-                    }
+                if (node.nodeType === 1 && (
+                    node.querySelector?.('h3')?.textContent?.includes('بيانات التوصيل') ||
+                    node.textContent?.includes('بيانات التوصيل')
+                )) {
+                    hasDelivery = true;
                 }
             });
         });
-        if (shouldRun) run();
+        if (hasDelivery) setTimeout(fixDeliveryInfoBox, 100);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -809,11 +776,11 @@ setInterval(fixHeader, 300);
             var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
             allBoxes.forEach(function(box) {
                 var h3 = box.querySelector('h3');
-                if (h3 && h3.textContent.indexOf('بيانات التوصيل') !== -1) {
+                if (h3 && h3.textContent.includes('بيانات التوصيل')) {
                     box.dataset.deliveryFixed = '';
                 }
             });
-            run();
+            setTimeout(fixDeliveryInfoBox, 300);
         }
     }, 300);
 })();
