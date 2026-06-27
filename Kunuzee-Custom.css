@@ -1823,7 +1823,7 @@ footer .default_footer_link a {
     color: #134f4f !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
-    margin-top: 0 !important;
+    margin-top: -0.5rem !important;
 }
 
 /* البيان "تم الدفع" */
