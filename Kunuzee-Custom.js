@@ -685,17 +685,14 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل" في صفحة الشكر
+// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل" (آمن)
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
     function fixDeliveryInfoBox() {
-        // Find the delivery info box - it's the div with class "border p-4 rounded-lg shadow-sm" that contains delivery data
-        var deliveryBox = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt)');
-
-        // More specific: find the one that has "بيانات التوصيل" heading
         var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
+        var deliveryBox = null;
         for (var i = 0; i < allBoxes.length; i++) {
             var h3 = allBoxes[i].querySelector('h3');
             if (h3 && h3.textContent.includes('بيانات التوصيل')) {
@@ -703,10 +700,7 @@ setInterval(fixHeader, 300);
                 break;
             }
         }
-
         if (!deliveryBox) return;
-
-        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
         if (deliveryBox.dataset.deliveryFixed === 'true') return;
 
         var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2');
@@ -715,64 +709,44 @@ setInterval(fixHeader, 300);
         var items = dl.querySelectorAll('dt');
         if (items.length < 4) return;
 
-        // Extract current values
-        var nameVal = '', phoneVal = '', emailVal = '', cityVal = '', paymentVal = '';
-
+        // نضيف classes مميزة + نغير النصوص + font-weight
         items.forEach(function(dt) {
             var span = dt.querySelector('span');
-            var label = span ? span.textContent.trim() : '';
-            var value = dt.textContent.replace(label, '').trim();
+            if (!span) return;
+            var label = span.textContent.trim();
 
-            if (label.includes('الاسم')) nameVal = value;
-            if (label.includes('الهاتف')) phoneVal = value;
-            if (label.includes('البريد')) emailVal = value;
-            if (label.includes('المدينة')) cityVal = value;
-            if (label.includes('الدفع')) paymentVal = value;
+            if (label.includes('الاسم')) {
+                dt.classList.add('order-item-name');
+                span.textContent = 'الإسم:';
+            }
+            if (label.includes('الهاتف')) {
+                dt.classList.add('order-item-phone');
+                span.textContent = 'رقم المحمول:';
+            }
+            if (label.includes('البريد')) {
+                dt.classList.add('order-item-email');
+                span.textContent = 'البريد الإلكتروني:';
+            }
+            if (label.includes('المدينة')) {
+                dt.classList.add('order-item-city');
+                span.textContent = 'المحافظة:';
+            }
+            if (label.includes('الدفع')) {
+                dt.classList.add('order-item-payment');
+                // capitalize Kashier
+                var valueSpan = dt.querySelector('span:last-child');
+                if (valueSpan && valueSpan.textContent.trim().toLowerCase() === 'kashier') {
+                    valueSpan.textContent = ' Kashier';
+                }
+            }
+
+            // font-weight للـ label
+            span.style.fontWeight = '400';
         });
 
-        // Clear and rebuild with new order + styling
-        dl.innerHTML = '';
-        dl.style.cssText = 'gap: 0 !important;';
+        // class للـ dl عشان CSS يعمل الـ order
+        dl.classList.add('delivery-info-reordered');
 
-        // Helper to create styled dt
-        function createStyledDt(labelText, valueText) {
-            var dt = document.createElement('dt');
-            dt.className = 'flex flex-wrap justify-between';
-            dt.style.cssText = 'margin-bottom: 8px !important; line-height: 1.5 !important;';
-
-            var labelSpan = document.createElement('span');
-            labelSpan.textContent = labelText;
-            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-family: "Tajawal", sans-serif !important;';
-
-            var valueSpan = document.createElement('span');
-            valueSpan.textContent = ' ' + valueText;
-            valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-family: "Tajawal", sans-serif !important;';
-
-            dt.appendChild(labelSpan);
-            dt.appendChild(valueSpan);
-            return dt;
-        }
-
-        // 1. المحافظة (was المدينة, position 4 -> 1)
-        dl.appendChild(createStyledDt('المحافظة:', cityVal || ''));
-
-        // 2. الإسم (was الاسم, position 1 -> 2)
-        dl.appendChild(createStyledDt('الإسم:', nameVal || ''));
-
-        // 3. البريد الإلكتروني (same position, updated label)
-        dl.appendChild(createStyledDt('البريد الإلكتروني:', emailVal || ''));
-
-        // 4. رقم المحمول (was الهاتف, position 2 -> 4)
-        dl.appendChild(createStyledDt('رقم المحمول:', phoneVal || ''));
-
-        // 5. وسيلة الدفع (was بيانات الدفع, same position, capitalize Kashier)
-        var paymentDisplay = paymentVal;
-        if (paymentDisplay && paymentDisplay.toLowerCase() === 'kashier') {
-            paymentDisplay = 'Kashier';
-        }
-        dl.appendChild(createStyledDt('وسيلة الدفع:', paymentDisplay || ''));
-
-        // ✅ علّم إن البوكس اتعدل
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
@@ -799,128 +773,6 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            // ✅ لما الـ URL يتغير، شيل العلامة عشان يتعدل من جديد
-            var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
-            allBoxes.forEach(function(box) {
-                var h3 = box.querySelector('h3');
-                if (h3 && h3.textContent.includes('بيانات التوصيل')) {
-                    box.dataset.deliveryFixed = '';
-                }
-            });
-            setTimeout(fixDeliveryInfoBox, 300);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    function fixDeliveryInfoBox() {
-        // Find the delivery info box - it's the div with class "border p-4 rounded-lg shadow-sm" that contains delivery data
-        var deliveryBox = document.querySelector('.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt)');
-
-        // More specific: find the one that has "بيانات التوصيل" heading
-        var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
-        for (var i = 0; i < allBoxes.length; i++) {
-            var h3 = allBoxes[i].querySelector('h3');
-            if (h3 && h3.textContent.includes('بيانات التوصيل')) {
-                deliveryBox = allBoxes[i];
-                break;
-            }
-        }
-
-        if (!deliveryBox) return;
-
-        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
-        if (deliveryBox.dataset.deliveryFixed === 'true') return;
-
-        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2');
-        if (!dl) return;
-
-        var items = dl.querySelectorAll('dt');
-        if (items.length < 4) return;
-
-        // Extract current values
-        var nameVal = '', phoneVal = '', emailVal = '', cityVal = '', paymentVal = '';
-
-        items.forEach(function(dt) {
-            var span = dt.querySelector('span');
-            var label = span ? span.textContent.trim() : '';
-            var value = dt.textContent.replace(label, '').trim();
-
-            if (label.includes('الاسم')) nameVal = value;
-            if (label.includes('الهاتف')) phoneVal = value;
-            if (label.includes('البريد')) emailVal = value;
-            if (label.includes('المدينة')) cityVal = value;
-            if (label.includes('الدفع')) paymentVal = value;
-        });
-
-        // Clear and rebuild with new order
-        dl.innerHTML = '';
-
-        // 1. المحافظة (was المدينة, position 4 -> 1)
-        var dt1 = document.createElement('dt');
-        dt1.className = 'flex flex-wrap justify-between';
-        dt1.innerHTML = '<span>المحافظة:</span> ' + (cityVal || '');
-        dl.appendChild(dt1);
-
-        // 2. الإسم (was الاسم, position 1 -> 2)
-        var dt2 = document.createElement('dt');
-        dt2.className = 'flex flex-wrap justify-between';
-        dt2.innerHTML = '<span>الإسم:</span> ' + (nameVal || '');
-        dl.appendChild(dt2);
-
-        // 3. البريد الإلكتروني (same position, updated label)
-        var dt3 = document.createElement('dt');
-        dt3.className = 'flex flex-wrap justify-between';
-        dt3.innerHTML = '<span>البريد الإلكتروني:</span> ' + (emailVal || '');
-        dl.appendChild(dt3);
-
-        // 4. رقم المحمول (was الهاتف, position 2 -> 4)
-        var dt4 = document.createElement('dt');
-        dt4.className = 'flex flex-wrap justify-between';
-        dt4.innerHTML = '<span>رقم المحمول:</span> ' + (phoneVal || '');
-        dl.appendChild(dt4);
-
-        // 5. وسيلة الدفع (was بيانات الدفع, same position, capitalize Kashier)
-        var dt5 = document.createElement('dt');
-        dt5.className = 'flex flex-wrap justify-between';
-        var paymentDisplay = paymentVal;
-        if (paymentDisplay && paymentDisplay.toLowerCase() === 'kashier') {
-            paymentDisplay = 'Kashier';
-        }
-        dt5.innerHTML = '<span>وسيلة الدفع:</span> ' + (paymentDisplay || '');
-        dl.appendChild(dt5);
-
-        // ✅ علّم إن البوكس اتعدل
-        deliveryBox.dataset.deliveryFixed = 'true';
-    }
-
-    fixDeliveryInfoBox();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasDelivery = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.querySelector?.('h3')?.textContent?.includes('بيانات التوصيل') ||
-                    node.textContent?.includes('بيانات التوصيل')
-                )) {
-                    hasDelivery = true;
-                }
-            });
-        });
-        if (hasDelivery) setTimeout(fixDeliveryInfoBox, 100);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            // ✅ لما الـ URL يتغير، شيل العلامة عشان يتعدل من جديد
             var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
             allBoxes.forEach(function(box) {
                 var h3 = box.querySelector('h3');
