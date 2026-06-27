@@ -709,44 +709,50 @@ setInterval(fixHeader, 300);
         var items = dl.querySelectorAll('dt');
         if (items.length < 4) return;
 
-        // نضيف classes مميزة + نغير النصوص + font-weight
         items.forEach(function(dt) {
-            var span = dt.querySelector('span');
-            if (!span) return;
-            var label = span.textContent.trim();
+            var labelSpan = dt.querySelector('span:first-child');
+            var valueSpan = dt.querySelector('span:last-child');
+            if (!labelSpan) return;
+            var label = labelSpan.textContent.trim();
 
             if (label.includes('الاسم')) {
                 dt.classList.add('order-item-name');
-                span.textContent = 'الإسم:';
+                labelSpan.textContent = 'الإسم:';
             }
             if (label.includes('الهاتف')) {
                 dt.classList.add('order-item-phone');
-                span.textContent = 'رقم المحمول:';
+                labelSpan.textContent = 'رقم المحمول:';
             }
             if (label.includes('البريد')) {
                 dt.classList.add('order-item-email');
-                span.textContent = 'البريد الإلكتروني:';
+                labelSpan.textContent = 'البريد الإلكتروني:';
             }
             if (label.includes('المدينة')) {
                 dt.classList.add('order-item-city');
-                span.textContent = 'المحافظة:';
+                labelSpan.textContent = 'المحافظة:';
             }
             if (label.includes('الدفع')) {
                 dt.classList.add('order-item-payment');
+                labelSpan.textContent = 'وسيلة الدفع:';
                 // capitalize Kashier
-                var valueSpan = dt.querySelector('span:last-child');
-                if (valueSpan && valueSpan.textContent.trim().toLowerCase() === 'kashier') {
-                    valueSpan.textContent = ' Kashier';
+                if (valueSpan) {
+                    var val = valueSpan.textContent.trim();
+                    if (val.toLowerCase() === 'kashier') {
+                        valueSpan.textContent = ' Kashier';
+                    }
                 }
             }
 
-            // font-weight للـ label
-            span.style.fontWeight = '400';
+            // Label: #134f4f، 400، 1rem
+            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
+            
+            // Value: #bf6000، 400، 1rem (نفس الحجم)
+            if (valueSpan) {
+                valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
+            }
         });
 
-        // class للـ dl عشان CSS يعمل الـ order
         dl.classList.add('delivery-info-reordered');
-
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
