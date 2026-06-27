@@ -1804,6 +1804,13 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* ─── تاريخ/وقت التايم لاين ─── */
+.order_invoice_container ul.rounded-lg.border > li:first-child > span.text-gray-500,
+.order_invoice_container ul.rounded-lg.border > li > span:last-child {
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
