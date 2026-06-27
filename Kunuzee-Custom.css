@@ -1840,28 +1840,31 @@ footer .default_footer_link a {
     display: none !important;
 }
 
-/* ─── توسيط اسم المنتج والإجمالي عمودياً مع الصورة ─── */
+/* ─── ترتيب اسم المنتج والإجمالي ─── */
 /* الـ container الرئيسي للمنتج */
 .order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row {
     align-items: center !important;
+    justify-content: flex-start !important; /* بدل justify-between */
+    gap: 16px !important; /* مسافة بين الصورة والنص */
 }
 
-/* "الإجمالي" — إلغاء items-baseline وخليه توسط */
-.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row p.text-lg.flex.items-baseline {
-    align-items: center !important;
-    align-self: center !important;
-}
-
-/* اسم المنتج — توسط عمودي */
+/* اسم المنتج — يلزق في الصورة */
 .order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row h4 {
-    margin-bottom: 0 !important;
+    margin: 0 !important;
     align-self: center !important;
 }
 
-/* الـ div الداخلي (اسم المنتج + التفاصيل) — توسط عمودي */
+/* الـ div الداخلي (اسم المنتج) — يلزق في الصورة */
 .order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row > div.flex.flex-1 {
     justify-content: center !important;
     align-items: center !important;
+    flex: 0 1 auto !important; /* ما يتمددش يملى المسافة */
+}
+
+/* الإجمالي — في آخر السطر */
+.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\:flex-row p.text-lg {
+    align-items: center !important;
+    margin-left: auto !important; /* يدفعه لآخر السطر */
 }
 
 /* ───────────────────────────────────────────────────────────────
