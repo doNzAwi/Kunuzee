@@ -1714,7 +1714,7 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* الـ container الداخلي — نلغي الـ gap الأصلي */
+/* الـ container الداخلي */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) > .flex.flex-col.gap-2 {
     gap: 0 !important;
     margin: 0 !important;
@@ -1747,19 +1747,22 @@ footer .default_footer_link a {
     align-items: center !important;
 }
 
-/* Labels (العناوين الداخلية) — خفيفة 400 */
+/* Labels (العناوين الداخلية) — #134f4f، 400، 1rem */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span:first-child {
     color: #134f4f !important;
     font-weight: 400 !important;
+    font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* Values (البيانات) — برتقالي */
+/* Values (البيانات) — #bf6000، 400، 1rem (نفس الحجم) */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span:last-child {
     color: #bf6000 !important;
     font-weight: 400 !important;
+    font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
 }
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
