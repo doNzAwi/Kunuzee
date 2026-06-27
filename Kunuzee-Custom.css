@@ -1659,7 +1659,7 @@ footer .default_footer_link a {
 /* المسافة بين "كنوزي" والعناصر اللي تحتها — 12px */
 .order_invoice_container address h3 + span,
 .order_invoice_container address h3 + .flex {
-    margin-top: 12px !important;
+    margin-top: 8px !important;
     display: block !important;
 }
 
