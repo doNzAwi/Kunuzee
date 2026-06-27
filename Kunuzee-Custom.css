@@ -1737,7 +1737,7 @@ footer .default_footer_link a {
 
 /* المسافة بين العنوان الرئيسي والعناصر — 12px */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
-    margin-top: 12px !important;
+    margin-top: 18px !important;
 }
 
 /* نلغي أي margin/padding على الـ dt */
