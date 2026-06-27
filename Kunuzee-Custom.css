@@ -1698,15 +1698,12 @@ footer .default_footer_link a {
    بوكس "بيانات التوصيل"
    ══════════════ */
 
-/* العنوان الرئيسي "بيانات التوصيل" → "بيانات الطلب" — تقيل 700 */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 {
+/* العنوان الرئيسي "بيانات التوصيل" → "بيانات الطلب" */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm h3 {
     font-size: 0 !important;
     color: transparent !important;
-    margin: 0 !important;
-    padding: 0 !important;
 }
-
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3::after {
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm h3::after {
     content: 'بيانات الطلب' !important;
     font-size: 1.1rem !important;
     font-weight: 700 !important;
@@ -1714,23 +1711,15 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* الـ container الداخلي */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) > .flex.flex-col.gap-2 {
-    gap: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* المسافة بين العنوان الرئيسي والعناصر — 12px */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) h3 + .flex.flex-col.gap-2 {
+/* المسافة بين العنوان والعناصر */
+.order_invoice_container .border.p-4.rounded-lg.shadow-sm h3 + div {
     margin-top: 12px !important;
 }
 
-/* ─── ترتيب العناصر بالـ CSS order ─── */
+/* ─── ترتيب العناصر ─── */
 .delivery-info-reordered {
     display: flex !important;
     flex-direction: column !important;
-    gap: 6px !important;
 }
 
 .delivery-info-reordered .order-item-city    { order: 1; }
@@ -1739,28 +1728,12 @@ footer .default_footer_link a {
 .delivery-info-reordered .order-item-phone   { order: 4; }
 .delivery-info-reordered .order-item-payment { order: 5; }
 
-/* ─── تنسيق الـ dt elements ─── */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
-    margin: 0 !important;
-    padding: 0 !important;
-    line-height: 1.5 !important;
-    align-items: center !important;
+/* ─── المسافة بين العناصر ─── */
+.delivery-info-reordered dt {
+    margin-bottom: 6px !important;
 }
-
-/* Labels (العناوين الداخلية) — #134f4f، 400، 1rem */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt > span:first-child {
-    color: #134f4f !important;
-    font-weight: 400 !important;
-    font-size: 1rem !important;
-    font-family: 'Tajawal', sans-serif !important;
-}
-
-/* Values (البيانات) — #bf6000، 400، 1rem */
-.order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt > span:last-child {
-    color: #bf6000 !important;
-    font-weight: 400 !important;
-    font-size: 1rem !important;
-    font-family: 'Tajawal', sans-serif !important;
+.delivery-info-reordered dt:last-child {
+    margin-bottom: 0 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
