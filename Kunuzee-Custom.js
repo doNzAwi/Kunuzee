@@ -685,7 +685,7 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل" (آمن)
+// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل"
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
@@ -695,7 +695,7 @@ setInterval(fixHeader, 300);
         var deliveryBox = null;
         for (var i = 0; i < allBoxes.length; i++) {
             var h3 = allBoxes[i].querySelector('h3');
-            if (h3 && h3.textContent.includes('بيانات التوصيل')) {
+            if (h3 && h3.textContent.trim().indexOf('بيانات التوصيل') !== -1) {
                 deliveryBox = allBoxes[i];
                 break;
             }
@@ -703,52 +703,39 @@ setInterval(fixHeader, 300);
         if (!deliveryBox) return;
         if (deliveryBox.dataset.deliveryFixed === 'true') return;
 
-        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2');
+        var dl = deliveryBox.querySelector('div.flex.flex-col.gap-2, div[class*="flex-col"]');
         if (!dl) return;
 
         var items = dl.querySelectorAll('dt');
-        if (items.length < 4) return;
+        if (items.length < 3) return;
 
         items.forEach(function(dt) {
-            var labelSpan = dt.querySelector('span:first-child');
-            var valueSpan = dt.querySelector('span:last-child');
-            if (!labelSpan) return;
+            var spans = dt.querySelectorAll(':scope > span');
+            if (spans.length < 2) return;
+            
+            var labelSpan = spans[0];
+            var valueSpan = spans[1];
             var label = labelSpan.textContent.trim();
 
-            if (label.includes('الاسم')) {
+            if (label.indexOf('الاسم') !== -1) {
                 dt.classList.add('order-item-name');
                 labelSpan.textContent = 'الإسم:';
-            }
-            if (label.includes('الهاتف')) {
+            } else if (label.indexOf('الهاتف') !== -1) {
                 dt.classList.add('order-item-phone');
                 labelSpan.textContent = 'رقم المحمول:';
-            }
-            if (label.includes('البريد')) {
+            } else if (label.indexOf('البريد') !== -1) {
                 dt.classList.add('order-item-email');
                 labelSpan.textContent = 'البريد الإلكتروني:';
-            }
-            if (label.includes('المدينة')) {
+            } else if (label.indexOf('المدينة') !== -1) {
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
-            }
-            if (label.includes('الدفع')) {
+            } else if (label.indexOf('الدفع') !== -1) {
                 dt.classList.add('order-item-payment');
                 labelSpan.textContent = 'وسيلة الدفع:';
-                // capitalize Kashier
-                if (valueSpan) {
-                    var val = valueSpan.textContent.trim();
-                    if (val.toLowerCase() === 'kashier') {
-                        valueSpan.textContent = ' Kashier';
-                    }
+                var val = valueSpan.textContent.trim();
+                if (val.toLowerCase() === 'kashier') {
+                    valueSpan.textContent = ' Kashier';
                 }
-            }
-
-            // Label: #134f4f، 400، 1rem
-            labelSpan.style.cssText = 'color: #134f4f !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
-            
-            // Value: #bf6000، 400، 1rem (نفس الحجم)
-            if (valueSpan) {
-                valueSpan.style.cssText = 'color: #bf6000 !important; font-weight: 400 !important; font-size: 1rem !important; font-family: "Tajawal", sans-serif !important;';
             }
         });
 
@@ -756,21 +743,28 @@ setInterval(fixHeader, 300);
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
-    fixDeliveryInfoBox();
+    function run() {
+        fixDeliveryInfoBox();
+        setTimeout(fixDeliveryInfoBox, 300);
+        setTimeout(fixDeliveryInfoBox, 800);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
+    }
 
     var observer = new MutationObserver(function(mutations) {
-        var hasDelivery = false;
+        var shouldRun = false;
         mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.querySelector?.('h3')?.textContent?.includes('بيانات التوصيل') ||
-                    node.textContent?.includes('بيانات التوصيل')
-                )) {
-                    hasDelivery = true;
+                if (node.nodeType === 1 && node.textContent && node.textContent.indexOf('بيانات التوصيل') !== -1) {
+                    shouldRun = true;
                 }
             });
         });
-        if (hasDelivery) setTimeout(fixDeliveryInfoBox, 100);
+        if (shouldRun) setTimeout(fixDeliveryInfoBox, 100);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -782,11 +776,11 @@ setInterval(fixHeader, 300);
             var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
             allBoxes.forEach(function(box) {
                 var h3 = box.querySelector('h3');
-                if (h3 && h3.textContent.includes('بيانات التوصيل')) {
+                if (h3 && h3.textContent.indexOf('بيانات التوصيل') !== -1) {
                     box.dataset.deliveryFixed = '';
                 }
             });
-            setTimeout(fixDeliveryInfoBox, 300);
+            run();
         }
     }, 300);
 })();
