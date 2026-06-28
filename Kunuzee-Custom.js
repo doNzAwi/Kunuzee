@@ -871,7 +871,7 @@ setInterval(fixHeader, 300);
     }, 300);
 })();
 
-// ─── إخفاء "الاجمالي" وإظهار السعر بـ EGP (نفس النمط) ───
+// ─── إخفاء "الاجمالي" وإظهار السعر بـ EGP يدوياً ───
 (function() {
     'use strict';
 
@@ -884,13 +884,12 @@ setInterval(fixHeader, 300);
             if (totalP.dataset.totalFixed === 'true') return;
 
             var text = totalP.textContent.trim();
-            // نستخرج الرقم: "الاجمالي 550ج.م" → "550"
             var match = text.match(/(\d[\d,]*)\s*ج\.م/);
             if (!match) return;
 
             var price = match[1];
             
-            // نخلي الـ p فاضي ونحط الرقم + span EGP
+            // نخلي الـ p فاضي
             totalP.innerHTML = '';
             totalP.style.cssText = 'display:flex;align-items:baseline;gap:4px;color:#bf6000;font-weight:700;font-size:1.5rem;font-family:"Tajawal",sans-serif;';
             
@@ -899,9 +898,10 @@ setInterval(fixHeader, 300);
             numSpan.textContent = price;
             totalP.appendChild(numSpan);
             
-            // EGP (نفس الـ span اللي CSS بيتعامل معاه)
+            // EGP يدوياً (نفس style بتاع CSS)
             var egpSpan = document.createElement('span');
-            egpSpan.className = 'font-[inherit]';
+            egpSpan.textContent = 'EGP';
+            egpSpan.style.cssText = 'font-size:0.8rem;font-weight:500;color:#bf6000;position:relative;top:-0.3rem;margin-right:0.05rem;font-family:"Tajawal",sans-serif;';
             totalP.appendChild(egpSpan);
 
             totalP.dataset.totalFixed = 'true';
