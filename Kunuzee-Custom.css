@@ -1896,6 +1896,11 @@ footer .default_footer_link a {
     white-space: nowrap !important;
 }
 
+/* ─── المسافة بين عنوان "تفاصيل الطلب وروابط التحميل" والمحتوى ─── */
+.order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm > h3.font-medium + div {
+    margin-top: 14px !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
