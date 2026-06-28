@@ -1901,6 +1901,16 @@ footer .default_footer_link a {
     margin-top: 2rem !important;
 }
 
+/* ─── label اسم المنتج فوق رابط التحميل ─── */
+.download-product-label {
+    color: #134f4f !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    font-family: 'Tajawal', sans-serif !important;
+    display: block !important;
+    text-align: right !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
