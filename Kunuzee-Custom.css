@@ -1851,6 +1851,28 @@ footer .default_footer_link a {
     margin: 0 !important;
 }
 
+/* ─── سعر المنتج في الفاتورة — نفس تنسيق باقي الموقع ─── */
+/* الرقم */
+.order_invoice_container p[data-total-fixed="true"] > span:first-child,
+.order_invoice_container .col-span-2 p.text-lg > span:first-child {
+    color: #bf6000 !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP */
+.order_invoice_container p[data-total-fixed="true"] > span:last-child,
+.order_invoice_container .col-span-2 p.text-lg > span:last-child {
+    color: #bf6000 !important;
+    font-weight: 500 !important;
+    font-size: 0.8rem !important;
+    position: relative !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
