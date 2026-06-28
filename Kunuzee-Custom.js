@@ -870,3 +870,44 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ─── إخفاء "الاجمالي" وإظهار السعر بـ EGP (نفس النمط) ───
+(function() {
+    'use strict';
+
+    function fixProductTotal() {
+        var products = document.querySelectorAll('.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\\:flex-row');
+        
+        products.forEach(function(product) {
+            var totalP = product.querySelector('p.text-lg');
+            if (!totalP) return;
+            if (totalP.dataset.totalFixed === 'true') return;
+
+            var text = totalP.textContent.trim();
+            // نستخرج الرقم: "الاجمالي 550ج.م" → "550"
+            var match = text.match(/(\d[\d,]*)\s*ج\.م/);
+            if (!match) return;
+
+            var price = match[1];
+            
+            // نخلي الـ p فاضي ونحط الرقم + span EGP
+            totalP.innerHTML = '';
+            totalP.style.cssText = 'display:flex;align-items:baseline;gap:4px;color:#bf6000;font-weight:700;font-size:1.5rem;font-family:"Tajawal",sans-serif;';
+            
+            // الرقم
+            var numSpan = document.createElement('span');
+            numSpan.textContent = price;
+            totalP.appendChild(numSpan);
+            
+            // EGP (نفس الـ span اللي CSS بيتعامل معاه)
+            var egpSpan = document.createElement('span');
+            egpSpan.className = 'font-[inherit]';
+            totalP.appendChild(egpSpan);
+
+            totalP.dataset.totalFixed = 'true';
+        });
+    }
+
+    fixProductTotal();
+    setInterval(fixProductTotal, 300);
+})();
