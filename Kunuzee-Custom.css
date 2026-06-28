@@ -1909,6 +1909,7 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
     display: block !important;
     text-align: right !important;
+    margin-bottom: 6px !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
