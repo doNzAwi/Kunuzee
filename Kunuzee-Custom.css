@@ -1898,7 +1898,7 @@ footer .default_footer_link a {
 
 /* ─── المسافة بين عنوان "تفاصيل الطلب وروابط التحميل" والمحتوى ─── */
 .order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm > h3.font-medium + div {
-    margin-top: 14px !important;
+    margin-top: 2rem !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
