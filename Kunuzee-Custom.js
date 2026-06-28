@@ -911,3 +911,89 @@ setInterval(fixHeader, 300);
     fixProductTotal();
     setInterval(fixProductTotal, 300);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 11: addProductLabelsToDownloads — إضافة اسم المنتج فوق رابط التحميل
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function addProductLabels() {
+        var container = document.querySelector('.order_invoice_container');
+        if (!container) return;
+
+        var colSpan2 = container.querySelector('.col-span-2');
+        if (!colSpan2) return;
+
+        // نميز البوكسين: اللي فيه h4 = منتجات، اللي فيه h3 = تفاصيل/روابط
+        var productsBox = null;
+        var detailsBox = null;
+        var children = colSpan2.children;
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            if (child.querySelector && child.querySelector('h4.text-lg.font-medium.text-gray-900')) {
+                productsBox = child;
+            }
+            if (child.querySelector && child.querySelector('h3')) {
+                detailsBox = child;
+            }
+        }
+
+        if (!productsBox || !detailsBox) return;
+
+        var productNames = [];
+        var h4s = productsBox.querySelectorAll('h4.text-lg.font-medium.text-gray-900');
+        for (var i = 0; i < h4s.length; i++) {
+            productNames.push(h4s[i].textContent.trim());
+        }
+
+        var linkContainers = detailsBox.querySelectorAll('.flex.items-center.justify-between.p-3.bg-gray-50.rounded-lg');
+        
+        for (var i = 0; i < linkContainers.length; i++) {
+            var linkContainer = linkContainers[i];
+            
+            // تأمين مضاعف: dataset + check DOM
+            if (linkContainer.dataset.labelFixed === 'true') continue;
+            if (linkContainer.previousElementSibling && 
+                linkContainer.previousElementSibling.classList && 
+                linkContainer.previousElementSibling.classList.contains('download-product-label')) {
+                continue;
+            }
+            
+            if (i >= productNames.length) continue;
+            var name = productNames[i];
+            if (!name) continue;
+
+            var label = document.createElement('span');
+            label.className = 'download-product-label';
+            label.textContent = name;
+            
+            linkContainer.parentNode.insertBefore(label, linkContainer);
+            linkContainer.dataset.labelFixed = 'true';
+        }
+    }
+
+    addProductLabels();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasInvoice = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType !== 1) return;
+                if (node.classList && node.classList.contains('order_invoice_container')) hasInvoice = true;
+                if (node.querySelector && node.querySelector('.order_invoice_container')) hasInvoice = true;
+            });
+        });
+        if (hasInvoice) setTimeout(addProductLabels, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(addProductLabels, 300);
+        }
+    }, 300);
+})();
