@@ -1871,6 +1871,31 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
 }
 
+/* ════════════════════
+   بوكس "تفاصيل الطلب وروابط التحميل"
+   ════════════════════ */
+
+/* ─── تغيير نص "تفاصيل الطلب" → "تفاصيل الطلب وروابط التحميل" ─── */
+.order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm > h3.font-medium {
+    visibility: hidden !important;
+    position: relative !important;
+    font-size: 0 !important;
+}
+
+.order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm > h3.font-medium::after {
+    content: 'تفاصيل الطلب وروابط التحميل' !important;
+    visibility: visible !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #134f4f !important;
+    font-family: 'Tajawal', sans-serif !important;
+    display: block !important;
+    white-space: nowrap !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
