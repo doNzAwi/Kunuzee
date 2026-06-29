@@ -589,6 +589,75 @@ setInterval(fixHeader, 300);
     window.addEventListener('load', fixBackHomeButton);
 })();
 
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 6.2: addThankYouSubtitle — إضافة نص فرعي تحت العنوان
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function addThankYouSubtitle() {
+        var container = document.querySelector('.thanks_container');
+        if (!container) return;
+
+        var h1 = container.querySelector('h1');
+        if (!h1) return;
+
+        // لو اتضاف قبل كده، متضيفش تاني
+        var existing = container.querySelector('.thanks-subtitle');
+        if (existing) return;
+
+        var subtitle = document.createElement('p');
+        subtitle.className = 'thanks-subtitle';
+        subtitle.textContent = 'عايزين نشوفكم تاني قريب';
+        subtitle.style.cssText = 
+            'color: #bf6000 !important;' +
+            'font-weight: 500 !important;' +
+            'font-size: 1.5rem !important;' +
+            'font-family: "Tajawal", sans-serif !important;' +
+            'margin-top: 0.75rem !important;' +
+            'margin-bottom: 0 !important;' +
+            'text-align: center !important;' +
+            'display: block !important;';
+
+        // حطه بعد الـ h1
+        h1.parentNode.insertBefore(subtitle, h1.nextSibling);
+    }
+
+    addThankYouSubtitle();
+    setTimeout(addThankYouSubtitle, 100);
+    setTimeout(addThankYouSubtitle, 300);
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasThanks = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('thanks_container') ||
+                    node.querySelector?.('.thanks_container')
+                )) {
+                    hasThanks = true;
+                }
+            });
+        });
+        if (hasThanks) {
+            setTimeout(addThankYouSubtitle, 0);
+            setTimeout(addThankYouSubtitle, 100);
+            setTimeout(addThankYouSubtitle, 300);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(addThankYouSubtitle, 300);
+            setTimeout(addThankYouSubtitle, 600);
+        }
+    }, 300);
+})();
+
 // ───────────────────────────────────────────────────────────────────
 // FUNCTION 7: swapRefundAndTimeline — تبديل صندوقي سياسة الاسترداد والـ Timeline
 // ───────────────────────────────────────────────────────────────────
