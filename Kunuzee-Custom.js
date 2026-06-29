@@ -612,7 +612,7 @@ setInterval(fixHeader, 300);
         subtitle.style.cssText = 
             'color: #bf6000 !important;' +
             'font-weight: 500 !important;' +
-            'font-size: 1.1rem !important;' +
+            'font-size: 1.5rem !important;' +
             'font-family: "Tajawal", sans-serif !important;' +
             'margin-top: 0.75rem !important;' +
             'margin-bottom: 0 !important;' +
