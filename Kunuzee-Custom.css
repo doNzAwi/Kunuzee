@@ -1153,35 +1153,18 @@ section.contact-info-heading input::placeholder {
     opacity: 1 !important;
 }
 
-/* Labels */
-.contact-info-heading label.block,
-.contact-info-heading label.text-sm,
-.contact-info-heading label.font-medium,
-.contact-info-heading label.text-gray-700,
-.checkout_form label.block,
-.checkout_form label.text-gray-700,
-.checkout_container label.text-gray-700,
-section.contact-info-heading label,
-form.checkout_form label,
-div.mt-3 > label,
-div.mb-1 > label,
-div.relative > label,
-label[for] {
-    color: #134f4f !important;
-}
-
-label[style*="color"] {
-    color: #134f4f !important;
-}
-
-/* ─── توحيد Labels صفحة الدفع ─── */
+/* ─── توحيد كل Labels صفحة الدفع ─── */
 .checkout_form label,
-.contact-info-heading label,
 .checkout_container label,
+.contact-info-heading label,
 section.contact-info-heading label {
     color: #134f4f !important;
     font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
+}
+
+label[style*="color"] {
+    color: #134f4f !important;
 }
 
 /* Dropdown — بوردر الصندوق */
