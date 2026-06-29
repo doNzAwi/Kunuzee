@@ -1157,10 +1157,23 @@ section.contact-info-heading input::placeholder {
 .checkout_form label,
 .checkout_container label,
 .contact-info-heading label,
-section.contact-info-heading label {
+section.contact-info-heading label,
+form.checkout_form label {
     color: #134f4f !important;
     font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
+}
+
+.checkout_form label.text-black,
+.checkout_form label.text-gray-700,
+.checkout_container label.text-black,
+.checkout_container label.text-gray-700,
+.contact-info-heading label.text-black,
+.contact-info-heading label.text-gray-700,
+section.contact-info-heading label.text-black,
+section.contact-info-heading label.text-gray-700 {
+    color: #134f4f !important;
+    font-weight: 500 !important;
 }
 
 label[style*="color"] {
