@@ -1927,40 +1927,6 @@ footer .default_footer_link a {
     background-color: #f2e4be !important;
 }
 
-/* ════════════════════
-   بوكس "الإجمالي"
-   ════════════════════ */
-
-/* ─── تعديل نص "اجمالي المنتجات" → "إجمالي المنتجات" ─── */
-.order_invoice_container .col-span-2.col-start-2.p-5.border.rounded-lg.shadow-sm dt:first-child > span:first-child {
-    visibility: hidden !important;
-    position: relative !important;
-}
-
-.order_invoice_container .col-span-2.col-start-2.p-5.border.rounded-lg.shadow-sm dt:first-child > span:first-child::after {
-    content: 'إجمالي المنتجات:' !important;
-    visibility: visible !important;
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-    white-space: nowrap !important;
-}
-
-/* ─── تعديل نص "الاجمالي" → "الإجمالي" ─── */
-.order_invoice_container .col-span-2.col-start-2.p-5.border.rounded-lg.shadow-sm dt:last-child > span:first-child {
-    visibility: hidden !important;
-    position: relative !important;
-}
-
-.order_invoice_container .col-span-2.col-start-2.p-5.border.rounded-lg.shadow-sm dt:last-child > span:first-child::after {
-    content: 'الإجمالي:' !important;
-    visibility: visible !important;
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-    white-space: nowrap !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
