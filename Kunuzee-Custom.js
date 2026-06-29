@@ -80,6 +80,39 @@
     setTimeout(function() { clearInterval(interval); }, 3000);
 })();
 
+// ══════════════════════════════
+// GLOBAL: Governorate Flags Data
+// ══════════════════════════════
+var KUNUZEE_GOVERNORATES = {
+    'القاهرة':       { img: 'https://i.ibb.co/rqD9363/CAI.png' },
+    'الجيزة':        { img: 'https://i.ibb.co/67zy1sZc/GIZ.png' },
+    'الإسكندرية':    { img: 'https://i.ibb.co/CpGvzDjZ/ALX.png' },
+    'البحيرة':       { img: 'https://i.ibb.co/gZgXzWns/BEH.png' },
+    'الدقهلية':      { img: 'https://i.ibb.co/60j1Dmdr/DKL.png' },
+    'الشرقية':       { img: 'https://i.ibb.co/pr435136/SRQ.png' },
+    'الغربية':       { img: 'https://i.ibb.co/602dBkc4/GRB.png' },
+    'القليوبية':     { img: 'https://i.ibb.co/4gXy2Q50/QLB.png' },
+    'المنوفية':      { img: 'https://i.ibb.co/7Jg3W44f/MNF.png' },
+    'بورسعيد':       { img: 'https://i.ibb.co/SDYRqw9M/PRS.png' },
+    'الإسماعيلية':   { img: 'https://i.ibb.co/358V0nQr/ISM.png' },
+    'السويس':        { img: 'https://i.ibb.co/whJhxDwc/SUZ.png' },
+    'شمال سيناء':    { img: 'https://i.ibb.co/0RH1WMb0/NSN.png' },
+    'جنوب سيناء':    { img: 'https://i.ibb.co/xq93nStH/SSN.png' },
+    'كفر الشيخ':     { img: 'https://i.ibb.co/zHxrWmpn/KSH.png' },
+    'بني سويف':      { img: 'https://i.ibb.co/JwVGS8bf/BSF.png' },
+    'دمياط':         { img: 'https://i.ibb.co/fY7HRFYZ/DMT.png' },
+    'سوهاج':         { img: 'https://i.ibb.co/4R8v03sn/SOH.png' },
+    'أسيوط':         { img: 'https://i.ibb.co/pvS7XCnv/AST.png' },
+    'الفيوم':        { img: 'https://i.ibb.co/ZRnHMzy2/FYM.png' },
+    'أسوان':         { img: 'https://i.ibb.co/4nysjVxC/ASN.png' },
+    'قنا':           { img: 'https://i.ibb.co/gLd1jt9K/QNA.png' },
+    'المنيا':        { img: 'https://i.ibb.co/yFBQSvG0/MNA.png' },
+    'مطروح':         { img: 'https://i.ibb.co/5W7bj7hF/MTR.png' },
+    'الأقصر':        { img: 'https://i.ibb.co/RkTBC7xH/LUX.png' },
+    'البحر الأحمر':  { img: 'https://i.ibb.co/Kc9Cs8bY/RDS.png' },
+    'الوادي الجديد': { img: 'https://i.ibb.co/23WFRW9X/NVA.png' }
+};
+
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 1: fixHeader — تعديل الهيدر
 // ───────────────────────────────────────────────────────────────
@@ -119,35 +152,7 @@ setInterval(fixHeader, 300);
 (function() {
     'use strict';
 
-    const GOVERNORATES = {
-        'القاهرة':       { img: 'https://i.ibb.co/rqD9363/CAI.png' },
-        'الجيزة':        { img: 'https://i.ibb.co/67zy1sZc/GIZ.png' },
-        'الإسكندرية':    { img: 'https://i.ibb.co/CpGvzDjZ/ALX.png' },
-        'البحيرة':       { img: 'https://i.ibb.co/gZgXzWns/BEH.png' },
-        'الدقهلية':      { img: 'https://i.ibb.co/60j1Dmdr/DKL.png' },
-        'الشرقية':       { img: 'https://i.ibb.co/pr435136/SRQ.png' },
-        'الغربية':       { img: 'https://i.ibb.co/602dBkc4/GRB.png' },
-        'القليوبية':     { img: 'https://i.ibb.co/4gXy2Q50/QLB.png' },
-        'المنوفية':      { img: 'https://i.ibb.co/7Jg3W44f/MNF.png' },
-        'بورسعيد':       { img: 'https://i.ibb.co/SDYRqw9M/PRS.png' },
-        'الإسماعيلية':   { img: 'https://i.ibb.co/358V0nQr/ISM.png' },
-        'السويس':        { img: 'https://i.ibb.co/whJhxDwc/SUZ.png' },
-        'شمال سيناء':    { img: 'https://i.ibb.co/0RH1WMb0/NSN.png' },
-        'جنوب سيناء':    { img: 'https://i.ibb.co/xq93nStH/SSN.png' },
-        'كفر الشيخ':     { img: 'https://i.ibb.co/zHxrWmpn/KSH.png' },
-        'بني سويف':      { img: 'https://i.ibb.co/JwVGS8bf/BSF.png' },
-        'دمياط':         { img: 'https://i.ibb.co/fY7HRFYZ/DMT.png' },
-        'سوهاج':         { img: 'https://i.ibb.co/4R8v03sn/SOH.png' },
-        'أسيوط':         { img: 'https://i.ibb.co/pvS7XCnv/AST.png' },
-        'الفيوم':        { img: 'https://i.ibb.co/ZRnHMzy2/FYM.png' },
-        'أسوان':         { img: 'https://i.ibb.co/4nysjVxC/ASN.png' },
-        'قنا':           { img: 'https://i.ibb.co/gLd1jt9K/QNA.png' },
-        'المنيا':        { img: 'https://i.ibb.co/yFBQSvG0/MNA.png' },
-        'مطروح':         { img: 'https://i.ibb.co/5W7bj7hF/MTR.png' },
-        'الأقصر':        { img: 'https://i.ibb.co/RkTBC7xH/LUX.png' },
-        'البحر الأحمر':  { img: 'https://i.ibb.co/Kc9Cs8bY/RDS.png' },
-        'الوادي الجديد': { img: 'https://i.ibb.co/23WFRW9X/NVA.png' }
-    };
+        const GOVERNORATES = KUNUZEE_GOVERNORATES;
 
     const GROUPS = [
         { title: '', items: ['القاهرة', 'الجيزة', 'الإسكندرية'] },
@@ -868,6 +873,19 @@ setInterval(fixHeader, 300);
             if (label.includes('المدينة')) {
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
+                
+                // ─── إضافة علم المحافظة ───
+                if (valueSpan && typeof KUNUZEE_GOVERNORATES !== 'undefined') {
+                    var govName = valueSpan.textContent.trim();
+                    var govData = KUNUZEZ_GOVERNORATES[govName];
+                    if (govData && govData.img && !valueSpan.querySelector('.gov-flag')) {
+                        var img = document.createElement('img');
+                        img.src = govData.img;
+                        img.className = 'gov-flag';
+                        img.alt = govName;
+                        valueSpan.insertBefore(img, valueSpan.firstChild);
+                    }
+                }
             }
             if (label.includes('الدفع')) {
                 dt.classList.add('order-item-payment');
