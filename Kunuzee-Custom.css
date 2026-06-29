@@ -2049,7 +2049,8 @@ footer .default_footer_link a {
     align-items: center !important;
 }
 
-.order-item-city .gov-value {
+/* ✅ Specificity أعلى من الرول اللي بيحط 700 على span:last-child */
+.order_invoice_container dt.order-item-city.flex.flex-wrap.justify-between:not(:has(> div)) > span.gov-value:last-child {
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
