@@ -1160,7 +1160,7 @@ section.contact-info-heading input::placeholder {
 section.contact-info-heading label,
 form.checkout_form label {
     color: #134f4f !important;
-    font-weight: 700 !important;
+    font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -1303,8 +1303,8 @@ span.text-lg.font-bold.text-gray-700,
 [class*="payments"] span[class*="text-lg"] {
     color: #134f4f !important;
     display: block !important;
-    margin-top: 64px !important;
-    margin-bottom: 16px !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
 }
 
 .payments_container,
