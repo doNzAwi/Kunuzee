@@ -1153,7 +1153,7 @@ section.contact-info-heading input::placeholder {
     opacity: 1 !important;
 }
 
-/* ─── توحيد كل Labels صفحة الدفع ─── */
+/* ─── Labels — توحيد كل الـ labels في صفحة الدفع ─── */
 .checkout_form label,
 .checkout_container label,
 .contact-info-heading label,
