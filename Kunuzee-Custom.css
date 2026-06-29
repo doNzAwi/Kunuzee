@@ -1160,7 +1160,7 @@ section.contact-info-heading input::placeholder {
 section.contact-info-heading label,
 form.checkout_form label {
     color: #134f4f !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
