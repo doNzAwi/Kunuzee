@@ -437,15 +437,15 @@
 
 .cart-item p[data-cart="item-price"],
 .checkout_cart_items_container p[data-cart="item-price"] {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
     color: #bf6000 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 .cart-item .font-\[inherit\]::after,
 .checkout_order_summary .font-\[inherit\]::after {
-    font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
     margin-right: 0.1rem !important;
