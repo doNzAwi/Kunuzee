@@ -549,8 +549,8 @@ setInterval(fixHeader, 300);
         link.insertBefore(span, link.firstChild);
 
         // ابعد السهم عن النص
-        span.style.marginLeft = '0';
-        span.style.marginRight = '0.5rem';
+        span.style.marginLeft = '0.5rem';
+        span.style.marginRight = '0';
         span.style.display = 'inline-block';
 
         link.dataset.btnFixed = 'true';
