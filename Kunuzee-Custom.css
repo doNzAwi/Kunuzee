@@ -1962,20 +1962,20 @@ footer .default_footer_link a {
 }
 
 /* ─── سطر "إجمالي المنتجات" + "كود الخصم" ─── */
-.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div > span:first-child:not(.font-\[inherit\]) {
+/* الـ div كله (الرقم + ج.م) */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div {
   color: #bf6000 !important;
   font-weight: 400 !important;
   font-size: 1rem !important;
   font-family: 'Tajawal', sans-serif !important;
 }
 
-/* نخلي font-[inherit] مخفي */
+/* نخفي "ج.م" الأصلية */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\] {
   font-size: 0 !important;
-  position: relative !important;
 }
 
-/* EGP ::after */
+/* EGP بدل "ج.م" */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\]::after {
   content: "EGP" !important;
   font-size: 0.65rem !important;
@@ -1986,19 +1986,29 @@ footer .default_footer_link a {
   margin-right: 0.05rem !important;
 }
 
+/* Labels */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > span:first-child {
+  color: #134f4f !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  font-family: 'Tajawal', sans-serif !important;
+}
+
 /* ─── آخر سطر "الإجمالي" ─── */
-.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div > span:first-child:not(.font-\[inherit\]) {
+/* الـ div كله */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div {
   color: #bf6000 !important;
   font-weight: 700 !important;
   font-size: 1.2rem !important;
   font-family: 'Tajawal', sans-serif !important;
 }
 
+/* نخفي "ج.م" الأصلية */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\] {
   font-size: 0 !important;
-  position: relative !important;
 }
 
+/* EGP بدل "ج.م" */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\]::after {
   content: "EGP" !important;
   font-size: 0.75rem !important;
@@ -2007,6 +2017,14 @@ footer .default_footer_link a {
   position: relative !important;
   top: -0.3rem !important;
   margin-right: 0.05rem !important;
+}
+
+/* Label "الإجمالي" */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > span:first-child {
+  color: #134f4f !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  font-family: 'Tajawal', sans-serif !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
