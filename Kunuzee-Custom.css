@@ -1864,10 +1864,10 @@ footer .default_footer_link a {
 .order_invoice_container p.text-lg > span:nth-child(2) {
     color: #bf6000 !important;
     font-weight: 500 !important;
-    font-size: 0.7rem !important;
+    font-size: 0.75rem !important;
     position: relative !important;
-    top: -0.3rem !important;
-    margin-right: 0.02rem !important;
+    top: -0.35rem !important;
+    margin-right: 0.01rem !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
