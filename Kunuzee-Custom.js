@@ -853,11 +853,9 @@ setInterval(fixHeader, 300);
         if (items.length < 4) return;
 
         items.forEach(function(dt) {
-            var spans = dt.querySelectorAll('span');
-            if (spans.length < 2) return;
-            
-            var labelSpan = spans[0];
-            var valueSpan = spans[spans.length - 1]; // آخر span = القيمة
+            var labelSpan = dt.querySelector('span:first-child');
+            var valueSpan = dt.querySelector('span:last-child');
+            if (!labelSpan) return;
             var label = labelSpan.textContent.trim();
 
             if (label.includes('الاسم')) {
@@ -876,24 +874,16 @@ setInterval(fixHeader, 300);
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
                 
-                // ✅ إضافة علم المحافظة — Fuzzy Match + Inline Styles
+                // ✅ إضافة علم المحافظة — نتأكد إن ماضفناش قبل كده
                 if (valueSpan && typeof KUNUZEE_GOVERNORATES !== 'undefined') {
                     var govName = valueSpan.textContent.trim();
-                    
-                    // دور على تطابق دقيق أو جزئي
-                    var govKey = Object.keys(KUNUZEE_GOVERNORATES).find(function(k) {
-                        return k === govName || k.includes(govName) || govName.includes(k);
-                    });
-                    
-                    var govData = govKey ? KUNUZEE_GOVERNORATES[govKey] : null;
-                    
+                    var govData = KUNUZEE_GOVERNORATES[govName];
                     if (govData && govData.img && !valueSpan.querySelector('.gov-flag')) {
                         var img = document.createElement('img');
                         img.src = govData.img;
                         img.className = 'gov-flag';
                         img.alt = govName;
-                        // Inline styles تأمينية
-                        img.style.cssText = 'height:18px !important;width:auto !important;display:inline-block !important;border-radius:15% !important;flex-shrink:0 !important;vertical-align:middle !important;margin-left:6px !important;';
+                        // نحط العلم قبل النص
                         valueSpan.insertBefore(img, valueSpan.firstChild);
                     }
                 }
