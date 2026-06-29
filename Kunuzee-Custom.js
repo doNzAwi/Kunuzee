@@ -1102,3 +1102,35 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 13: hideThanksSvgText — إخفاء أي نص ديناميكي في SVG صفحة الشكر
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function hideThanksSvgText() {
+        var svg = document.querySelector('.thanks_container svg');
+        if (!svg) return;
+
+        var texts = svg.querySelectorAll('text, g[aria-label]:not([aria-label=""])');
+        texts.forEach(function(el) {
+            el.style.display = 'none';
+            el.style.opacity = '0';
+            el.style.visibility = 'hidden';
+        });
+    }
+
+    hideThanksSvgText();
+
+    function loop() {
+        hideThanksSvgText();
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    var observer = new MutationObserver(function() {
+        hideThanksSvgText();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
