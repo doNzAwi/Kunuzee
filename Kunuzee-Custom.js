@@ -1032,3 +1032,73 @@ setInterval(fixHeader, 300);
 
     observer.observe(document.body, { childList: true, subtree: true });
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 12: fixCouponCode — تلوين كود الخصم في بوكس الإجمالي
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixCouponCode() {
+        var dts = document.querySelectorAll('.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt');
+        
+        dts.forEach(function(dt) {
+            var span = dt.querySelector('span:first-child');
+            if (!span) return;
+            if (span.dataset.couponFixed === 'true') return;
+
+            var text = span.textContent.trim();
+            if (!text.includes('كود الخصم:')) return;
+
+            // فصل الـ label عن الكود
+            var parts = text.split(':');
+            if (parts.length < 2) return;
+
+            var label = parts[0] + ':';
+            var code = parts.slice(1).join(':').trim();
+
+            span.innerHTML = '';
+            
+            var labelSpan = document.createElement('span');
+            labelSpan.textContent = label;
+            labelSpan.style.color = '#134f4f';
+            
+            var codeSpan = document.createElement('span');
+            codeSpan.textContent = ' ' + code;
+            codeSpan.style.color = '#bf6000';
+
+            span.appendChild(labelSpan);
+            span.appendChild(codeSpan);
+
+            span.dataset.couponFixed = 'true';
+        });
+    }
+
+    fixCouponCode();
+    setInterval(fixCouponCode, 500);
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasInvoice = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('order_invoice_container') ||
+                    node.querySelector?.('.order_invoice_container')
+                )) {
+                    hasInvoice = true;
+                }
+            });
+        });
+        if (hasInvoice) setTimeout(fixCouponCode, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(fixCouponCode, 300);
+        }
+    }, 300);
+})();
