@@ -1982,6 +1982,7 @@ footer .default_footer_link a {
   font-weight: 400 !important;
   color: #bf6000 !important;
   position: relative !important;
+  opacity: 1 !important;
   top: -0.2rem !important;
   margin-right: 0.05rem !important;
 }
@@ -2015,6 +2016,7 @@ footer .default_footer_link a {
   font-weight: 700 !important;
   color: #bf6000 !important;
   position: relative !important;
+  opacity: 1 !important;
   top: -0.3rem !important;
   margin-right: 0.05rem !important;
 }
