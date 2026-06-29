@@ -874,17 +874,36 @@ setInterval(fixHeader, 300);
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
                 
-                // ✅ إضافة علم المحافظة — نتأكد إن ماضفناش قبل كده
-                if (valueSpan && typeof KUNUZEE_GOVERNORATES !== 'undefined') {
-                    var govName = valueSpan.textContent.trim();
-                    var govData = KUNUZEE_GOVERNORATES[govName];
-                    if (govData && govData.img && !valueSpan.querySelector('.gov-flag')) {
-                        var img = document.createElement('img');
-                        img.src = govData.img;
-                        img.className = 'gov-flag';
-                        img.alt = govName;
-                        // نحط العلم قبل النص
-                        valueSpan.insertBefore(img, valueSpan.firstChild);
+                // ✅ إضافة علم المحافظة — نلاقي الـ text node الديناميكي ونلفه في span
+                if (!dt.querySelector('.gov-value') && typeof KUNUZEE_GOVERNORATES !== 'undefined') {
+                    var textNode = null;
+                    for (var j = 0; j < dt.childNodes.length; j++) {
+                        if (dt.childNodes[j].nodeType === 3) { // Text node
+                            var txt = dt.childNodes[j].textContent.trim();
+                            if (txt) {
+                                textNode = dt.childNodes[j];
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (textNode) {
+                        var govName = textNode.textContent.trim();
+                        var govData = KUNUZEE_GOVERNORATES[govName];
+                        if (govData && govData.img) {
+                            var valueWrapper = document.createElement('span');
+                            valueWrapper.className = 'gov-value';
+                            
+                            var img = document.createElement('img');
+                            img.src = govData.img;
+                            img.className = 'gov-flag';
+                            img.alt = govName;
+                            
+                            valueWrapper.appendChild(img);
+                            valueWrapper.appendChild(document.createTextNode(' ' + govName));
+                            
+                            dt.replaceChild(valueWrapper, textNode);
+                        }
                     }
                 }
             }
