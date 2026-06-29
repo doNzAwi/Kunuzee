@@ -1928,7 +1928,7 @@ footer .default_footer_link a {
 }
 
 /* ════════════════════
-   بوكس "الإجمالي" — تعديل النصوص
+   بوكس "الإجمالي"
    ════════════════════ */
 
 /* ─── "اجمالي المنتجات" → "إجمالي المنتجات" ─── */
@@ -1959,6 +1959,60 @@ footer .default_footer_link a {
   right: 0 !important;
   top: 0 !important;
   white-space: nowrap !important;
+}
+
+/* ─── سطر "إجمالي المنتجات" + "كود الخصم" ─── */
+
+/* Labels: #134f4f، 400، 1rem */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > span:first-child {
+  color: #134f4f !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+/* Prices: #bf6000، 400، 1rem */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div {
+  color: #bf6000 !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP داخل الأسعار */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\] {
+  color: #bf6000 !important;
+  font-weight: 400 !important;
+  font-size: 0.65rem !important;
+  top: -0.2rem !important;
+  margin-right: 0.05rem !important;
+}
+
+/* ─── آخر سطر "الإجمالي" ─── */
+
+/* Label: #134f4f، 700، 1.2rem */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > span:first-child {
+  color: #134f4f !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+/* Price: #bf6000، 700، 1.2rem */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div {
+  color: #bf6000 !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP الإجمالي */
+.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\] {
+  color: #bf6000 !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  top: -0.3rem !important;
+  margin-right: 0.05rem !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
