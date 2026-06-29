@@ -1572,12 +1572,15 @@ footer .default_footer_link a {
    SECTION 17: THANK YOU PAGE — صفحة الشكر
    ────────────────────────────────────── */
 
-/* ─── تغيير نص "شكرا لاتمامك الطلب" + تلوينه ─── */
+/* ─── تغيير نص "شكرا لاتمامك الطلب" + تلوينه + إضافة نص فرعي ─── */
 .thanks_container h1 {
     font-size: 0 !important;
     color: transparent !important;
     position: relative !important;
-    display: inline-block !important;
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
 }
 
 .thanks_container h1::after {
@@ -1588,6 +1591,18 @@ footer .default_footer_link a {
     font-family: 'Tajawal', sans-serif !important;
     display: block !important;
     white-space: nowrap !important;
+    order: 1 !important;
+}
+
+.thanks_container h1::before {
+    content: "نشوفكم تاني قريب" !important;
+    font-size: 1.7rem !important;
+    font-weight: 500 !important;
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+    display: block !important;
+    white-space: nowrap !important;
+    order: 2 !important;
 }
 
 /* ─── إخفاء "عرض أحدث العروض" ─── */
