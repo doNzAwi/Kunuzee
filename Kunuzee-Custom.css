@@ -2053,6 +2053,9 @@ footer .default_footer_link a {
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
+    font-weight: 400 !important;
+    font-family: 'Tajawal', sans-serif !important;
+    color: #bf6000 !important;
 }
 
 .order-item-city .gov-flag {
