@@ -453,15 +453,15 @@
 /* ─── الفاتورة — Invoice ─── */
 dd[data-invoice="invoice-subtotal-value"],
 [data-invoice="invoice-subtotal-value"] {
-    font-size: 23px !important;
+    font-size: 1.2rem !important;
     font-weight: 700 !important;
     color: #bf6000 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 [data-invoice="invoice-subtotal-value"] .font-\[inherit\]::after {
-    font-size: 15px !important;
-    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
     top: -0.3rem !important;
 }
 
