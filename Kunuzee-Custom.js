@@ -18,77 +18,40 @@
 
     function shouldHide(el) {
         var text = (el.textContent || '').trim();
-        if (!text) return false;
+        if (!text || text.length > 200) return false; // <— نتجاهل النصوص الطويلة (الفاتورة)
         return HIDE_KEYWORDS.some(function(kw) {
             return text.indexOf(kw) !== -1;
         });
     }
 
     function hideElements() {
-        var container = document.querySelector('.thanks_container');
+        // نستهدف .thanks_content فقط (الجزء العلوي)، مش .thanks_container
+        var container = document.querySelector('.thanks_content');
         if (!container) return;
 
-        // ندور على كل العناصر النصية الممكنة
-        var elements = container.querySelectorAll('p, div, span, h2, h3, h4, h5, h6, section');
+        var elements = container.querySelectorAll('p, div, span, h2, h3, h4, h5, h6');
         elements.forEach(function(el) {
             if (shouldHide(el)) {
-                el.style.cssText = 'display:none !important;visibility:hidden !important;opacity:0 !important;height:0 !important;overflow:hidden !important;position:absolute !important;pointer-events:none !important;';
-                el.setAttribute('aria-hidden', 'true');
+                el.style.cssText = 'display:none !important;visibility:hidden !important;opacity:0 !important;';
             }
         });
     }
 
-    // 1. اشتغل فورًا قبل كل حاجة
+    // اشتغل فورًا
     hideElements();
 
-    // 2. اشتغل لما الـ DOM يبقى جاهز
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', hideElements);
-    } else {
-        hideElements();
-    }
-
-    // 3. Observer يشتغل على أي تغييرات ديناميكية
-    var observer = new MutationObserver(function(mutations) {
-        var hasText = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.matches?.('.thanks_container') ||
-                    node.querySelector?.('.thanks_container') ||
-                    (node.parentElement && node.parentElement.closest('.thanks_container'))
-                )) {
-                    hasText = true;
-                }
-            });
-        });
-        if (hasText) hideElements();
-    });
-
-    if (document.body) {
-        observer.observe(document.body, { childList: true, subtree: true });
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
-            observer.observe(document.body, { childList: true, subtree: true });
-        });
-    }
-
-    // 4. تأمين إضافي: interval سريع في أول 3 ثواني
-    var interval = setInterval(hideElements, 50);
-    setTimeout(function() {
-        clearInterval(interval);
-    }, 3000);
-
-    // 5. تأمين عند تغيير الـ URL (SPA navigation)
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
+    // Observer على .thanks_content فقط
+    var container = document.querySelector('.thanks_content');
+    if (container) {
+        var observer = new MutationObserver(function() {
             hideElements();
-            var i = setInterval(hideElements, 50);
-            setTimeout(function() { clearInterval(i); }, 3000);
-        }
-    }, 300);
+        });
+        observer.observe(container, { childList: true, subtree: true });
+    }
+
+    // تأمين إضافي في أول 3 ثواني
+    var interval = setInterval(hideElements, 50);
+    setTimeout(function() { clearInterval(interval); }, 3000);
 })();
 
 // ───────────────────────────────────────────────────────────────
