@@ -537,10 +537,10 @@ setInterval(fixHeader, 300);
     function fixBackHomeButton() {
         var link = document.querySelector('.thanks_container a[href="/"]');
         if (!link) return;
-        if (link.dataset.btnFixed === 'true') return;
 
         var span = link.querySelector('span[aria-hidden="true"]');
         if (!span) return;
+        if (span.dataset.arrowFixed === 'true') return;
 
         // غير السهم
         span.textContent = '→';
@@ -553,24 +553,26 @@ setInterval(fixHeader, 300);
         span.style.marginRight = '0';
         span.style.display = 'inline-block';
 
-        link.dataset.btnFixed = 'true';
+        span.dataset.arrowFixed = 'true';
     }
 
     fixBackHomeButton();
 
     var observer = new MutationObserver(function(mutations) {
-        var hasThanks = false;
         mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('thanks_container') ||
-                    node.querySelector?.('.thanks_container')
-                )) {
-                    hasThanks = true;
+                if (node.nodeType === 1) {
+                    if (node.classList?.contains('thanks_container') ||
+                        node.querySelector?.('.thanks_container') ||
+                        node.matches?.('.thanks_container a[href="/"]') ||
+                        node.querySelector?.('a[href="/"]')) {
+                        setTimeout(fixBackHomeButton, 0);
+                        setTimeout(fixBackHomeButton, 100);
+                        setTimeout(fixBackHomeButton, 300);
+                    }
                 }
             });
         });
-        if (hasThanks) setTimeout(fixBackHomeButton, 100);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -580,8 +582,11 @@ setInterval(fixHeader, 300);
         if (location.href !== lastUrl) {
             lastUrl = location.href;
             setTimeout(fixBackHomeButton, 300);
+            setTimeout(fixBackHomeButton, 600);
         }
     }, 300);
+
+    window.addEventListener('load', fixBackHomeButton);
 })();
 
 // ───────────────────────────────────────────────────────────────────
