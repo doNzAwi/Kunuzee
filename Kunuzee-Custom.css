@@ -445,9 +445,10 @@
 
 .cart-item .font-\[inherit\]::after,
 .checkout_order_summary .font-\[inherit\]::after {
-    font-size: 11px !important;
+    font-size: 0.7rem !important;
+    font-weight: 500 !important;
     top: -0.3rem !important;
-    margin-right: -1px !important;
+    margin-right: 0.1rem !important;
 }
 
 /* ─── الفاتورة — Invoice ─── */
