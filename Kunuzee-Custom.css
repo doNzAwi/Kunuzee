@@ -1917,6 +1917,11 @@ footer .default_footer_link a {
     background-color: #fcf5e2 !important;
 }
 
+/* بوردر بوكس "تفاصيل الطلب وروابط التحميل" */
+.order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm:has(> h3.font-medium) {
+    border-color: #ce982e !important;
+}
+
 /* خلفية كل رابط تحميل */
 .order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm:has(> h3.font-medium) .bg-gray-50.rounded-lg {
     background-color: #f2e4be !important;
