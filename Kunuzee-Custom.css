@@ -1581,6 +1581,12 @@ footer .default_footer_link a {
     flex-direction: column !important;
     align-items: center !important;
     gap: 0.75rem !important;
+    visibility: hidden !important;
+}
+
+.thanks_container h1::after,
+.thanks_container h1::before {
+    visibility: visible !important;
 }
 
 .thanks_container h1::after {
