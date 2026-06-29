@@ -828,7 +828,7 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل" (آمن)
+// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل"
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
@@ -874,15 +874,16 @@ setInterval(fixHeader, 300);
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
                 
-                // ─── إضافة علم المحافظة ───
+                // ✅ إضافة علم المحافظة — نتأكد إن ماضفناش قبل كده
                 if (valueSpan && typeof KUNUZEE_GOVERNORATES !== 'undefined') {
                     var govName = valueSpan.textContent.trim();
-                    var govData = KUNUZEZ_GOVERNORATES[govName];
+                    var govData = KUNUZEE_GOVERNORATES[govName];
                     if (govData && govData.img && !valueSpan.querySelector('.gov-flag')) {
                         var img = document.createElement('img');
                         img.src = govData.img;
                         img.className = 'gov-flag';
                         img.alt = govName;
+                        // نحط العلم قبل النص
                         valueSpan.insertBefore(img, valueSpan.firstChild);
                     }
                 }
@@ -890,7 +891,6 @@ setInterval(fixHeader, 300);
             if (label.includes('الدفع')) {
                 dt.classList.add('order-item-payment');
                 labelSpan.textContent = 'وسيلة الدفع:';
-                // capitalize Kashier
                 if (valueSpan) {
                     var val = valueSpan.textContent.trim();
                     if (val.toLowerCase() === 'kashier') {
