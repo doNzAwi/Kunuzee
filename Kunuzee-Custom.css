@@ -2044,22 +2044,6 @@ footer .default_footer_link a {
   font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ════════════════════════════════════
-   FOUC FIX — إخفاء نص "لقد استلمنا طلبك" نهائيًا
-   ════════════════════════════════════ */
-
-/* نخفي أي عنصر نصي جوه thanks_container مالوش class معروف */
-.thanks_container > p:not(.underline):not([class*="underline"]),
-.thanks_container > div:not(.mb-12):not(.flex):not([class*="flex"]) {
-    display: none !important;
-}
-
-/* لو ظهر في أي مكان تاني */
-.thanks_container p:empty,
-.thanks_container div:empty {
-    display: none !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
