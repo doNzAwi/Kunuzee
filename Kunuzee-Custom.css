@@ -1174,6 +1174,16 @@ label[style*="color"] {
     color: #134f4f !important;
 }
 
+/* ─── توحيد Labels صفحة الدفع ─── */
+.checkout_form label,
+.contact-info-heading label,
+.checkout_container label,
+section.contact-info-heading label {
+    color: #134f4f !important;
+    font-weight: 500 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
 /* Dropdown — بوردر الصندوق */
 .select__control,
 [class*="select__control"] {
