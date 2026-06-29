@@ -1302,8 +1302,9 @@ button.payment_card {
 span.text-lg.font-bold.text-gray-700,
 [class*="payments"] span[class*="text-lg"] {
     color: #134f4f !important;
+    font-weight: 500 !important;
     display: block !important;
-    margin-top: 2rem !important;
+    margin-top: 1rem !important;
     margin-bottom: 1rem !important;
 }
 
