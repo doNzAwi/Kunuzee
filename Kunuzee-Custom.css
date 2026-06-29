@@ -1572,14 +1572,6 @@ footer .default_footer_link a {
    SECTION 17: THANK YOU PAGE — صفحة الشكر
    ────────────────────────────────────── */
 
-/* ─── إخفاء نص "لقد استلمنا طلبك..." اللي بيظهر عند الـ reload ─── */
-.thanks_container svg text,
-.thanks_container svg g[aria-label]:not([aria-label=""]) {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
 /* ─── تغيير نص "شكرا لاتمامك الطلب" + تلوينه + إضافة نص فرعي ─── */
 .thanks_container h1 {
     font-size: 0 !important;
