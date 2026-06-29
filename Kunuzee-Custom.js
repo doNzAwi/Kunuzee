@@ -528,6 +528,57 @@ setInterval(fixHeader, 300);
     observer.observe(document.body, { childList: true, subtree: true });
 })();
 
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 6.1: fixBackHomeButton — تعديل زر "العودة للرئيسية"
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixBackHomeButton() {
+        var link = document.querySelector('.thanks_container a[href="/"]');
+        if (!link) return;
+        if (link.dataset.btnFixed === 'true') return;
+
+        var span = link.querySelector('span[aria-hidden="true"]');
+        if (!span) return;
+
+        // غير السهم
+        span.textContent = ' →';
+
+        // حط السهم قبل النص
+        link.insertBefore(span, link.firstChild);
+
+        link.dataset.btnFixed = 'true';
+    }
+
+    fixBackHomeButton();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasThanks = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('thanks_container') ||
+                    node.querySelector?.('.thanks_container')
+                )) {
+                    hasThanks = true;
+                }
+            });
+        });
+        if (hasThanks) setTimeout(fixBackHomeButton, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(fixBackHomeButton, 300);
+        }
+    }, 300);
+})();
+
 // ───────────────────────────────────────────────────────────────────
 // FUNCTION 7: swapRefundAndTimeline — تبديل صندوقي سياسة الاسترداد والـ Timeline
 // ───────────────────────────────────────────────────────────────────
