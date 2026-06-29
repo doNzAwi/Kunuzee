@@ -2049,7 +2049,7 @@ footer .default_footer_link a {
     align-items: center !important;
 }
 
-.order-item-city span:last-child {
+.order-item-city .gov-value {
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
