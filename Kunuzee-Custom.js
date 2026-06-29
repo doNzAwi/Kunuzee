@@ -608,7 +608,7 @@ setInterval(fixHeader, 300);
 
         var subtitle = document.createElement('p');
         subtitle.className = 'thanks-subtitle';
-        subtitle.textContent = 'عايزين نشوفكم تاني قريب';
+        subtitle.textContent = 'نشوفكم تاني قريب';
         subtitle.style.cssText = 
             'color: #bf6000 !important;' +
             'font-weight: 500 !important;' +
