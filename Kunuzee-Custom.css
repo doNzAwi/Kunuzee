@@ -2046,7 +2046,13 @@ footer .default_footer_link a {
 
 /* ─── علم المحافظة في بوكس بيانات الطلب ─── */
 .order-item-city {
+    display: flex !important;
     align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.order-item-city span:first-child {
+    flex-shrink: 0 !important;
 }
 
 .order-item-city span:last-child {
@@ -2061,6 +2067,7 @@ footer .default_footer_link a {
     display: inline-block !important;
     border-radius: 15% !important;
     flex-shrink: 0 !important;
+    vertical-align: middle !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
