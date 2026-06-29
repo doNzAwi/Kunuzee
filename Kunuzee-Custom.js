@@ -2,9 +2,39 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ════════════════════════════════════════════════════════
-// FUNCTION 0: hideOrderReceivedText — إخفاء نص "لقد استلمنا طلبك"
-// ════════════════════════════════════════════════════════
+// ═════════════════════════════════════════════
+// INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
+// ═════════════════════════════════════════════
+(function() {
+    'use strict';
+    
+    // بنضيف style tag فوري في الـ head قبل ما المتصفح يبدأ يرندر البودي
+    var style = document.createElement('style');
+    style.id = 'kunuzee-instant-fouc-fix';
+    style.textContent = [
+        /* 1. أي <p> جوه .thanks_content مالوش class underline (اللي هو "عرض أحدث العروض") */
+        '.thanks_content p:not(.underline):not([class*="underline"]) { display: none !important; }',
+        /* 2. أي div مباشر جوه .mt-6 مالوش mb-12 (زرار العودة) */
+        '.thanks_content .mt-6 > div:not(.mb-12) { display: none !important; }',
+        /* 3. أي div مباشر جوه .thanks_content مالوش svg ولا .mt-6 */
+        '.thanks_content > div:not(:has(svg)):not(.mt-6) { display: none !important; }'
+    ].join(' ');
+    
+    if (document.head) {
+        document.head.appendChild(style);
+    } else {
+        var check = setInterval(function() {
+            if (document.head) {
+                document.head.appendChild(style);
+                clearInterval(check);
+            }
+        }, 10);
+    }
+})();
+
+// ═══════════════════════════════════════════════════════
+// FUNCTION 0: hideOrderReceivedText — تأمين إضافي بالـ content
+// ═══════════════════════════════════════════════════════
 (function() {
     'use strict';
 
@@ -18,14 +48,13 @@
 
     function shouldHide(el) {
         var text = (el.textContent || '').trim();
-        if (!text || text.length > 200) return false; // <— نتجاهل النصوص الطويلة (الفاتورة)
+        if (!text || text.length > 200) return false; // نتجاهل النصوص الطويلة (الفاتورة)
         return HIDE_KEYWORDS.some(function(kw) {
             return text.indexOf(kw) !== -1;
         });
     }
 
     function hideElements() {
-        // نستهدف .thanks_content فقط (الجزء العلوي)، مش .thanks_container
         var container = document.querySelector('.thanks_content');
         if (!container) return;
 
@@ -37,10 +66,8 @@
         });
     }
 
-    // اشتغل فورًا
     hideElements();
 
-    // Observer على .thanks_content فقط
     var container = document.querySelector('.thanks_content');
     if (container) {
         var observer = new MutationObserver(function() {
@@ -49,7 +76,6 @@
         observer.observe(container, { childList: true, subtree: true });
     }
 
-    // تأمين إضافي في أول 3 ثواني
     var interval = setInterval(hideElements, 50);
     setTimeout(function() { clearInterval(interval); }, 3000);
 })();
