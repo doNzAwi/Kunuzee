@@ -3,6 +3,12 @@
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
 
+(function() {
+    var style = document.createElement('style');
+    style.textContent = '.thanks_container h1 { visibility: hidden !important; } .thanks_container h1::after, .thanks_container h1::before { visibility: visible !important; }';
+    document.head.appendChild(style);
+})();
+
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 1: fixHeader — تعديل الهيدر
 // ───────────────────────────────────────────────────────────────
