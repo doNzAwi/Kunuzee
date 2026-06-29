@@ -2044,6 +2044,22 @@ footer .default_footer_link a {
   font-family: 'Tajawal', sans-serif !important;
 }
 
+/* ─── علم المحافظة في بوكس بيانات الطلب ─── */
+.order-item-city span:last-child {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.order-item-city .gov-flag {
+    height: 18px !important;
+    width: auto !important;
+    display: inline-block !important;
+    border-radius: 15% !important;
+    flex-shrink: 0 !important;
+    vertical-align: middle !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 18: REFUND POLICY ACCORDION — سياسة الاسترداد (كل الصفحات)
    ─────────────────────────────────────────────────────────────── */
