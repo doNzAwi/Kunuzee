@@ -329,50 +329,33 @@ setInterval(fixHeader, 300);
 
     var PLACEHOLDER_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
 
-    // ═══════════════════════════════════════════════════════
-    // NEW: Force placeholder as default selected
-    // ═══════════════════════════════════════════════════════
-    function forcePlaceholderAsDefault() {
-        var input = document.getElementById('react-select-2-input');
-        if (!input) return;
-
+    function fixPlaceholderSingleValue() {
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
         var text = sv.textContent.trim();
 
-        // لو الـ current value مش الـ placeholder، نفضي الـ value
-        if (text !== PLACEHOLDER_TEXT && text !== '') {
-            // ندور على الـ React instance ونفضيها
-            var reactKey = Object.keys(input).find(function(k) {
-                return k.startsWith('__react');
-            });
-
-            if (reactKey) {
-                var fiber = input[reactKey];
-                var instance = fiber?.return?.stateNode || fiber?._owner?.stateNode;
-
-                // لو لقينا instance وفيها clearValue
-                if (instance && instance.clearValue) {
-                    instance.clearValue();
-                    return;
-                }
-
-                // أو لو فيها setValue
-                if (instance && instance.setValue) {
-                    instance.setValue(null);
-                    return;
-                }
-            }
-
-            // Plan B: نغير الـ DOM مباشرة
-            sv.textContent = PLACEHOLDER_TEXT;
-            sv.dataset.placeholder = 'true';
-
-            // نشيل العلم
+        // ✅ لو الـ text هو الـ placeholder أو فاضي
+        if (text === PLACEHOLDER_TEXT || text === '' || text === 'اختر المحافظة...') {
+            // نشيل العلم لو موجود
             var flag = sv.querySelector('.gov-flag');
             if (flag) flag.remove();
+
+            // نحط الـ placeholder text
+            if (text !== PLACEHOLDER_TEXT) {
+                sv.textContent = PLACEHOLDER_TEXT;
+            }
+
+            // نضيف style
+            sv.style.color = '#ce982e';
+            sv.style.fontWeight = '400';
+            sv.dataset.placeholder = 'true';
+
+            return;
         }
+
+        // ✅ لو محافظة حقيقية
+        sv.dataset.placeholder = 'false';
     }
 
     function fixPlaceholderOption() {
@@ -390,44 +373,10 @@ setInterval(fixHeader, 300);
                 menuList.insertBefore(opt, menuList.firstChild);
             }
 
-            // ✅ نشيل العلم لو موجود
+            // ✅ نشيل العلم
             var flag = opt.querySelector('.gov-flag');
             if (flag) flag.remove();
-
-            // ✅ نضيف style
-            opt.style.color = '#ce982e';
-            opt.style.fontWeight = '400';
-            opt.style.fontStyle = 'italic';
         });
-    }
-
-    function fixPlaceholderSingleValue() {
-        var sv = document.querySelector('.select__single-value');
-        if (!sv) return;
-
-        var text = sv.textContent.trim();
-
-        // ✅ لو الـ text هو الـ placeholder
-        if (text === PLACEHOLDER_TEXT) {
-            // نشيل العلم لو موجود
-            var flag = sv.querySelector('.gov-flag');
-            if (flag) flag.remove();
-
-            // نضيف style
-            sv.style.color = '#ce982e';
-            sv.style.fontWeight = '400';
-            sv.dataset.placeholder = 'true';
-
-            return;
-        }
-
-        // ✅ لو الـ text فاضي (مفروض يبقى placeholder)
-        if (text === '' || text === 'اختر المحافظة...') {
-            sv.textContent = PLACEHOLDER_TEXT;
-            sv.style.color = '#ce982e';
-            sv.style.fontWeight = '400';
-            sv.dataset.placeholder = 'true';
-        }
     }
 
     var observer = new MutationObserver(function(mutations) {
@@ -454,9 +403,8 @@ setInterval(fixHeader, 300);
     });
 
     function runAll() {
-        forcePlaceholderAsDefault();
-        fixPlaceholderOption();
         fixPlaceholderSingleValue();
+        fixPlaceholderOption();
     }
 
     if (document.readyState === 'loading') {
