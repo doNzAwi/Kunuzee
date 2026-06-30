@@ -1287,74 +1287,17 @@ setInterval(fixHeader, 300);
 (function() {
     'use strict';
 
-    var REVEALED = false;
-    var CHECKED = false;
-
-    function isActuallyEmpty() {
-        // ✅ السلة فعلاً فاضية لو:
-        // 1. فيه h1 "سلة المشتريات فارغة"
-        var emptyHeading = Array.from(document.querySelectorAll('h1')).find(function(h) {
-            return h.textContent.trim() === 'سلة المشتريات فارغة';
-        });
-        if (!emptyHeading) return false;
-
-        // 2. مفيش checkout form (يعني مفيش منتجات)
-        var hasCheckoutForm = !!document.querySelector(
-            '.checkout_form, form, [class*="checkout"], [data-checkout], .contact-info-heading'
-        );
-
-        // 3. مفيش cart items
-        var hasCartItems = !!document.querySelector(
-            '[data-cart="item"], .cart-item, [class*="cart-item"], [data-cart="item-name"]'
-        );
-
-        // 4. مفيش input fields بتاعة الدفع (اسم، تليفون، إيميل...)
-        var hasPaymentInputs = !!document.querySelector(
-            'input[name*="name"], input[name*="phone"], input[name*="email"], input[name*="governorate"]'
-        );
-
-        return !hasCheckoutForm && !hasCartItems && !hasPaymentInputs;
-    }
-
     function reveal() {
-        if (REVEALED) return;
+        var hasCheckout = !!document.querySelector(
+            '.checkout_form, form, [data-cart="item"], input[name*="phone"], input[name*="email"], .contact-info-heading'
+        );
 
-        var style = document.getElementById('kunuzee-fouc-style');
-        if (style) {
-            style.remove();
-            REVEALED = true;
-        }
+        if (hasCheckout) return;
+
+        document.body.classList.add('kunuzee-empty-cart');
     }
 
-    function checkAndReveal() {
-        if (CHECKED) return;
-        CHECKED = true;
-
-        if (isActuallyEmpty()) {
-            reveal();
-        }
-        // لو مش فاضية — نسيب الـ hide شغال (مفيش reveal)
-    }
-
-    // نستنى React يحمل
-    setTimeout(checkAndReveal, 50);
-    setTimeout(checkAndReveal, 150);
-    setTimeout(checkAndReveal, 300);
-    setTimeout(checkAndReveal, 600);
-    setTimeout(checkAndReveal, 1000);
-
-    // Observer
-    var observer = new MutationObserver(function() {
-        if (!REVEALED) {
-            CHECKED = false;
-            setTimeout(checkAndReveal, 50);
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // Fallback: بعد 2 ثانية لو لسة مخفي — نفك (أمان)
-    setTimeout(function() {
-        if (!REVEALED) reveal();
-    }, 2000);
+    setTimeout(reveal, 50);
+    setTimeout(reveal, 150);
+    setTimeout(reveal, 400);
 })();
