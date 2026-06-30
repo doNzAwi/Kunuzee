@@ -2,6 +2,19 @@
    KUNUZEE STORE — CUSTOM STYLESHEET
    Platform: Easy Orders
    ═══════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════
+   CRITICAL FOUC FIX — Checkout Empty Cart Flash Prevention
+   ════════════════════════════════════════════════════════ */
+div.mt-20.flex.h-96.items-center.justify-center,
+div.mt-20.flex.h-96 {
+    display: none !important;
+}
+
+/* إظهار لما السلة تكون فاضية (بـ JS class) */
+body.kunuzee-empty-cart div.mt-20.flex.h-96.items-center.justify-center,
+body.kunuzee-empty-cart div.mt-20.flex.h-96 {
+    display: flex !important;
+}
 
 /* ───────────────────────────────────────────────────────────────
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
