@@ -329,6 +329,52 @@ setInterval(fixHeader, 300);
 
     var PLACEHOLDER_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
 
+    // ═══════════════════════════════════════════════════════
+    // NEW: Force placeholder as default selected
+    // ═══════════════════════════════════════════════════════
+    function forcePlaceholderAsDefault() {
+        var input = document.getElementById('react-select-2-input');
+        if (!input) return;
+
+        var sv = document.querySelector('.select__single-value');
+        if (!sv) return;
+
+        var text = sv.textContent.trim();
+
+        // لو الـ current value مش الـ placeholder، نفضي الـ value
+        if (text !== PLACEHOLDER_TEXT && text !== '') {
+            // ندور على الـ React instance ونفضيها
+            var reactKey = Object.keys(input).find(function(k) {
+                return k.startsWith('__react');
+            });
+
+            if (reactKey) {
+                var fiber = input[reactKey];
+                var instance = fiber?.return?.stateNode || fiber?._owner?.stateNode;
+
+                // لو لقينا instance وفيها clearValue
+                if (instance && instance.clearValue) {
+                    instance.clearValue();
+                    return;
+                }
+
+                // أو لو فيها setValue
+                if (instance && instance.setValue) {
+                    instance.setValue(null);
+                    return;
+                }
+            }
+
+            // Plan B: نغير الـ DOM مباشرة
+            sv.textContent = PLACEHOLDER_TEXT;
+            sv.dataset.placeholder = 'true';
+
+            // نشيل العلم
+            var flag = sv.querySelector('.gov-flag');
+            if (flag) flag.remove();
+        }
+    }
+
     function fixPlaceholderOption() {
         var menu = document.querySelector('.select__menu');
         if (!menu) return;
@@ -348,9 +394,10 @@ setInterval(fixHeader, 300);
             var flag = opt.querySelector('.gov-flag');
             if (flag) flag.remove();
 
-            // ✅ نضيف style class
+            // ✅ نضيف style
             opt.style.color = '#ce982e';
             opt.style.fontWeight = '400';
+            opt.style.fontStyle = 'italic';
         });
     }
 
@@ -359,15 +406,28 @@ setInterval(fixHeader, 300);
         if (!sv) return;
 
         var text = sv.textContent.trim();
-        if (text !== PLACEHOLDER_TEXT) return;
 
-        // ✅ نشيل العلم لو موجود
-        var flag = sv.querySelector('.gov-flag');
-        if (flag) flag.remove();
+        // ✅ لو الـ text هو الـ placeholder
+        if (text === PLACEHOLDER_TEXT) {
+            // نشيل العلم لو موجود
+            var flag = sv.querySelector('.gov-flag');
+            if (flag) flag.remove();
 
-        // ✅ نضيف style
-        sv.style.color = '#ce982e';
-        sv.style.fontWeight = '400';
+            // نضيف style
+            sv.style.color = '#ce982e';
+            sv.style.fontWeight = '400';
+            sv.dataset.placeholder = 'true';
+
+            return;
+        }
+
+        // ✅ لو الـ text فاضي (مفروض يبقى placeholder)
+        if (text === '' || text === 'اختر المحافظة...') {
+            sv.textContent = PLACEHOLDER_TEXT;
+            sv.style.color = '#ce982e';
+            sv.style.fontWeight = '400';
+            sv.dataset.placeholder = 'true';
+        }
     }
 
     var observer = new MutationObserver(function(mutations) {
@@ -394,6 +454,7 @@ setInterval(fixHeader, 300);
     });
 
     function runAll() {
+        forcePlaceholderAsDefault();
         fixPlaceholderOption();
         fixPlaceholderSingleValue();
     }
