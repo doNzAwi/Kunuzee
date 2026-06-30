@@ -2,29 +2,20 @@
    KUNUZEE STORE — CUSTOM STYLESHEET
    Platform: Easy Orders
    ═══════════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════
-   INSTANT FOUC — Checkout Empty Cart Flash Prevention
-   ═══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+   INSTANT FOUC — Checkout Empty Cart (أول قاعدة في الملف)
+   ══════════════════════════════════════════════════ */
 
-/* إخفاء فوري — كل الـ empty cart elements */
-.mt-20.flex.h-96,
-.mt-20.flex,
-h1.text-4xl.font-bold,
-h1.text-4xl.font-bold + p,
-svg[viewBox="0 0 120 120"] {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    transition: none !important;
+/* إخفاء فوري — مفيش flash خالص */
+div.mt-20.flex.h-96.items-center.justify-center,
+div.mt-20.flex[style*="height: 100%"] {
+    display: none !important;
 }
 
-/* إظهار لما السلة تكون فاضية (بـ JS class) */
-body.kunuzee-empty-cart .mt-20.flex.h-96,
-body.kunuzee-empty-cart .mt-20.flex,
-body.kunuzee-empty-cart h1.text-4xl.font-bold,
-body.kunuzee-empty-cart h1.text-4xl.font-bold + p,
-body.kunuzee-empty-cart svg[viewBox="0 0 120 120"] {
-    opacity: 1 !important;
-    visibility: visible !important;
+/* إظهار لما السلة تكون فاضية */
+body.kunuzee-empty-cart div.mt-20.flex.h-96.items-center.justify-center,
+body.kunuzee-empty-cart div.mt-20.flex[style*="height: 100%"] {
+    display: flex !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
