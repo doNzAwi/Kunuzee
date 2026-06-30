@@ -2,9 +2,9 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ════════════════════════════════
-// INSTANT FOUC + EMPTY CART REVEAL
-// ════════════════════════════════
+// ══════════════════════════
+// CHECKOUT EMPTY CART REVEAL
+// ══════════════════════════
 (function() {
     'use strict';
 
@@ -49,7 +49,6 @@
         lastHasCheckout = current;
     }, 300);
 
-    // Fallback: بعد 2 ثانية اظهر على أي حال (أمان)
     setTimeout(function() {
         document.body.classList.add('kunuzee-empty-cart');
     }, 2000);
