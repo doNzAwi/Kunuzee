@@ -1423,6 +1423,7 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
 .checkout_container input::placeholder,
 section.contact-info-heading input::placeholder {
     font-family: 'Tajawal', sans-serif !important;
+    font-size: 1rem !important;
 }
 
 /* ─── الـ option الوهمي "من فضلك قم باختيار..." — لون ذهبي دائماً ─── */
