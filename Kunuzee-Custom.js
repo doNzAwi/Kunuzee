@@ -182,6 +182,13 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
+        // ✅ لو القائمة مفتوحة دلوقتي، متعملش حاجة (المستخدم بيختار)
+        var menu = document.querySelector('.select__menu');
+        if (menu) {
+            var menuStyle = window.getComputedStyle(menu);
+            if (menuStyle.display !== 'none' && menuStyle.visibility !== 'hidden') return;
+        }
+
         // لو اتعدل قبل كده ومش placeholder، نسيبه
         if (sv.dataset.govFixed === 'true' && sv.dataset.isPlaceholder !== 'true') return;
 
@@ -295,7 +302,6 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (sv && sv.dataset.isPlaceholder === 'true') {
             sv.dataset.isPlaceholder = 'false';
-            // الـ MutationObserver هيشغّل fixSingleValue() وتضيف العلم
         }
     });
 
@@ -329,8 +335,8 @@ setInterval(fixHeader, 300);
             }
         });
 
-        if (needPlaceholder) replaceDefaultWithPlaceholder();
         if (needSingle) fixSingleValue();
+        if (needPlaceholder) setTimeout(replaceDefaultWithPlaceholder, 50);
         if (needMenu) {
             setTimeout(fixMenuOptions, 0);
             setTimeout(fixMenuOptions, 50);
