@@ -254,13 +254,8 @@ setInterval(fixHeader, 300);
         setTimeout(function() {
             var selected = menuList.querySelector('.select__option--is-selected');
             if (!selected) return;
-
-            var menuRect = menuList.getBoundingClientRect();
-            var selectedRect = selected.getBoundingClientRect();
-            var offset = selectedRect.top - menuRect.top - (menuRect.height / 2) + (selectedRect.height / 2);
-            menuList.scrollTop += offset;
+            selected.scrollIntoView({ block: 'center', behavior: 'auto' });
         }, 0);
-    }
 
     const observer = new MutationObserver(function(mutations) {
         let needSingle = false;
