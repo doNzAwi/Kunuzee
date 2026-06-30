@@ -2,58 +2,6 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ══════════════════════════
-// CHECKOUT EMPTY CART REVEAL
-// ══════════════════════════
-(function() {
-    'use strict';
-
-    function revealIfEmpty() {
-        var hasCheckout = !!document.querySelector(
-            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
-        );
-        if (hasCheckout) return;
-
-        var hasCartItems = !!document.querySelector(
-            '[data-cart="item"], .cart-item, [data-cart="item-name"], [data-cart="item-price"]'
-        );
-        if (hasCartItems) return;
-
-        var isEmpty = Array.from(document.querySelectorAll('h1')).some(function(h) {
-            return h.textContent.trim() === 'سلة المشتريات فارغة';
-        });
-
-        if (isEmpty) {
-            document.body.classList.add('kunuzee-empty-cart');
-        }
-    }
-
-    revealIfEmpty();
-    setTimeout(revealIfEmpty, 50);
-    setTimeout(revealIfEmpty, 150);
-    setTimeout(revealIfEmpty, 300);
-
-    var observer = new MutationObserver(function() {
-        setTimeout(revealIfEmpty, 50);
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastHasCheckout = null;
-    setInterval(function() {
-        var current = !!document.querySelector(
-            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
-        );
-        if (lastHasCheckout !== null && lastHasCheckout && !current) {
-            revealIfEmpty();
-        }
-        lastHasCheckout = current;
-    }, 300);
-
-    setTimeout(function() {
-        document.body.classList.add('kunuzee-empty-cart');
-    }, 2000);
-})();
-
 // ═════════════════════════════════════════════
 // INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
 // ═════════════════════════════════════════════
