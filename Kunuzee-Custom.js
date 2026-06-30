@@ -2,42 +2,84 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ═════════════════════════════════════════
-// INSTANT FOUC — Checkout Empty Cart Reveal
-// ═════════════════════════════════════════
+// ═══════════════════════════════════════
+// INSTANT FOUC PREVENTION — Checkout Page
+// ═══════════════════════════════════════
 (function() {
     'use strict';
-    
-    function revealIfEmpty() {
-        // ✅ لو فيه أي عنصر من صفحة الدفع — السلة فيها منتجات، اخرج فوراً
-        if (document.querySelector(
-            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-cart="item"], .cart-item'
-        )) {
-            return;
-        }
-        
-        // ✅ لو فيه عنوان "سلة المشتريات فارغة" — السلة فاضية، اظهر
-        var headings = document.querySelectorAll('h1');
-        for (var i = 0; i < headings.length; i++) {
-            if (headings[i].textContent.trim() === 'سلة المشتريات فارغة') {
-                document.body.classList.add('kunuzee-empty-cart');
-                return;
+
+    // 1. إخفاء فوري لكل محتوى الصفحة ماعدا الهيدر
+    var style = document.createElement('style');
+    style.id = 'kunuzee-checkout-fouc';
+    style.textContent = [
+        'body > *:not(.default_header_container):not(header):not(script):not(style):not(link) {',
+            'display: none !important;',
+        '}'
+    ].join(' ');
+
+    if (document.head) {
+        document.head.appendChild(style);
+    } else {
+        var checkHead = setInterval(function() {
+            if (document.head) {
+                document.head.appendChild(style);
+                clearInterval(checkHead);
             }
+        }, 10);
+    }
+
+    // 2. دالة التحقق والإظهار
+    function checkAndReveal() {
+        var hasCheckout = !!document.querySelector(
+            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
+        );
+
+        var hasCartItems = !!document.querySelector(
+            '[data-cart="item"], .cart-item, [data-cart="item-name"], [data-cart="item-price"]'
+        );
+
+        var isEmptyCart = Array.from(document.querySelectorAll('h1')).some(function(h) {
+            return h.textContent.trim() === 'سلة المشتريات فارغة';
+        });
+
+        var foucStyle = document.getElementById('kunuzee-checkout-fouc');
+        if (!foucStyle) return;
+
+        // لو فيه منتجات (checkout form) OR السلة فاضية فعلاً — نفك الـ hide
+        if (hasCheckout || hasCartItems || isEmptyCart) {
+            foucStyle.remove();
         }
     }
-    
-    // شغل فوراً
-    revealIfEmpty();
-    
-    // شغل تاني لما الـ DOM يجهز
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', revealIfEmpty);
-    }
-    
-    // شغل بعد لحظات بسيطة (React بيحمل)
-    setTimeout(revealIfEmpty, 0);
-    setTimeout(revealIfEmpty, 50);
-    setTimeout(revealIfEmpty, 150);
+
+    // 3. شغل التحقق بعد لحظات
+    setTimeout(checkAndReveal, 50);
+    setTimeout(checkAndReveal, 150);
+    setTimeout(checkAndReveal, 300);
+    setTimeout(checkAndReveal, 600);
+
+    // 4. Observer لو React بيغير الـ DOM
+    var observer = new MutationObserver(function() {
+        setTimeout(checkAndReveal, 50);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // 5. Interval للتغييرات الديناميكية (العميل يفضي السلة وهو في الصفحة)
+    var lastHasCheckout = null;
+    setInterval(function() {
+        var currentHasCheckout = !!document.querySelector(
+            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
+        );
+        if (lastHasCheckout !== null && lastHasCheckout !== currentHasCheckout) {
+            checkAndReveal();
+        }
+        lastHasCheckout = currentHasCheckout;
+    }, 300);
+
+    // 6. Fallback: بعد 2 ثانية نفك على أي حال
+    setTimeout(function() {
+        var foucStyle = document.getElementById('kunuzee-checkout-fouc');
+        if (foucStyle) foucStyle.remove();
+    }, 2000);
 })();
 
 // ═════════════════════════════════════════════
