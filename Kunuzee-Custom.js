@@ -9,60 +9,49 @@
     'use strict';
 
     function revealIfEmpty() {
-        // لو فيه checkout form → السلة فيها منتجات → اخرج (سيب الـ hide شغال)
         var hasCheckout = !!document.querySelector(
             '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
         );
         if (hasCheckout) return;
 
-        // لو فيه عناصر في العربة → اخرج
         var hasCartItems = !!document.querySelector(
             '[data-cart="item"], .cart-item, [data-cart="item-name"], [data-cart="item-price"]'
         );
         if (hasCartItems) return;
 
-        // لو لقينا عنوان "سلة المشتريات فارغة" → السلة فاضية → شيل الـ hide
         var isEmpty = Array.from(document.querySelectorAll('h1')).some(function(h) {
             return h.textContent.trim() === 'سلة المشتريات فارغة';
         });
 
         if (isEmpty) {
-            var fouc = document.getElementById('kunuzee-fouc');
-            if (fouc) fouc.remove();
+            document.body.classList.add('kunuzee-empty-cart');
         }
     }
 
-    // شغل فوراً
     revealIfEmpty();
-
-    // شغل تاني بعد لحظات (React بيحمل)
     setTimeout(revealIfEmpty, 50);
     setTimeout(revealIfEmpty, 150);
     setTimeout(revealIfEmpty, 300);
 
-    // Observer: لو العميل فضى السلة وهو في الصفحة (بدون reload)
     var observer = new MutationObserver(function() {
         setTimeout(revealIfEmpty, 50);
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Interval: لو الـ checkout form اختفى ديناميكياً
     var lastHasCheckout = null;
     setInterval(function() {
         var current = !!document.querySelector(
             '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
         );
         if (lastHasCheckout !== null && lastHasCheckout && !current) {
-            // كان فيه checkout واختفى → العميل فضى السلة
             revealIfEmpty();
         }
         lastHasCheckout = current;
     }, 300);
 
-    // Fallback: بعد 2 ثانية شيل الـ hide على أي حال (أمان)
+    // Fallback: بعد 2 ثانية اظهر على أي حال (أمان)
     setTimeout(function() {
-        var fouc = document.getElementById('kunuzee-fouc');
-        if (fouc) fouc.remove();
+        document.body.classList.add('kunuzee-empty-cart');
     }, 2000);
 })();
 
