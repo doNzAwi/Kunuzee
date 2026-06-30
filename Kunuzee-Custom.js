@@ -2,84 +2,40 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════
-// INSTANT FOUC PREVENTION — Checkout Page
-// ═══════════════════════════════════════
+// ══════════════════════════
+// CHECKOUT EMPTY CART REVEAL
+// ══════════════════════════
 (function() {
     'use strict';
-
-    // 1. إخفاء فوري لكل محتوى الصفحة ماعدا الهيدر
-    var style = document.createElement('style');
-    style.id = 'kunuzee-checkout-fouc';
-    style.textContent = [
-        'body > *:not(.default_header_container):not(header):not(script):not(style):not(link) {',
-            'display: none !important;',
-        '}'
-    ].join(' ');
-
-    if (document.head) {
-        document.head.appendChild(style);
-    } else {
-        var checkHead = setInterval(function() {
-            if (document.head) {
-                document.head.appendChild(style);
-                clearInterval(checkHead);
-            }
-        }, 10);
-    }
-
-    // 2. دالة التحقق والإظهار
-    function checkAndReveal() {
+    
+    function revealIfEmpty() {
         var hasCheckout = !!document.querySelector(
             '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
         );
-
-        var hasCartItems = !!document.querySelector(
-            '[data-cart="item"], .cart-item, [data-cart="item-name"], [data-cart="item-price"]'
-        );
-
-        var isEmptyCart = Array.from(document.querySelectorAll('h1')).some(function(h) {
+        
+        var isEmpty = Array.from(document.querySelectorAll('h1')).some(function(h) {
             return h.textContent.trim() === 'سلة المشتريات فارغة';
         });
-
-        var foucStyle = document.getElementById('kunuzee-checkout-fouc');
-        if (!foucStyle) return;
-
-        // لو فيه منتجات (checkout form) OR السلة فاضية فعلاً — نفك الـ hide
-        if (hasCheckout || hasCartItems || isEmptyCart) {
-            foucStyle.remove();
+        
+        if (!hasCheckout && isEmpty) {
+            document.body.classList.add('kunuzee-empty-cart');
         }
     }
-
-    // 3. شغل التحقق بعد لحظات
-    setTimeout(checkAndReveal, 50);
-    setTimeout(checkAndReveal, 150);
-    setTimeout(checkAndReveal, 300);
-    setTimeout(checkAndReveal, 600);
-
-    // 4. Observer لو React بيغير الـ DOM
-    var observer = new MutationObserver(function() {
-        setTimeout(checkAndReveal, 50);
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // 5. Interval للتغييرات الديناميكية (العميل يفضي السلة وهو في الصفحة)
+    
+    setTimeout(revealIfEmpty, 0);
+    setTimeout(revealIfEmpty, 50);
+    setTimeout(revealIfEmpty, 150);
+    setTimeout(revealIfEmpty, 300);
+    
+    // Dynamic: لو العميل فضى السلة وهو في الصفحة
     var lastHasCheckout = null;
     setInterval(function() {
-        var currentHasCheckout = !!document.querySelector(
-            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]'
-        );
-        if (lastHasCheckout !== null && lastHasCheckout !== currentHasCheckout) {
-            checkAndReveal();
+        var current = !!document.querySelector('.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-checkout]');
+        if (lastHasCheckout !== null && lastHasCheckout !== current && !current) {
+            revealIfEmpty();
         }
-        lastHasCheckout = currentHasCheckout;
+        lastHasCheckout = current;
     }, 300);
-
-    // 6. Fallback: بعد 2 ثانية نفك على أي حال
-    setTimeout(function() {
-        var foucStyle = document.getElementById('kunuzee-checkout-fouc');
-        if (foucStyle) foucStyle.remove();
-    }, 2000);
 })();
 
 // ═════════════════════════════════════════════
