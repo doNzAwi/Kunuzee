@@ -2,6 +2,49 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+// INSTANT FOUC PREVENTION — Checkout Empty Cart Flash
+// ═══════════════════════════════════════════════════
+(function() {
+    'use strict';
+    
+    var style = document.createElement('style');
+    style.id = 'kunuzee-checkout-fouc-fix';
+    style.textContent = [
+        /* 1. أي element فيه h1 بـ "سلة المشتريات فارغة" — يتخفى فوراً */
+        'h1:contains("سلة المشتريات فارغة"),',
+        'h1:contains("سلة المشتريات فارغة") ~ *,',
+        'h1:contains("سلة المشتريات فارغة") + *,',
+        'h1:contains("سلة المشتريات فارغة") ~ p,',
+        
+        /* 2. الـ parent containers بتاعته (أي حاجة فيها الـ SVG + النص) */
+        'div:has(> div > div > svg):has(h1:contains("سلة المشتريات فارغة")),',
+        'div:has(> div > div > div > svg):has(h1:contains("سلة المشتريات فارغة")),',
+        
+        /* 3. أي container فيه الـ SVG ده (الـ empty box) */
+        'div:has(svg):has(h1:contains("سلة المشتريات فارغة"))',
+        
+        '{',
+            'opacity: 0 !important;',
+            'visibility: hidden !important;',
+            'pointer-events: none !important;',
+            'transition: none !important;',
+            'animation: none !important;',
+        '}'
+    ].join(' ');
+    
+    if (document.head) {
+        document.head.appendChild(style);
+    } else {
+        var check = setInterval(function() {
+            if (document.head) {
+                document.head.appendChild(style);
+                clearInterval(check);
+            }
+        }, 10);
+    }
+})();
+
 // ═════════════════════════════════════════════
 // INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
 // ═════════════════════════════════════════════
@@ -1279,4 +1322,65 @@ setInterval(fixHeader, 300);
 
     observer.observe(document.body, { childList: true, subtree: true });
     setInterval(fixGovPlaceholder, 300);
+})();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 14: revealEmptyCartIfActuallyEmpty — إظهار السلة الفاضية
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var REVEALED = false;
+
+    function revealEmptyCartIfActuallyEmpty() {
+        if (REVEALED) return;
+
+        // نبحث عن الـ empty cart state
+        var emptyHeading = Array.from(document.querySelectorAll('h1')).find(function(h) {
+            return h.textContent.trim() === 'سلة المشتريات فارغة';
+        });
+
+        // لو مش موجود — يبقى السلة مش فاضية، مفيش حاجة تعملها
+        if (!emptyHeading) return;
+
+        // نتأكد إن مفيش checkout form حقيقي (يعني السلة فعلاً فاضية)
+        var hasCheckoutForm = !!document.querySelector('.checkout_form, form[class*="checkout"], [class*="checkout"] form, [data-checkout]');
+        var hasCartItems = !!document.querySelector('[data-cart="item"], .cart-item, [class*="cart-item"]');
+
+        // لو فيه checkout form أو cart items — يبقى دي FOUC ومش فاضية
+        if (hasCheckoutForm || hasCartItems) {
+            // نخلي الـ style tag يفضل شغال (يخفي الـ empty cart)
+            return;
+        }
+
+        // ✅ السلة فعلاً فاضية — نفك الـ FOUC fix
+        var foucStyle = document.getElementById('kunuzee-checkout-fouc-fix');
+        if (foucStyle) {
+            foucStyle.remove();
+            REVEALED = true;
+        }
+    }
+
+    // نستنى شوية عشان React يحمل
+    setTimeout(revealEmptyCartIfActuallyEmpty, 100);
+    setTimeout(revealEmptyCartIfActuallyEmpty, 300);
+    setTimeout(revealEmptyCartIfActuallyEmpty, 600);
+    setTimeout(revealEmptyCartIfActuallyEmpty, 1000);
+
+    // Observer لو React بيغير الـ DOM بعدين
+    var observer = new MutationObserver(function() {
+        if (!REVEALED) {
+            setTimeout(revealEmptyCartIfActuallyEmpty, 50);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Fallback: لو فضلنا 3 ثواني ومتحققناش — نفك على أي حال (أمان)
+    setTimeout(function() {
+        if (!REVEALED) {
+            var foucStyle = document.getElementById('kunuzee-checkout-fouc-fix');
+            if (foucStyle) foucStyle.remove();
+        }
+    }, 3000);
 })();
