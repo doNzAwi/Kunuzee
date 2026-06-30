@@ -1422,28 +1422,46 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
    ───────────────────────────────────────────── */
 
 /* ─── الـ option نفسها في القائمة المنسدلة ─── */
-.select__option:has(.gov-flag[alt="من فضلك قم باختيار محافظتك من القائمة"]),
-.select__option[data-value="من فضلك قم باختيار محافظتك من القائمة"] {
+.select__option {
+    color: #ce982e !important; /* كل الـ options لونها ذهبي */
+    font-weight: 400 !important;
+}
+
+/* لما تكون مختارة (selected) تبقى برتقالي */
+.select__option--is-selected {
+    color: #bf6000 !important;
+    font-weight: 500 !important;
+}
+
+/* لما الـ mouse يعدي عليها (focused) */
+.select__option--is-focused {
+    background-color: #fcf5e2 !important;
+    color: #bf6000 !important;
+}
+
+/* ─── الـ placeholder option (أول واحدة) ─── */
+.select__option:first-child {
     color: #ce982e !important;
     font-weight: 400 !important;
-    order: -999 !important; /* تفضل في الأول */
+    font-style: italic !important;
 }
 
 /* إخفاء العلم للـ placeholder option */
-.select__option:has(.gov-flag[alt="من فضلك قم باختيار محافظتك من القائمة"]) .gov-flag,
-.select__option[data-value="من فضلك قم باختيار محافظتك من القائمة"] .gov-flag {
+.select__option:first-child .gov-flag {
     display: none !important;
 }
 
 /* ─── لما تكون مختارة في الـ singleValue (الصندوق المغلق) ─── */
-.select__single-value:has(.gov-flag[alt="من فضلك قم باختيار محافظتك من القائمة"]) {
-    color: #ce982e !important;
-    font-weight: 400 !important;
+/* نستخدم data attribute عشان نعرف الـ placeholder */
+.select__single-value[data-placeholder="true"],
+.select__single-value[data-placeholder="true"] .gov-flag {
+    display: none !important;
 }
 
-/* إخفاء العلم في حالة الـ placeholder */
-.select__single-value:has(.gov-flag[alt="من فضلك قم باختيار محافظتك من القائمة"]) .gov-flag {
-    display: none !important;
+/* لما الـ singleValue فيه placeholder text */
+.select__single-value:only-child {
+    color: #ce982e !important;
+    font-weight: 400 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
