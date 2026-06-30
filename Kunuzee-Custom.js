@@ -8,130 +8,90 @@
 (function() {
     'use strict';
 
-    var EMPTY_KEYWORDS = ['سلة المشتريات فارغة', 'لا يوجد لديك مشتريات'];
-    var CART_ITEM_SELECTORS = ['.checkout_cart_items_container .cart-item', '.cart-item'];
-    var EMPTY_CART_SELECTORS = [
-        '.empty-cart',
-        '.cart-empty',
-        '.empty-state',
-        '[class*="empty-cart"]',
-        '[class*="cart-empty"]'
-    ];
+    var EMPTY_HEADING = 'سلة المشتريات فارغة';
+    var CART_ITEM_SELECTOR = '.checkout_cart_items_container .cart-item, .cart-item[data-cart="item"], [data-cart="item"]';
 
-    // 1. Style فوري يخفي الحالات المعروفة قبل ما المتصفح يرندر
-    var style = document.createElement('style');
-    style.id = 'kunuzee-checkout-empty-fouc';
-    style.textContent = EMPTY_CART_SELECTORS.join(',\n') + ' {\n' +
-        '    display: none !important;\n' +
-        '    visibility: hidden !important;\n' +
-        '    opacity: 0 !important;\n' +
-        '}';
-
-    if (document.head) {
-        document.head.appendChild(style);
-    } else {
-        var checkHead = setInterval(function() {
-            if (document.head) {
-                document.head.appendChild(style);
-                clearInterval(checkHead);
-            }
-        }, 10);
-    }
-
-    // 2. هل السلة فيها منتجات فعلاً؟
-    function hasCartItems() {
-        for (var i = 0; i < CART_ITEM_SELECTORS.length; i++) {
-            if (document.querySelector(CART_ITEM_SELECTORS[i])) return true;
-        }
-        return false;
-    }
-
-    // 3. دور على عنصر السلة الفارغة
-    function findEmptyCartElement() {
-        // أولاً: بالـ class المباشر
-        for (var i = 0; i < EMPTY_CART_SELECTORS.length; i++) {
-            var el = document.querySelector(EMPTY_CART_SELECTORS[i]);
-            if (el) return el;
-        }
-
-        // ثانياً: بالـ text content (الـ h1 اللي فيه "سلة المشتريات فارغة")
-        var headings = document.querySelectorAll('h1, h2, h3');
+    function findEmptyCartContainer() {
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
         for (var i = 0; i < headings.length; i++) {
-            var text = (headings[i].textContent || '').trim();
-            for (var j = 0; j < EMPTY_KEYWORDS.length; j++) {
-                if (text.indexOf(EMPTY_KEYWORDS[j]) !== -1) {
-                    var parent = headings[i].parentElement;
-                    if (parent) {
-                        var grand = parent.parentElement;
-                        if (grand && grand.children.length <= 3) return grand;
-                        return parent;
+            var text = headings[i].textContent.trim();
+            if (text.indexOf(EMPTY_HEADING) !== -1) {
+                var el = headings[i];
+                // نمشي لأعلى 4 مستويات كحد أقصى
+                for (var up = 0; up < 4 && el && el.parentElement; up++) {
+                    el = el.parentElement;
+                    // أمان: متخبّيش الـ body أو main أو أي حاجة كبيرة
+                    if (el.tagName === 'BODY' || el.tagName === 'MAIN' || el.tagName === 'HTML') break;
+                    // أمان: لو الـ container ده جواه هيدر أو فوتر، متخبّيهوش
+                    if (el.querySelector('header, footer, nav, .default_header_container')) continue;
+
+                    var txt = el.textContent || '';
+                    // نتأكد إن الـ container ده بيحتوي النص الفرعي أو الجرافيكس
+                    if (txt.indexOf('لا يوجد لديك مشتريات') !== -1 ||
+                        el.querySelector('svg, img, [class*="lottie"], [class*="animation"]')) {
+                        return el;
                     }
-                    return headings[i];
                 }
+                // لو مالقناش، نرجّع الـ parent المباشر بس
+                return headings[i].parentElement;
             }
         }
         return null;
     }
 
-    // 4. الحل الرئيسي
-    function fixCheckoutFouc() {
-        var emptyEl = findEmptyCartElement();
-        var itemsExist = hasCartItems();
+    function fixEmptyCart() {
+        if (!document.body) return;
 
-        if (emptyEl) {
-            if (itemsExist) {
-                // ✅ السلة فيها منتجات: اخفي حالة الفارغة بالكامل
-                emptyEl.style.cssText = 'display:none !important;visibility:hidden !important;opacity:0 !important;';
-                emptyEl.classList.add('kunuzee-empty-cart-hidden');
-                document.body.classList.remove('kunuzee-cart-empty');
-            } else {
-                // ✅ السلة فاضية: أظهر المحتوى وضيف كلاس للتخصيص المستقبلي
-                emptyEl.style.cssText = '';
-                emptyEl.classList.remove('kunuzee-empty-cart-hidden');
-                document.body.classList.add('kunuzee-cart-empty');
-                emptyEl.classList.add('kunuzee-empty-cart-visible');
-            }
-        }
+        var hasItems = document.querySelector(CART_ITEM_SELECTOR) !== null;
+        var container = findEmptyCartContainer();
 
-        // لو السلة فاضية ومحتوى الدفع ظاهر، اخفيه
-        if (!itemsExist) {
-            var checkout = document.querySelector('.checkout_container, .checkout_form');
-            if (checkout) checkout.style.display = 'none';
-        }
-    }
+        if (!container) return;
 
-    // 5. شغل فوراً
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fixCheckoutFouc);
-    } else {
-        fixCheckoutFouc();
-    }
-
-    setTimeout(fixCheckoutFouc, 0);
-    setTimeout(fixCheckoutFouc, 50);
-    setTimeout(fixCheckoutFouc, 100);
-    setTimeout(fixCheckoutFouc, 300);
-
-    // 6. Observer للـ React re-renders
-    var observer = new MutationObserver(function(mutations) {
-        var shouldRun = false;
-        mutations.forEach(function(m) {
-            m.addedNodes.forEach(function(n) {
-                if (n.nodeType === 1) shouldRun = true;
-            });
-        });
-        if (shouldRun) fixCheckoutFouc();
-    });
-
-    function startObserver() {
-        if (document.body) {
-            observer.observe(document.body, { childList: true, subtree: true });
-            setTimeout(function() { observer.disconnect(); }, 3000);
+        if (hasItems) {
+            // السلة فيها منتجات → اخفي حالة الفارغة
+            container.style.cssText = 'display:none !important;visibility:hidden !important;opacity:0 !important;';
+            document.body.classList.remove('kunuzee-cart-empty');
         } else {
-            setTimeout(startObserver, 50);
+            // السلة فعلاً فاضية → اظهر المحتوى وضيف كلاس للتخصيص المستقبلي
+            container.style.cssText = '';
+            document.body.classList.add('kunuzee-cart-empty');
+            container.classList.add('kunuzee-empty-cart-visible');
         }
+    }
+
+    function run() {
+        if (!document.body) {
+            setTimeout(run, 10);
+            return;
+        }
+        fixEmptyCart();
+    }
+
+    run();
+
+    // Observer يشتغل لمدة 3 ثواني عشان يمسك أي React re-render
+    var observer;
+    function startObserver() {
+        if (!document.body) {
+            setTimeout(startObserver, 10);
+            return;
+        }
+        observer = new MutationObserver(function() {
+            fixEmptyCart();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+        setTimeout(function() {
+            if (observer) observer.disconnect();
+        }, 3000);
     }
     startObserver();
+
+    // Safety nets
+    setTimeout(fixEmptyCart, 0);
+    setTimeout(fixEmptyCart, 50);
+    setTimeout(fixEmptyCart, 100);
+    setTimeout(fixEmptyCart, 300);
+    setTimeout(fixEmptyCart, 600);
 })();
 
 // ═════════════════════════════════════════════
