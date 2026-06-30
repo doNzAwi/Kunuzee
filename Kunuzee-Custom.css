@@ -2,16 +2,13 @@
    KUNUZEE STORE — CUSTOM STYLESHEET
    Platform: Easy Orders
    ═══════════════════════════════════════════════════════════════ */
-/* ════════════════════════════════════════════════════════
-   CRITICAL FOUC FIX — Checkout Empty Cart Flash Prevention
-   ════════════════════════════════════════════════════════ */
-
-/* إظهار لما السلة تكون فاضية (بـ JS class) */
+/* ══════════════════════════
+   CHECKOUT EMPTY CART REVEAL
+   ══════════════════════════ */
 body.kunuzee-empty-cart div.mt-20.flex.h-96.items-center.justify-center > div,
 body.kunuzee-empty-cart div.mt-20.flex.h-96 > div {
     opacity: 1 !important;
     visibility: visible !important;
-    transition: opacity 0.3s ease !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
