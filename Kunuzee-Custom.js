@@ -161,6 +161,9 @@ setInterval(fixHeader, 300);
         { title: 'محافظات الوجه القبلي والبحر الأحمر', items: ['الفيوم', 'بني سويف', 'المنيا', 'أسيوط', 'سوهاج', 'قنا', 'الأقصر', 'البحر الأحمر', 'الوادي الجديد', 'أسوان'] }
     ];
 
+    // ✅ Flag عشان نعرف إن المستخدم اختار محافظة
+    var USER_SELECTED_GOVERNORATE = false;
+
     function getFlag(name) {
         return GOVERNORATES[name.trim()]?.img || '';
     }
@@ -182,10 +185,10 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
-        var text = sv.textContent.trim();
+        // ✅ لو المستخدم اختار محافظة قبل كده، متعملش حاجة أبداً
+        if (USER_SELECTED_GOVERNORATE) return;
 
-        // ✅ لو النص الحالي محافظة حقيقية (مش placeholder)، نسيبه
-        if (GOVERNORATES[text]) return;
+        var text = sv.textContent.trim();
 
         // ✅ لو القائمة مفتوحة دلوقتي، متعملش حاجة (المستخدم بيختار)
         var menu = document.querySelector('.select__menu');
@@ -206,10 +209,10 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
-        var text = sv.textContent.trim();
-
         // ✅ لو placeholder موجود، ماتعدلش حاجة
         if (sv.dataset.isPlaceholder === 'true') return;
+
+        var text = sv.textContent.trim();
 
         // ✅ لو النص الحالي مش محافظة معروفة، نسيبه
         if (!GOVERNORATES[text]) return;
@@ -304,10 +307,14 @@ setInterval(fixHeader, 300);
         if (!option) return;
 
         var sv = document.querySelector('.select__single-value');
-        if (sv && sv.dataset.isPlaceholder === 'true') {
-            sv.dataset.isPlaceholder = 'false';
-            sv.dataset.govFixed = 'false';
-        }
+        if (!sv) return;
+
+        // ✅ سجل إن المستخدم اختار محافظة
+        USER_SELECTED_GOVERNORATE = true;
+
+        // شيل الـ placeholder
+        sv.dataset.isPlaceholder = 'false';
+        sv.dataset.govFixed = 'false';
     });
 
     var observer = new MutationObserver(function(mutations) {
@@ -372,6 +379,8 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
+            // ✅ لما الـ URL يتغير، رجّع الـ flag عشان يتعمل placeholder تاني
+            USER_SELECTED_GOVERNORATE = false;
             runAll();
             setTimeout(runAll, 600);
         }
