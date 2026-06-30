@@ -152,7 +152,7 @@ setInterval(fixHeader, 300);
 (function() {
     'use strict';
 
-        const GOVERNORATES = KUNUZEE_GOVERNORATES;
+    const GOVERNORATES = KUNUZEE_GOVERNORATES;
 
     const GROUPS = [
         { title: '', items: ['القاهرة', 'الجيزة', 'الإسكندرية'] },
@@ -247,6 +247,19 @@ setInterval(fixHeader, 300);
             currentGroup = groupIndex;
             menuList.appendChild(opt);
         });
+
+        // ═══════════════════════════════════════
+        // SCROLL TO SELECTED GOVERNORATE
+        // ═══════════════════════════════════════
+        setTimeout(function() {
+            var selected = menuList.querySelector('.select__option--is-selected');
+            if (!selected) return;
+
+            var menuRect = menuList.getBoundingClientRect();
+            var selectedRect = selected.getBoundingClientRect();
+            var offset = selectedRect.top - menuRect.top - (menuRect.height / 2) + (selectedRect.height / 2);
+            menuList.scrollTop += offset;
+        }, 0);
     }
 
     const observer = new MutationObserver(function(mutations) {
