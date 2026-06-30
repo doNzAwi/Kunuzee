@@ -322,6 +322,93 @@ setInterval(fixHeader, 300);
 })();
 
 // ───────────────────────────────────────────────────────────────
+// FUNCTION 2-A: Governorate Placeholder — تخصيص الـ placeholder option
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var PLACEHOLDER_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
+
+    function fixPlaceholderOption() {
+        var menu = document.querySelector('.select__menu');
+        if (!menu) return;
+
+        var options = menu.querySelectorAll('.select__option');
+        options.forEach(function(opt) {
+            var text = opt.textContent.trim();
+            if (text !== PLACEHOLDER_TEXT) return;
+
+            // ✅ نضمن إنها في الأول
+            var menuList = opt.parentElement;
+            if (menuList && menuList.firstChild !== opt) {
+                menuList.insertBefore(opt, menuList.firstChild);
+            }
+
+            // ✅ نشيل العلم لو موجود
+            var flag = opt.querySelector('.gov-flag');
+            if (flag) flag.remove();
+
+            // ✅ نضيف style class
+            opt.style.color = '#ce982e';
+            opt.style.fontStyle = 'italic';
+            opt.style.fontWeight = '400';
+        });
+    }
+
+    function fixPlaceholderSingleValue() {
+        var sv = document.querySelector('.select__single-value');
+        if (!sv) return;
+
+        var text = sv.textContent.trim();
+        if (text !== PLACEHOLDER_TEXT) return;
+
+        // ✅ نشيل العلم لو موجود
+        var flag = sv.querySelector('.gov-flag');
+        if (flag) flag.remove();
+
+        // ✅ نضيف style
+        sv.style.color = '#ce982e';
+        sv.style.fontStyle = 'italic';
+        sv.style.fontWeight = '400';
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+        var needFix = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType !== 1) return;
+                if (node.classList?.contains('select__menu') ||
+                    node.classList?.contains('select__option') ||
+                    node.classList?.contains('select__single-value')) {
+                    needFix = true;
+                }
+            });
+        });
+        if (needFix) {
+            setTimeout(fixPlaceholderOption, 0);
+            setTimeout(fixPlaceholderSingleValue, 0);
+        }
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    function runAll() {
+        fixPlaceholderOption();
+        fixPlaceholderSingleValue();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runAll);
+    } else {
+        runAll();
+    }
+    setInterval(runAll, 300);
+})();
+
+// ───────────────────────────────────────────────────────────────
 // FUNCTION 3: fixDropdownPosition — تثبيت القائمة تحت منتصف زر القسم
 // ───────────────────────────────────────────────────────────────
 (function() {
