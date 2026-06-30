@@ -1389,14 +1389,26 @@ dl[data-invoice="invoice"] label,
     font-weight: 700 !important;
 }
 
-a[href*="coupon"],
-[data-coupon="link"],
-[class*="coupon"] a,
-div.mt-2 a,
-.flex.items-end a {
+/* ─── زرار الكوبون — Coupon Button ─── */
+.checkout_order_summary div.mt-2 button[type="button"],
+.checkout_order_summary div.mt-2 button,
+.checkout_container div.mt-2 button,
+[data-invoice="invoice"] + div button,
+dl[data-invoice="invoice"] ~ div button {
     color: #ce982e !important;
     font-size: 14px !important;
     font-weight: 600 !important;
+    border-color: #ce982e !important;
+    background-color: #ffffff !important;
+}
+
+.checkout_order_summary div.mt-2 button[type="button"]:hover,
+.checkout_order_summary div.mt-2 button:hover,
+.checkout_container div.mt-2 button:hover,
+dl[data-invoice="invoice"] ~ div button:hover {
+    background-color: #ce982e !important;
+    color: #ffffff !important;
+    border-color: #ce982e !important;
 }
 
 p.text-gray-600,
