@@ -2,23 +2,16 @@
    KUNUZEE STORE — CUSTOM STYLESHEET
    Platform: Easy Orders
    ═══════════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    CRITICAL FOUC FIX — Checkout Empty Cart Flash Prevention
-   ═══════════════════════════════════════════════════════════════ */
+   ════════════════════════════════════════════════════════ */
 
-/* نخبي المحتوى الداخلي بس — مش الـ container كله */
-div.mt-20.flex.h-96.items-center.justify-center > div,
-div.mt-20.flex.h-96 > div {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    transition: none !important;
-}
-
-/* إظهار لما السلة تكون فاضية */
+/* إظهار لما السلة تكون فاضية (بـ JS class) */
 body.kunuzee-empty-cart div.mt-20.flex.h-96.items-center.justify-center > div,
 body.kunuzee-empty-cart div.mt-20.flex.h-96 > div {
     opacity: 1 !important;
     visibility: visible !important;
+    transition: opacity 0.3s ease !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
