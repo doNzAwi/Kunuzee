@@ -350,7 +350,6 @@ setInterval(fixHeader, 300);
 
             // ✅ نضيف style class
             opt.style.color = '#ce982e';
-            opt.style.fontStyle = 'italic';
             opt.style.fontWeight = '400';
         });
     }
@@ -368,7 +367,6 @@ setInterval(fixHeader, 300);
 
         // ✅ نضيف style
         sv.style.color = '#ce982e';
-        sv.style.fontStyle = 'italic';
         sv.style.fontWeight = '400';
     }
 
