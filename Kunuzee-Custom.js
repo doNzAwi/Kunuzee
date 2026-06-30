@@ -161,9 +161,6 @@ setInterval(fixHeader, 300);
         { title: 'محافظات الوجه القبلي والبحر الأحمر', items: ['الفيوم', 'بني سويف', 'المنيا', 'أسيوط', 'سوهاج', 'قنا', 'الأقصر', 'البحر الأحمر', 'الوادي الجديد', 'أسوان'] }
     ];
 
-    // ✅ Flag عشان نعرف إن المستخدم اختار محافظة
-    var USER_SELECTED_GOVERNORATE = false;
-
     function getFlag(name) {
         return GOVERNORATES[name.trim()]?.img || '';
     }
@@ -178,59 +175,25 @@ setInterval(fixHeader, 300);
         return { index: 999, title: '', innerIndex: 999 };
     }
 
-    // ═══════════════════════════════════════════════════════
-    // NEW: Replace default value with placeholder text
-    // ═══════════════════════════════════════════════════════
-    function replaceDefaultWithPlaceholder() {
-        var sv = document.querySelector('.select__single-value');
-        if (!sv) return;
-
-        // ✅ لو المستخدم اختار محافظة قبل كده، متعملش حاجة أبداً
-        if (USER_SELECTED_GOVERNORATE) return;
-
-        var text = sv.textContent.trim();
-
-        // ✅ لو القائمة مفتوحة دلوقتي، متعملش حاجة (المستخدم بيختار)
-        var menu = document.querySelector('.select__menu');
-        if (menu) {
-            var menuStyle = window.getComputedStyle(menu);
-            if (menuStyle.display !== 'none' && menuStyle.visibility !== 'hidden') return;
-        }
-
-        // لو "القاهرة" أو فاضي → حط placeholder
-        if (text === 'القاهرة' || text === '' || text === 'اختر المحافظة...') {
-            sv.textContent = 'من فضلك قم باختيار محافظتك من القائمة';
-            sv.dataset.isPlaceholder = 'true';
-            sv.dataset.govFixed = 'true';
-        }
-    }
-
     function fixSingleValue() {
-        var sv = document.querySelector('.select__single-value');
+        const sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
-        var text = sv.textContent.trim();
-
-        // ✅ لو placeholder ومستخدم لسه ما اختارش، متعملش حاجة
-        if (sv.dataset.isPlaceholder === 'true' && !USER_SELECTED_GOVERNORATE) return;
-
-        // ✅ لو النص الحالي مش محافظة معروفة، نسيبه
-        if (!GOVERNORATES[text]) return;
-
-        var flag = getFlag(text);
+        const text = sv.textContent.trim();
+        const flag = getFlag(text);
         if (!flag) {
-            var existing = sv.querySelector('.gov-flag');
+            const existing = sv.querySelector('.gov-flag');
             if (existing) existing.remove();
             return;
         }
 
-        var existing = sv.querySelector('.gov-flag');
+        const existing = sv.querySelector('.gov-flag');
         if (existing) {
             if (existing.src !== flag) existing.src = flag;
             return;
         }
 
-        var img = document.createElement('img');
+        const img = document.createElement('img');
         img.src = flag;
         img.className = 'gov-flag';
         img.alt = text;
@@ -238,51 +201,51 @@ setInterval(fixHeader, 300);
     }
 
     function fixMenuOptions() {
-        var menu = document.querySelector('.select__menu');
+        const menu = document.querySelector('.select__menu');
         if (!menu) return;
         if (menu.dataset.govFixed === 'true') return;
 
         menu.dataset.govFixed = 'true';
-        menu.querySelectorAll('.gov-group-header').forEach(function(h) { h.remove(); });
+        menu.querySelectorAll('.gov-group-header').forEach(h => h.remove());
 
-        var menuList = menu.querySelector('.select__menu-list') || menu;
-        var allOptions = Array.from(menuList.querySelectorAll('.select__option'));
+        const menuList = menu.querySelector('.select__menu-list') || menu;
+        let allOptions = Array.from(menuList.querySelectorAll('.select__option'));
 
-        allOptions.forEach(function(opt) {
+        allOptions.forEach(opt => {
             if (opt.querySelector('.gov-flag')) return;
-            var text = opt.textContent.trim();
-            var flag = getFlag(text);
+            const text = opt.textContent.trim();
+            const flag = getFlag(text);
             if (!flag) return;
 
-            var img = document.createElement('img');
+            const img = document.createElement('img');
             img.src = flag;
             img.className = 'gov-flag';
             img.alt = text;
             opt.insertBefore(img, opt.firstChild);
         });
 
-        var mapped = allOptions.map(function(opt) {
-            var text = opt.textContent.trim();
-            var info = getGroupInfo(text);
-            return { opt: opt, text: text, groupIndex: info.index, title: info.title, innerIndex: info.innerIndex };
+        const mapped = allOptions.map(opt => {
+            const text = opt.textContent.trim();
+            const info = getGroupInfo(text);
+            return { opt, text, groupIndex: info.index, title: info.title, innerIndex: info.innerIndex };
         });
 
-        mapped.sort(function(a, b) {
+        mapped.sort((a, b) => {
             if (a.groupIndex !== b.groupIndex) return a.groupIndex - b.groupIndex;
             return a.innerIndex - b.innerIndex;
         });
 
-        var currentGroup = -1;
-        mapped.forEach(function(item) {
-            if (item.groupIndex !== currentGroup && item.title) {
-                var header = document.createElement('div');
+        let currentGroup = -1;
+        mapped.forEach(({ opt, groupIndex, title }) => {
+            if (groupIndex !== currentGroup && title) {
+                const header = document.createElement('div');
                 header.className = 'gov-group-header';
-                header.textContent = item.title;
+                header.textContent = title;
                 header.setAttribute('aria-hidden', 'true');
                 menuList.appendChild(header);
             }
-            currentGroup = item.groupIndex;
-            menuList.appendChild(item.opt);
+            currentGroup = groupIndex;
+            menuList.appendChild(opt);
         });
 
         // ═══════════════════════════════════════
@@ -299,31 +262,9 @@ setInterval(fixHeader, 300);
         }, 0);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // NEW: Click listener to remove placeholder on selection
-    // ═══════════════════════════════════════════════════════
-    document.addEventListener('click', function(e) {
-        var option = e.target.closest('.select__option');
-        if (!option) return;
-
-        var sv = document.querySelector('.select__single-value');
-        if (!sv) return;
-
-        // ✅ سجل إن المستخدم اختار محافظة
-        USER_SELECTED_GOVERNORATE = true;
-
-        // شيل الـ placeholder
-        sv.dataset.isPlaceholder = 'false';
-        sv.dataset.govFixed = 'false';
-
-        // ✅ شغّل fixSingleValue() فوراً عشان يضيف العلم
-        fixSingleValue();
-    });
-
-    var observer = new MutationObserver(function(mutations) {
-        var needSingle = false;
-        var needMenu = false;
-        var needPlaceholder = false;
+    const observer = new MutationObserver(function(mutations) {
+        let needSingle = false;
+        let needMenu = false;
 
         mutations.forEach(function(mutation) {
             if (mutation.type === 'childList') {
@@ -335,23 +276,16 @@ setInterval(fixHeader, 300);
                     }
                     if (node.querySelector?.('.select__menu')) needMenu = true;
                     if (node.classList?.contains('select__option')) needMenu = true;
-                    if (node.classList?.contains('select__single-value')) {
-                        needSingle = true;
-                        needPlaceholder = true;
-                    }
+                    if (node.classList?.contains('select__single-value')) needSingle = true;
                 });
             }
             if (mutation.type === 'characterData') {
-                var parent = mutation.target.parentElement;
-                if (parent && parent.classList?.contains('select__single-value')) {
-                    needSingle = true;
-                    needPlaceholder = true;
-                }
+                const parent = mutation.target.parentElement;
+                if (parent && parent.classList?.contains('select__single-value')) needSingle = true;
             }
         });
 
         if (needSingle) fixSingleValue();
-        if (needPlaceholder) setTimeout(replaceDefaultWithPlaceholder, 0);
         if (needMenu) {
             setTimeout(fixMenuOptions, 0);
             setTimeout(fixMenuOptions, 50);
@@ -366,7 +300,6 @@ setInterval(fixHeader, 300);
     });
 
     function runAll() {
-        replaceDefaultWithPlaceholder();
         fixSingleValue();
         fixMenuOptions();
     }
@@ -382,8 +315,6 @@ setInterval(fixHeader, 300);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            // ✅ لما الـ URL يتغير، رجّع الـ flag عشان يتعمل placeholder تاني
-            USER_SELECTED_GOVERNORATE = false;
             runAll();
             setTimeout(runAll, 600);
         }
