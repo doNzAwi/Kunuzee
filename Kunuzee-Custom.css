@@ -2,6 +2,33 @@
    KUNUZEE STORE — CUSTOM STYLESHEET
    Platform: Easy Orders
    ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   INSTANT FOUC — Checkout Empty Cart Flash Prevention
+   ═══════════════════════════════════════════════════ */
+
+/* إخفاء فوري لأي حاجة فيها الـ SVG icon المعروف (الصندوق الفاضي) */
+svg[viewBox="0 0 120 120"][preserveAspectRatio*="xMidYMid"],
+svg[width="120"][height="120"] {
+    visibility: hidden !important;
+}
+
+/* إخفاء الـ h1 "سلة المشتريات فارغة" وكل اللي حواليه */
+h1.text-4xl.font-bold,
+h1[class*="text-4xl"][class*="font-bold"] {
+    visibility: hidden !important;
+}
+
+/* إخفاء الـ paragraph اللي بعده */
+h1.text-4xl.font-bold + p,
+h1[class*="text-4xl"][class*="font-bold"] + p {
+    visibility: hidden !important;
+}
+
+/* إخفاء الـ container الرئيسي بتاع الـ empty state */
+div[class*="mt-20"][class*="flex"][class*="h-96"],
+div[class*="mt-20"][class*="flex"][style*="height: 100%"] {
+    visibility: hidden !important;
+}
 
 /* ───────────────────────────────────────────────────────────────
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
