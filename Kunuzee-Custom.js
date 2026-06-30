@@ -209,10 +209,10 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
-        // ✅ لو placeholder موجود، ماتعدلش حاجة
-        if (sv.dataset.isPlaceholder === 'true') return;
-
         var text = sv.textContent.trim();
+
+        // ✅ لو placeholder ومستخدم لسه ما اختارش، متعملش حاجة
+        if (sv.dataset.isPlaceholder === 'true' && !USER_SELECTED_GOVERNORATE) return;
 
         // ✅ لو النص الحالي مش محافظة معروفة، نسيبه
         if (!GOVERNORATES[text]) return;
@@ -315,6 +315,9 @@ setInterval(fixHeader, 300);
         // شيل الـ placeholder
         sv.dataset.isPlaceholder = 'false';
         sv.dataset.govFixed = 'false';
+
+        // ✅ شغّل fixSingleValue() فوراً عشان يضيف العلم
+        fixSingleValue();
     });
 
     var observer = new MutationObserver(function(mutations) {
