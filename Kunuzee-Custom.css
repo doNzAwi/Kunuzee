@@ -1421,29 +1421,10 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
    SECTION 12-A: GOVERNORATE PLACEHOLDER OPTION
    ───────────────────────────────────────────── */
 
-/* ─── الـ option نفسها في القائمة المنسدلة ─── */
-.select__option {
-    color: #ce982e !important; /* كل الـ options لونها ذهبي */
-    font-weight: 400 !important;
-}
-
-/* لما تكون مختارة (selected) تبقى برتقالي */
-.select__option--is-selected {
-    color: #bf6000 !important;
-    font-weight: 500 !important;
-}
-
-/* لما الـ mouse يعدي عليها (focused) */
-.select__option--is-focused {
-    background-color: #fcf5e2 !important;
-    color: #bf6000 !important;
-}
-
-/* ─── الـ placeholder option (أول واحدة) ─── */
+/* ─── الـ placeholder option في القائمة (أول واحدة) ─── */
 .select__option:first-child {
     color: #ce982e !important;
     font-weight: 400 !important;
-    font-style: italic !important;
 }
 
 /* إخفاء العلم للـ placeholder option */
@@ -1451,15 +1432,16 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
     display: none !important;
 }
 
-/* ─── لما تكون مختارة في الـ singleValue (الصندوق المغلق) ─── */
-/* نستخدم data attribute عشان نعرف الـ placeholder */
-.select__single-value[data-placeholder="true"],
-.select__single-value[data-placeholder="true"] .gov-flag {
-    display: none !important;
+/* ─── الـ singleValue لما يكون placeholder ─── */
+/* نستخدم nth-child أو نحدد بالـ text */
+.select__single-value {
+    color: #bf6000 !important;
+    font-weight: 500 !important;
 }
 
-/* لما الـ singleValue فيه placeholder text */
-.select__single-value:only-child {
+/* لما الـ singleValue يكون فاضي أو placeholder */
+.select__single-value:empty,
+.select__single-value[data-placeholder="true"] {
     color: #ce982e !important;
     font-weight: 400 !important;
 }
