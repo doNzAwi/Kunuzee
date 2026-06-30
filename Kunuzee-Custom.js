@@ -1230,3 +1230,53 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 13: fixGovPlaceholder — لون ذهبي + Tajawal للـ option الوهمي
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var PLACEHOLDER_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
+
+    function fixGovPlaceholder() {
+        // الـ single value (لما مش menu مفتوح)
+        var singleValues = document.querySelectorAll('.select__single-value');
+        singleValues.forEach(function(sv) {
+            if (sv.textContent.trim() === PLACEHOLDER_TEXT) {
+                sv.style.setProperty('color', '#ce982e', 'important');
+                sv.style.setProperty('font-family', '"Tajawal", sans-serif', 'important');
+            }
+        });
+
+        // الـ option في القائمة المنسدلة
+        var options = document.querySelectorAll('.select__option');
+        options.forEach(function(opt) {
+            if (opt.textContent.trim() === PLACEHOLDER_TEXT) {
+                opt.style.setProperty('color', '#ce982e', 'important');
+                opt.style.setProperty('font-family', '"Tajawal", sans-serif', 'important');
+            }
+        });
+    }
+
+    fixGovPlaceholder();
+
+    var observer = new MutationObserver(function(mutations) {
+        var needsFix = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('select__single-value') ||
+                    node.classList?.contains('select__option') ||
+                    node.querySelector?.('.select__single-value, .select__option')
+                )) {
+                    needsFix = true;
+                }
+            });
+        });
+        if (needsFix) setTimeout(fixGovPlaceholder, 0);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    setInterval(fixGovPlaceholder, 300);
+})();
