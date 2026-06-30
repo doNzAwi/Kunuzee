@@ -175,25 +175,48 @@ setInterval(fixHeader, 300);
         return { index: 999, title: '', innerIndex: 999 };
     }
 
-    function fixSingleValue() {
-        const sv = document.querySelector('.select__single-value');
+    // ═══════════════════════════════════════════════════════
+    // NEW: Replace default value with placeholder text
+    // ═══════════════════════════════════════════════════════
+    function replaceDefaultWithPlaceholder() {
+        var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
-        const text = sv.textContent.trim();
-        const flag = getFlag(text);
+        // لو اتعدل قبل كده ومش placeholder، نسيبه
+        if (sv.dataset.govFixed === 'true' && sv.dataset.isPlaceholder !== 'true') return;
+
+        var text = sv.textContent.trim();
+
+        // لو "القاهرة" أو فاضي → حط placeholder
+        if (text === 'القاهرة' || text === '' || text === 'اختر المحافظة...') {
+            sv.textContent = 'من فضلك قم باختيار محافظتك من القائمة';
+            sv.dataset.isPlaceholder = 'true';
+            sv.dataset.govFixed = 'true';
+        }
+    }
+
+    function fixSingleValue() {
+        var sv = document.querySelector('.select__single-value');
+        if (!sv) return;
+
+        // ✅ لو placeholder موجود، ماتعدلش حاجة
+        if (sv.dataset.isPlaceholder === 'true') return;
+
+        var text = sv.textContent.trim();
+        var flag = getFlag(text);
         if (!flag) {
-            const existing = sv.querySelector('.gov-flag');
+            var existing = sv.querySelector('.gov-flag');
             if (existing) existing.remove();
             return;
         }
 
-        const existing = sv.querySelector('.gov-flag');
+        var existing = sv.querySelector('.gov-flag');
         if (existing) {
             if (existing.src !== flag) existing.src = flag;
             return;
         }
 
-        const img = document.createElement('img');
+        var img = document.createElement('img');
         img.src = flag;
         img.className = 'gov-flag';
         img.alt = text;
@@ -201,51 +224,51 @@ setInterval(fixHeader, 300);
     }
 
     function fixMenuOptions() {
-        const menu = document.querySelector('.select__menu');
+        var menu = document.querySelector('.select__menu');
         if (!menu) return;
         if (menu.dataset.govFixed === 'true') return;
 
         menu.dataset.govFixed = 'true';
-        menu.querySelectorAll('.gov-group-header').forEach(h => h.remove());
+        menu.querySelectorAll('.gov-group-header').forEach(function(h) { h.remove(); });
 
-        const menuList = menu.querySelector('.select__menu-list') || menu;
-        let allOptions = Array.from(menuList.querySelectorAll('.select__option'));
+        var menuList = menu.querySelector('.select__menu-list') || menu;
+        var allOptions = Array.from(menuList.querySelectorAll('.select__option'));
 
-        allOptions.forEach(opt => {
+        allOptions.forEach(function(opt) {
             if (opt.querySelector('.gov-flag')) return;
-            const text = opt.textContent.trim();
-            const flag = getFlag(text);
+            var text = opt.textContent.trim();
+            var flag = getFlag(text);
             if (!flag) return;
 
-            const img = document.createElement('img');
+            var img = document.createElement('img');
             img.src = flag;
             img.className = 'gov-flag';
             img.alt = text;
             opt.insertBefore(img, opt.firstChild);
         });
 
-        const mapped = allOptions.map(opt => {
-            const text = opt.textContent.trim();
-            const info = getGroupInfo(text);
-            return { opt, text, groupIndex: info.index, title: info.title, innerIndex: info.innerIndex };
+        var mapped = allOptions.map(function(opt) {
+            var text = opt.textContent.trim();
+            var info = getGroupInfo(text);
+            return { opt: opt, text: text, groupIndex: info.index, title: info.title, innerIndex: info.innerIndex };
         });
 
-        mapped.sort((a, b) => {
+        mapped.sort(function(a, b) {
             if (a.groupIndex !== b.groupIndex) return a.groupIndex - b.groupIndex;
             return a.innerIndex - b.innerIndex;
         });
 
-        let currentGroup = -1;
-        mapped.forEach(({ opt, groupIndex, title }) => {
-            if (groupIndex !== currentGroup && title) {
-                const header = document.createElement('div');
+        var currentGroup = -1;
+        mapped.forEach(function(item) {
+            if (item.groupIndex !== currentGroup && item.title) {
+                var header = document.createElement('div');
                 header.className = 'gov-group-header';
-                header.textContent = title;
+                header.textContent = item.title;
                 header.setAttribute('aria-hidden', 'true');
                 menuList.appendChild(header);
             }
-            currentGroup = groupIndex;
-            menuList.appendChild(opt);
+            currentGroup = item.groupIndex;
+            menuList.appendChild(item.opt);
         });
 
         // ═══════════════════════════════════════
@@ -262,9 +285,24 @@ setInterval(fixHeader, 300);
         }, 0);
     }
 
-    const observer = new MutationObserver(function(mutations) {
-        let needSingle = false;
-        let needMenu = false;
+    // ═══════════════════════════════════════════════════════
+    // NEW: Click listener to remove placeholder on selection
+    // ═══════════════════════════════════════════════════════
+    document.addEventListener('click', function(e) {
+        var option = e.target.closest('.select__option');
+        if (!option) return;
+
+        var sv = document.querySelector('.select__single-value');
+        if (sv && sv.dataset.isPlaceholder === 'true') {
+            sv.dataset.isPlaceholder = 'false';
+            // الـ MutationObserver هيشغّل fixSingleValue() وتضيف العلم
+        }
+    });
+
+    var observer = new MutationObserver(function(mutations) {
+        var needSingle = false;
+        var needMenu = false;
+        var needPlaceholder = false;
 
         mutations.forEach(function(mutation) {
             if (mutation.type === 'childList') {
@@ -276,15 +314,22 @@ setInterval(fixHeader, 300);
                     }
                     if (node.querySelector?.('.select__menu')) needMenu = true;
                     if (node.classList?.contains('select__option')) needMenu = true;
-                    if (node.classList?.contains('select__single-value')) needSingle = true;
+                    if (node.classList?.contains('select__single-value')) {
+                        needSingle = true;
+                        needPlaceholder = true;
+                    }
                 });
             }
             if (mutation.type === 'characterData') {
-                const parent = mutation.target.parentElement;
-                if (parent && parent.classList?.contains('select__single-value')) needSingle = true;
+                var parent = mutation.target.parentElement;
+                if (parent && parent.classList?.contains('select__single-value')) {
+                    needSingle = true;
+                    needPlaceholder = true;
+                }
             }
         });
 
+        if (needPlaceholder) replaceDefaultWithPlaceholder();
         if (needSingle) fixSingleValue();
         if (needMenu) {
             setTimeout(fixMenuOptions, 0);
@@ -300,6 +345,7 @@ setInterval(fixHeader, 300);
     });
 
     function runAll() {
+        replaceDefaultWithPlaceholder();
         fixSingleValue();
         fixMenuOptions();
     }
