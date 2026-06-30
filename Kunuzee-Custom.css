@@ -6,28 +6,25 @@
    INSTANT FOUC — Checkout Empty Cart Flash Prevention
    ═══════════════════════════════════════════════════ */
 
-/* إخفاء فوري لأي حاجة فيها الـ SVG icon المعروف (الصندوق الفاضي) */
-svg[viewBox="0 0 120 120"][preserveAspectRatio*="xMidYMid"],
-svg[width="120"][height="120"] {
-    visibility: hidden !important;
-}
-
-/* إخفاء الـ h1 "سلة المشتريات فارغة" وكل اللي حواليه */
+/* إخفاء فوري — كل الـ empty cart elements */
+.mt-20.flex.h-96,
+.mt-20.flex,
 h1.text-4xl.font-bold,
-h1[class*="text-4xl"][class*="font-bold"] {
-    visibility: hidden !important;
-}
-
-/* إخفاء الـ paragraph اللي بعده */
 h1.text-4xl.font-bold + p,
-h1[class*="text-4xl"][class*="font-bold"] + p {
+svg[viewBox="0 0 120 120"] {
+    opacity: 0 !important;
     visibility: hidden !important;
+    transition: none !important;
 }
 
-/* إخفاء الـ container الرئيسي بتاع الـ empty state */
-div[class*="mt-20"][class*="flex"][class*="h-96"],
-div[class*="mt-20"][class*="flex"][style*="height: 100%"] {
-    visibility: hidden !important;
+/* إظهار لما السلة تكون فاضية (بـ JS class) */
+body.kunuzee-empty-cart .mt-20.flex.h-96,
+body.kunuzee-empty-cart .mt-20.flex,
+body.kunuzee-empty-cart h1.text-4xl.font-bold,
+body.kunuzee-empty-cart h1.text-4xl.font-bold + p,
+body.kunuzee-empty-cart svg[viewBox="0 0 120 120"] {
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
