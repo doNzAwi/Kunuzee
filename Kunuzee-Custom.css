@@ -1417,6 +1417,34 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
     border-color: #ce982e !important;
 }
 
+/* ───────────────────────────────────────────────
+   SECTION 12-A: GOVERNORATE DROPDOWN PLACEHOLDER
+   ─────────────────────────────────────────────── */
+
+/* ─── Placeholder text لما مفيش محافظة مختارة ─── */
+.select__single-value[data-is-placeholder="true"] {
+    color: #ce982e !important;
+    font-family: 'Tajawal', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* إخفاء العلم في حالة الـ placeholder */
+.select__single-value[data-is-placeholder="true"] .gov-flag {
+    display: none !important;
+}
+
+/* ─── لما الـ single-value فاضي ومفيش placeholder attribute ─── */
+.select__single-value:empty::before,
+.select__single-value > span:only-child:empty::before {
+    content: 'من فضلك قم باختيار محافظتك من القائمة' !important;
+    color: #ce982e !important;
+    font-weight: 400 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 13: FOOTER — الفوتر
    ─────────────────────────────────────────────────────────────── */
