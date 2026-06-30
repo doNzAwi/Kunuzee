@@ -3,6 +3,138 @@
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
 // ═════════════════════════════════════════════
+// INSTANT CHECKOUT FOUC — إخفاء حالة السلة الفارغة المؤقتة
+// ═════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    var EMPTY_KEYWORDS = ['سلة المشتريات فارغة', 'لا يوجد لديك مشتريات'];
+    var CART_ITEM_SELECTORS = ['.checkout_cart_items_container .cart-item', '.cart-item'];
+    var EMPTY_CART_SELECTORS = [
+        '.empty-cart',
+        '.cart-empty',
+        '.empty-state',
+        '[class*="empty-cart"]',
+        '[class*="cart-empty"]'
+    ];
+
+    // 1. Style فوري يخفي الحالات المعروفة قبل ما المتصفح يرندر
+    var style = document.createElement('style');
+    style.id = 'kunuzee-checkout-empty-fouc';
+    style.textContent = EMPTY_CART_SELECTORS.join(',\n') + ' {\n' +
+        '    display: none !important;\n' +
+        '    visibility: hidden !important;\n' +
+        '    opacity: 0 !important;\n' +
+        '}';
+
+    if (document.head) {
+        document.head.appendChild(style);
+    } else {
+        var checkHead = setInterval(function() {
+            if (document.head) {
+                document.head.appendChild(style);
+                clearInterval(checkHead);
+            }
+        }, 10);
+    }
+
+    // 2. هل السلة فيها منتجات فعلاً؟
+    function hasCartItems() {
+        for (var i = 0; i < CART_ITEM_SELECTORS.length; i++) {
+            if (document.querySelector(CART_ITEM_SELECTORS[i])) return true;
+        }
+        return false;
+    }
+
+    // 3. دور على عنصر السلة الفارغة
+    function findEmptyCartElement() {
+        // أولاً: بالـ class المباشر
+        for (var i = 0; i < EMPTY_CART_SELECTORS.length; i++) {
+            var el = document.querySelector(EMPTY_CART_SELECTORS[i]);
+            if (el) return el;
+        }
+
+        // ثانياً: بالـ text content (الـ h1 اللي فيه "سلة المشتريات فارغة")
+        var headings = document.querySelectorAll('h1, h2, h3');
+        for (var i = 0; i < headings.length; i++) {
+            var text = (headings[i].textContent || '').trim();
+            for (var j = 0; j < EMPTY_KEYWORDS.length; j++) {
+                if (text.indexOf(EMPTY_KEYWORDS[j]) !== -1) {
+                    var parent = headings[i].parentElement;
+                    if (parent) {
+                        var grand = parent.parentElement;
+                        if (grand && grand.children.length <= 3) return grand;
+                        return parent;
+                    }
+                    return headings[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    // 4. الحل الرئيسي
+    function fixCheckoutFouc() {
+        var emptyEl = findEmptyCartElement();
+        var itemsExist = hasCartItems();
+
+        if (emptyEl) {
+            if (itemsExist) {
+                // ✅ السلة فيها منتجات: اخفي حالة الفارغة بالكامل
+                emptyEl.style.cssText = 'display:none !important;visibility:hidden !important;opacity:0 !important;';
+                emptyEl.classList.add('kunuzee-empty-cart-hidden');
+                document.body.classList.remove('kunuzee-cart-empty');
+            } else {
+                // ✅ السلة فاضية: أظهر المحتوى وضيف كلاس للتخصيص المستقبلي
+                emptyEl.style.cssText = '';
+                emptyEl.classList.remove('kunuzee-empty-cart-hidden');
+                document.body.classList.add('kunuzee-cart-empty');
+                emptyEl.classList.add('kunuzee-empty-cart-visible');
+            }
+        }
+
+        // لو السلة فاضية ومحتوى الدفع ظاهر، اخفيه
+        if (!itemsExist) {
+            var checkout = document.querySelector('.checkout_container, .checkout_form');
+            if (checkout) checkout.style.display = 'none';
+        }
+    }
+
+    // 5. شغل فوراً
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixCheckoutFouc);
+    } else {
+        fixCheckoutFouc();
+    }
+
+    setTimeout(fixCheckoutFouc, 0);
+    setTimeout(fixCheckoutFouc, 50);
+    setTimeout(fixCheckoutFouc, 100);
+    setTimeout(fixCheckoutFouc, 300);
+
+    // 6. Observer للـ React re-renders
+    var observer = new MutationObserver(function(mutations) {
+        var shouldRun = false;
+        mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(n) {
+                if (n.nodeType === 1) shouldRun = true;
+            });
+        });
+        if (shouldRun) fixCheckoutFouc();
+    });
+
+    function startObserver() {
+        if (document.body) {
+            observer.observe(document.body, { childList: true, subtree: true });
+            setTimeout(function() { observer.disconnect(); }, 3000);
+        } else {
+            setTimeout(startObserver, 50);
+        }
+    }
+    startObserver();
+})();
+
+// ═════════════════════════════════════════════
 // INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
 // ═════════════════════════════════════════════
 (function() {
