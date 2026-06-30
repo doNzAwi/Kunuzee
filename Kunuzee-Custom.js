@@ -1360,24 +1360,3 @@ setInterval(fixHeader, 300);
     observer.observe(document.body, { childList: true, subtree: true });
     setInterval(fixGovPlaceholder, 300);
 })();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 14: revealEmptyCartIfActuallyEmpty — إظهار السلة الفاضية
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    function reveal() {
-        var hasCheckout = !!document.querySelector(
-            '.checkout_form, form, [data-cart="item"], input[name*="phone"], input[name*="email"], .contact-info-heading'
-        );
-
-        if (hasCheckout) return;
-
-        document.body.classList.add('kunuzee-empty-cart');
-    }
-
-    setTimeout(reveal, 50);
-    setTimeout(reveal, 150);
-    setTimeout(reveal, 400);
-})();
