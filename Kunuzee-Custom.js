@@ -182,17 +182,17 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
+        var text = sv.textContent.trim();
+
+        // ✅ لو النص الحالي محافظة حقيقية (مش placeholder)، نسيبه
+        if (GOVERNORATES[text]) return;
+
         // ✅ لو القائمة مفتوحة دلوقتي، متعملش حاجة (المستخدم بيختار)
         var menu = document.querySelector('.select__menu');
         if (menu) {
             var menuStyle = window.getComputedStyle(menu);
             if (menuStyle.display !== 'none' && menuStyle.visibility !== 'hidden') return;
         }
-
-        // لو اتعدل قبل كده ومش placeholder، نسيبه
-        if (sv.dataset.govFixed === 'true' && sv.dataset.isPlaceholder !== 'true') return;
-
-        var text = sv.textContent.trim();
 
         // لو "القاهرة" أو فاضي → حط placeholder
         if (text === 'القاهرة' || text === '' || text === 'اختر المحافظة...') {
@@ -206,10 +206,14 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
+        var text = sv.textContent.trim();
+
         // ✅ لو placeholder موجود، ماتعدلش حاجة
         if (sv.dataset.isPlaceholder === 'true') return;
 
-        var text = sv.textContent.trim();
+        // ✅ لو النص الحالي مش محافظة معروفة، نسيبه
+        if (!GOVERNORATES[text]) return;
+
         var flag = getFlag(text);
         if (!flag) {
             var existing = sv.querySelector('.gov-flag');
@@ -302,6 +306,7 @@ setInterval(fixHeader, 300);
         var sv = document.querySelector('.select__single-value');
         if (sv && sv.dataset.isPlaceholder === 'true') {
             sv.dataset.isPlaceholder = 'false';
+            sv.dataset.govFixed = 'false';
         }
     });
 
@@ -336,7 +341,7 @@ setInterval(fixHeader, 300);
         });
 
         if (needSingle) fixSingleValue();
-        if (needPlaceholder) setTimeout(replaceDefaultWithPlaceholder, 50);
+        if (needPlaceholder) setTimeout(replaceDefaultWithPlaceholder, 0);
         if (needMenu) {
             setTimeout(fixMenuOptions, 0);
             setTimeout(fixMenuOptions, 50);
