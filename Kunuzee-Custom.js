@@ -2,6 +2,44 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
+// ═════════════════════════════════════════
+// INSTANT FOUC — Checkout Empty Cart Reveal
+// ═════════════════════════════════════════
+(function() {
+    'use strict';
+    
+    function revealIfEmpty() {
+        // ✅ لو فيه أي عنصر من صفحة الدفع — السلة فيها منتجات، اخرج فوراً
+        if (document.querySelector(
+            '.checkout_form, form, input[name*="phone"], input[name*="email"], input[name*="name"], input[name*="governorate"], .contact-info-heading, [data-cart="item"], .cart-item'
+        )) {
+            return;
+        }
+        
+        // ✅ لو فيه عنوان "سلة المشتريات فارغة" — السلة فاضية، اظهر
+        var headings = document.querySelectorAll('h1');
+        for (var i = 0; i < headings.length; i++) {
+            if (headings[i].textContent.trim() === 'سلة المشتريات فارغة') {
+                document.body.classList.add('kunuzee-empty-cart');
+                return;
+            }
+        }
+    }
+    
+    // شغل فوراً
+    revealIfEmpty();
+    
+    // شغل تاني لما الـ DOM يجهز
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', revealIfEmpty);
+    }
+    
+    // شغل بعد لحظات بسيطة (React بيحمل)
+    setTimeout(revealIfEmpty, 0);
+    setTimeout(revealIfEmpty, 50);
+    setTimeout(revealIfEmpty, 150);
+})();
+
 // ═════════════════════════════════════════════
 // INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
 // ═════════════════════════════════════════════
