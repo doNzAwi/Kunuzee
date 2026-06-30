@@ -1417,35 +1417,6 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
     border-color: #ce982e !important;
 }
 
-/* ─────────────────────────────────────────────
-   SECTION 12-A: GOVERNORATE PLACEHOLDER OPTION
-   ───────────────────────────────────────────── */
-
-/* ─── الـ placeholder option في القائمة (أول واحدة) ─── */
-.select__option:first-child {
-    color: #ce982e !important;
-    font-weight: 400 !important;
-}
-
-/* إخفاء العلم للـ placeholder option */
-.select__option:first-child .gov-flag {
-    display: none !important;
-}
-
-/* ─── الـ singleValue لما يكون placeholder ─── */
-/* نستخدم nth-child أو نحدد بالـ text */
-.select__single-value {
-    color: #bf6000 !important;
-    font-weight: 500 !important;
-}
-
-/* لما الـ singleValue يكون فاضي أو placeholder */
-.select__single-value:empty,
-.select__single-value[data-placeholder="true"] {
-    color: #ce982e !important;
-    font-weight: 400 !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 13: FOOTER — الفوتر
    ─────────────────────────────────────────────────────────────── */
