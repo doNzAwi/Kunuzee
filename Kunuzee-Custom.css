@@ -1417,6 +1417,29 @@ dl[data-invoice="invoice"] div.mt-2 button:hover {
     border-color: #ce982e !important;
 }
 
+/* ─── Placeholder Tajawal — كل الحقول ─── */
+.checkout_form input::placeholder,
+.contact-info-heading input::placeholder,
+.checkout_container input::placeholder,
+section.contact-info-heading input::placeholder {
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* ─── الـ option الوهمي "من فضلك قم باختيار..." — لون ذهبي دائماً ─── */
+.select__single-value:only-child,
+.select__single-value.css-1dimb5e-singleValue,
+[class*="singleValue"] {
+    color: #ce982e !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* لما يكون مختار (selected) — نفس اللون */
+.select__control--is-focused .select__single-value,
+.select__control--menu-is-open .select__single-value,
+.select__value-container--has-value .select__single-value {
+    color: #ce982e !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 13: FOOTER — الفوتر
    ─────────────────────────────────────────────────────────────── */
