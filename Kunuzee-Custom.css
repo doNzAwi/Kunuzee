@@ -1396,6 +1396,27 @@ dl[data-invoice="invoice"] p,
     font-size: 17px !important;
 }
 
+/* ─── زرار الكوبون — Coupon Button (محدّد جداً عشان ميكسرش حاجة) ─── */
+.checkout_order_summary div.mt-2.flex.justify-between button[type="button"],
+.checkout_order_summary div.mt-2.flex.justify-between button,
+dl[data-invoice="invoice"] div.mt-2 button[type="button"],
+dl[data-invoice="invoice"] div.mt-2 button {
+    color: #ce982e !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-color: #ce982e !important;
+    background-color: #ffffff !important;
+}
+
+.checkout_order_summary div.mt-2.flex.justify-between button[type="button"]:hover,
+.checkout_order_summary div.mt-2.flex.justify-between button:hover,
+dl[data-invoice="invoice"] div.mt-2 button[type="button"]:hover,
+dl[data-invoice="invoice"] div.mt-2 button:hover {
+    background-color: #ce982e !important;
+    color: #ffffff !important;
+    border-color: #ce982e !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 13: FOOTER — الفوتر
    ─────────────────────────────────────────────────────────────── */
