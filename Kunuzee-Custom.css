@@ -2195,3 +2195,20 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 [data-cart="continue-wrapper"] > p {
     color: #ce982e !important;
 }
+
+/* CART OVERLAY CLOSE BUTTON */
+/* اللون الأساسي */
+[data-cart="close-button"] {
+    color: #ce982e !important;
+}
+
+/* اللون عند الهوفر */
+[data-cart="close-button"]:hover {
+    color: #bf6000 !important;
+}
+
+/* الـ SVG جواه يورث اللون */
+[data-cart="close-button"] svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
