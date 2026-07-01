@@ -792,7 +792,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 .mt-20.flex .flex-col p {
     color: #134f4f !important;
     font-weight: 500 !important;
-    font-size: 0.7rem !important;
+    font-size: 1.5rem !important;
 }
 
 /* ٣- الشكل المتحرك (SVG) */
