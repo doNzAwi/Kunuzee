@@ -2144,17 +2144,9 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 }
 
 /* ═════════════════════════════════════════════════
-   FOUC FIX: Empty Cart Flash Prevention on Checkout
+   FOUC FIX: Empty Cart — Helpers Only (Logic in JS)
    ═════════════════════════════════════════════════ */
 
-/* إخفاء فوري لما الـ body ياخد class من الـ JS */
-body.kunuzee-checkout-page div:has(> div.flex.flex-col.items-center > h1) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
-
-/* كلاس الإخفاء النهائي (يضيفه الـ JS) */
 .kunuzee-empty-cart-hidden {
     display: none !important;
     visibility: hidden !important;
@@ -2162,4 +2154,13 @@ body.kunuzee-checkout-page div:has(> div.flex.flex-col.items-center > h1) {
     pointer-events: none !important;
     height: 0 !important;
     overflow: hidden !important;
+}
+
+.kunuzee-empty-cart-visible {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    height: auto !important;
+    overflow: visible !important;
 }
