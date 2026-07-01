@@ -2466,3 +2466,14 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     color: #f2e4be !important;
     stroke: #f2e4be !important;
 }
+
+/* ─── بوردر القايمة المنسدلة ─── */
+[id*="headlessui-listbox-options"] {
+    border-color: #f2e4be !important;
+}
+
+/* ─── خلفية العناصر عند الهوفر ─── */
+[id*="headlessui-listbox-option"]:hover,
+[id*="headlessui-listbox-option"][data-headlessui-state*="active"] {
+    background-color: #f2e4be !important;
+}
