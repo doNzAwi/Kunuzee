@@ -2142,3 +2142,24 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     color: #134f4f !important;
     font-family: 'Tajawal', sans-serif !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 19: NO RESULTS — لم يتم العثور على نتائج
+   ─────────────────────────────────────────────────────────────── */
+
+.animate-slideIn {
+    /* الخلفية لو حبيت تضيفها */
+    /* background-color: #134f4f !important; */
+}
+
+/* الأيقونة (العدسة) */
+.animate-slideIn > svg {
+    color: #f2e4be !important;
+    stroke: #f2e4be !important;
+}
+
+/* النص */
+.animate-slideIn > p.text-gray-400,
+.animate-slideIn > p {
+    color: #f2e4be !important;
+}
