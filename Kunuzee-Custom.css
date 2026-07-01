@@ -2573,7 +2573,7 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
 }
 
 /* ───────────────────────────────────────────────────────────────
-   SECTION 24: REMOVE UNNECESSARY SCROLLBAR —  إلغاء السكرول بدون داعي في صفحة الدفع
+   SECTION 24: PREVENT BODY SHIFT — منع زحزحة الصفحة
    ─────────────────────────────────────────────────────────────── */
 
 html {
@@ -2588,7 +2588,6 @@ body {
     margin-right: 0 !important;
 }
 
-/* نمنع أي inline style يتضاف على الbody لما القايمة تتفتح */
 body[style*="padding-right"] {
     padding-right: 0 !important;
 }
@@ -2597,11 +2596,13 @@ body[style*="margin-right"] {
     margin-right: 0 !important;
 }
 
-/* نمنع الـ overflow hidden اللي بيضيفه React Select على الhtml */
-html[style*="overflow"] {
-    overflow-y: auto !important;
-}
+/* ───────────────────────────────────────────────────────────────
+   SECTION 25: REACT SELECT MENU — القايمة تظهر فوق المحتوى
+   ─────────────────────────────────────────────────────────────── */
 
-body[style*="overflow"] {
-    overflow: visible !important;
+/* القايمة تظهر فوق من غير ما تزوق المحتوى */
+.select__menu,
+[class*="select__menu"] {
+    position: absolute !important;
+    z-index: 99999 !important;
 }
