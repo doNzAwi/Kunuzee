@@ -2147,19 +2147,13 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
    SECTION 19: NO RESULTS — لم يتم العثور على نتائج
    ─────────────────────────────────────────────────────────────── */
 
-.animate-slideIn {
-    /* الخلفية لو حبيت تضيفها */
-    /* background-color: #134f4f !important; */
-}
-
-/* الأيقونة (العدسة) */
-.animate-slideIn > svg {
+/* الأيقونة (العدسة) — محدد بالـ class chain الكامل */
+.animate-slideIn.flex.flex-col.items-center.justify-center.py-20.gap-4.text-center > svg {
     color: #f2e4be !important;
     stroke: #f2e4be !important;
 }
 
-/* النص */
-.animate-slideIn > p.text-gray-400,
-.animate-slideIn > p {
+/* النص — نفس العنصر الأب بالظبط */
+.animate-slideIn.flex.flex-col.items-center.justify-center.py-20.gap-4.text-center > p.text-gray-400 {
     color: #f2e4be !important;
 }
