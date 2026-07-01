@@ -2472,8 +2472,7 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     border-color: #f2e4be !important;
 }
 
-/* ─── خلفية العناصر عند الهوفر ─── */
-[id*="headlessui-listbox-option"]:hover,
-[id*="headlessui-listbox-option"][data-headlessui-state*="active"] {
+/* ─── خلفية العنصر الواحد عند الهوفر ─── */
+[id*="headlessui-listbox-option"]:hover {
     background-color: #f2e4be !important;
 }
