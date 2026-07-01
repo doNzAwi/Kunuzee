@@ -1336,3 +1336,34 @@ setInterval(fixHeader, 300);
         });
     }
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 15: fixGovColor — لون المحافظة المختارة
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+    
+    var DEFAULT_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
+    
+    function fixGovColor() {
+        var sv = document.querySelector('.select__single-value');
+        if (!sv) return;
+        
+        var text = sv.textContent.trim();
+        var img = sv.querySelector('.gov-flag');
+        
+        if (img || (text && text !== DEFAULT_TEXT)) {
+            sv.style.color = '#bf6000';
+        } else {
+            sv.style.color = '#ce982e';
+        }
+    }
+    
+    fixGovColor();
+    setInterval(fixGovColor, 300);
+    
+    var observer = new MutationObserver(function() {
+        fixGovColor();
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+})();
