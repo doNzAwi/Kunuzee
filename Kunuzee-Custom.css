@@ -2605,4 +2605,15 @@ body[style*="margin-right"] {
 [class*="select__menu"] {
     position: absolute !important;
     z-index: 99999 !important;
+    background-color: #ffffff !important; /* رجّعنا الخلفية */
+    border-radius: 12px !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 6px !important;
+}
+
+/* الـ menu list جوا */
+.select__menu-list,
+[class*="select__menu-list"] {
+    background-color: transparent !important;
 }
