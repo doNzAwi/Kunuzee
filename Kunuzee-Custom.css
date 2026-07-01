@@ -2179,7 +2179,7 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* ٣- نص "الصفحة غير موجودة" */
 .py-16 .text-center > h1.text-4xl.font-extrabold.text-gray-900.tracking-tight {
-    color: #134f4f !important;
+    color: #bf6000 !important;
 }
 
 /* ٤- نص "الصفحة التي تبحث عنها غير موجودة" */
