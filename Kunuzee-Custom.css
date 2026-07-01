@@ -2458,19 +2458,19 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* ─── الزرار نفسه — البوردر ─── */
 [id*="headlessui-listbox-button"] {
-    border-color: #f2e4be !important;
+    border-color: #ce982e !important;
 }
 
 /* ─── أيقونة السهم (للفوق/لتحت) ─── */
 [id*="headlessui-listbox-button"] svg {
-    color: #f2e4be !important;
-    stroke: #f2e4be !important;
+    color: #ce982e !important;
+    stroke: #ce982e !important;
 }
 
 /* ─── بوردر القايمة المنسدلة ─── */
 ul[id*="headlessui-listbox-options"] {
-    --tw-ring-color: #f2e4be !important;
-    border-color: #f2e4be !important;
+    --tw-ring-color: #ce982e !important;
+    border-color: #ce982e !important;
 }
 
 /* ─── خلفية العنصر الواحد (li) عند الهوفر ─── */
