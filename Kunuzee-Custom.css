@@ -791,29 +791,38 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 .mt-20.flex p,
 .mt-20.flex .flex-col p {
     color: #134f4f !important;
+    font-weight: 500 !important;
+    font-size: 0.7rem !important;
 }
 
 /* ٣- الشكل المتحرك (SVG) */
+
+/* الظلال والأجزاء الداكنة — #f2e4be */
 .mt-20.flex svg path[fill="rgb(204,209,217)"] {
     fill: #f2e4be !important;
 }
 
+/* الأجزاء المتوسطة — #fcf5e2 (أخف) */
 .mt-20.flex svg path[fill="rgb(230,233,236)"] {
     fill: #fcf5e2 !important;
 }
 
+/* الأجزاء الفاتحة جداً — #fdf9ed (أخف نسخة) */
 .mt-20.flex svg path[fill="rgb(244,244,244)"] {
-    fill: #f2e4be !important;
+    fill: #fdf9ed !important;
 }
 
+/* الدوائر البيضاء — نخليها بيضاء */
 .mt-20.flex svg path[fill="rgb(255,255,255)"] {
     fill: #ffffff !important;
 }
 
+/* الخطوط المتقطعة — ذهبي */
 .mt-20.flex svg path[stroke="rgb(159,159,159)"] {
     stroke: #ce982e !important;
 }
 
+/* الحواف والدوائر الصغيرة — برتقالي */
 .mt-20.flex svg path[stroke="rgb(134,134,134)"] {
     stroke: #bf6000 !important;
 }
