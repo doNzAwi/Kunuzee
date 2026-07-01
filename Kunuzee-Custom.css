@@ -2461,21 +2461,32 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     border-color: #ce982e !important;
 }
 
-/* ─── الزرار نفسه — عند الهوفر ─── */
-[id*="headlessui-listbox-button"]:hover {
-    background-color: #fcf5e2 !important;
-}
-
 /* ─── أيقونة السهم (للفوق/لتحت) ─── */
 [id*="headlessui-listbox-button"] svg {
     color: #ce982e !important;
     stroke: #ce982e !important;
 }
 
+/* ─── الزرار نفسه — عند الهوفر ─── */
+[id*="headlessui-listbox-button"]:hover {
+    background-color: #fcf5e2 !important;
+}
+
 /* ─── بوردر القايمة المنسدلة ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
+}
+
+/* ─── النصوص الأساسية ─── */
+li[id*="headlessui-listbox-option-"] span {
+    color: #134f4f !important;
+    transition: color 0.15s ease !important;
+}
+
+/* ─── النصوص عند الهوفر ─── */
+li[id*="headlessui-listbox-option-"]:hover span {
+    color: #ce982e !important;
 }
 
 /* ─── خلفية العنصر الواحد (li) عند الهوفر ─── */
