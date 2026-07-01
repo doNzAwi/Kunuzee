@@ -132,6 +132,115 @@
 }
 
 /* ───────────────────────────────────────────────────────────────
+   SECTION 2.1: RELATED PRODUCTS GRID — كروت منتجات مشابهة
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── البوردر ─── */
+.products_grid_card {
+    border: 1px solid #f2e4be !important;
+}
+
+/* ─── ظل الهوفر ─── */
+.products_grid_card:hover {
+    box-shadow: 0 7px 3px #ce982e !important;
+}
+
+/* ─── عنوان المنتج ─── */
+.products_grid_card h3.text-heading {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: #134f4f !important;
+}
+
+/* ═══════════════════
+   الوضع الأول: سعر واحد (مفيش خصم)
+   ═══════════════════ */
+
+/* السعر الواحد — الرقم */
+.products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP السعر الواحد */
+.products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
+    color: #bf6000 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+}
+
+/* ═══════════════════
+   الوضع الثاني: سعرين (في خصم)
+   ═══════════════════ */
+
+/* السعر الحالي بعد الخصم — الرقم */
+.products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    color: #bf6000 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP السعر الحالي (خصم) */
+.products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
+    color: #bf6000 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+}
+
+/* السعر المشطوب — الرقم */
+.products_grid_card .flex.items-center.text-heading > del {
+    font-size: 1.2rem !important;
+    font-weight: 100 !important;
+    color: #ce982e !important;
+    text-decoration: line-through !important;
+    opacity: 1 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP السعر المشطوب */
+.products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
+    color: #ce982e !important;
+    font-size: 0.65rem !important;
+    font-weight: 100 !important;
+    top: -0.3rem !important;
+    margin-right: 0.05rem !important;
+    opacity: 1 !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+}
+
+/* ═══════════════════
+   إخفاء أزرار الهوفر
+   ═══════════════════ */
+.products_grid_card .absolute.bottom-2.right-2 {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* ═══════════════════
+   GPU Acceleration
+   ═══════════════════ */
+.products_grid_card {
+    contain: layout paint !important;
+}
+
+.products_grid_card .flex.items-center.text-heading {
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
    SECTION 3: BLOCK 1 — FEATURED PRODUCTS (فيتشر)
    ─────────────────────────────────────────────────────────────── */
 
