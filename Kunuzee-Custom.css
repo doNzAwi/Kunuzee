@@ -2142,25 +2142,3 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     color: #134f4f !important;
     font-family: 'Tajawal', sans-serif !important;
 }
-
-/* ══════════════════════════════════════════
-   FOUC FIX: Empty Cart — Helper Classes Only
-   ══════════════════════════════════════════ */
-
-.kunuzee-empty-cart-hidden {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    height: 0 !important;
-    overflow: hidden !important;
-}
-
-.kunuzee-empty-cart-visible {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-}
