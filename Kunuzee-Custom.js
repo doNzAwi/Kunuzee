@@ -8,80 +8,118 @@
 (function() {
     'use strict';
 
-    var CHECKOUT_INDICATORS = [
-        '.checkout_form',
-        '.checkout_container',
-        '.contact-info-heading',
-        '#summary-heading',
-        '.checkout_order_summary',
-        '[data-checkout]',
-        '.checkout_bg_left'
-    ];
+    // ─── 1. INSTANT CSS INJECTION (قبل ما البودي يتعرض) ───
+    var style = document.createElement('style');
+    style.id = 'kunuzee-empty-cart-fouc-fix';
+    style.textContent = [
+        'div.flex.flex-col.items-center:has(> h1.text-4xl) {',
+        '  display: none !important;',
+        '  visibility: hidden !important;',
+        '  opacity: 0 !important;',
+        '}'
+    ].join(' ');
+    
+    var target = document.head || document.documentElement;
+    if (target) {
+        target.appendChild(style);
+    } else {
+        var check = setInterval(function() {
+            var t = document.head || document.documentElement;
+            if (t) {
+                t.appendChild(style);
+                clearInterval(check);
+            }
+        }, 5);
+    }
 
-    var CART_ITEM_INDICATORS = [
+    // ─── 2. SELECTORS ───
+    var CART_ITEM_SELECTORS = [
         '.cart-item',
         '[data-cart="item-name"]',
         '[data-cart="item-price"]',
-        '.checkout_cart_items_container',
-        '.checkout_cart_items_container > div'
+        '.checkout_cart_items_container > div',
+        '.checkout_cart_items_container .flex',
+        '.default_cart_item',
+        '[data-cart-item]'
     ];
 
-    function isCheckoutPage() {
-        if (location.pathname.toLowerCase().includes('checkout')) return true;
-        if (location.href.toLowerCase().includes('checkout')) return true;
-        for (var i = 0; i < CHECKOUT_INDICATORS.length; i++) {
-            if (document.querySelector(CHECKOUT_INDICATORS[i])) return true;
-        }
-        return false;
-    }
-
-    function hasCartItems() {
-        for (var i = 0; i < CART_ITEM_INDICATORS.length; i++) {
-            if (document.querySelector(CART_ITEM_INDICATORS[i])) return true;
-        }
-        return false;
-    }
-
-    function findEmptyCartElement() {
-        var h1s = document.querySelectorAll('h1');
-        for (var i = 0; i < h1s.length; i++) {
-            if (h1s[i].textContent.trim() === 'سلة المشتريات فارغة') {
-                var wrapper = h1s[i].closest('div.flex.flex-col.items-center');
-                if (wrapper) return wrapper.closest('div') || wrapper;
-                return h1s[i].parentElement;
+    function findEmptyCartWrapper() {
+        var allH1s = document.querySelectorAll('h1');
+        for (var i = 0; i < allH1s.length; i++) {
+            if (allH1s[i].textContent.trim() === 'سلة المشتريات فارغة') {
+                var wrapper = allH1s[i].closest('div.flex.flex-col.items-center');
+                if (wrapper) return wrapper;
+                return allH1s[i].parentElement;
             }
         }
         return null;
     }
 
+    function hasCartItems() {
+        for (var i = 0; i < CART_ITEM_SELECTORS.length; i++) {
+            if (document.querySelector(CART_ITEM_SELECTORS[i])) return true;
+        }
+        var checkoutItems = document.querySelectorAll('.checkout_cart_items_container > div, .cart-item, [data-cart="item-name"]');
+        if (checkoutItems.length > 0) return true;
+        return false;
+    }
+
     function applyFix() {
-        if (!isCheckoutPage()) return;
-
-        // 1. نفعل الـ CSS instant hide
-        if (document.body) document.body.classList.add('kunuzee-checkout-page');
-
-        // 2. نخفي العنصر نهائياً لو السلة فيها منتجات
-        var el = findEmptyCartElement();
-        if (!el) return;
+        var emptyCart = findEmptyCartWrapper();
+        if (!emptyCart) return;
 
         if (hasCartItems()) {
-            el.classList.add('kunuzee-empty-cart-hidden');
-            el.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;height:0!important;overflow:hidden!important;';
+            // ─── السلة فيها منتجات → اخفِ "سلة فارغة" ───
+            emptyCart.style.setProperty('display', 'none', 'important');
+            emptyCart.style.setProperty('visibility', 'hidden', 'important');
+            emptyCart.style.setProperty('opacity', '0', 'important');
+            emptyCart.style.setProperty('pointer-events', 'none', 'important');
+            emptyCart.style.setProperty('height', '0', 'important');
+            emptyCart.style.setProperty('overflow', 'hidden', 'important');
+            emptyCart.classList.add('kunuzee-empty-cart-hidden');
+            emptyCart.classList.remove('kunuzee-empty-cart-visible');
         } else {
-            // السلة فعلاً فارغة → نظهر العنصر
-            el.classList.remove('kunuzee-empty-cart-hidden');
-            el.style.cssText = '';
+            // ─── السلة فعلاً فارغة → اظهر "سلة فارغة" وافك أي إخفاء ───
+            emptyCart.classList.remove('kunuzee-empty-cart-hidden');
+            emptyCart.classList.add('kunuzee-empty-cart-visible');
+
+            // Override the instant CSS hide with !important
+            emptyCart.style.setProperty('display', 'flex', 'important');
+            emptyCart.style.setProperty('visibility', 'visible', 'important');
+            emptyCart.style.setProperty('opacity', '1', 'important');
+            emptyCart.style.setProperty('pointer-events', 'auto', 'important');
+            emptyCart.style.setProperty('height', 'auto', 'important');
+            emptyCart.style.setProperty('overflow', 'visible', 'important');
+
+            // Ensure parent wrapper is visible too
+            var parent = emptyCart.parentElement;
+            if (parent) {
+                parent.style.setProperty('display', 'block', 'important');
+                parent.style.setProperty('visibility', 'visible', 'important');
+                parent.style.setProperty('opacity', '1', 'important');
+            }
         }
     }
 
-    // ─── Instant execution ───
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', applyFix);
-    } else {
+    // ─── 3. EXECUTION ───
+    function run() {
         applyFix();
     }
 
-    // ─── MutationObserver ───
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
+    }
+
+    // Fast confirmations for React hydration
+    setTimeout(run, 0);
+    setTimeout(run, 50);
+    setTimeout(run, 100);
+    setTimeout(run, 300);
+    setTimeout(run, 600);
+
+    // ─── 4. MUTATION OBSERVER ───
     var observer = new MutationObserver(function() {
         applyFix();
     });
@@ -94,13 +132,15 @@
         });
     }
 
-    // ─── Time-based confirmations ───
-    setTimeout(applyFix, 0);
-    setTimeout(applyFix, 50);
-    setTimeout(applyFix, 100);
-    setTimeout(applyFix, 300);
-    setTimeout(applyFix, 600);
-    setTimeout(applyFix, 1000);
+    // ─── 5. SPA URL CHANGE ───
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(run, 300);
+            setTimeout(run, 600);
+        }
+    }, 300);
 })();
 
 // ═════════════════════════════════════════════
