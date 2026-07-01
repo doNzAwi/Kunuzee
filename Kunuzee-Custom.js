@@ -1351,20 +1351,22 @@ setInterval(fixHeader, 300);
         if (!sv) return;
         
         var text = sv.textContent.trim();
-        if (text === lastText) return; // ماتعدلش لو ماتغيّرش
+        if (text === lastText) return;
         lastText = text;
         
         var hasFlag = sv.querySelector('.gov-flag');
-        sv.style.color = (hasFlag || text !== DEFAULT_TEXT) ? '#bf6000' : '#ce982e';
+        var color = (hasFlag || text !== DEFAULT_TEXT) ? '#bf6000' : '#ce982e';
+        
+        // نستخدم setProperty مع !important عشان نغلب أي CSS قديم
+        sv.style.setProperty('color', color, 'important');
     }
     
-    // شغّل مرة واحدة على البداية
     fixGovColor();
     
-    // شغّل بس لما الـ input يتغيّر (لما المستخدم يختار)
     document.addEventListener('click', function(e) {
         if (e.target.closest('.select__option, .select__control')) {
             setTimeout(fixGovColor, 50);
+            setTimeout(fixGovColor, 150);
         }
     });
 })();
