@@ -2,145 +2,106 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ═════════════════════════════════════════════════════════
-// FUNCTION: preventEmptyCartFlash — منع فلاش "سلة المشتريات فارغة"
-// ═════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
+// FUNCTION: preventEmptyCartFlash — حل فوري 100% بدون :has()
+// ════════════════════════════════════════════════════════
 (function() {
     'use strict';
 
-    // ─── 1. INSTANT CSS INJECTION (قبل ما البودي يتعرض) ───
+    var EMPTY_CART_TEXT = 'سلة المشتريات فارغة';
+    var CART_SELECTORS = '.cart-item, [data-cart="item-name"], [data-cart="item-price"], .checkout_cart_items_container > div';
+
+    // ─── 1. INSTANT CSS — hide ALL div.flex.flex-col.items-center temporarily
+    // (الـ JS هيشيل الإخفاء فوراً لو مش العنصر المستهدف)
     var style = document.createElement('style');
-    style.id = 'kunuzee-empty-cart-fouc-fix';
-    style.textContent = [
-        'div.flex.flex-col.items-center:has(> h1.text-4xl) {',
-        '  display: none !important;',
-        '  visibility: hidden !important;',
-        '  opacity: 0 !important;',
-        '}'
-    ].join(' ');
-    
-    var target = document.head || document.documentElement;
-    if (target) {
-        target.appendChild(style);
-    } else {
-        var check = setInterval(function() {
-            var t = document.head || document.documentElement;
-            if (t) {
-                t.appendChild(style);
-                clearInterval(check);
+    style.id = 'kunuzee-fouc-temp';
+    style.textContent = 'div.flex.flex-col.items-center{display:none!important;visibility:hidden!important;opacity:0!important}';
+    document.documentElement.insertBefore(style, document.documentElement.firstChild);
+
+    // ─── 2. INSTANT JS — scan and fix immediately ───
+    function fix() {
+        var h1s = document.getElementsByTagName('h1');
+        for (var i = 0; i < h1s.length; i++) {
+            if (h1s[i].textContent.trim() !== EMPTY_CART_TEXT) continue;
+            
+            var el = h1s[i].closest('div.flex.flex-col.items-center');
+            if (!el) continue;
+
+            var hasItems = document.querySelector(CART_SELECTORS);
+            
+            if (hasItems) {
+                // ── السلة فيها منتجات → اخفِ العنصر نهائياً ──
+                el.style.setProperty('display', 'none', 'important');
+                el.style.setProperty('visibility', 'hidden', 'important');
+                el.style.setProperty('opacity', '0', 'important');
+                el.style.setProperty('pointer-events', 'none', 'important');
+                el.style.setProperty('height', '0', 'important');
+                el.style.setProperty('overflow', 'hidden', 'important');
+                el.classList.add('kunuzee-empty-cart-hidden');
+            } else {
+                // ── السلة فعلاً فارغة → اظهر العنصر وافك الإخفاء ──
+                el.classList.remove('kunuzee-empty-cart-hidden');
+                el.classList.add('kunuzee-empty-cart-visible');
+                el.style.removeProperty('display');
+                el.style.removeProperty('visibility');
+                el.style.removeProperty('opacity');
+                el.style.removeProperty('pointer-events');
+                el.style.removeProperty('height');
+                el.style.removeProperty('overflow');
+                el.style.setProperty('display', 'flex', 'important');
+                el.style.setProperty('visibility', 'visible', 'important');
+                el.style.setProperty('opacity', '1', 'important');
             }
-        }, 5);
+            break;
+        }
+
+        // ── نشيل الـ CSS المؤقت بعد أول run ──
+        var temp = document.getElementById('kunuzee-fouc-temp');
+        if (temp) temp.remove();
     }
 
-    // ─── 2. SELECTORS ───
-    var CART_ITEM_SELECTORS = [
-        '.cart-item',
-        '[data-cart="item-name"]',
-        '[data-cart="item-price"]',
-        '.checkout_cart_items_container > div',
-        '.checkout_cart_items_container .flex',
-        '.default_cart_item',
-        '[data-cart-item]'
-    ];
+    // Run instantly — before any paint
+    fix();
+    requestAnimationFrame(fix);
+    setTimeout(fix, 0);
 
-    function findEmptyCartWrapper() {
-        var allH1s = document.querySelectorAll('h1');
-        for (var i = 0; i < allH1s.length; i++) {
-            if (allH1s[i].textContent.trim() === 'سلة المشتريات فارغة') {
-                var wrapper = allH1s[i].closest('div.flex.flex-col.items-center');
-                if (wrapper) return wrapper;
-                return allH1s[i].parentElement;
+    // ─── 3. LIGHTWEIGHT OBSERVER — only when needed ───
+    var observer;
+    function startObserver() {
+        if (!document.body || observer) return;
+        observer = new MutationObserver(function(mutations) {
+            var needFix = false;
+            for (var m = 0; m < mutations.length; m++) {
+                var nodes = mutations[m].addedNodes;
+                for (var n = 0; n < nodes.length; n++) {
+                    var node = nodes[n];
+                    if (node.nodeType === 1 && (
+                        node.tagName === 'H1' || 
+                        node.tagName === 'DIV' ||
+                        (node.querySelector && node.querySelector('h1'))
+                    )) {
+                        needFix = true;
+                        break;
+                    }
+                }
+                if (needFix) break;
             }
-        }
-        return null;
-    }
-
-    function hasCartItems() {
-        for (var i = 0; i < CART_ITEM_SELECTORS.length; i++) {
-            if (document.querySelector(CART_ITEM_SELECTORS[i])) return true;
-        }
-        var checkoutItems = document.querySelectorAll('.checkout_cart_items_container > div, .cart-item, [data-cart="item-name"]');
-        if (checkoutItems.length > 0) return true;
-        return false;
-    }
-
-    function applyFix() {
-        var emptyCart = findEmptyCartWrapper();
-        if (!emptyCart) return;
-
-        if (hasCartItems()) {
-            // ─── السلة فيها منتجات → اخفِ "سلة فارغة" ───
-            emptyCart.style.setProperty('display', 'none', 'important');
-            emptyCart.style.setProperty('visibility', 'hidden', 'important');
-            emptyCart.style.setProperty('opacity', '0', 'important');
-            emptyCart.style.setProperty('pointer-events', 'none', 'important');
-            emptyCart.style.setProperty('height', '0', 'important');
-            emptyCart.style.setProperty('overflow', 'hidden', 'important');
-            emptyCart.classList.add('kunuzee-empty-cart-hidden');
-            emptyCart.classList.remove('kunuzee-empty-cart-visible');
-        } else {
-            // ─── السلة فعلاً فارغة → اظهر "سلة فارغة" وافك أي إخفاء ───
-            emptyCart.classList.remove('kunuzee-empty-cart-hidden');
-            emptyCart.classList.add('kunuzee-empty-cart-visible');
-
-            // Override the instant CSS hide with !important
-            emptyCart.style.setProperty('display', 'flex', 'important');
-            emptyCart.style.setProperty('visibility', 'visible', 'important');
-            emptyCart.style.setProperty('opacity', '1', 'important');
-            emptyCart.style.setProperty('pointer-events', 'auto', 'important');
-            emptyCart.style.setProperty('height', 'auto', 'important');
-            emptyCart.style.setProperty('overflow', 'visible', 'important');
-
-            // Ensure parent wrapper is visible too
-            var parent = emptyCart.parentElement;
-            if (parent) {
-                parent.style.setProperty('display', 'block', 'important');
-                parent.style.setProperty('visibility', 'visible', 'important');
-                parent.style.setProperty('opacity', '1', 'important');
-            }
-        }
-    }
-
-    // ─── 3. EXECUTION ───
-    function run() {
-        applyFix();
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', run);
-    } else {
-        run();
-    }
-
-    // Fast confirmations for React hydration
-    setTimeout(run, 0);
-    setTimeout(run, 50);
-    setTimeout(run, 100);
-    setTimeout(run, 300);
-    setTimeout(run, 600);
-
-    // ─── 4. MUTATION OBSERVER ───
-    var observer = new MutationObserver(function() {
-        applyFix();
-    });
-
-    if (document.body) {
-        observer.observe(document.body, { childList: true, subtree: true });
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
-            observer.observe(document.body, { childList: true, subtree: true });
+            if (needFix) fix();
         });
+        observer.observe(document.body, { childList: true, subtree: true });
     }
 
-    // ─── 5. SPA URL CHANGE ───
+    if (document.body) startObserver();
+    else document.addEventListener('DOMContentLoaded', startObserver);
+
+    // ─── 4. SPA NAVIGATION — minimal polling ───
     var lastUrl = location.href;
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            setTimeout(run, 300);
-            setTimeout(run, 600);
+            fix();
         }
-    }, 300);
+    }, 1000);
 })();
 
 // ═════════════════════════════════════════════
