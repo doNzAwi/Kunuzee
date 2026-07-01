@@ -778,6 +778,51 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 }
 
 /* ───────────────────────────────────────────────────────────────
+   SECTION 7.1: EMPTY CART — سلة المشتريات فارغة
+   ─────────────────────────────────────────────────────────────── */
+
+/* ١- نص "سلة المشتريات فارغة" */
+.mt-20.flex h1.text-4xl.font-bold,
+.mt-20.flex .flex-col h1 {
+    color: #bf6000 !important;
+}
+
+/* ٢- نص "لا يوجد لديك منتجات في سلة التسوق" */
+.mt-20.flex p,
+.mt-20.flex .flex-col p {
+    color: #134f4f !important;
+}
+
+/* ٣- الشكل المتحرك (SVG) */
+.mt-20.flex svg path[fill="rgb(204,209,217)"] {
+    fill: #f2e4be !important;
+}
+
+.mt-20.flex svg path[fill="rgb(230,233,236)"] {
+    fill: #fcf5e2 !important;
+}
+
+.mt-20.flex svg path[fill="rgb(244,244,244)"] {
+    fill: #f2e4be !important;
+}
+
+.mt-20.flex svg path[fill="rgb(255,255,255)"] {
+    fill: #ffffff !important;
+}
+
+.mt-20.flex svg path[stroke="rgb(159,159,159)"] {
+    stroke: #ce982e !important;
+}
+
+.mt-20.flex svg path[stroke="rgb(134,134,134)"] {
+    stroke: #bf6000 !important;
+}
+
+.mt-20.flex svg path[fill="rgb(134,134,134)"] {
+    fill: #bf6000 !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
    SECTION 8: HEADER — الهيدر
    ─────────────────────────────────────────────────────────────── */
 
