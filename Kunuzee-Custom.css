@@ -2477,3 +2477,19 @@ ul[id*="headlessui-listbox-options"] {
 li[id*="headlessui-listbox-option-"]:hover {
     background-color: #f2e4be !important;
 }
+
+/* ─── خلفية العنصر المختار ─── */
+li[id*="headlessui-listbox-option-"][aria-selected="true"] {
+    background-color: #ce982e !important;
+}
+
+/* ─── نص العنصر المختار ─── */
+li[id*="headlessui-listbox-option-"][aria-selected="true"] span {
+    color: #bf6000 !important;
+}
+
+/* ─── علامة الصح (الأيقونة) ─── */
+li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
+    color: #bf6000 !important;
+    fill: #bf6000 !important;
+}
