@@ -2,83 +2,60 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ═══════════════════════════════
-// FUNCTION: preventEmptyCartFlash
-// ═══════════════════════════════
-(function() {
-    'use strict';
+// ═════════════════════════════════════
+// FOUC FIX: Empty Cart Flash Prevention
+// ═════════════════════════════════════
+(function(){
+  'use strict';
 
-    var EMPTY_CART_TEXT = 'سلة المشتريات فارغة';
-    var CART_SELECTORS = '.cart-item, [data-cart="item-name"], [data-cart="item-price"], .checkout_cart_items_container > div';
+  function fix(){
+    var h1s = document.getElementsByTagName('h1');
+    for(var i = 0; i < h1s.length; i++){
+      if(h1s[i].textContent.trim() !== 'سلة المشتريات فارغة') continue;
+      
+      var el = h1s[i].closest('div.flex.flex-col.items-center');
+      if(!el) continue;
 
-    function fix() {
-        var h1s = document.getElementsByTagName('h1');
-        for (var i = 0; i < h1s.length; i++) {
-            if (h1s[i].textContent.trim() !== EMPTY_CART_TEXT) continue;
-            
-            var el = h1s[i].closest('div.flex.flex-col.items-center');
-            if (!el) continue;
-
-            var hasItems = document.querySelector(CART_SELECTORS);
-
-            if (!hasItems) {
-                // ── السلة فعلاً فارغة → اظهر العنصر ──
-                el.style.removeProperty('display');
-                el.style.removeProperty('visibility');
-                el.style.removeProperty('opacity');
-                el.style.setProperty('display', 'flex', 'important');
-                el.style.setProperty('visibility', 'visible', 'important');
-                el.style.setProperty('opacity', '1', 'important');
-            }
-            // لو السلة فيها منتجات → CSS في الهيد بيخفيه فوراً، مفيش حاجة نعملها
-            break;
-        }
+      // لو السلة فعلاً فارغة → اظهر العنصر
+      var hasItems = document.querySelector('.cart-item, [data-cart="item-name"], [data-cart="item-price"], .checkout_cart_items_container > div');
+      if(!hasItems){
+        el.style.cssText = 'display:flex !important;visibility:visible !important;opacity:1 !important';
+      }
+      break;
     }
 
-    fix();
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fix);
-    }
-    setTimeout(fix, 0);
-    setTimeout(fix, 100);
+    // امسح الـ style المؤقت
+    var tmp = document.getElementById('kunuzee-fouc-fix');
+    if(tmp) tmp.remove();
+  }
 
-    // ─── Observer خفيف — بس لما الـ h1 يتضاف ───
-    var observer = new MutationObserver(function(mutations) {
-        var needFix = false;
-        for (var m = 0; m < mutations.length; m++) {
-            var nodes = mutations[m].addedNodes;
-            for (var n = 0; n < nodes.length; n++) {
-                var node = nodes[n];
-                if (node.nodeType === 1 && (
-                    node.tagName === 'H1' ||
-                    (node.querySelector && node.querySelector('h1'))
-                )) {
-                    needFix = true;
-                    break;
-                }
-            }
-            if (needFix) break;
+  fix();
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', fix);
+  }
+  setTimeout(fix, 0);
+  setTimeout(fix, 100);
+
+  // Observer خفيف — بس لما h1 يتضاف
+  var obs = new MutationObserver(function(muts){
+    for(var m = 0; m < muts.length; m++){
+      var nodes = muts[m].addedNodes;
+      for(var n = 0; n < nodes.length; n++){
+        var node = nodes[n];
+        if(node.nodeType === 1 && (node.tagName === 'H1' || (node.querySelector && node.querySelector('h1')))){
+          fix(); return;
         }
-        if (needFix) fix();
+      }
+    }
+  });
+
+  if(document.body){
+    obs.observe(document.body, {childList: true, subtree: true});
+  } else {
+    document.addEventListener('DOMContentLoaded', function(){
+      obs.observe(document.body, {childList: true, subtree: true});
     });
-
-    if (document.body) {
-        observer.observe(document.body, { childList: true, subtree: true });
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
-            observer.observe(document.body, { childList: true, subtree: true });
-        });
-    }
-
-    // ─── SPA navigation ───
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            fix();
-            setTimeout(fix, 300);
-        }
-    }, 1000);
+  }
 })();
 
 // ═════════════════════════════════════════════
