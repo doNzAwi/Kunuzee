@@ -2451,3 +2451,18 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 .category_card_name:hover {
     color: #ce982e !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 23: SORT LISTBOX — قايمة ترتيب المنتجات
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── الزرار نفسه — البوردر ─── */
+[id*="headlessui-listbox-button"] {
+    border-color: #f2e4be !important;
+}
+
+/* ─── أيقونة السهم (للفوق/لتحت) ─── */
+[id*="headlessui-listbox-button"] svg {
+    color: #f2e4be !important;
+    stroke: #f2e4be !important;
+}
