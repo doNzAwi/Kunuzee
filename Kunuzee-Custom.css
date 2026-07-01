@@ -2480,7 +2480,7 @@ ul[id*="headlessui-listbox-options"] {
 
 /* ─── خلفية العنصر الواحد (li) عند الهوفر ─── */
 li[id*="headlessui-listbox-option-"]:hover {
-    background-color: #f2e4be !important;
+    background-color: #fcf5e2 !important;
 }
 
 /* ─── خلفية العنصر المختار ─── */
