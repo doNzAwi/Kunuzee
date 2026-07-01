@@ -2485,11 +2485,11 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] {
 
 /* ─── نص العنصر المختار ─── */
 li[id*="headlessui-listbox-option-"][aria-selected="true"] span {
-    color: #bf6000 !important;
+    color: #fcf5e2 !important;
 }
 
 /* ─── علامة الصح (الأيقونة) ─── */
 li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
-    color: #bf6000 !important;
-    fill: #bf6000 !important;
+    color: #fcf5e2 !important;
+    fill: #fcf5e2 !important;
 }
