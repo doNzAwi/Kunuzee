@@ -2186,3 +2186,12 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 .py-16 .text-center > p.text-base.text-gray-500 {
     color: #bf6000 !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 21: CART OVERLAY — أوفرلاي سلة الشراء
+   ─────────────────────────────────────────────────────────────── */
+
+/* نص "أو" */
+[data-cart="continue-wrapper"] > p {
+    color: #ce982e !important;
+}
