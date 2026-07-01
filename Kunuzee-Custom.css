@@ -2657,14 +2657,8 @@ body[style*="margin-right"] {
    SECTION 25.1: GOVERNORATE BORDER — بوردر القايمة فقط
    ─────────────────────────────────────────────────────────────── */
 
-/* بوردر القايمة */
+/* بوردر القايمة المنسدلة فقط */
 .select__menu,
 [class*="select__menu"] {
-    border-color: #f2e4be !important;
-}
-
-/* الـ div الداخلي */
-.select__menu > div,
-[class*="select__menu"] > div {
     border: 1px solid #f2e4be !important;
 }
