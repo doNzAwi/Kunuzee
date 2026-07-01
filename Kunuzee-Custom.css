@@ -2600,30 +2600,41 @@ body[style*="margin-right"] {
    SECTION 25: REACT SELECT MENU — القايمة تظهر فوق المحتوى
    ─────────────────────────────────────────────────────────────── */
 
-/* ═══ القايمة نفسها — position + خلفية (جديد) ═══ */
+/* ─── القايمة نفسها — position + z-index (الجديد فقط) ─── */
 .select__menu,
 [class*="select__menu"] {
     position: absolute !important;
     z-index: 99999 !important;
-    /* الخلفية والستايل من التخصيص القديم */
+}
+
+/* ─── الـ div الداخلي — الخلفية + البلور (الجديد فقط) ─── */
+.select__menu > div,
+[class*="select__menu"] > div {
     background: rgba(255, 255, 255, 0.7) !important;
-    border: 1px solid rgba(226, 232, 240, 0.5) !important;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
     border-radius: 12px !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
-    padding: 6px !important;
+}
+
+/* ─── السهم اللي فوق (الجديد فقط) ─── */
+.select__menu::before,
+[class*="select__menu"]::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -6px !important;
+    left: 50% !important;
+    transform: translateX(-50%) rotate(-45deg) !important;
+    width: 12px !important;
+    height: 12px !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+    border-top: 1px solid rgba(226, 232, 240, 0.5) !important;
+    border-right: 1px solid rgba(226, 232, 240, 0.5) !important;
+    z-index: 1 !important;
     backdrop-filter: blur(16px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
 }
 
-/* ═══ الـ menu list — شفاف عشان الخلفية تبان من الأب ═══ */
-.select__menu-list,
-[class*="select__menu-list"] {
-    background-color: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* ═══ السكرول بار — ألواننا + بوردر دائري ═══ */
+/* ─── السكرول بار (الجديد فقط) ─── */
 .select__menu-list::-webkit-scrollbar {
     width: 6px !important;
 }
@@ -2640,46 +2651,4 @@ body[style*="margin-right"] {
 
 .select__menu-list::-webkit-scrollbar-thumb:hover {
     background-color: #bf6000 !important;
-}
-
-/* ═══ الـ options — من التخصيص القديم (ماتغيّرش) ═══ */
-.select__option,
-[class*="select__option"] {
-    border-radius: 8px !important;
-    padding: 10px 12px !important;
-    transition: background 0.15s !important;
-    background-color: transparent !important;
-}
-
-/* الهوفر — من التخصيص القديم */
-.select__option:hover,
-.select__option--is-focused,
-[class*="select__option"]:hover,
-[class*="select__option"][class*="is-focused"] {
-    background-color: #e3e3e3 !important;
-}
-
-/* المختار — من التخصيص القديم */
-.select__option--is-selected,
-[class*="select__option"][class*="is-selected"] {
-    background-color: #c3c3c3 !important;
-    color: #ffffff !important;
-}
-
-/* ═══ group headers — من التخصيص القديم ═══ */
-.gov-group-header {
-    padding: 8px 12px 4px !important;
-    font-size: 18px !important;
-    font-weight: 500 !important;
-    color: #134f4f !important;
-    letter-spacing: 0.5px !important;
-    pointer-events: none !important;
-    user-select: none !important;
-    border-top: 1px solid #f1f5f9 !important;
-    margin-top: 4px !important;
-}
-
-.gov-group-header:first-child {
-    border-top: none !important;
-    margin-top: 0 !important;
 }
