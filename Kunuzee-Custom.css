@@ -2321,3 +2321,24 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     color: inherit !important;
     stroke: currentColor !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 22: CATEGORY CARDS — كروت الأقسام المميزة
+   ─────────────────────────────────────────────────────────────── */
+
+/* توسيط العناصر */
+.carouselWrapper .swiper-wrapper{
+    justify-content: center !important;
+}
+
+/* عناوين الأقسام */
+.category_card_name {
+    color: #134f4f !important;
+    transition: color 0.2s ease !important;
+}
+
+/* هوفر العناوين */
+.category_card:hover .category_card_name,
+.category_card_name:hover {
+    color: #ce982e !important;
+}
