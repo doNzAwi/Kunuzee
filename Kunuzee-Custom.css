@@ -2571,3 +2571,16 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
     color: #fcf5e2 !important;
     fill: #fcf5e2 !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 24: REMOVE UNNECESSARY SCROLLBAR —  إلغاء السكرول بدون داعي في صفحة الدفع
+   ─────────────────────────────────────────────────────────────── */
+
+html {
+    overflow-y: auto !important;
+}
+
+body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
