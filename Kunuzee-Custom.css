@@ -2652,3 +2652,27 @@ body[style*="margin-right"] {
 .select__menu-list::-webkit-scrollbar-thumb:hover {
     background-color: #bf6000 !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 25.1: SELECTED GOVERNORATE COLOR — لون المحافظة المختارة
+   ─────────────────────────────────────────────────────────────── */
+
+/* الـ placeholder الوهمي — ذهبي */
+.select__single-value:only-child,
+.select__single-value:empty::before,
+.select__single-value > span:only-child:empty::before {
+    color: #ce982e !important;
+}
+
+/* أي محافظة مختارة (لما فيه صورة gov-flag أو نص حقيقي) — برتقالي */
+.select__single-value:has(.gov-flag),
+.select__single-value:not(:empty):not(:has(span:only-child:empty)) {
+    color: #bf6000 !important;
+}
+
+/* لما الـ control بيكون focused أو menu مفتوح — نحافظ على نفس اللوجيك */
+.select__control--is-focused .select__single-value:has(.gov-flag),
+.select__control--menu-is-open .select__single-value:has(.gov-flag),
+.select__value-container--has-value .select__single-value:has(.gov-flag) {
+    color: #bf6000 !important;
+}
