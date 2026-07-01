@@ -2,62 +2,6 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ═════════════════════════════════════
-// FOUC FIX: Empty Cart Flash Prevention
-// ═════════════════════════════════════
-(function(){
-  'use strict';
-
-  function fix(){
-    var h1s = document.getElementsByTagName('h1');
-    for(var i = 0; i < h1s.length; i++){
-      if(h1s[i].textContent.trim() !== 'سلة المشتريات فارغة') continue;
-      
-      var el = h1s[i].closest('div.flex.flex-col.items-center');
-      if(!el) continue;
-
-      // لو السلة فعلاً فارغة → اظهر العنصر
-      var hasItems = document.querySelector('.cart-item, [data-cart="item-name"], [data-cart="item-price"], .checkout_cart_items_container > div');
-      if(!hasItems){
-        el.style.cssText = 'display:flex !important;visibility:visible !important;opacity:1 !important';
-      }
-      break;
-    }
-
-    // امسح الـ style المؤقت
-    var tmp = document.getElementById('kunuzee-fouc-fix');
-    if(tmp) tmp.remove();
-  }
-
-  fix();
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', fix);
-  }
-  setTimeout(fix, 0);
-  setTimeout(fix, 100);
-
-  // Observer خفيف — بس لما h1 يتضاف
-  var obs = new MutationObserver(function(muts){
-    for(var m = 0; m < muts.length; m++){
-      var nodes = muts[m].addedNodes;
-      for(var n = 0; n < nodes.length; n++){
-        var node = nodes[n];
-        if(node.nodeType === 1 && (node.tagName === 'H1' || (node.querySelector && node.querySelector('h1')))){
-          fix(); return;
-        }
-      }
-    }
-  });
-
-  if(document.body){
-    obs.observe(document.body, {childList: true, subtree: true});
-  } else {
-    document.addEventListener('DOMContentLoaded', function(){
-      obs.observe(document.body, {childList: true, subtree: true});
-    });
-  }
-})();
-
 // ═════════════════════════════════════════════
 // INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
 // ═════════════════════════════════════════════
