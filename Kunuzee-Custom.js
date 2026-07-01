@@ -2,23 +2,15 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
-// ════════════════════════════════════════════════════════
-// FUNCTION: preventEmptyCartFlash — حل فوري 100% بدون :has()
-// ════════════════════════════════════════════════════════
+// ═══════════════════════════════
+// FUNCTION: preventEmptyCartFlash
+// ═══════════════════════════════
 (function() {
     'use strict';
 
     var EMPTY_CART_TEXT = 'سلة المشتريات فارغة';
     var CART_SELECTORS = '.cart-item, [data-cart="item-name"], [data-cart="item-price"], .checkout_cart_items_container > div';
 
-    // ─── 1. INSTANT CSS — hide ALL div.flex.flex-col.items-center temporarily
-    // (الـ JS هيشيل الإخفاء فوراً لو مش العنصر المستهدف)
-    var style = document.createElement('style');
-    style.id = 'kunuzee-fouc-temp';
-    style.textContent = 'div.flex.flex-col.items-center{display:none!important;visibility:hidden!important;opacity:0!important}';
-    document.documentElement.insertBefore(style, document.documentElement.firstChild);
-
-    // ─── 2. INSTANT JS — scan and fix immediately ───
     function fix() {
         var h1s = document.getElementsByTagName('h1');
         for (var i = 0; i < h1s.length; i++) {
@@ -28,78 +20,63 @@
             if (!el) continue;
 
             var hasItems = document.querySelector(CART_SELECTORS);
-            
-            if (hasItems) {
-                // ── السلة فيها منتجات → اخفِ العنصر نهائياً ──
-                el.style.setProperty('display', 'none', 'important');
-                el.style.setProperty('visibility', 'hidden', 'important');
-                el.style.setProperty('opacity', '0', 'important');
-                el.style.setProperty('pointer-events', 'none', 'important');
-                el.style.setProperty('height', '0', 'important');
-                el.style.setProperty('overflow', 'hidden', 'important');
-                el.classList.add('kunuzee-empty-cart-hidden');
-            } else {
-                // ── السلة فعلاً فارغة → اظهر العنصر وافك الإخفاء ──
-                el.classList.remove('kunuzee-empty-cart-hidden');
-                el.classList.add('kunuzee-empty-cart-visible');
+
+            if (!hasItems) {
+                // ── السلة فعلاً فارغة → اظهر العنصر ──
                 el.style.removeProperty('display');
                 el.style.removeProperty('visibility');
                 el.style.removeProperty('opacity');
-                el.style.removeProperty('pointer-events');
-                el.style.removeProperty('height');
-                el.style.removeProperty('overflow');
                 el.style.setProperty('display', 'flex', 'important');
                 el.style.setProperty('visibility', 'visible', 'important');
                 el.style.setProperty('opacity', '1', 'important');
             }
+            // لو السلة فيها منتجات → CSS في الهيد بيخفيه فوراً، مفيش حاجة نعملها
             break;
         }
-
-        // ── نشيل الـ CSS المؤقت بعد أول run ──
-        var temp = document.getElementById('kunuzee-fouc-temp');
-        if (temp) temp.remove();
     }
 
-    // Run instantly — before any paint
     fix();
-    requestAnimationFrame(fix);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fix);
+    }
     setTimeout(fix, 0);
+    setTimeout(fix, 100);
 
-    // ─── 3. LIGHTWEIGHT OBSERVER — only when needed ───
-    var observer;
-    function startObserver() {
-        if (!document.body || observer) return;
-        observer = new MutationObserver(function(mutations) {
-            var needFix = false;
-            for (var m = 0; m < mutations.length; m++) {
-                var nodes = mutations[m].addedNodes;
-                for (var n = 0; n < nodes.length; n++) {
-                    var node = nodes[n];
-                    if (node.nodeType === 1 && (
-                        node.tagName === 'H1' || 
-                        node.tagName === 'DIV' ||
-                        (node.querySelector && node.querySelector('h1'))
-                    )) {
-                        needFix = true;
-                        break;
-                    }
+    // ─── Observer خفيف — بس لما الـ h1 يتضاف ───
+    var observer = new MutationObserver(function(mutations) {
+        var needFix = false;
+        for (var m = 0; m < mutations.length; m++) {
+            var nodes = mutations[m].addedNodes;
+            for (var n = 0; n < nodes.length; n++) {
+                var node = nodes[n];
+                if (node.nodeType === 1 && (
+                    node.tagName === 'H1' ||
+                    (node.querySelector && node.querySelector('h1'))
+                )) {
+                    needFix = true;
+                    break;
                 }
-                if (needFix) break;
             }
-            if (needFix) fix();
-        });
+            if (needFix) break;
+        }
+        if (needFix) fix();
+    });
+
+    if (document.body) {
         observer.observe(document.body, { childList: true, subtree: true });
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
     }
 
-    if (document.body) startObserver();
-    else document.addEventListener('DOMContentLoaded', startObserver);
-
-    // ─── 4. SPA NAVIGATION — minimal polling ───
+    // ─── SPA navigation ───
     var lastUrl = location.href;
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
             fix();
+            setTimeout(fix, 300);
         }
     }, 1000);
 })();
