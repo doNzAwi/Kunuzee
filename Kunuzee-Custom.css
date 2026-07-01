@@ -2142,3 +2142,24 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     color: #134f4f !important;
     font-family: 'Tajawal', sans-serif !important;
 }
+
+/* ═════════════════════════════════════════════════
+   FOUC FIX: Empty Cart Flash Prevention on Checkout
+   ═════════════════════════════════════════════════ */
+
+/* إخفاء فوري لما الـ body ياخد class من الـ JS */
+body.kunuzee-checkout-page div:has(> div.flex.flex-col.items-center > h1) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* كلاس الإخفاء النهائي (يضيفه الـ JS) */
+.kunuzee-empty-cart-hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
