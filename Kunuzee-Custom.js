@@ -1344,26 +1344,27 @@ setInterval(fixHeader, 300);
     'use strict';
     
     var DEFAULT_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
+    var lastText = '';
     
     function fixGovColor() {
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
         
         var text = sv.textContent.trim();
-        var img = sv.querySelector('.gov-flag');
+        if (text === lastText) return; // ماتعدلش لو ماتغيّرش
+        lastText = text;
         
-        if (img || (text && text !== DEFAULT_TEXT)) {
-            sv.style.color = '#bf6000';
-        } else {
-            sv.style.color = '#ce982e';
-        }
+        var hasFlag = sv.querySelector('.gov-flag');
+        sv.style.color = (hasFlag || text !== DEFAULT_TEXT) ? '#bf6000' : '#ce982e';
     }
     
+    // شغّل مرة واحدة على البداية
     fixGovColor();
-    setInterval(fixGovColor, 300);
     
-    var observer = new MutationObserver(function() {
-        fixGovColor();
+    // شغّل بس لما الـ input يتغيّر (لما المستخدم يختار)
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.select__option, .select__control')) {
+            setTimeout(fixGovColor, 50);
+        }
     });
-    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 })();
