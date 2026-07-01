@@ -2461,6 +2461,11 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     border-color: #ce982e !important;
 }
 
+/* ─── الزرار نفسه — عند الهوفر ─── */
+[id*="headlessui-listbox-button"]:hover {
+    background-color: #fcf5e2 !important;
+}
+
 /* ─── أيقونة السهم (للفوق/لتحت) ─── */
 [id*="headlessui-listbox-button"] svg {
     color: #ce982e !important;
