@@ -2,6 +2,107 @@
 // KUNUZEE STORE — CUSTOM JAVASCRIPT
 // Platform: Easy Orders
 // ═══════════════════════════════════════════════════════════════
+// ═════════════════════════════════════════════════════════
+// FUNCTION: preventEmptyCartFlash — منع فلاش "سلة المشتريات فارغة"
+// ═════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    var CHECKOUT_INDICATORS = [
+        '.checkout_form',
+        '.checkout_container',
+        '.contact-info-heading',
+        '#summary-heading',
+        '.checkout_order_summary',
+        '[data-checkout]',
+        '.checkout_bg_left'
+    ];
+
+    var CART_ITEM_INDICATORS = [
+        '.cart-item',
+        '[data-cart="item-name"]',
+        '[data-cart="item-price"]',
+        '.checkout_cart_items_container',
+        '.checkout_cart_items_container > div'
+    ];
+
+    function isCheckoutPage() {
+        if (location.pathname.toLowerCase().includes('checkout')) return true;
+        if (location.href.toLowerCase().includes('checkout')) return true;
+        for (var i = 0; i < CHECKOUT_INDICATORS.length; i++) {
+            if (document.querySelector(CHECKOUT_INDICATORS[i])) return true;
+        }
+        return false;
+    }
+
+    function hasCartItems() {
+        for (var i = 0; i < CART_ITEM_INDICATORS.length; i++) {
+            if (document.querySelector(CART_ITEM_INDICATORS[i])) return true;
+        }
+        return false;
+    }
+
+    function findEmptyCartElement() {
+        var h1s = document.querySelectorAll('h1');
+        for (var i = 0; i < h1s.length; i++) {
+            if (h1s[i].textContent.trim() === 'سلة المشتريات فارغة') {
+                var wrapper = h1s[i].closest('div.flex.flex-col.items-center');
+                if (wrapper) return wrapper.closest('div') || wrapper;
+                return h1s[i].parentElement;
+            }
+        }
+        return null;
+    }
+
+    function applyFix() {
+        if (!isCheckoutPage()) return;
+
+        // 1. نفعل الـ CSS instant hide
+        if (document.body) document.body.classList.add('kunuzee-checkout-page');
+
+        // 2. نخفي العنصر نهائياً لو السلة فيها منتجات
+        var el = findEmptyCartElement();
+        if (!el) return;
+
+        if (hasCartItems()) {
+            el.classList.add('kunuzee-empty-cart-hidden');
+            el.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;height:0!important;overflow:hidden!important;';
+        } else {
+            // السلة فعلاً فارغة → نظهر العنصر
+            el.classList.remove('kunuzee-empty-cart-hidden');
+            el.style.cssText = '';
+        }
+    }
+
+    // ─── Instant execution ───
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyFix);
+    } else {
+        applyFix();
+    }
+
+    // ─── MutationObserver ───
+    var observer = new MutationObserver(function() {
+        applyFix();
+    });
+
+    if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true });
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    }
+
+    // ─── Time-based confirmations ───
+    setTimeout(applyFix, 0);
+    setTimeout(applyFix, 50);
+    setTimeout(applyFix, 100);
+    setTimeout(applyFix, 300);
+    setTimeout(applyFix, 600);
+    setTimeout(applyFix, 1000);
+})();
+
 // ═════════════════════════════════════════════
 // INSTANT FOUC PREVENTION — يشتغل قبل ما البودي يتعرض
 // ═════════════════════════════════════════════
