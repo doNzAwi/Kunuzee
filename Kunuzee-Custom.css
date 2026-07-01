@@ -2595,3 +2595,12 @@ body {
 html {
     scrollbar-gutter: auto !important;
 }
+
+/* نمنع أي inline style يتضاف على الbody */
+body[style*="padding-right"] {
+    padding-right: 0 !important;
+}
+
+body[style*="margin-right"] {
+    margin-right: 0 !important;
+}
