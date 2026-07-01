@@ -2143,9 +2143,9 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-/* ═════════════════════════════════════════════════
-   FOUC FIX: Empty Cart — Helpers Only (Logic in JS)
-   ═════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   FOUC FIX: Empty Cart — Helper Classes Only
+   ══════════════════════════════════════════ */
 
 .kunuzee-empty-cart-hidden {
     display: none !important;
