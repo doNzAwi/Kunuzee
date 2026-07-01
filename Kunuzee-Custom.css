@@ -2157,3 +2157,32 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 .animate-slideIn.flex.flex-col.items-center.justify-center.py-20.gap-4.text-center > p.text-gray-400 {
     color: #f2e4be !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 20: 404 PAGE — صفحة الخطأ
+   ─────────────────────────────────────────────────────────────── */
+
+/* ١- نص "خطأ 404" */
+.py-16 .text-center > p.text-sm.font-semibold.text-indigo-600.uppercase.tracking-wide {
+    color: #134f4f !important;
+}
+
+/* ٢- نص "الذهاب للرئيسية" */
+.py-16 .text-center a[href="/"] {
+    color: #134f4f !important;
+    transition: color 0.2s ease !important;
+}
+
+.py-16 .text-center a[href="/"]:hover {
+    color: #ce982e !important;
+}
+
+/* ٣- نص "الصفحة غير موجودة" */
+.py-16 .text-center > h1.text-4xl.font-extrabold.text-gray-900.tracking-tight {
+    color: #134f4f !important;
+}
+
+/* ٤- نص "الصفحة التي تبحث عنها غير موجودة" */
+.py-16 .text-center > p.text-base.text-gray-500 {
+    color: #bf6000 !important;
+}
