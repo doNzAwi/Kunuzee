@@ -1496,157 +1496,93 @@ setInterval(fixHeader, 300);
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 18: FAQ Accordion — Fixed Height + Smooth Marquee
+// FUNCTION 18: FAQ — Fixed Height + JS Marquee (Final)
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
-    var STYLE_ID = 'kunuzee-faq-marquee-final';
+    var items = [];
 
-    function injectStyles() {
-        if (document.getElementById(STYLE_ID)) return;
-        var css = [
-            '/* ─── كل item نفس الـ height ─── */',
-            '.szh-accordion__item {',
-            '    min-height: 56px !important;',
-            '    display: flex !important;',
-            '    flex-direction: column !important;',
-            '    justify-content: center !important;',
-            '}',
-            '.szh-accordion__item-heading {',
-            '    margin: 0 !important;',
-            '    min-height: 56px !important;',
-            '    display: flex !important;',
-            '    align-items: center !important;',
-            '}',
-            '/* ─── الزرار نفسه ─── */',
-            '.szh-accordion__item-btn {',
-            '    height: 56px !important;',
-            '    min-height: 56px !important;',
-            '    max-height: 56px !important;',
-            '    display: flex !important;',
-            '    align-items: center !important;',
-            '    padding: 0 16px !important;',
-            '    width: 100% !important;',
-            '    box-sizing: border-box !important;',
-            '    text-align: right !important;',
-            '    line-height: 1.4 !important;',
-            '    overflow: hidden !important;',
-            '}',
-            '/* ─── نص السؤال ─── */',
-            '.kunuzee-faq-text {',
-            '    display: inline-block !important;',
-            '    white-space: nowrap !important;',
-            '    direction: rtl !important;',
-            '    flex-shrink: 0 !important;',
-            '    min-width: 0 !important;',
-            '}',
-            '/* ─── السهم (الأيقونة) ─── */',
-            '.kunuzee-faq-arrow {',
-            '    flex-shrink: 0 !important;',
-            '    width: 20px !important;',
-            '    height: 20px !important;',
-            '    margin-left: 12px !important;',
-            '}',
-            '/* ─── Marquee animation ─── */',
-            '.kunuzee-faq-text.kunuzee-marquee {',
-            '    will-change: transform !important;',
-            '    animation: kunuzee-faq-scroll 8s ease-in-out infinite !important;',
-            '}',
-            '@keyframes kunuzee-faq-scroll {',
-            '    0%, 15% { transform: translateX(0); }',
-            '    45%, 55% { transform: translateX(var(--marquee-offset)); }',
-            '    85%, 100% { transform: translateX(0); }',
-            '}'
-        ].join('\n');
-
-        var style = document.createElement('style');
-        style.id = STYLE_ID;
-        style.textContent = css;
-        document.head.appendChild(style);
-    }
-
-    // يلف نص السؤال في <span>
-    function wrapTextNodes() {
-        var items = document.querySelectorAll('.szh-accordion__item');
-        items.forEach(function(item) {
-            if (item.dataset.kunuzeeFixed === 'true') return;
-            item.dataset.kunuzeeFixed = 'true';
-
-            var btn = item.querySelector('.szh-accordion__item-btn');
-            if (!btn) return;
-
+    function init() {
+        document.querySelectorAll('.szh-accordion__item-btn:not([data-kfq])').forEach(function(btn) {
+            btn.dataset.kfq = '1';
+            
+            // نخلي الزرار يقص الزيادة
+            btn.style.setProperty('overflow', 'hidden', 'important');
+            btn.style.setProperty('position', 'relative', 'important');
+            
+            // نلاقي أول text node
             var textNode = null;
             for (var i = 0; i < btn.childNodes.length; i++) {
-                var node = btn.childNodes[i];
-                if (node.nodeType === 3 && node.textContent.trim()) {
-                    textNode = node;
+                if (btn.childNodes[i].nodeType === 3 && btn.childNodes[i].textContent.trim()) {
+                    textNode = btn.childNodes[i];
                     break;
                 }
             }
             if (!textNode) return;
 
+            // نلف النص في span
             var span = document.createElement('span');
-            span.className = 'kunuzee-faq-text';
             span.textContent = textNode.textContent.trim();
+            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;';
             btn.replaceChild(span, textNode);
 
-            var svg = btn.querySelector('svg');
-            if (svg) svg.classList.add('kunuzee-faq-arrow');
+            // نحسب بعد شوية
+            setTimeout(function() {
+                var svg = btn.querySelector('svg');
+                var svgW = svg ? (svg.getBoundingClientRect().width + 16) : 0;
+                var pad = 32;
+                var avail = btn.clientWidth - svgW - pad;
+                
+                if (span.scrollWidth > avail) {
+                    items.push({
+                        span: span,
+                        minOffset: avail - span.scrollWidth, // سالب (مثلاً -120)
+                        pos: 0,
+                        dir: -1, // -1 = للشمال (عشان يظهر البداية)
+                        waiting: 0
+                    });
+                }
+            }, 300);
         });
     }
 
-    // يشغل Marquee على الأسئلة الطويلة
-    function applyMarquee() {
-        var spans = document.querySelectorAll('.kunuzee-faq-text');
-        spans.forEach(function(span) {
-            var btn = span.parentElement;
-            if (!btn) return;
-
-            var arrow = btn.querySelector('.kunuzee-faq-arrow');
-            var arrowWidth = arrow ? (arrow.offsetWidth + 12) : 0;
-            var padding = 32;
-            var availableWidth = btn.clientWidth - arrowWidth - padding;
-            var textWidth = span.scrollWidth;
-
-            if (textWidth > availableWidth) {
-                var overflow = textWidth - availableWidth;
-                // Positive offset: move RIGHT to reveal left side (end of sentence)
-                span.style.setProperty('--marquee-offset', overflow + 'px');
-                span.classList.add('kunuzee-marquee');
-            } else {
-                span.classList.remove('kunuzee-marquee');
-                span.style.removeProperty('--marquee-offset');
+    function animate() {
+        items.forEach(function(item) {
+            if (item.waiting > 0) {
+                item.waiting--;
+                return;
             }
+
+            if (item.dir === -1) {
+                // بيتحرك للشمال (عشان يظهر بداية السؤال)
+                item.pos -= 0.4;
+                if (item.pos <= item.minOffset) {
+                    item.pos = item.minOffset;
+                    item.dir = 1;
+                    item.waiting = 90; // 1.5 ثانية wait
+                }
+            } else {
+                // بيرجع لليمين (لأول السؤال)
+                item.pos += 0.4;
+                if (item.pos >= 0) {
+                    item.pos = 0;
+                    item.dir = -1;
+                    item.waiting = 90; // 1.5 ثانية wait
+                }
+            }
+            
+            item.span.style.transform = 'translateX(' + item.pos + 'px)';
         });
+        
+        requestAnimationFrame(animate);
     }
 
-    function runAll() {
-        injectStyles();
-        wrapTextNodes();
-        setTimeout(applyMarquee, 200);
-        setTimeout(applyMarquee, 800);
-        setTimeout(applyMarquee, 1500);
-    }
-
-    runAll();
-
-    window.addEventListener('resize', function() {
-        wrapTextNodes();
-        applyMarquee();
-    });
-    window.addEventListener('orientationchange', function() {
-        setTimeout(applyMarquee, 300);
-    });
-
-    var observer = new MutationObserver(function() {
-        wrapTextNodes();
-        applyMarquee();
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    setInterval(function() {
-        wrapTextNodes();
-        applyMarquee();
-    }, 1000);
+    init();
+    setInterval(init, 500);
+    
+    var obs = new MutationObserver(function() { init(); });
+    obs.observe(document.body, { childList: true, subtree: true });
+    
+    animate();
 })();
