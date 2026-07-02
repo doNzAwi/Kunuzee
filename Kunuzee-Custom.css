@@ -2543,7 +2543,7 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     isolation: auto !important;
 }
 
-/* ─── القايمة المنسدلة — position: absolute + z-index عالي ─── */
+/* ─── القايمة المنسدلة — position: absolute عادي ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
@@ -2594,11 +2594,19 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
    SECTION 23.1: FORCE LISTBOX ABOVE SWIPER — إجبار القايمة فوق السلايدر
    ─────────────────────────────────────────────────────────────── */
 
-/* ❌ نلغي z-index على الـ header عشان ميعملش stacking context */
+/* نلغي z-index على الـ header عشان ميعملش stacking context */
 .category_section_header,
 [class*="category_section_header"] {
     position: relative !important;
-    /* ❌ ممنوع z-index هنا */
+    overflow: visible !important;
+    transform: none !important;
+    isolation: auto !important;
+}
+
+/* نلغي z-index على main */
+main,
+[class*="mx-auto"] {
+    position: relative !important;
     overflow: visible !important;
     transform: none !important;
     isolation: auto !important;
@@ -2629,17 +2637,17 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
 }
 
 /* ───────────────────────────────────────────────────────────────
-   SECTION 23.2: BODY/MAIN Z-INDEX — رفع الـ main container فوق السلايدر
+   SECTION 23.2: FIXED LISTBOX CLASS — لما الـ JS يضيف الكلاس
    ─────────────────────────────────────────────────────────────── */
 
-/* نرفع z-index بتاع الـ main container اللي فيه كل المحتوى */
-main,
-[class*="mx-auto"] {
-    position: relative !important;
-    z-index: 10 !important;
-    overflow: visible !important;
-    transform: none !important;
-    isolation: auto !important;
+.kunuzee-listbox-fixed {
+    position: fixed !important;
+    top: var(--kunuzee-listbox-top, auto) !important;
+    right: var(--kunuzee-listbox-right, auto) !important;
+    left: auto !important;
+    min-width: var(--kunuzee-listbox-width, auto) !important;
+    z-index: 99999 !important;
+    margin-top: 0 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
