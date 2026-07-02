@@ -2534,28 +2534,11 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── الـ container الرئيسي — نلغي أي stacking context ─── */
-[id*="headlessui-listbox"] {
-    overflow: visible !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    isolation: auto !important;
-}
-
-/* ─── القايمة المنسدلة — position: absolute عادي ─── */
+/* ─── بوردر القايمة المنسدلة ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
-    position: absolute !important;
     z-index: 99999 !important;
-    overflow: visible !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    isolation: auto !important;
-    inset: auto !important;
-    margin-top: 4px !important;
 }
 
 /* ─── النصوص الأساسية ─── */
@@ -2588,39 +2571,6 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] span {
 li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
     color: #fcf5e2 !important;
     fill: #fcf5e2 !important;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SECTION 23.1: FORCE LISTBOX ABOVE SWIPER — إجبار القايمة فوق السلايدر
-   ─────────────────────────────────────────────────────────────── */
-
-/* نرفع z-index بتاع الـ header container */
-.category_section_header,
-[class*="category_section_header"] {
-    position: relative !important;
-    z-index: 100 !important;
-    overflow: visible !important;
-    transform: none !important;
-    isolation: auto !important;
-}
-
-/* نعمل stacking context منفصل للـ Swiper */
-.swiper-wrapper,
-[class*="swiper-wrapper"] {
-    contain: paint !important;
-    transform: translate3d(0,0,0) !important;
-}
-
-/* نعمل stacking context منفصل للـ carousel */
-.carouselWrapper,
-[class*="carouselWrapper"] {
-    contain: paint !important;
-}
-
-/* نمنع أي overflow:hidden على الأباء */
-.home_slider_container,
-[class*="home_slider_container"] {
-    overflow: visible !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
