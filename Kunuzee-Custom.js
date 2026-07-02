@@ -1496,79 +1496,68 @@ setInterval(fixHeader, 300);
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 18: FAQ iPad Mini & iPad Air — Mobile Layout
+// FUNCTION 18: FAQ Accordion — Fixed Height + Marquee Scroll
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
-    var STYLE_ID = 'kunuzee-faq-ipad-style';
+    var STYLE_ID = 'kunuzee-faq-accordion-fix';
 
-    function isIpadMiniAir() {
-        var w = window.innerWidth, h = window.innerHeight;
-        var min = Math.min(w, h), max = Math.max(w, h);
-        // iPad Mini: 768×1024  |  iPad Air: 820×1180
-        var isMini = (min >= 750 && min <= 790 && max >= 1000 && max <= 1050);
-        var isAir  = (min >= 800 && min <= 850 && max >= 1150 && max <= 1210);
-        return isMini || isAir;
-    }
-
-    function markFaqContainer() {
-        var faq = document.querySelector('.szh-accordion');
-        var container = faq ? faq.closest('.home_section_container') : null;
-        if (container) {
-            container.setAttribute('data-kunuzee-faq', 'ipad');
-        }
-        return container;
-    }
-
+    // 1. حقن الـ CSS
     function injectStyles() {
-        var container = markFaqContainer();
-
-        // لو مش iPad Mini/Air أو مفيش FAQ → نشيل الـ style لو موجود
-        if (!container || !isIpadMiniAir()) {
-            var existing = document.getElementById(STYLE_ID);
-            if (existing) existing.remove();
-            return;
-        }
-
-        // لو الـ style موجود خلاص → مالناش داعي
         if (document.getElementById(STYLE_ID)) return;
-
         var css = [
-            '[data-kunuzee-faq="ipad"] {',
-            '    padding-left: 16px !important;',
-            '    padding-right: 16px !important;',
+            '/* ─── كل item نفس الـ height ─── */',
+            '.szh-accordion__item {',
+            '    min-height: 56px !important;',
+            '    display: flex !important;',
+            '    flex-direction: column !important;',
+            '    justify-content: center !important;',
             '}',
-            '[data-kunuzee-faq="ipad"] > div > div:first-child > h3 {',
-            '    font-size: 1.4rem !important;',
-            '    text-align: center !important;',
-            '    margin-bottom: 8px !important;',
+            '.szh-accordion__item-heading {',
+            '    margin: 0 !important;',
+            '    min-height: 56px !important;',
+            '    display: flex !important;',
+            '    align-items: center !important;',
             '}',
-            '[data-kunuzee-faq="ipad"] > div > div:first-child > p.description {',
-            '    font-size: 0.95rem !important;',
-            '    text-align: center !important;',
-            '}',
-            '[data-kunuzee-faq="ipad"] .szh-accordion__item-btn {',
-            '    font-size: 15px !important;',
-            '    padding: 14px 16px !important;',
+            '/* ─── الزرار نفسه ─── */',
+            '.szh-accordion__item-btn {',
+            '    height: 56px !important;',
+            '    min-height: 56px !important;',
+            '    max-height: 56px !important;',
+            '    display: flex !important;',
+            '    align-items: center !important;',
+            '    padding: 0 16px !important;',
+            '    width: 100% !important;',
+            '    box-sizing: border-box !important;',
             '    text-align: right !important;',
-            '    line-height: 1.5 !important;',
+            '    line-height: 1.4 !important;',
             '}',
-            '[data-kunuzee-faq="ipad"] .szh-accordion__item-btn svg {',
+            '/* ─── نص السؤال ─── */',
+            '.kunuzee-faq-text {',
+            '    display: block !important;',
+            '    white-space: nowrap !important;',
+            '    overflow: hidden !important;',
+            '    text-overflow: ellipsis !important;',
+            '    flex: 1 1 auto !important;',
+            '    min-width: 0 !important;',
+            '    direction: rtl !important;',
+            '}',
+            '/* ─── السهم (الأيقونة) ─── */',
+            '.kunuzee-faq-arrow {',
+            '    flex-shrink: 0 !important;',
             '    width: 20px !important;',
             '    height: 20px !important;',
-            '    min-width: 20px !important;',
-            '    min-height: 20px !important;',
-            '    flex-shrink: 0 !important;',
-            '    margin-right: 12px !important;',
+            '    margin-left: 12px !important;',
             '}',
-            '[data-kunuzee-faq="ipad"] .szh-accordion__item-panel {',
-            '    padding: 0 16px 16px 16px !important;',
+            '/* ─── Marquee animation ─── */',
+            '.kunuzee-faq-text.kunuzee-marquee {',
+            '    text-overflow: clip !important;',
+            '    animation: kunuzee-faq-scroll 5s ease-in-out infinite alternate !important;',
             '}',
-            '[data-kunuzee-faq="ipad"] .szh-accordion__item-panel p {',
-            '    font-size: 14px !important;',
-            '    line-height: 1.6 !important;',
-            '    text-align: right !important;',
+            '@keyframes kunuzee-faq-scroll {',
+            '    0%, 20% { transform: translateX(0); }',
+            '    80%, 100% { transform: translateX(var(--marquee-offset, -20px)); }',
             '}'
         ].join('\n');
 
@@ -1578,24 +1567,91 @@ setInterval(fixHeader, 300);
         document.head.appendChild(style);
     }
 
-    // اشتغل فوراً
-    injectStyles();
+    // 2. يلف نص السؤال في <span> عشان نقدر نتحكم فيه
+    function wrapTextNodes() {
+        var items = document.querySelectorAll('.szh-accordion__item');
+        items.forEach(function(item) {
+            if (item.dataset.kunuzeeFixed === 'true') return;
+            item.dataset.kunuzeeFixed = 'true';
 
-    // لما المقاس يتغير
-    window.addEventListener('resize', injectStyles);
-    window.addEventListener('orientationchange', injectStyles);
+            var btn = item.querySelector('.szh-accordion__item-btn');
+            if (!btn) return;
 
-    // Observer لو الـ FAQ اتعمل lazy load
-    var observer = new MutationObserver(function() {
+            // نلاقي أول text node (نص السؤال)
+            var textNode = null;
+            for (var i = 0; i < btn.childNodes.length; i++) {
+                var node = btn.childNodes[i];
+                if (node.nodeType === 3 && node.textContent.trim()) {
+                    textNode = node;
+                    break;
+                }
+            }
+            if (!textNode) return;
+
+            var span = document.createElement('span');
+            span.className = 'kunuzee-faq-text';
+            span.textContent = textNode.textContent.trim();
+            btn.replaceChild(span, textNode);
+
+            // نضيف class على السهم
+            var svg = btn.querySelector('svg');
+            if (svg) svg.classList.add('kunuzee-faq-arrow');
+        });
+    }
+
+    // 3. لو السؤال طويل → نشغل Marquee
+    function applyMarquee() {
+        var spans = document.querySelectorAll('.kunuzee-faq-text');
+        spans.forEach(function(span) {
+            var btn = span.parentElement;
+            if (!btn) return;
+
+            // المساحة المتاحة = عرض الزرار - مساحة السهم
+            var arrow = btn.querySelector('.kunuzee-faq-arrow');
+            var arrowWidth = arrow ? arrow.offsetWidth + 20 : 40;
+            var availableWidth = btn.clientWidth - arrowWidth;
+            var textWidth = span.scrollWidth;
+
+            if (textWidth > availableWidth) {
+                // السؤال طويل → نشغل animation
+                var offset = -(textWidth - availableWidth);
+                span.style.setProperty('--marquee-offset', offset + 'px');
+                span.classList.add('kunuzee-marquee');
+            } else {
+                // السؤال قصير → نلغي animation
+                span.classList.remove('kunuzee-marquee');
+                span.style.removeProperty('--marquee-offset');
+            }
+        });
+    }
+
+    // 4. اشتغل
+    function runAll() {
         injectStyles();
+        wrapTextNodes();
+        setTimeout(applyMarquee, 100);
+        setTimeout(applyMarquee, 500);
+    }
+
+    runAll();
+
+    // 5. Events
+    window.addEventListener('resize', function() {
+        wrapTextNodes();
+        applyMarquee();
+    });
+    window.addEventListener('orientationchange', function() {
+        setTimeout(applyMarquee, 300);
+    });
+
+    var observer = new MutationObserver(function() {
+        wrapTextNodes();
+        applyMarquee();
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // تأكيد إضافي كل 500ms لمدة 10 ثواني
-    var checks = 0;
-    var interval = setInterval(function() {
-        injectStyles();
-        checks++;
-        if (checks >= 20) clearInterval(interval);
-    }, 500);
+    setInterval(function() {
+        wrapTextNodes();
+        applyMarquee();
+    }, 1000);
 })();
