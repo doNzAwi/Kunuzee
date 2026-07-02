@@ -2786,26 +2786,31 @@ body {
 
 /* ═══════════════════════════════════════════════════════════════
    OPTION B: شكل الموبايل على iPad Mini/Air
-   (padding ضيق، خطوط أصغر، زي iPhone)
+   (شغّل دي لو عايز نفس شكل iPhone — أنصح بيها أكتر)
    ═══════════════════════════════════════════════════════════════ */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .home_section_container:has(.szh-accordion) {
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait),
+       (min-width: 1024px) and (max-width: 1365px) and (orientation: landscape) {
+  
+  .content_container .home_section_container {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
 
-  .home_section_container h3 {
+  .content_container .home_section_container h3 {
     font-size: 1.4rem !important;
+    color: #134f4f !important;
   }
 
-  .home_section_container .description {
+  .content_container .home_section_container .description {
     font-size: 0.95rem !important;
+    color: #000000 !important;
   }
 
   .szh-accordion__item-btn {
     font-size: 15px !important;
     padding: 14px 16px !important;
     text-align: right !important;
+    color: #134f4f !important;
   }
 
   .szh-accordion__item-btn svg {
@@ -2821,5 +2826,6 @@ body {
   .szh-accordion__item-panel p {
     font-size: 14px !important;
     line-height: 1.6 !important;
+    color: #134f4f !important;
   }
 }
