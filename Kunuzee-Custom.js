@@ -1491,3 +1491,114 @@ setInterval(fixHeader, 300);
         }
     }, 100);
 })();
+
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 18: FAQ iPad Mini & iPad Air — Mobile Layout
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function isIpadMiniAir() {
+        var w = window.innerWidth, h = window.innerHeight;
+        var min = Math.min(w, h), max = Math.max(w, h);
+        // iPad Mini ~768×1024  |  iPad Air ~820×1180
+        var isMini = (min >= 750 && min <= 790 && max >= 1000 && max <= 1050);
+        var isAir  = (min >= 800 && min <= 850 && max >= 1150 && max <= 1210);
+        return isMini || isAir;
+    }
+
+    function fixFaqIpad() {
+        var accordion = document.querySelector('.szh-accordion');
+        if (!accordion) return;
+        var container = accordion.closest('.home_section_container');
+        if (!container) return;
+
+        var isIpad = isIpadMiniAir();
+        var titleDiv = container.querySelector('.animate-slideIn');
+
+        // ─── Container padding ───
+        if (isIpad) {
+            container.style.setProperty('padding-left', '16px', 'important');
+            container.style.setProperty('padding-right', '16px', 'important');
+        } else {
+            container.style.removeProperty('padding-left');
+            container.style.removeProperty('padding-right');
+        }
+
+        // ─── Title ───
+        if (titleDiv) {
+            var h3 = titleDiv.querySelector('h3');
+            var p  = titleDiv.querySelector('p.description');
+            if (h3) {
+                if (isIpad) {
+                    h3.style.setProperty('font-size', '1.4rem', 'important');
+                    h3.style.setProperty('text-align', 'center', 'important');
+                    h3.style.setProperty('margin-bottom', '8px', 'important');
+                } else {
+                    h3.style.removeProperty('font-size');
+                    h3.style.removeProperty('text-align');
+                    h3.style.removeProperty('margin-bottom');
+                }
+            }
+            if (p) {
+                if (isIpad) {
+                    p.style.setProperty('font-size', '0.95rem', 'important');
+                    p.style.setProperty('text-align', 'center', 'important');
+                } else {
+                    p.style.removeProperty('font-size');
+                    p.style.removeProperty('text-align');
+                }
+            }
+        }
+
+        // ─── Accordion buttons ───
+        var btns = container.querySelectorAll('.szh-accordion__item-btn');
+        btns.forEach(function(btn) {
+            if (isIpad) {
+                btn.style.setProperty('font-size', '15px', 'important');
+                btn.style.setProperty('padding', '14px 16px', 'important');
+                btn.style.setProperty('text-align', 'right', 'important');
+                btn.style.setProperty('line-height', '1.5', 'important');
+            } else {
+                btn.style.removeProperty('font-size');
+                btn.style.removeProperty('padding');
+                btn.style.removeProperty('text-align');
+                btn.style.removeProperty('line-height');
+            }
+        });
+
+        // ─── Panels ───
+        var panels = container.querySelectorAll('.szh-accordion__item-panel');
+        panels.forEach(function(panel) {
+            if (isIpad) {
+                panel.style.setProperty('padding', '0 16px 16px 16px', 'important');
+            } else {
+                panel.style.removeProperty('padding');
+            }
+            var p = panel.querySelector('p');
+            if (p) {
+                if (isIpad) {
+                    p.style.setProperty('font-size', '14px', 'important');
+                    p.style.setProperty('line-height', '1.6', 'important');
+                    p.style.setProperty('text-align', 'right', 'important');
+                } else {
+                    p.style.removeProperty('font-size');
+                    p.style.removeProperty('line-height');
+                    p.style.removeProperty('text-align');
+                }
+            }
+        });
+    }
+
+    fixFaqIpad();
+    window.addEventListener('resize', fixFaqIpad);
+    window.addEventListener('orientationchange', fixFaqIpad);
+
+    var observer = new MutationObserver(function() { fixFaqIpad(); });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    setInterval(fixFaqIpad, 500);
+})();
