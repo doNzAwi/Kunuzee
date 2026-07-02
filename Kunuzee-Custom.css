@@ -2534,7 +2534,16 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── القايمة المنسدلة — نستخدم position: absolute عادي ─── */
+/* ─── الـ container الرئيسي — نلغي أي stacking context ─── */
+[id*="headlessui-listbox"] {
+    overflow: visible !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    isolation: auto !important;
+}
+
+/* ─── القايمة المنسدلة — position: absolute + z-index عالي ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
@@ -2547,8 +2556,6 @@ ul[id*="headlessui-listbox-options"] {
     isolation: auto !important;
     inset: auto !important;
     margin-top: 4px !important;
-    /* نمنع أي overflow:hidden من الأباء */
-    max-height: none !important;
 }
 
 /* ─── النصوص الأساسية ─── */
@@ -2587,20 +2594,11 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
    SECTION 23.1: FORCE LISTBOX ABOVE SWIPER — إجبار القايمة فوق السلايدر
    ─────────────────────────────────────────────────────────────── */
 
-/* نلغي أي stacking context على الأب المباشر للقايمة */
-[id*="headlessui-listbox"] {
-    overflow: visible !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    isolation: auto !important;
-}
-
-/* نرفع z-index بتاع الـ header container اللي فيه الزرار والقايمة */
+/* ❌ نلغي z-index على الـ header عشان ميعملش stacking context */
 .category_section_header,
 [class*="category_section_header"] {
     position: relative !important;
-    z-index: 100 !important;
+    /* ❌ ممنوع z-index هنا */
     overflow: visible !important;
     transform: none !important;
     isolation: auto !important;
@@ -2610,7 +2608,7 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
 .swiper-wrapper,
 [class*="swiper-wrapper"] {
     position: relative !important;
-    z-index: 1 !important;
+    z-index: 0 !important;
     transform: translate3d(0,0,0) !important;
     isolation: auto !important;
 }
@@ -2619,7 +2617,7 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
 .carouselWrapper,
 [class*="carouselWrapper"] {
     position: relative !important;
-    z-index: 1 !important;
+    z-index: 0 !important;
     overflow: visible !important;
     isolation: auto !important;
 }
@@ -2628,6 +2626,20 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
 .home_slider_container,
 [class*="home_slider_container"] {
     overflow: visible !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 23.2: BODY/MAIN Z-INDEX — رفع الـ main container فوق السلايدر
+   ─────────────────────────────────────────────────────────────── */
+
+/* نرفع z-index بتاع الـ main container اللي فيه كل المحتوى */
+main,
+[class*="mx-auto"] {
+    position: relative !important;
+    z-index: 10 !important;
+    overflow: visible !important;
+    transform: none !important;
+    isolation: auto !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
