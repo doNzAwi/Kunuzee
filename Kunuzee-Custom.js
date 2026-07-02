@@ -440,57 +440,6 @@ setInterval(fixHeader, 300);
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 4: cloneDescription — نسخ الوصف ووضعه بعد الـ header + إخفاء الأصلي
 // ───────────────────────────────────────────────────────────────
-(function() {
-    function cloneDescription() {
-        var original = document.querySelector('div.ql-editor:not(.ql-editor-clone), div[class*="ql-editor"]:not(.ql-editor-clone)');
-        var header = document.querySelector('.category_section_header, [class*="category_section_header"]');
-        if (!original || !header) return;
-
-        original.style.display = 'none';
-
-        var existing = header.parentNode.querySelector('.ql-editor-clone');
-        if (existing) {
-            if (existing.innerHTML !== original.innerHTML) {
-                existing.innerHTML = original.innerHTML;
-            }
-            return;
-        }
-
-        var clone = original.cloneNode(true);
-        clone.classList.add('ql-editor-clone');
-        clone.style.cssText = 'color: #bf6000 !important; margin-top: 12px !important; display: block !important; width: 100% !important;';
-        header.parentNode.insertBefore(clone, header.nextSibling);
-    }
-
-    cloneDescription();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasEditor = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('ql-editor') ||
-                    node.querySelector?.('.ql-editor')
-                )) {
-                    hasEditor = true;
-                }
-            });
-        });
-        if (hasEditor) cloneDescription();
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            var oldClone = document.querySelector('.ql-editor-clone');
-            if (oldClone) oldClone.remove();
-            cloneDescription();
-        }
-    }, 100);
-})();
 
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 5: fixDiscountBadge — تعديل نص badge الخصم في Featured Cards
@@ -1284,6 +1233,58 @@ setInterval(fixHeader, 300);
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 14: preventBodyShift — منع React Select من زحزحة الصفحة
 // ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var originalSetProperty = CSSStyleDeclaration.prototype.setProperty;
+    var originalSetAttribute = Element.prototype.setAttribute;
+
+    // نمنع React Select من إضافة padding-right على الbody
+    CSSStyleDeclaration.prototype.setProperty = function(property, value, priority) {
+        if (this.cssText && this.cssText.indexOf('body') !== -1 && property === 'padding-right') {
+            return;
+        }
+        if (property === 'padding-right' && value && value.indexOf && value.indexOf('px') !== -1) {
+            var el = this.parentElement || this.element;
+            if (el && el.tagName === 'BODY') {
+                return;
+            }
+        }
+        return originalSetProperty.apply(this, arguments);
+    };
+
+    // نمنع setAttribute('style') على الbody
+    Element.prototype.setAttribute = function(name, value) {
+        if (this.tagName === 'BODY' && name === 'style') {
+            // نشيل أي padding-right من الـ value
+            if (value && value.indexOf('padding-right') !== -1) {
+                value = value.replace(/padding-right:\s*[^;]+;?/g, '');
+            }
+        }
+        return originalSetAttribute.apply(this, arguments);
+    };
+
+    // Observer يشيل padding-right من الbody فوراً
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                var body = document.body;
+                if (body && body.style.paddingRight) {
+                    body.style.paddingRight = '';
+                    body.style.removeProperty('padding-right');
+                }
+            }
+        });
+    });
+
+    if (document.body) {
+        observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+        });
+    }
+})();
 
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 15: fixGovColor — لون المحافظة المختارة
