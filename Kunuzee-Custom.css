@@ -2703,24 +2703,46 @@ body[style*="margin-right"] {
     display: none !important;
 }
 
-/* ─── scale على hover للصورة — SMOOTH ─── */
-.default_category_card .default_category_card_img img,
-.default_category_card img[class*="default_category_card_img"] {
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+/* ═══════════════════
+   ZOOM SMOOTH — بدون flicker
+   ═══════════════════ */
+
+/* 1. نلغي animate-zoom-fade خالص */
+.default_category_card .default_category_card_img img {
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+/* 2. نلغي group-hover:scale-105 من Tailwind */
+.default_category_card .default_category_card_img img {
+    --tw-scale-x: 1 !important;
+    --tw-scale-y: 1 !important;
+    transform: scale(1) translateZ(0) !important;
+}
+
+/* 3. نحط transition clean */
+.default_category_card .default_category_card_img {
+    overflow: hidden !important;
+    border-radius: 9999px !important;
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+}
+
+.default_category_card .default_category_card_img img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transform: scale(1) translateZ(0) !important;
     will-change: transform !important;
     backface-visibility: hidden !important;
     -webkit-backface-visibility: hidden !important;
-    transform: translateZ(0) !important; /* force GPU layer */
 }
 
-.default_category_card:hover .default_category_card_img img,
-.default_category_card:hover img[class*="default_category_card_img"] {
-    transform: scale3d(1.05, 1.05, 1) translateZ(0) !important;
-}
-
-/* ─── نلغي animate-zoom-fade لما يكون hover ─── */
+/* 4. hover — scale بسيط وسلس */
 .default_category_card:hover .default_category_card_img img {
-    animation: none !important;
+    transform: scale(1.05) translateZ(0) !important;
 }
 
 /* ─── ألوان العناوين ─── */
