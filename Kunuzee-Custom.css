@@ -2534,18 +2534,17 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── الـ container الرئيسي — نرفعه فوق أي stacking context ─── */
+/* ─── الـ container الرئيسي — NO position:relative هنا عشان ميعملش stacking context ─── */
 [id*="headlessui-listbox"] {
-    position: relative !important;
-    z-index: 99999 !important;
     overflow: visible !important;
     transform: none !important;
     filter: none !important;
     opacity: 1 !important;
     isolation: auto !important;
+    /* ❌ ممنوع نحط position أو z-index هنا */
 }
 
-/* ─── القايمة المنسدلة — position + z-index عشان تظهر فوق أي حاجة ─── */
+/* ─── القايمة المنسدلة — position + z-index بس على الـ ul نفسه ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
