@@ -2604,7 +2604,7 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
     isolation: auto !important;
 }
 
-/* نعمل stacking context منفصل للـ Swiper بـ contain: paint */
+/* نعمل stacking context منفصل للـ Swiper */
 .swiper-wrapper,
 [class*="swiper-wrapper"] {
     contain: paint !important;
