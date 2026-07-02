@@ -1444,3 +1444,46 @@ setInterval(fixHeader, 300);
         }
     }, 300);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 17: scrollToTopOnNavigation — سكرول لفوق عند التنقل
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var lastUrl = location.href;
+
+    function shouldScroll() {
+        // ❌ لو فيه قايمة محافظات مفتوحة — ممنوع نعمل scroll
+        var openMenu = document.querySelector('.select__menu');
+        if (openMenu) return false;
+
+        // ❌ لو فيه أي dropdown مفتوح — ممنوع
+        var openDropdown = document.querySelector('[id*="headlessui-listbox-options"]');
+        if (openDropdown) return false;
+
+        // ❌ لو فيه popover panel مفتوح — ممنوع
+        var openPopover = document.querySelector('[id*="headlessui-popover-panel"]:not([style*="display: none"])');
+        if (openPopover) return false;
+
+        return true;
+    }
+
+    function scrollToTop() {
+        if (!shouldScroll()) return;
+        window.scrollTo(0, 0);
+    }
+
+    // على تغيير الـ URL (SPA navigation)
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            // نستنى شوية عشان الـ DOM يتحدث
+            setTimeout(scrollToTop, 50);
+            setTimeout(scrollToTop, 150);
+        }
+    }, 100);
+
+    // على load عادي
+    window.addEventListener('load', scrollToTop);
+})();
