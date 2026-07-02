@@ -1370,3 +1370,83 @@ setInterval(fixHeader, 300);
         }
     });
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 16: fixSortListboxPosition — تثبيت قايمة الترتيب بـ position: fixed
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var GAP = 4;
+
+    function positionListbox() {
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (!options) return;
+        if (options.dataset.kunuzeePositioned === 'true') return;
+
+        var button = document.querySelector('[id*="headlessui-listbox-button"]');
+        if (!button) return;
+
+        var btnRect = button.getBoundingClientRect();
+
+        options.style.setProperty('position', 'fixed', 'important');
+        options.style.setProperty('top', (btnRect.bottom + GAP) + 'px', 'important');
+        options.style.setProperty('right', (window.innerWidth - btnRect.right) + 'px', 'important');
+        options.style.setProperty('left', 'auto', 'important');
+        options.style.setProperty('min-width', btnRect.width + 'px', 'important');
+        options.style.setProperty('z-index', '99999', 'important');
+
+        options.dataset.kunuzeePositioned = 'true';
+    }
+
+    function resetPosition() {
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (options) {
+            options.dataset.kunuzeePositioned = '';
+        }
+    }
+
+    // Observer يراقب لما القايمة تتضاف للـ DOM
+    var observer = new MutationObserver(function(mutations) {
+        var hasListbox = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.id && node.id.indexOf('headlessui-listbox-options') !== -1 ||
+                    node.querySelector && node.querySelector('ul[id*="headlessui-listbox-options"]')
+                )) {
+                    hasListbox = true;
+                }
+            });
+        });
+        if (hasListbox) {
+            setTimeout(positionListbox, 0);
+            setTimeout(positionListbox, 50);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // لما يضغط على الزرار
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('[id*="headlessui-listbox-button"]')) {
+            resetPosition();
+            setTimeout(positionListbox, 0);
+            setTimeout(positionListbox, 50);
+            setTimeout(positionListbox, 150);
+        }
+    });
+
+    // Resize و scroll
+    window.addEventListener('resize', function() {
+        resetPosition();
+        positionListbox();
+    });
+
+    window.addEventListener('scroll', function() {
+        resetPosition();
+        positionListbox();
+    }, true);
+
+    positionListbox();
+})();
