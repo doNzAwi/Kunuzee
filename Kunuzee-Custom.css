@@ -2534,28 +2534,11 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── الـ container الرئيسي — نلغي أي stacking context ─── */
-[id*="headlessui-listbox"] {
-    overflow: visible !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    isolation: auto !important;
-}
-
-/* ─── القايمة المنسدلة — z-index عالي بس من غير position:relative على الـ parent ─── */
+/* ─── بوردر القايمة المنسدلة ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
-    position: absolute !important;
     z-index: 99999 !important;
-    overflow: visible !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    isolation: auto !important;
-    inset: auto !important;
-    margin-top: 4px !important;
 }
 
 /* ─── النصوص الأساسية ─── */
