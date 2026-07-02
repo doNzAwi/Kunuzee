@@ -2518,18 +2518,6 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
    SECTION 23: SORT LISTBOX — قايمة ترتيب المنتجات
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── Parent بتاع زرار الترتيب — نرجع z-index لـ 10 (قيمته الطبيعية) ─── */
-.category_section_header .relative.z-10,
-.category_section_header > div.relative,
-[class*="category_section_header"] .relative.z-10,
-[class*="category_section_header"] > div.relative {
-    z-index: 10 !important;
-    position: relative !important;
-    overflow: visible !important;
-    transform: none !important;
-    isolation: auto !important;
-}
-
 /* ─── الزرار نفسه — البوردر ─── */
 [id*="headlessui-listbox-button"] {
     border-color: #ce982e !important;
@@ -2546,18 +2534,21 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── القايمة المنسدلة — position: fixed عشان تخرج من أي stacking context ─── */
+/* ─── القايمة المنسدلة — نستخدم position: absolute عادي ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
-    position: fixed !important;
+    position: absolute !important;
     z-index: 99999 !important;
     overflow: visible !important;
     transform: none !important;
     filter: none !important;
     opacity: 1 !important;
     isolation: auto !important;
-    margin-top: 0 !important;
+    inset: auto !important;
+    margin-top: 4px !important;
+    /* نمنع أي overflow:hidden من الأباء */
+    max-height: none !important;
 }
 
 /* ─── النصوص الأساسية ─── */
@@ -2590,6 +2581,53 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] span {
 li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
     color: #fcf5e2 !important;
     fill: #fcf5e2 !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 23.1: FORCE LISTBOX ABOVE SWIPER — إجبار القايمة فوق السلايدر
+   ─────────────────────────────────────────────────────────────── */
+
+/* نلغي أي stacking context على الأب المباشر للقايمة */
+[id*="headlessui-listbox"] {
+    overflow: visible !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    isolation: auto !important;
+}
+
+/* نرفع z-index بتاع الـ header container اللي فيه الزرار والقايمة */
+.category_section_header,
+[class*="category_section_header"] {
+    position: relative !important;
+    z-index: 100 !important;
+    overflow: visible !important;
+    transform: none !important;
+    isolation: auto !important;
+}
+
+/* ننزل z-index بتاع الـ Swiper wrapper */
+.swiper-wrapper,
+[class*="swiper-wrapper"] {
+    position: relative !important;
+    z-index: 1 !important;
+    transform: translate3d(0,0,0) !important;
+    isolation: auto !important;
+}
+
+/* ننزل z-index بتاع الـ carousel container */
+.carouselWrapper,
+[class*="carouselWrapper"] {
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+    isolation: auto !important;
+}
+
+/* نمنع أي overflow:hidden على الأباء */
+.home_slider_container,
+[class*="home_slider_container"] {
+    overflow: visible !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
