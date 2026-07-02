@@ -1501,104 +1501,101 @@ setInterval(fixHeader, 300);
 (function() {
     'use strict';
 
+    var STYLE_ID = 'kunuzee-faq-ipad-style';
+
     function isIpadMiniAir() {
         var w = window.innerWidth, h = window.innerHeight;
         var min = Math.min(w, h), max = Math.max(w, h);
-        // iPad Mini ~768×1024  |  iPad Air ~820×1180
+        // iPad Mini: 768×1024  |  iPad Air: 820×1180
         var isMini = (min >= 750 && min <= 790 && max >= 1000 && max <= 1050);
         var isAir  = (min >= 800 && min <= 850 && max >= 1150 && max <= 1210);
         return isMini || isAir;
     }
 
-    function fixFaqIpad() {
-        var accordion = document.querySelector('.szh-accordion');
-        if (!accordion) return;
-        var container = accordion.closest('.home_section_container');
-        if (!container) return;
-
-        var isIpad = isIpadMiniAir();
-        var titleDiv = container.querySelector('.animate-slideIn');
-
-        // ─── Container padding ───
-        if (isIpad) {
-            container.style.setProperty('padding-left', '16px', 'important');
-            container.style.setProperty('padding-right', '16px', 'important');
-        } else {
-            container.style.removeProperty('padding-left');
-            container.style.removeProperty('padding-right');
+    function markFaqContainer() {
+        var faq = document.querySelector('.szh-accordion');
+        var container = faq ? faq.closest('.home_section_container') : null;
+        if (container) {
+            container.setAttribute('data-kunuzee-faq', 'ipad');
         }
-
-        // ─── Title ───
-        if (titleDiv) {
-            var h3 = titleDiv.querySelector('h3');
-            var p  = titleDiv.querySelector('p.description');
-            if (h3) {
-                if (isIpad) {
-                    h3.style.setProperty('font-size', '1.4rem', 'important');
-                    h3.style.setProperty('text-align', 'center', 'important');
-                    h3.style.setProperty('margin-bottom', '8px', 'important');
-                } else {
-                    h3.style.removeProperty('font-size');
-                    h3.style.removeProperty('text-align');
-                    h3.style.removeProperty('margin-bottom');
-                }
-            }
-            if (p) {
-                if (isIpad) {
-                    p.style.setProperty('font-size', '0.95rem', 'important');
-                    p.style.setProperty('text-align', 'center', 'important');
-                } else {
-                    p.style.removeProperty('font-size');
-                    p.style.removeProperty('text-align');
-                }
-            }
-        }
-
-        // ─── Accordion buttons ───
-        var btns = container.querySelectorAll('.szh-accordion__item-btn');
-        btns.forEach(function(btn) {
-            if (isIpad) {
-                btn.style.setProperty('font-size', '15px', 'important');
-                btn.style.setProperty('padding', '14px 16px', 'important');
-                btn.style.setProperty('text-align', 'right', 'important');
-                btn.style.setProperty('line-height', '1.5', 'important');
-            } else {
-                btn.style.removeProperty('font-size');
-                btn.style.removeProperty('padding');
-                btn.style.removeProperty('text-align');
-                btn.style.removeProperty('line-height');
-            }
-        });
-
-        // ─── Panels ───
-        var panels = container.querySelectorAll('.szh-accordion__item-panel');
-        panels.forEach(function(panel) {
-            if (isIpad) {
-                panel.style.setProperty('padding', '0 16px 16px 16px', 'important');
-            } else {
-                panel.style.removeProperty('padding');
-            }
-            var p = panel.querySelector('p');
-            if (p) {
-                if (isIpad) {
-                    p.style.setProperty('font-size', '14px', 'important');
-                    p.style.setProperty('line-height', '1.6', 'important');
-                    p.style.setProperty('text-align', 'right', 'important');
-                } else {
-                    p.style.removeProperty('font-size');
-                    p.style.removeProperty('line-height');
-                    p.style.removeProperty('text-align');
-                }
-            }
-        });
+        return container;
     }
 
-    fixFaqIpad();
-    window.addEventListener('resize', fixFaqIpad);
-    window.addEventListener('orientationchange', fixFaqIpad);
+    function injectStyles() {
+        var container = markFaqContainer();
 
-    var observer = new MutationObserver(function() { fixFaqIpad(); });
+        // لو مش iPad Mini/Air أو مفيش FAQ → نشيل الـ style لو موجود
+        if (!container || !isIpadMiniAir()) {
+            var existing = document.getElementById(STYLE_ID);
+            if (existing) existing.remove();
+            return;
+        }
+
+        // لو الـ style موجود خلاص → مالناش داعي
+        if (document.getElementById(STYLE_ID)) return;
+
+        var css = [
+            '[data-kunuzee-faq="ipad"] {',
+            '    padding-left: 16px !important;',
+            '    padding-right: 16px !important;',
+            '}',
+            '[data-kunuzee-faq="ipad"] > div > div:first-child > h3 {',
+            '    font-size: 1.4rem !important;',
+            '    text-align: center !important;',
+            '    margin-bottom: 8px !important;',
+            '}',
+            '[data-kunuzee-faq="ipad"] > div > div:first-child > p.description {',
+            '    font-size: 0.95rem !important;',
+            '    text-align: center !important;',
+            '}',
+            '[data-kunuzee-faq="ipad"] .szh-accordion__item-btn {',
+            '    font-size: 15px !important;',
+            '    padding: 14px 16px !important;',
+            '    text-align: right !important;',
+            '    line-height: 1.5 !important;',
+            '}',
+            '[data-kunuzee-faq="ipad"] .szh-accordion__item-btn svg {',
+            '    width: 20px !important;',
+            '    height: 20px !important;',
+            '    min-width: 20px !important;',
+            '    min-height: 20px !important;',
+            '    flex-shrink: 0 !important;',
+            '    margin-right: 12px !important;',
+            '}',
+            '[data-kunuzee-faq="ipad"] .szh-accordion__item-panel {',
+            '    padding: 0 16px 16px 16px !important;',
+            '}',
+            '[data-kunuzee-faq="ipad"] .szh-accordion__item-panel p {',
+            '    font-size: 14px !important;',
+            '    line-height: 1.6 !important;',
+            '    text-align: right !important;',
+            '}'
+        ].join('\n');
+
+        var style = document.createElement('style');
+        style.id = STYLE_ID;
+        style.textContent = css;
+        document.head.appendChild(style);
+    }
+
+    // اشتغل فوراً
+    injectStyles();
+
+    // لما المقاس يتغير
+    window.addEventListener('resize', injectStyles);
+    window.addEventListener('orientationchange', injectStyles);
+
+    // Observer لو الـ FAQ اتعمل lazy load
+    var observer = new MutationObserver(function() {
+        injectStyles();
+    });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    setInterval(fixFaqIpad, 500);
+    // تأكيد إضافي كل 500ms لمدة 10 ثواني
+    var checks = 0;
+    var interval = setInterval(function() {
+        injectStyles();
+        checks++;
+        if (checks >= 20) clearInterval(interval);
+    }, 500);
 })();
