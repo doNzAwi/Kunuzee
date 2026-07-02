@@ -2669,6 +2669,22 @@ body[style*="margin-right"] {
    (نسخة طبق الأصل من .category_card بس من غير overlay + أيقونة)
    ─────────────────────────────────────────────────────────────── */
 
+/* ─── Animation ─── */
+@keyframes kunuzee-slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.default_category_card .animate-slideIn {
+    animation: kunuzee-slideIn 0.5s ease forwards !important;
+}
+
 /* ─── الصور الدائرية ─── */
 .default_category_card .default_category_card_img,
 .default_category_card .default_category_card_img img,
@@ -2711,19 +2727,14 @@ body[style*="margin-right"] {
 }
 
 /* ─── تخصيص أزرار السهم ─── */
-/* الخلفية */
-.default_category_card ~ .slider_buttons_container .slider_button,
-.default_category_card + .slider_buttons_container .slider_button,
-.default_category_card .slider_buttons_container .slider_button {
+.carouselWrapper:has(.default_category_card) .slider_buttons_container .slider_button {
     background-color: #ffffff !important;
     color: #bf6000 !important;
     border: 1px solid #f2e4be !important;
+    transition: all 0.25s ease !important;
 }
 
-/* هوفر الأزرار */
-.default_category_card ~ .slider_buttons_container .slider_button:hover,
-.default_category_card + .slider_buttons_container .slider_button:hover,
-.default_category_card .slider_buttons_container .slider_button:hover {
+.carouselWrapper:has(.default_category_card) .slider_buttons_container .slider_button:hover {
     background-color: #bf6000 !important;
     color: #ffffff !important;
     border-color: #bf6000 !important;
@@ -2731,11 +2742,11 @@ body[style*="margin-right"] {
 
 /* ─── المسافات ─── */
 .default_category_card {
-    margin-bottom: 5rem !important; /* mb-20 = 5rem */
+    margin-bottom: 5rem !important;
 }
 
 .default_category_card .inline-flex {
-    margin-bottom: 1.5rem !important; /* mb-6 = 1.5rem */
+    margin-bottom: 1.5rem !important;
 }
 
 /* ─── تنسيق الـ container الداخلي ─── */
