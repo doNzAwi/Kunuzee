@@ -2518,12 +2518,12 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
    SECTION 23: SORT LISTBOX — قايمة ترتيب المنتجات
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── Parent بتاع زرار الترتيب — نرفع الـ z-index بتاعه فوق أي حاجة ─── */
+/* ─── Parent بتاع زرار الترتيب — نرجع z-index لـ 10 (قيمته الطبيعية) ─── */
 .category_section_header .relative.z-10,
 .category_section_header > div.relative,
 [class*="category_section_header"] .relative.z-10,
 [class*="category_section_header"] > div.relative {
-    z-index: 99999 !important;
+    z-index: 10 !important;
     position: relative !important;
     overflow: visible !important;
     transform: none !important;
@@ -2546,19 +2546,18 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── القايمة المنسدلة ─── */
+/* ─── القايمة المنسدلة — position: fixed عشان تخرج من أي stacking context ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
-    position: absolute !important;
+    position: fixed !important;
     z-index: 99999 !important;
     overflow: visible !important;
     transform: none !important;
     filter: none !important;
     opacity: 1 !important;
     isolation: auto !important;
-    inset: auto !important;
-    margin-top: 4px !important;
+    margin-top: 0 !important;
 }
 
 /* ─── النصوص الأساسية ─── */
