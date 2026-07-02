@@ -1284,58 +1284,6 @@ setInterval(fixHeader, 300);
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 14: preventBodyShift — منع React Select من زحزحة الصفحة
 // ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    var originalSetProperty = CSSStyleDeclaration.prototype.setProperty;
-    var originalSetAttribute = Element.prototype.setAttribute;
-
-    // نمنع React Select من إضافة padding-right على الbody
-    CSSStyleDeclaration.prototype.setProperty = function(property, value, priority) {
-        if (this.cssText && this.cssText.indexOf('body') !== -1 && property === 'padding-right') {
-            return;
-        }
-        if (property === 'padding-right' && value && value.indexOf && value.indexOf('px') !== -1) {
-            var el = this.parentElement || this.element;
-            if (el && el.tagName === 'BODY') {
-                return;
-            }
-        }
-        return originalSetProperty.apply(this, arguments);
-    };
-
-    // نمنع setAttribute('style') على الbody
-    Element.prototype.setAttribute = function(name, value) {
-        if (this.tagName === 'BODY' && name === 'style') {
-            // نشيل أي padding-right من الـ value
-            if (value && value.indexOf('padding-right') !== -1) {
-                value = value.replace(/padding-right:\s*[^;]+;?/g, '');
-            }
-        }
-        return originalSetAttribute.apply(this, arguments);
-    };
-
-    // Observer يشيل padding-right من الbody فوراً
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                var body = document.body;
-                if (body && body.style.paddingRight) {
-                    body.style.paddingRight = '';
-                    body.style.removeProperty('padding-right');
-                }
-            }
-        });
-    });
-
-    if (document.body) {
-        observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
-            observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-        });
-    }
-})();
 
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 15: fixGovColor — لون المحافظة المختارة
