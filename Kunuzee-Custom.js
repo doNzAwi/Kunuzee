@@ -1452,38 +1452,42 @@ setInterval(fixHeader, 300);
     'use strict';
 
     var lastUrl = location.href;
+    var isFromHomeProduct = false;
 
-    function shouldScroll() {
-        // ❌ لو فيه قايمة محافظات مفتوحة — ممنوع نعمل scroll
-        var openMenu = document.querySelector('.select__menu');
-        if (openMenu) return false;
+    // نتحقق لو الـ click جاي من كارت منتج على الرئيسية
+    document.addEventListener('click', function(e) {
+        var card = e.target.closest('.default_product_featured_card, .default_product_list_card, .home_products_grid_card');
+        if (card) {
+            isFromHomeProduct = true;
+        }
+    });
 
-        // ❌ لو فيه أي dropdown مفتوح — ممنوع
-        var openDropdown = document.querySelector('[id*="headlessui-listbox-options"]');
-        if (openDropdown) return false;
-
-        // ❌ لو فيه popover panel مفتوح — ممنوع
-        var openPopover = document.querySelector('[id*="headlessui-popover-panel"]:not([style*="display: none"])');
-        if (openPopover) return false;
-
-        return true;
-    }
-
-    function scrollToTop() {
-        if (!shouldScroll()) return;
-        window.scrollTo(0, 0);
-    }
-
-    // على تغيير الـ URL (SPA navigation)
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            // نستنى شوية عشان الـ DOM يتحدث
-            setTimeout(scrollToTop, 50);
-            setTimeout(scrollToTop, 150);
+            
+            // لو الـ URL جديد هو صفحة منتج وجاي من الرئيسية
+            if (isFromHomeProduct && location.pathname.includes('/products/')) {
+                isFromHomeProduct = false;
+                // نستنى الـ DOM يتحمل ونرجع نعمل scroll لفوق
+                setTimeout(function() {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                }, 50);
+                setTimeout(function() {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                }, 150);
+                setTimeout(function() {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                }, 300);
+            } else {
+                isFromHomeProduct = false;
+            }
         }
     }, 100);
-
-    // على load عادي
-    window.addEventListener('load', scrollToTop);
 })();
