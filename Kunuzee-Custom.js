@@ -1496,14 +1496,13 @@ setInterval(fixHeader, 300);
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 18: FAQ Accordion — Fixed Height + Marquee Scroll
+// FUNCTION 18: FAQ Accordion — Fixed Height + Smooth Marquee
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
 
-    var STYLE_ID = 'kunuzee-faq-accordion-fix';
+    var STYLE_ID = 'kunuzee-faq-marquee-final';
 
-    // 1. حقن الـ CSS
     function injectStyles() {
         if (document.getElementById(STYLE_ID)) return;
         var css = [
@@ -1532,16 +1531,15 @@ setInterval(fixHeader, 300);
             '    box-sizing: border-box !important;',
             '    text-align: right !important;',
             '    line-height: 1.4 !important;',
+            '    overflow: hidden !important;',
             '}',
             '/* ─── نص السؤال ─── */',
             '.kunuzee-faq-text {',
-            '    display: block !important;',
+            '    display: inline-block !important;',
             '    white-space: nowrap !important;',
-            '    overflow: hidden !important;',
-            '    text-overflow: ellipsis !important;',
-            '    flex: 1 1 auto !important;',
-            '    min-width: 0 !important;',
             '    direction: rtl !important;',
+            '    flex-shrink: 0 !important;',
+            '    min-width: 0 !important;',
             '}',
             '/* ─── السهم (الأيقونة) ─── */',
             '.kunuzee-faq-arrow {',
@@ -1552,12 +1550,13 @@ setInterval(fixHeader, 300);
             '}',
             '/* ─── Marquee animation ─── */',
             '.kunuzee-faq-text.kunuzee-marquee {',
-            '    text-overflow: clip !important;',
-            '    animation: kunuzee-faq-scroll 5s ease-in-out infinite alternate !important;',
+            '    will-change: transform !important;',
+            '    animation: kunuzee-faq-scroll 8s ease-in-out infinite !important;',
             '}',
             '@keyframes kunuzee-faq-scroll {',
-            '    0%, 20% { transform: translateX(0); }',
-            '    80%, 100% { transform: translateX(var(--marquee-offset, -20px)); }',
+            '    0%, 15% { transform: translateX(0); }',
+            '    45%, 55% { transform: translateX(var(--marquee-offset)); }',
+            '    85%, 100% { transform: translateX(0); }',
             '}'
         ].join('\n');
 
@@ -1567,7 +1566,7 @@ setInterval(fixHeader, 300);
         document.head.appendChild(style);
     }
 
-    // 2. يلف نص السؤال في <span> عشان نقدر نتحكم فيه
+    // يلف نص السؤال في <span>
     function wrapTextNodes() {
         var items = document.querySelectorAll('.szh-accordion__item');
         items.forEach(function(item) {
@@ -1577,7 +1576,6 @@ setInterval(fixHeader, 300);
             var btn = item.querySelector('.szh-accordion__item-btn');
             if (!btn) return;
 
-            // نلاقي أول text node (نص السؤال)
             var textNode = null;
             for (var i = 0; i < btn.childNodes.length; i++) {
                 var node = btn.childNodes[i];
@@ -1593,49 +1591,46 @@ setInterval(fixHeader, 300);
             span.textContent = textNode.textContent.trim();
             btn.replaceChild(span, textNode);
 
-            // نضيف class على السهم
             var svg = btn.querySelector('svg');
             if (svg) svg.classList.add('kunuzee-faq-arrow');
         });
     }
 
-    // 3. لو السؤال طويل → نشغل Marquee
+    // يشغل Marquee على الأسئلة الطويلة
     function applyMarquee() {
         var spans = document.querySelectorAll('.kunuzee-faq-text');
         spans.forEach(function(span) {
             var btn = span.parentElement;
             if (!btn) return;
 
-            // المساحة المتاحة = عرض الزرار - مساحة السهم
             var arrow = btn.querySelector('.kunuzee-faq-arrow');
-            var arrowWidth = arrow ? arrow.offsetWidth + 20 : 40;
-            var availableWidth = btn.clientWidth - arrowWidth;
+            var arrowWidth = arrow ? (arrow.offsetWidth + 12) : 0;
+            var padding = 32;
+            var availableWidth = btn.clientWidth - arrowWidth - padding;
             var textWidth = span.scrollWidth;
 
             if (textWidth > availableWidth) {
-                // السؤال طويل → نشغل animation
-                var offset = -(textWidth - availableWidth);
-                span.style.setProperty('--marquee-offset', offset + 'px');
+                var overflow = textWidth - availableWidth;
+                // Positive offset: move RIGHT to reveal left side (end of sentence)
+                span.style.setProperty('--marquee-offset', overflow + 'px');
                 span.classList.add('kunuzee-marquee');
             } else {
-                // السؤال قصير → نلغي animation
                 span.classList.remove('kunuzee-marquee');
                 span.style.removeProperty('--marquee-offset');
             }
         });
     }
 
-    // 4. اشتغل
     function runAll() {
         injectStyles();
         wrapTextNodes();
-        setTimeout(applyMarquee, 100);
-        setTimeout(applyMarquee, 500);
+        setTimeout(applyMarquee, 200);
+        setTimeout(applyMarquee, 800);
+        setTimeout(applyMarquee, 1500);
     }
 
     runAll();
 
-    // 5. Events
     window.addEventListener('resize', function() {
         wrapTextNodes();
         applyMarquee();
