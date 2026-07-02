@@ -2785,38 +2785,41 @@ body {
    ═══════════════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════════════
-   OPTION A: شكل الديسكتوب على iPad Mini/Air
-   (padding أعرض، خطوط أكبر، زي iPad Pro)
+   OPTION B: شكل الموبايل على iPad Mini/Air
+   (padding ضيق، خطوط أصغر، زي iPhone)
    ═══════════════════════════════════════════════════════════════ */
-
 @media (min-width: 768px) and (max-width: 1023px) {
   .home_section_container:has(.szh-accordion) {
-    max-width: 900px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 48px !important;
-    padding-right: 48px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 
   .home_section_container h3 {
-    font-size: 1.75rem !important;
+    font-size: 1.4rem !important;
   }
 
   .home_section_container .description {
-    font-size: 1.1rem !important;
+    font-size: 0.95rem !important;
   }
 
   .szh-accordion__item-btn {
-    font-size: 17px !important;
-    padding: 18px 24px !important;
+    font-size: 15px !important;
+    padding: 14px 16px !important;
+    text-align: right !important;
+  }
+
+  .szh-accordion__item-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0 !important;
   }
 
   .szh-accordion__item-panel {
-    padding: 0 24px 20px !important;
+    padding: 0 16px 16px !important;
   }
 
   .szh-accordion__item-panel p {
-    font-size: 15px !important;
-    line-height: 1.7 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
   }
 }
