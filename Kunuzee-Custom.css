@@ -2663,3 +2663,88 @@ body[style*="margin-right"] {
 [class*="select__menu"] {
     border: 1px solid #f2e4be !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 26: DEFAULT CATEGORY CARDS — كروت الأقسام الفرعية
+   (نسخة طبق الأصل من .category_card بس من غير overlay + أيقونة)
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── الصور الدائرية ─── */
+.default_category_card .default_category_card_img,
+.default_category_card .default_category_card_img img,
+.default_category_card .rounded-md {
+    border-radius: 9999px !important;
+}
+
+/* ─── إخفاء overlay الأسود ─── */
+.default_category_card .absolute.top.left.bg-black,
+.default_category_card [class*="bg-black"][class*="absolute"] {
+    display: none !important;
+}
+
+/* ─── إخفاء أيقونة link ─── */
+.default_category_card .absolute.top.left.h-full.w-full.flex.items-center.justify-center svg,
+.default_category_card .absolute.top.left.h-full.w-full.flex.items-center.justify-center {
+    display: none !important;
+}
+
+/* ─── scale على hover للصورة ─── */
+.default_category_card .default_category_card_img img,
+.default_category_card img[class*="default_category_card_img"] {
+    transition: transform 0.5s ease !important;
+}
+
+.default_category_card:hover .default_category_card_img img,
+.default_category_card:hover img[class*="default_category_card_img"] {
+    transform: scale(1.05) !important;
+}
+
+/* ─── ألوان العناوين ─── */
+.default_category_card_name {
+    color: #134f4f !important;
+    transition: color 0.2s ease !important;
+}
+
+.default_category_card:hover .default_category_card_name,
+.default_category_card_name:hover {
+    color: #ce982e !important;
+}
+
+/* ─── تخصيص أزرار السهم ─── */
+/* الخلفية */
+.default_category_card ~ .slider_buttons_container .slider_button,
+.default_category_card + .slider_buttons_container .slider_button,
+.default_category_card .slider_buttons_container .slider_button {
+    background-color: #ffffff !important;
+    color: #bf6000 !important;
+    border: 1px solid #f2e4be !important;
+}
+
+/* هوفر الأزرار */
+.default_category_card ~ .slider_buttons_container .slider_button:hover,
+.default_category_card + .slider_buttons_container .slider_button:hover,
+.default_category_card .slider_buttons_container .slider_button:hover {
+    background-color: #bf6000 !important;
+    color: #ffffff !important;
+    border-color: #bf6000 !important;
+}
+
+/* ─── المسافات ─── */
+.default_category_card {
+    margin-bottom: 5rem !important; /* mb-20 = 5rem */
+}
+
+.default_category_card .inline-flex {
+    margin-bottom: 1.5rem !important; /* mb-6 = 1.5rem */
+}
+
+/* ─── تنسيق الـ container الداخلي ─── */
+.default_category_card > div.relative {
+    margin-bottom: 1.5rem !important;
+}
+
+/* ─── إزالة الـ rounded-md من الـ parent ─── */
+.default_category_card > div.relative.inline-flex {
+    border-radius: 9999px !important;
+    overflow: hidden !important;
+}
