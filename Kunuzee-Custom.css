@@ -2787,3 +2787,19 @@ body[style*="margin-right"] {
     border-radius: 9999px !important;
     overflow: hidden !important;
 }
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+/* نلغي الـ contain والـ transform على الـ 3 أنواع كروت */
+.default_product_featured_card,
+.default_product_list_card,
+.home_products_grid_card {
+    contain: none !important;
+}
+
+.default_product_featured_card .mt-2.flex.flex-row-reverse,
+.default_product_list_card .flex.items-center.text-heading,
+.home_products_grid_card .flex.items-center.text-heading {
+    transform: none !important;
+    backface-visibility: visible !important;
+}
