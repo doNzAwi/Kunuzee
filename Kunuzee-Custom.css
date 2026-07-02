@@ -2666,7 +2666,6 @@ body[style*="margin-right"] {
 
 /* ───────────────────────────────────────────────────────────────
    SECTION 26: DEFAULT CATEGORY CARDS — كروت الأقسام الفرعية
-   (نسخة طبق الأصل من .category_card بس من غير overlay + أيقونة)
    ─────────────────────────────────────────────────────────────── */
 
 /* ─── Animation ─── */
@@ -2704,15 +2703,24 @@ body[style*="margin-right"] {
     display: none !important;
 }
 
-/* ─── scale على hover للصورة ─── */
+/* ─── scale على hover للصورة — SMOOTH ─── */
 .default_category_card .default_category_card_img img,
 .default_category_card img[class*="default_category_card_img"] {
-    transition: transform 0.5s ease !important;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    transform: translateZ(0) !important; /* force GPU layer */
 }
 
 .default_category_card:hover .default_category_card_img img,
 .default_category_card:hover img[class*="default_category_card_img"] {
-    transform: scale(1.05) !important;
+    transform: scale3d(1.05, 1.05, 1) translateZ(0) !important;
+}
+
+/* ─── نلغي animate-zoom-fade لما يكون hover ─── */
+.default_category_card:hover .default_category_card_img img {
+    animation: none !important;
 }
 
 /* ─── ألوان العناوين ─── */
@@ -2749,12 +2757,10 @@ body[style*="margin-right"] {
     margin-bottom: 1.5rem !important;
 }
 
-/* ─── تنسيق الـ container الداخلي ─── */
 .default_category_card > div.relative {
     margin-bottom: 1.5rem !important;
 }
 
-/* ─── إزالة الـ rounded-md من الـ parent ─── */
 .default_category_card > div.relative.inline-flex {
     border-radius: 9999px !important;
     overflow: hidden !important;
