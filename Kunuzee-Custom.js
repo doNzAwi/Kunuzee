@@ -1370,3 +1370,76 @@ setInterval(fixHeader, 300);
         }
     });
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 16: fixSortListboxZIndex — قايمة الترتيب تظهر فوق أي حاجة
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixListbox() {
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (!options) return;
+        if (options.dataset.kunuzeeFixed === 'true') return;
+
+        var button = document.querySelector('[id*="headlessui-listbox-button"]');
+        if (!button) return;
+
+        var btnRect = button.getBoundingClientRect();
+
+        // نحول القايمة لـ fixed عشان تخرج من أي overflow:hidden أو stacking context
+        options.style.setProperty('position', 'fixed', 'important');
+        options.style.setProperty('z-index', '99999', 'important');
+        options.style.setProperty('top', (btnRect.bottom + 4) + 'px', 'important');
+        options.style.setProperty('right', (window.innerWidth - btnRect.right) + 'px', 'important');
+        options.style.setProperty('left', 'auto', 'important');
+        options.style.setProperty('min-width', btnRect.width + 'px', 'important');
+        options.style.setProperty('overflow', 'visible', 'important');
+        options.style.setProperty('transform', 'none', 'important');
+
+        options.dataset.kunuzeeFixed = 'true';
+    }
+
+    function resetListbox() {
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (options) {
+            options.dataset.kunuzeeFixed = '';
+        }
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasListbox = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.id && node.id.indexOf('headlessui-listbox-options') !== -1 ||
+                    node.querySelector && node.querySelector('ul[id*="headlessui-listbox-options"]')
+                )) {
+                    hasListbox = true;
+                }
+            });
+        });
+        if (hasListbox) {
+            setTimeout(fixListbox, 0);
+            setTimeout(fixListbox, 50);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('[id*="headlessui-listbox-button"]')) {
+            resetListbox();
+            setTimeout(fixListbox, 0);
+            setTimeout(fixListbox, 50);
+            setTimeout(fixListbox, 150);
+        }
+    });
+
+    window.addEventListener('resize', function() {
+        resetListbox();
+        fixListbox();
+    });
+
+    fixListbox();
+})();
