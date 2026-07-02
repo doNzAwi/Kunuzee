@@ -440,6 +440,57 @@ setInterval(fixHeader, 300);
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 4: cloneDescription — نسخ الوصف ووضعه بعد الـ header + إخفاء الأصلي
 // ───────────────────────────────────────────────────────────────
+(function() {
+    function cloneDescription() {
+        var original = document.querySelector('div.ql-editor:not(.ql-editor-clone), div[class*="ql-editor"]:not(.ql-editor-clone)');
+        var header = document.querySelector('.category_section_header, [class*="category_section_header"]');
+        if (!original || !header) return;
+
+        original.style.display = 'none';
+
+        var existing = header.parentNode.querySelector('.ql-editor-clone');
+        if (existing) {
+            if (existing.innerHTML !== original.innerHTML) {
+                existing.innerHTML = original.innerHTML;
+            }
+            return;
+        }
+
+        var clone = original.cloneNode(true);
+        clone.classList.add('ql-editor-clone');
+        clone.style.cssText = 'color: #bf6000 !important; margin-top: 12px !important; display: block !important; width: 100% !important;';
+        header.parentNode.insertBefore(clone, header.nextSibling);
+    }
+
+    cloneDescription();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasEditor = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('ql-editor') ||
+                    node.querySelector?.('.ql-editor')
+                )) {
+                    hasEditor = true;
+                }
+            });
+        });
+        if (hasEditor) cloneDescription();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            var oldClone = document.querySelector('.ql-editor-clone');
+            if (oldClone) oldClone.remove();
+            cloneDescription();
+        }
+    }, 100);
+})();
 
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 5: fixDiscountBadge — تعديل نص badge الخصم في Featured Cards
