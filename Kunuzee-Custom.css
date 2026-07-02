@@ -2594,60 +2594,33 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
    SECTION 23.1: FORCE LISTBOX ABOVE SWIPER — إجبار القايمة فوق السلايدر
    ─────────────────────────────────────────────────────────────── */
 
-/* نلغي z-index على الـ header عشان ميعملش stacking context */
+/* نرفع z-index بتاع الـ header container */
 .category_section_header,
 [class*="category_section_header"] {
     position: relative !important;
+    z-index: 100 !important;
     overflow: visible !important;
     transform: none !important;
     isolation: auto !important;
 }
 
-/* نلغي z-index على main */
-main,
-[class*="mx-auto"] {
-    position: relative !important;
-    overflow: visible !important;
-    transform: none !important;
-    isolation: auto !important;
-}
-
-/* ننزل z-index بتاع الـ Swiper wrapper */
+/* نعمل stacking context منفصل للـ Swiper بـ contain: paint */
 .swiper-wrapper,
 [class*="swiper-wrapper"] {
-    position: relative !important;
-    z-index: 0 !important;
+    contain: paint !important;
     transform: translate3d(0,0,0) !important;
-    isolation: auto !important;
 }
 
-/* ننزل z-index بتاع الـ carousel container */
+/* نعمل stacking context منفصل للـ carousel */
 .carouselWrapper,
 [class*="carouselWrapper"] {
-    position: relative !important;
-    z-index: 0 !important;
-    overflow: visible !important;
-    isolation: auto !important;
+    contain: paint !important;
 }
 
 /* نمنع أي overflow:hidden على الأباء */
 .home_slider_container,
 [class*="home_slider_container"] {
     overflow: visible !important;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SECTION 23.2: FIXED LISTBOX CLASS — لما الـ JS يضيف الكلاس
-   ─────────────────────────────────────────────────────────────── */
-
-.kunuzee-listbox-fixed {
-    position: fixed !important;
-    top: var(--kunuzee-listbox-top, auto) !important;
-    right: var(--kunuzee-listbox-right, auto) !important;
-    left: auto !important;
-    min-width: var(--kunuzee-listbox-width, auto) !important;
-    z-index: 99999 !important;
-    margin-top: 0 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
