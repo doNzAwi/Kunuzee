@@ -1370,3 +1370,103 @@ setInterval(fixHeader, 300);
         }
     });
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 16: fixSortListboxPosition — تثبيت قايمة الترتيب فوق أي حاجة
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var GAP = 4;
+
+    function getButtonRect(button) {
+        var rect = button.getBoundingClientRect();
+        return {
+            top: rect.bottom + GAP,
+            right: window.innerWidth - rect.right,
+            width: rect.width
+        };
+    }
+
+    function fixListboxPosition() {
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (!options) return;
+        if (options.dataset.kunuzeeFixed === 'true') return;
+
+        var button = document.querySelector('[id*="headlessui-listbox-button"]');
+        if (!button) return;
+
+        var pos = getButtonRect(button);
+
+        // نحول القايمة لـ fixed عشان تخرج من أي stacking context
+        options.style.setProperty('position', 'fixed', 'important');
+        options.style.setProperty('top', pos.top + 'px', 'important');
+        options.style.setProperty('right', pos.right + 'px', 'important');
+        options.style.setProperty('left', 'auto', 'important');
+        options.style.setProperty('min-width', pos.width + 'px', 'important');
+        options.style.setProperty('z-index', '99999', 'important');
+
+        options.dataset.kunuzeeFixed = 'true';
+    }
+
+    function resetListbox() {
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (options) {
+            options.dataset.kunuzeeFixed = '';
+        }
+    }
+
+    // Observer يراقب لما القايمة تتضاف للـ DOM
+    var observer = new MutationObserver(function(mutations) {
+        var hasListbox = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.id && node.id.indexOf('headlessui-listbox-options') !== -1 ||
+                    node.querySelector && node.querySelector('ul[id*="headlessui-listbox-options"]')
+                )) {
+                    hasListbox = true;
+                }
+            });
+        });
+        if (hasListbox) {
+            setTimeout(fixListboxPosition, 0);
+            setTimeout(fixListboxPosition, 50);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // لما تضغط على الزرار — نعمل reset ونثبت تاني
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('[id*="headlessui-listbox-button"]')) {
+            resetListbox();
+            setTimeout(fixListboxPosition, 0);
+            setTimeout(fixListboxPosition, 50);
+            setTimeout(fixListboxPosition, 150);
+        }
+    });
+
+    // لما تسكر القايمة (click برّا) — نعمل reset عشان المرة الجاية
+    document.addEventListener('click', function(e) {
+        var listbox = document.querySelector('[id*="headlessui-listbox"]');
+        var options = document.querySelector('ul[id*="headlessui-listbox-options"]');
+        if (listbox && options && !listbox.contains(e.target)) {
+            resetListbox();
+        }
+    });
+
+    // Resize
+    window.addEventListener('resize', function() {
+        resetListbox();
+        fixListboxPosition();
+    });
+
+    // Scroll
+    window.addEventListener('scroll', function() {
+        resetListbox();
+        fixListboxPosition();
+    }, true);
+
+    fixListboxPosition();
+})();
