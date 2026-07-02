@@ -2534,11 +2534,30 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
     background-color: #fcf5e2 !important;
 }
 
-/* ─── بوردر القايمة المنسدلة ─── */
+/* ─── الـ container الرئيسي — نرفعه فوق أي stacking context ─── */
+[id*="headlessui-listbox"] {
+    position: relative !important;
+    z-index: 99999 !important;
+    overflow: visible !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    isolation: auto !important;
+}
+
+/* ─── القايمة المنسدلة — position + z-index عشان تظهر فوق أي حاجة ─── */
 ul[id*="headlessui-listbox-options"] {
     --tw-ring-color: #ce982e !important;
     border-color: #ce982e !important;
+    position: absolute !important;
     z-index: 99999 !important;
+    overflow: visible !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    isolation: auto !important;
+    inset: auto !important;
+    margin-top: 4px !important;
 }
 
 /* ─── النصوص الأساسية ─── */
@@ -2571,6 +2590,28 @@ li[id*="headlessui-listbox-option-"][aria-selected="true"] span {
 li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
     color: #fcf5e2 !important;
     fill: #fcf5e2 !important;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 23.1: LOWER SWIPER/CARDS Z-INDEX — ننزل z-index الكروت
+   ─────────────────────────────────────────────────────────────── */
+
+/* ننزل z-index بتاع أي swiper/carousel container عشان القايمة تفضل فوق */
+.carouselWrapper,
+.home_slider_container,
+.swiper,
+.swiper-initialized,
+.swiper-wrapper,
+[class*="swiper-wrapper"] {
+    position: relative !important;
+    z-index: 0 !important;
+    isolation: auto !important;
+}
+
+/* نلغي أي z-index عالي على أزرار التنقل جوا السلايدر */
+.slider_buttons_container,
+[class*="slider_buttons_container"] {
+    z-index: 1 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
