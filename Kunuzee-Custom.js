@@ -1370,3 +1370,77 @@ setInterval(fixHeader, 300);
         }
     });
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 16: fixDefaultCategoryCards — تخصيص كروت الأقسام الفرعية
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixDefaultCategoryCards() {
+        document.querySelectorAll('.default_category_card').forEach(function(card) {
+            // إخفاء overlay
+            var overlay = card.querySelector('.absolute.top.left.bg-black');
+            if (overlay) overlay.style.display = 'none';
+            
+            // إخفاء أيقونة link
+            var iconContainer = card.querySelector('.absolute.top.left.h-full.w-full.flex.items-center.justify-center');
+            if (iconContainer) iconContainer.style.display = 'none';
+            
+            // الصور الدائرية
+            var imgContainer = card.querySelector('.default_category_card_img');
+            if (imgContainer) {
+                imgContainer.style.borderRadius = '9999px';
+                imgContainer.classList.remove('rounded-md');
+                imgContainer.classList.add('rounded-full');
+            }
+            
+            var img = card.querySelector('.default_category_card_img img');
+            if (img) {
+                img.style.borderRadius = '9999px';
+                img.classList.remove('rounded-md');
+                img.classList.add('rounded-full');
+            }
+            
+            // الـ parent container
+            var parent = card.querySelector('.relative.inline-flex');
+            if (parent) {
+                parent.style.borderRadius = '9999px';
+                parent.style.overflow = 'hidden';
+                parent.classList.remove('rounded-md');
+                parent.classList.add('rounded-full');
+            }
+        });
+    }
+
+    fixDefaultCategoryCards();
+
+    var observer = new MutationObserver(function(mutations) {
+        var hasCards = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('default_category_card') ||
+                    node.querySelector?.('.default_category_card')
+                )) {
+                    hasCards = true;
+                }
+            });
+        });
+        if (hasCards) {
+            setTimeout(fixDefaultCategoryCards, 0);
+            setTimeout(fixDefaultCategoryCards, 300);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            setTimeout(fixDefaultCategoryCards, 300);
+            setTimeout(fixDefaultCategoryCards, 600);
+        }
+    }, 300);
+})();
