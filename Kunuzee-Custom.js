@@ -140,7 +140,13 @@ if (document.readyState === 'loading') {
 } else {
     fixHeader();
 }
-setInterval(fixHeader, 500);
+
+// Lazy check: only run if header exists
+setInterval(function() {
+    if (document.querySelector('.default_header_container')) {
+        fixHeader();
+    }
+}, 1000);
 
 // ───────────────────────────────────────────────────────────────
 // FUNCTION 2: Governorate Flags — أعلام المحافظات (React Select Override)
@@ -303,16 +309,21 @@ setInterval(fixHeader, 500);
     } else {
         runAll();
     }
-    setInterval(runAll, 500);
+
+    // Lazy check: only run if select exists
+    setInterval(function() {
+        if (document.querySelector('.select__control, .select__menu, .select__single-value')) {
+            runAll();
+        }
+    }, 1000);
 
     var lastUrl = location.href;
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            runAll();
             setTimeout(runAll, 600);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -413,11 +424,29 @@ setInterval(fixHeader, 500);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-    setInterval(fixDropdownPosition, 100);
+
+    // Lazy check: only run if any panel is visible
+    var dropdownInterval = null;
+    function startDropdownCheck() {
+        if (dropdownInterval) return;
+        dropdownInterval = setInterval(function() {
+            var panels = document.querySelectorAll('[id*="headlessui-popover-panel"]');
+            var hasVisible = false;
+            panels.forEach(function(p) {
+                if (window.getComputedStyle(p).display !== 'none') hasVisible = true;
+            });
+            if (hasVisible) fixDropdownPosition();
+            else {
+                clearInterval(dropdownInterval);
+                dropdownInterval = null;
+            }
+        }, 100);
+    }
 
     document.addEventListener('click', function(e) {
         var btn = e.target.closest('button[id*="headlessui-popover-button"]');
         if (btn) {
+            startDropdownCheck();
             setTimeout(fixDropdownPosition, 0);
             setTimeout(fixDropdownPosition, 50);
             setTimeout(fixDropdownPosition, 150);
@@ -425,8 +454,12 @@ setInterval(fixHeader, 500);
         }
     });
 
-    window.addEventListener('scroll', fixDropdownPosition, true);
-    window.addEventListener('resize', fixDropdownPosition);
+    window.addEventListener('scroll', function() {
+        if (dropdownInterval) fixDropdownPosition();
+    }, true);
+    window.addEventListener('resize', function() {
+        if (dropdownInterval) fixDropdownPosition();
+    });
     fixDropdownPosition();
 })();
 
@@ -455,7 +488,13 @@ setInterval(fixHeader, 500);
         header.parentNode.insertBefore(clone, header.nextSibling);
     }
 
-    cloneDescription();
+    // Lazy check: only run if ql-editor exists
+    function runCloneIfNeeded() {
+        if (document.querySelector('div.ql-editor, div[class*="ql-editor"]')) {
+            cloneDescription();
+        }
+    }
+    runCloneIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var hasEditor = false;
@@ -480,9 +519,9 @@ setInterval(fixHeader, 500);
             lastUrl = location.href;
             var oldClone = document.querySelector('.ql-editor-clone');
             if (oldClone) oldClone.remove();
-            cloneDescription();
+            setTimeout(runCloneIfNeeded, 300);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -500,9 +539,15 @@ setInterval(fixHeader, 500);
         });
     }
 
-    fixDiscountBadge();
-    setTimeout(fixDiscountBadge, 300);
-    setTimeout(fixDiscountBadge, 600);
+    // Lazy check: only run if featured cards exist
+    function runBadgeIfNeeded() {
+        if (document.querySelector('.default_product_featured_card')) {
+            fixDiscountBadge();
+        }
+    }
+    runBadgeIfNeeded();
+    setTimeout(runBadgeIfNeeded, 300);
+    setTimeout(runBadgeIfNeeded, 600);
 
     var observer = new MutationObserver(function(mutations) {
         var hasBadge = false;
@@ -528,11 +573,10 @@ setInterval(fixHeader, 500);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            fixDiscountBadge();
-            setTimeout(fixDiscountBadge, 300);
-            setTimeout(fixDiscountBadge, 600);
+            setTimeout(runBadgeIfNeeded, 300);
+            setTimeout(runBadgeIfNeeded, 600);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -711,7 +755,13 @@ setInterval(fixHeader, 500);
         container.insertBefore(timelineBox, refundBox);
     }
 
-    swapRefundAndTimeline();
+    // Lazy check: only run if invoice exists
+    function runSwapIfNeeded() {
+        if (document.querySelector('.order_invoice_container')) {
+            swapRefundAndTimeline();
+        }
+    }
+    runSwapIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var hasInvoice = false;
@@ -734,9 +784,9 @@ setInterval(fixHeader, 500);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            setTimeout(swapRefundAndTimeline, 300);
+            setTimeout(runSwapIfNeeded, 300);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -793,7 +843,13 @@ setInterval(fixHeader, 500);
         address.dataset.kunuzeeFixed = 'true';
     }
 
-    fixKunuzeeBox();
+    // Lazy check: only run if invoice exists
+    function runKunuzeeIfNeeded() {
+        if (document.querySelector('.order_invoice_container')) {
+            fixKunuzeeBox();
+        }
+    }
+    runKunuzeeIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var hasAddress = false;
@@ -818,9 +874,9 @@ setInterval(fixHeader, 500);
             lastUrl = location.href;
             var address = document.querySelector('.order_invoice_container address');
             if (address) address.dataset.kunuzeeFixed = '';
-            setTimeout(fixKunuzeeBox, 300);
+            setTimeout(runKunuzeeIfNeeded, 300);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -918,7 +974,13 @@ setInterval(fixHeader, 500);
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
-    fixDeliveryInfoBox();
+    // Lazy check: only run if invoice exists
+    function runDeliveryIfNeeded() {
+        if (document.querySelector('.order_invoice_container')) {
+            fixDeliveryInfoBox();
+        }
+    }
+    runDeliveryIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var hasDelivery = false;
@@ -948,9 +1010,9 @@ setInterval(fixHeader, 500);
                     box.dataset.deliveryFixed = '';
                 }
             });
-            setTimeout(fixDeliveryInfoBox, 300);
+            setTimeout(runDeliveryIfNeeded, 300);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -1002,7 +1064,13 @@ setInterval(fixHeader, 500);
         timeline.dataset.timeFixed = 'true';
     }
 
-    fixTimelineTime();
+    // Lazy check: only run if invoice exists
+    function runTimelineIfNeeded() {
+        if (document.querySelector('.order_invoice_container')) {
+            fixTimelineTime();
+        }
+    }
+    runTimelineIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var hasTimeline = false;
@@ -1031,9 +1099,9 @@ setInterval(fixHeader, 500);
             lastUrl = location.href;
             var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
             if (timeline) timeline.dataset.timeFixed = '';
-            setTimeout(fixTimelineTime, 300);
+            setTimeout(runTimelineIfNeeded, 300);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ─── إخفاء "الاجمالي" وإظهار السعر بـ EGP يدوياً ───
@@ -1071,7 +1139,13 @@ setInterval(fixHeader, 500);
     }
 
     fixProductTotal();
-    setInterval(fixProductTotal, 500);
+
+    // Lazy check: only run if invoice container exists
+    setInterval(function() {
+        if (document.querySelector('.order_invoice_container')) {
+            fixProductTotal();
+        }
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -1112,7 +1186,13 @@ setInterval(fixHeader, 500);
     }
 
     addProductLabels();
-    setInterval(addProductLabels, 1000);
+
+    // Lazy check: only run if invoice container exists
+    setInterval(function() {
+        if (document.querySelector('.order_invoice_container')) {
+            addProductLabels();
+        }
+    }, 2000);
 
     var observer = new MutationObserver(function(mutations) {
         var hasChanges = false;
@@ -1171,7 +1251,13 @@ setInterval(fixHeader, 500);
     }
 
     fixCouponCode();
-    setInterval(fixCouponCode, 1000);
+
+    // Lazy check: only run if invoice container exists
+    setInterval(function() {
+        if (document.querySelector('.order_invoice_container')) {
+            fixCouponCode();
+        }
+    }, 2000);
 
     var observer = new MutationObserver(function(mutations) {
         var hasInvoice = false;
@@ -1225,7 +1311,13 @@ setInterval(fixHeader, 500);
         });
     }
 
-    fixGovPlaceholder();
+    // Lazy check: only run if select exists
+    function runPlaceholderIfNeeded() {
+        if (document.querySelector('.select__single-value, .select__option')) {
+            fixGovPlaceholder();
+        }
+    }
+    runPlaceholderIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var needsFix = false;
@@ -1244,7 +1336,7 @@ setInterval(fixHeader, 500);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-    setInterval(fixGovPlaceholder, 500);
+    setInterval(runPlaceholderIfNeeded, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
@@ -1370,7 +1462,13 @@ setInterval(fixHeader, 500);
         });
     }
 
-    fixDefaultCategoryCards();
+    // Lazy check: only run if cards exist
+    function runCardsIfNeeded() {
+        if (document.querySelector('.default_category_card')) {
+            fixDefaultCategoryCards();
+        }
+    }
+    runCardsIfNeeded();
 
     var observer = new MutationObserver(function(mutations) {
         var hasCards = false;
@@ -1396,10 +1494,10 @@ setInterval(fixHeader, 500);
     setInterval(function() {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
-            setTimeout(fixDefaultCategoryCards, 300);
-            setTimeout(fixDefaultCategoryCards, 600);
+            setTimeout(runCardsIfNeeded, 300);
+            setTimeout(runCardsIfNeeded, 600);
         }
-    }, 500);
+    }, 1000);
 })();
 
 // ───────────────────────────────────────────────────────────────
