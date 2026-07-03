@@ -1581,7 +1581,7 @@ setInterval(function() {
             '    white-space: nowrap !important;',
             '    direction: rtl !important;',
             '    font-family: "Tajawal", sans-serif !important;',
-            '    font-size: 1rem !important;',
+            '    font-size: 1.2rem !important;',
             '    color: var(--k-gold) !important;',
             '    opacity: 0.9 !important;',
             '    line-height: 1.25 !important;',
