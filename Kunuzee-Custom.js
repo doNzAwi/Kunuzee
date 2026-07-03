@@ -1546,7 +1546,7 @@ setInterval(fixHeader, 300);
                 var wrapWidth = btn.clientWidth - svgWidth - btnPad;
                 if (wrapWidth < 80) wrapWidth = 80;
 
-                wrap.style.width = wrapWidth + 'px';
+                wrap.style.width = wrapWidth + 'rem';
 
                 // ═══ Blur Fade لـ RTL ═══
                 var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 97%, transparent 100%)';
