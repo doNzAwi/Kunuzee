@@ -1544,11 +1544,224 @@ setInterval(function() {
     }, 100);
 })();
 
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 18: Checkout Placeholders Marquee — تأثير النص المتحرك على placeholders
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var PLACEHOLDER_SPEED = 0.5;
+    var PLACEHOLDER_PAUSE = 60;
+    var placeholderItems = [];
+    var placeholderInterval = null;
+
+    function initPlaceholderMarquee() {
+        // Only run on checkout page
+        if (!document.querySelector('.checkout_form, .checkout_container, .contact-info-heading, [class*="checkout"]')) {
+            return;
+        }
+
+        var inputs = document.querySelectorAll('.checkout_form input, .checkout_container input, .contact-info-heading input, section.contact-info-heading input, .checkout_form textarea, .checkout_container textarea');
+        
+        inputs.forEach(function(input) {
+            if (input.dataset.placeholderMarquee === '1') return;
+            input.dataset.placeholderMarquee = '1';
+
+            var originalPlaceholder = input.getAttribute('placeholder') || '';
+            if (!originalPlaceholder || originalPlaceholder.length < 15) return;
+
+            // Store original
+            input.dataset.originalPlaceholder = originalPlaceholder;
+
+            // Create a hidden span to measure text width
+            var measureSpan = document.createElement('span');
+            measureSpan.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:"Tajawal",sans-serif;font-size:1rem;';
+            measureSpan.textContent = originalPlaceholder;
+            document.body.appendChild(measureSpan);
+            var textWidth = measureSpan.offsetWidth;
+            measureSpan.remove();
+
+            // Get input width
+            var inputWidth = input.offsetWidth - 24; // padding
+            if (inputWidth < 100) inputWidth = 100;
+
+            var overflow = textWidth - inputWidth;
+            if (overflow <= 0) return;
+
+            // Add to animation items
+            placeholderItems.push({
+                input: input,
+                original: originalPlaceholder,
+                overflow: overflow,
+                pos: 0,
+                dir: 1,
+                wait: 0,
+                pause: PLACEHOLDER_PAUSE,
+                textWidth: textWidth,
+                inputWidth: inputWidth
+            });
+        });
+
+        // Start animation if not already running
+        if (!placeholderInterval && placeholderItems.length > 0) {
+            placeholderInterval = setInterval(animatePlaceholders, 50);
+        }
+    }
+
+    function animatePlaceholders() {
+        placeholderItems.forEach(function(item) {
+            if (item.wait > 0) {
+                item.wait--;
+                return;
+            }
+
+            if (item.dir === 1) {
+                item.pos += PLACEHOLDER_SPEED;
+                if (item.pos >= item.overflow) {
+                    item.pos = item.overflow;
+                    item.dir = -1;
+                    item.wait = item.pause;
+                }
+            } else {
+                item.pos -= PLACEHOLDER_SPEED;
+                if (item.pos <= 0) {
+                    item.pos = 0;
+                    item.dir = 1;
+                    item.wait = item.pause;
+                }
+            }
+
+            // Show substring based on position
+            var startIdx = Math.floor((item.pos / item.overflow) * (item.original.length * 0.3));
+            if (startIdx < 0) startIdx = 0;
+            
+            var visibleText = item.original.substring(startIdx);
+            item.input.setAttribute('placeholder', visibleText);
+        });
+    }
+
+    // Cleanup function for when leaving checkout
+    function cleanupPlaceholderMarquee() {
+        if (placeholderInterval) {
+            clearInterval(placeholderInterval);
+            placeholderInterval = null;
+        }
+        placeholderItems.forEach(function(item) {
+            if (item.input.dataset.originalPlaceholder) {
+                item.input.setAttribute('placeholder', item.input.dataset.originalPlaceholder);
+            }
+        });
+        placeholderItems = [];
+    }
+
+    // Run on load
+    initPlaceholderMarquee();
+
+    // Re-run when URL changes (for SPA navigation)
+    var lastUrl = location.href;
+    setInterval(function() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            // Check if we're still on checkout
+            if (document.querySelector('.checkout_form, .checkout_container, [class*="checkout"]')) {
+                setTimeout(initPlaceholderMarquee, 300);
+            } else {
+                cleanupPlaceholderMarquee();
+            }
+        }
+    }, 500);
+
+    // Observer for dynamically added inputs
+    var observer = new MutationObserver(function(mutations) {
+        var hasInputs = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.tagName === 'INPUT' ||
+                    node.tagName === 'TEXTAREA' ||
+                    node.querySelector?.('input, textarea')
+                )) {
+                    hasInputs = true;
+                }
+            });
+        });
+        if (hasInputs) setTimeout(initPlaceholderMarquee, 100);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 19: Governorate List Tajawal — تطبيق خط Tajawal على قائمة المحافظات
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function applyTajawalToGovList() {
+        var menuList = document.querySelector('.select__menu-list, [class*="select__menu-list"]');
+        if (!menuList) return;
+
+        // Apply to all options in the menu
+        var options = menuList.querySelectorAll('.select__option, [class*="select__option"]');
+        options.forEach(function(opt) {
+            opt.style.setProperty('font-family', '"Tajawal", sans-serif', 'important');
+        });
+
+        // Apply to group headers
+        var headers = menuList.querySelectorAll('.gov-group-header');
+        headers.forEach(function(header) {
+            header.style.setProperty('font-family', '"Tajawal", sans-serif', 'important');
+        });
+    }
+
+    // Run when menu opens
+    var observer = new MutationObserver(function(mutations) {
+        var menuOpened = false;
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1 && (
+                    node.classList?.contains('select__menu') ||
+                    node.querySelector?.('.select__menu-list') ||
+                    node.classList?.contains('select__menu-list')
+                )) {
+                    menuOpened = true;
+                }
+            });
+        });
+        if (menuOpened) {
+            setTimeout(applyTajawalToGovList, 0);
+            setTimeout(applyTajawalToGovList, 50);
+            setTimeout(applyTajawalToGovList, 150);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Also apply via CSS injection for persistent effect
+    var style = document.createElement('style');
+    style.textContent = [
+        '.select__menu-list .select__option,',
+        '.select__menu-list [class*="select__option"],',
+        '.select__menu .gov-group-header {',
+        '    font-family: "Tajawal", sans-serif !important;',
+        '}',
+        '.select__menu-list .select__option--is-selected,',
+        '.select__menu-list [class*="select__option--is-selected"] {',
+        '    font-family: "Tajawal", sans-serif !important;',
+        '}',
+        '.select__menu-list .select__option--is-focused,',
+        '.select__menu-list [class*="select__option--is-focused"] {',
+        '    font-family: "Tajawal", sans-serif !important;',
+        '}'
+    ].join(' ');
+    document.head.appendChild(style);
+})();
+
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 18: FAQ — Fixed Box + Smooth Marquee + Blur Fade (RTL)
+// FUNCTION 20: FAQ — Fixed Box + Smooth Marquee + Blur Fade (RTL)
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
