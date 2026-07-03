@@ -1633,12 +1633,15 @@ setInterval(function() {
             wrap.appendChild(span);
             relativeParent.appendChild(wrap);
 
-            // Measure after layout settles
-            setTimeout(function() {
+            // ═══════════════════════════════════════════════════
+            // القياس الدقيق — بعد ما خط Tajawal يتحمل بالكامل
+            // ═══════════════════════════════════════════════════
+            function measureAndInit() {
                 var wrapWidth = relativeParent.offsetWidth;
                 if (wrapWidth < 80) wrapWidth = 80;
 
-                // Set wrap width to match parent
+                // نضمن إن الـ box-sizing شغال
+                wrap.style.boxSizing = 'border-box';
                 wrap.style.width = wrapWidth + 'px';
 
                 // Blur fade mask — same gradient direction as FAQ (RTL)
@@ -1646,8 +1649,18 @@ setInterval(function() {
                 wrap.style.webkitMaskImage = mask;
                 wrap.style.maskImage = mask;
 
+                // Force reflow عشان القياس يكون دقيق ١٠٠٪
+                void span.offsetWidth;
+
+                // ═══════════════════════════════════════════
+                // التعديل الرئيسي: نطرح الـ padding من العرض
+                // ═══════════════════════════════════════════
                 var textWidth = span.scrollWidth;
-                var overflow = textWidth - wrapWidth;
+                var computedStyle = window.getComputedStyle(wrap);
+                var padLeft = parseFloat(computedStyle.paddingLeft) || 0;
+                var padRight = parseFloat(computedStyle.paddingRight) || 0;
+                var availableWidth = wrapWidth - padLeft - padRight;
+                var overflow = textWidth - availableWidth;
 
                 if (overflow > 0) {
                     items.push({
@@ -1661,7 +1674,19 @@ setInterval(function() {
                         input: input
                     });
                 }
-            }, 300);
+            }
+
+            // ═══════════════════════════════════════════════════
+            // نستنى خط Tajawal يتحمل قبل ما نقيس
+            // ═══════════════════════════════════════════════════
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(function() {
+                    setTimeout(measureAndInit, 100);
+                });
+            } else {
+                // Fallback: نستنى ٦٠٠ms لو Fonts API مش متاح
+                setTimeout(measureAndInit, 600);
+            }
 
             // Show/hide based on input value
             function updateVisibility() {
