@@ -1549,9 +1549,7 @@ setInterval(fixHeader, 300);
                 wrap.style.width = wrapWidth + 'px';
 
                 // ═══ Blur Fade لـ RTL ═══
-                // اليمين (start في RTL = أول الجملة): blur أكبر 2% عشان يغطي أول حرف
-                // الشمال (end في RTL = آخر الجملة عند السهم): blur صغير 2% عشان يبقى واضح
-                var mask = 'linear-gradient(to left, transparent 0%, black 2%, black 98%, transparent 100%)';
+                var mask = 'linear-gradient(to left, transparent 0%, black 5%, black 95%, transparent 100%)';
                 wrap.style.webkitMaskImage = mask;
                 wrap.style.maskImage = mask;
 
