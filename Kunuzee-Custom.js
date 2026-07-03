@@ -1549,7 +1549,7 @@ setInterval(fixHeader, 300);
                 wrap.style.width = wrapWidth + 'rem';
 
                 // ═══ Blur Fade لـ RTL ═══
-                var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 97%, transparent 100%)';
+                var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 95%, transparent 100%)';
                 wrap.style.webkitMaskImage = mask;
                 wrap.style.maskImage = mask;
 
