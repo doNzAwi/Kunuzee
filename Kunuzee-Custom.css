@@ -915,7 +915,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 @media (max-width: 1023px) {
     .default_header_container .ms-auto.flex.items-center,
     .default_header_container div.ms-auto.flex.items-center {
-        transform: translateX(-10px) !important;   /* ✅ للخارج بدون ما نخرب الـ layout */
+        transform: translateX(-14px) !important;   /* ✅ للخارج بدون ما نخرب الـ layout */
     }
 }
 
