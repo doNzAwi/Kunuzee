@@ -1521,7 +1521,7 @@ setInterval(fixHeader, 300);
             var svg = btn.querySelector('svg');
             var svgWidth = svg ? svg.getBoundingClientRect().width + 4 : 28;
 
-            // نعمل wrapper للنص (بياخد المساحة المتاحة ويقص الزيادة)
+            // نعمل wrapper للنص
             var wrap = document.createElement('span');
             wrap.className = 'kfq-wrap';
             wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:middle;position:relative;';
@@ -1542,15 +1542,17 @@ setInterval(fixHeader, 300);
 
             // نحسب بعد ما الـ layout يتظبط
             setTimeout(function() {
-                var btnPad = 16; // padding أقل (8px من كل جانب تقريباً)
+                var btnPad = 16;
                 var wrapWidth = btn.clientWidth - svgWidth - btnPad;
                 if (wrapWidth < 80) wrapWidth = 80;
 
                 wrap.style.width = wrapWidth + 'px';
 
-                // ═══ Blur Fade على اليمين والشمال ═══
-                wrap.style.webkitMaskImage = 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)';
-                wrap.style.maskImage = 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)';
+                // ═══ Blur Fade: صغير في اليمين (أول الجملة)، أكبر في الشمال (عند السهم) ═══
+                // اليمين: 2% blur صغير  |  الشمال: 10% blur أكبر
+                var mask = 'linear-gradient(to right, transparent 0%, black 2%, black 90%, transparent 100%)';
+                wrap.style.webkitMaskImage = mask;
+                wrap.style.maskImage = mask;
 
                 var textWidth = span.scrollWidth;
                 var overflow = textWidth - wrapWidth;
@@ -1560,9 +1562,9 @@ setInterval(fixHeader, 300);
                         span: span,
                         overflow: overflow,
                         pos: 0,
-                        dir: 1,      // 1 = بيتحرك يمين (أول الجملة يختفي)
+                        dir: 1,
                         wait: 0,
-                        pause: 120   // 2 ثانية وقفة عند كل طرف
+                        pause: 120
                     });
                 }
             }, 500);
@@ -1576,10 +1578,9 @@ setInterval(fixHeader, 300);
                 return;
             }
 
-            var speed = 0.35; // بطيء وهادي
+            var speed = 0.35;
 
             if (item.dir === 1) {
-                // ==== بيتحرك يمين: أول الجملة يختفي، آخر الجملة يظهر ====
                 item.pos += speed;
                 if (item.pos >= item.overflow) {
                     item.pos = item.overflow;
@@ -1587,7 +1588,6 @@ setInterval(fixHeader, 300);
                     item.wait = item.pause;
                 }
             } else {
-                // ==== بيتحرك يسار: آخر الجملة يختفي، أول الجملة يرجع ====
                 item.pos -= speed;
                 if (item.pos <= 0) {
                     item.pos = 0;
@@ -1602,7 +1602,6 @@ setInterval(fixHeader, 300);
         requestAnimationFrame(animate);
     }
 
-    // اشتغل
     init();
     setInterval(init, 1000);
 
