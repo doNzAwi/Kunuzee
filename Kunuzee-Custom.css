@@ -878,19 +878,25 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 
 /* ─── DESKTOP (≥1024px): اللوجو على أول الخط الفاصل ─── */
 @media (min-width: 1024px) {
+    .default_header_container .default_header_logo,
     .default_header_logo {
         width: 120px !important;
         min-width: 120px !important;
         margin-left: auto !important;
         margin-right: 0 !important;
-        padding-left: 0 !important;        /* ❌ لا مسافة */
+        margin-inline-start: auto !important;
+        margin-inline-end: 0 !important;
+        padding-left: 0 !important;
         padding-right: 0 !important;
+        padding-inline-start: 0 !important;
+        padding-inline-end: 0 !important;
         display: flex !important;
         justify-content: flex-end !important;
         align-items: center !important;
         box-sizing: border-box !important;
     }
 
+    .default_header_container .default_header_logo a > div,
     .default_header_logo a > div {
         overflow: visible !important;
         height: auto !important;
@@ -898,6 +904,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
         align-items: center !important;
     }
 
+    .default_header_container .default_header_logo img,
     .default_header_logo img {
         height: 65px !important;
         width: auto !important;
@@ -909,19 +916,25 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 
 /* ─── MOBILE & TABLET (<1024px): مسافة صغيرة جداً من زرار القايمة ─── */
 @media (max-width: 1023px) {
+    .default_header_container .default_header_logo,
     .default_header_logo {
         width: auto !important;
         min-width: auto !important;
         margin-left: auto !important;
         margin-right: 0 !important;
-        padding-left: 4px !important;     /* ✅ 4px بس */
+        margin-inline-start: auto !important;
+        margin-inline-end: 0 !important;
+        padding-left: 4px !important;
         padding-right: 0 !important;
+        padding-inline-start: 4px !important;
+        padding-inline-end: 0 !important;
         display: flex !important;
         justify-content: flex-end !important;
         align-items: center !important;
         box-sizing: border-box !important;
     }
 
+    .default_header_container .default_header_logo a > div,
     .default_header_logo a > div {
         overflow: visible !important;
         height: auto !important;
@@ -929,8 +942,9 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
         align-items: center !important;
     }
 
+    .default_header_container .default_header_logo img,
     .default_header_logo img {
-        height: 50px !important;          /* أصغر شوية */
+        height: 50px !important;
         width: auto !important;
         max-width: 80px !important;
         object-fit: contain !important;
