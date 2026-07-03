@@ -7,19 +7,28 @@
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
    ─────────────────────────────────────────────────────────────── */
 
+:root {
+    --k-orange: #bf6000;
+    --k-gold: #ce982e;
+    --k-teal: #134f4f;
+    --k-cream: #f2e4be;
+    --k-light-cream: #fcf5e2;
+    --k-lighter-cream: #fdf9ed;
+}
+
 /* ─── كل الكروت — بوردر ─── */
 .default_product_featured_card,
 .default_product_list_card,
 .home_products_grid_card,
 .group[class*="hover:shadow-product"] {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
 }
 
 /* ─── كل الكروت — ظل الهوفر (ماعدا Featured) ─── */
 .default_product_list_card:hover,
 .home_products_grid_card:hover,
 .group[class*="hover:shadow-product"]:hover {
-    box-shadow: 0 7px 3px #ce982e !important;
+    box-shadow: 0 7px 3px var(--k-gold) !important;
 }
 
 /* EGP — القاعدة الأساسية Universal */
@@ -36,7 +45,7 @@
     letter-spacing: 0 !important;
     position: relative !important;
     opacity: 1 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     text-decoration: none !important;
     text-decoration-line: none !important;
 }
@@ -50,7 +59,7 @@
 .product_price {
     font-size: 2.3rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -66,7 +75,7 @@
 #sale-price {
     font-size: 2.3rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -81,7 +90,7 @@
 .flex.items-center.gap-x-1:has(.line-through) > p.text-sm {
     font-size: 1.0rem !important;
     font-weight: 400 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -96,7 +105,7 @@
     font-size: 1.0rem !important;
     font-weight: 400 !important;
     margin-right: 0.25rem !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -106,7 +115,7 @@
 .line-through + span .font-\[inherit\]::after,
 .line-through ~ span .font-\[inherit\]::after {
     font-size: 0.7rem !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     top: -0.3rem !important;
     margin-right: 0.1rem !important;
     opacity: 1 !important;
@@ -118,13 +127,13 @@
 .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child {
     font-size: 1.7rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* ─── كروت المنتجات — Product Cards ─── */
 .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.9rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -137,12 +146,12 @@
 
 /* ─── البوردر ─── */
 .products_grid_card {
-    border: 1px solid #f2e4be !important;
+    border: 1px solid var(--k-cream) !important;
 }
 
 /* ─── ظل الهوفر ─── */
 .products_grid_card:hover {
-    box-shadow: 0 7px 3px #ce982e !important;
+    box-shadow: 0 7px 3px var(--k-gold) !important;
 }
 
 /* ─── عنوان المنتج ─── */
@@ -150,7 +159,7 @@
     font-size: 0.95rem !important;
     font-weight: 600 !important;
     line-height: 1.4 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* ═══════════════════
@@ -161,13 +170,13 @@
 .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الواحد */
 .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -182,13 +191,13 @@
 .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الحالي (خصم) */
 .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -199,7 +208,7 @@
 .products_grid_card .flex.items-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -207,7 +216,7 @@
 
 /* EGP السعر المشطوب */
 .products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.65rem !important;
     font-weight: 100 !important;
     top: -0.3rem !important;
@@ -229,15 +238,10 @@
 }
 
 /* ═══════════════════
-   GPU Acceleration
+   GPU Acceleration (text layers removed for old devices)
    ═══════════════════ */
 .products_grid_card {
     contain: layout paint !important;
-}
-
-.products_grid_card .flex.items-center.text-heading {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -248,13 +252,13 @@
 .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading {
     font-size: 1.7rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الواحد — Featured */
 .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.9rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -265,7 +269,7 @@
 .default_product_featured_card .mt-2.flex.flex-row-reverse > del {
     font-size: 1.3rem !important;
     font-weight: 100 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     margin-left: 4px !important;
@@ -274,7 +278,7 @@
 
 /* EGP السعر المشطوب — Featured */
 .default_product_featured_card .mt-2.flex.flex-row-reverse > del span.font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.8rem !important;
     font-weight: 100 !important;
     top: -0.3rem !important;
@@ -300,13 +304,13 @@
 .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الحالي (خصم) — List */
 .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -317,12 +321,12 @@
 .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -333,14 +337,14 @@
 .default_product_list_card .flex.items-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 .default_product_list_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.65rem !important;
     font-weight: 100 !important;
     top: -0.3rem !important;
@@ -366,13 +370,13 @@
 .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الواحد — Grid */
 .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -383,12 +387,12 @@
 .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -399,14 +403,14 @@
 .home_products_grid_card .flex.items-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 .home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.65rem !important;
     font-weight: 100 !important;
     top: -0.3rem !important;
@@ -450,12 +454,12 @@
 
 /* ─── بوردر الكرت ─── */
 .group[class*="hover:shadow-product"] {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
 }
 
 /* ─── ظل الهوفر ─── */
 .group[class*="hover:shadow-product"]:hover {
-    box-shadow: 0 7px 3px #ce982e !important;
+    box-shadow: 0 7px 3px var(--k-gold) !important;
 }
 
 /* ─── عنوان المنتج — Search ─── */
@@ -463,20 +467,20 @@
     font-size: 0.95rem !important;
     font-weight: 600 !important;
     line-height: 1.4 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* ─── السعر الحالي (مفيش خصم) — الرقم ─── */
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الحالي — Search */
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -487,12 +491,12 @@
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -503,7 +507,7 @@
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -511,7 +515,7 @@
 }
 
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del span.font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.65rem !important;
     font-weight: 100 !important;
     top: -0.3rem !important;
@@ -535,23 +539,18 @@
     contain: layout paint !important;
 }
 
-.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 6.1: CATEGORY PRODUCTS GRID — كروت منتجات الفئة
    ─────────────────────────────────────────────────────────────── */
 
 /* ─── البوردر ─── */
 .category_products_grid_card {
-    border: 1px solid #f2e4be !important;
+    border: 1px solid var(--k-cream) !important;
 }
 
 /* ─── ظل الهوفر ─── */
 .category_products_grid_card:hover {
-    box-shadow: 0 7px 3px #ce982e !important;
+    box-shadow: 0 7px 3px var(--k-gold) !important;
 }
 
 /* ─── عنوان المنتج ─── */
@@ -559,7 +558,7 @@
     font-size: 0.95rem !important;
     font-weight: 600 !important;
     line-height: 1.4 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* ═══════════════════
@@ -570,13 +569,13 @@
 .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الواحد */
 .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -591,13 +590,13 @@
 .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الحالي (خصم) */
 .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     top: -0.3rem !important;
@@ -608,7 +607,7 @@
 .category_products_grid_card .flex.items-center.text-heading > del {
     font-size: 1.2rem !important;
     font-weight: 100 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 1 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -616,7 +615,7 @@
 
 /* EGP السعر المشطوب */
 .category_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.65rem !important;
     font-weight: 100 !important;
     top: -0.3rem !important;
@@ -638,15 +637,10 @@
 }
 
 /* ═══════════════════
-   GPU Acceleration
+   GPU Acceleration (text layers removed for old devices)
    ═══════════════════ */
 .category_products_grid_card {
     contain: layout paint !important;
-}
-
-.category_products_grid_card .flex.items-center.text-heading {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -657,7 +651,7 @@
 .checkout_cart_items_container p[data-cart="item-price"] {
     font-size: 1.2rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -674,7 +668,7 @@ dd[data-invoice="invoice-subtotal-value"],
 [data-invoice="invoice-subtotal-value"] {
     font-size: 1.2rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -741,11 +735,11 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     padding: 8px 12px 4px !important;
     font-size: 18px !important;
     font-weight: 500 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     letter-spacing: 0.5px !important;
     pointer-events: none !important;
     user-select: none !important;
-    border-top: 1px solid #f1f5f9 !important;
+    border-top: 1px solid #e2e8f0 !important;
     margin-top: 4px !important;
 }
 
@@ -785,35 +779,35 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 [data-cart="empty-title"],
 .mt-20.flex h1.text-4xl.font-bold,
 .mt-20.flex .flex-col h1 {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ٢- نص "لا يوجد لديك منتجات في سلة التسوق" — الصفحة + الأوفرلاي */
 [data-cart="empty-subtitle"],
 .mt-20.flex p,
 .mt-20.flex .flex-col p {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 500 !important;
     font-size: 1.2rem !important;
 }
 
 /* ٣- الشكل المتحرك (SVG) — الصفحة + الأوفرلاي */
-/* الظلال والأجزاء الداكنة — #f2e4be */
+/* الظلال والأجزاء الداكنة — var(--k-cream) */
 [data-cart="empty-state"] svg path[fill="rgb(204,209,217)"],
 .mt-20.flex svg path[fill="rgb(204,209,217)"] {
-    fill: #f2e4be !important;
+    fill: var(--k-cream) !important;
 }
 
-/* الأجزاء المتوسطة — #fcf5e2 */
+/* الأجزاء المتوسطة — var(--k-light-cream) */
 [data-cart="empty-state"] svg path[fill="rgb(230,233,236)"],
 .mt-20.flex svg path[fill="rgb(230,233,236)"] {
-    fill: #fcf5e2 !important;
+    fill: var(--k-light-cream) !important;
 }
 
-/* الأجزاء الفاتحة جداً — #fdf9ed */
+/* الأجزاء الفاتحة جداً — var(--k-lighter-cream) */
 [data-cart="empty-state"] svg path[fill="rgb(244,244,244)"],
 .mt-20.flex svg path[fill="rgb(244,244,244)"] {
-    fill: #fdf9ed !important;
+    fill: var(--k-lighter-cream) !important;
 }
 
 /* الدوائر البيضاء */
@@ -825,18 +819,18 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 /* الخطوط المتقطعة — ذهبي */
 [data-cart="empty-state"] svg path[stroke="rgb(159,159,159)"],
 .mt-20.flex svg path[stroke="rgb(159,159,159)"] {
-    stroke: #ce982e !important;
+    stroke: var(--k-gold) !important;
 }
 
 /* الحواف والدوائر الصغيرة — برتقالي */
 [data-cart="empty-state"] svg path[stroke="rgb(134,134,134)"],
 .mt-20.flex svg path[stroke="rgb(134,134,134)"] {
-    stroke: #bf6000 !important;
+    stroke: var(--k-orange) !important;
 }
 
 [data-cart="empty-state"] svg path[fill="rgb(134,134,134)"],
 .mt-20.flex svg path[fill="rgb(134,134,134)"] {
-    fill: #bf6000 !important;
+    fill: var(--k-orange) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -851,18 +845,18 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 
 /* ─── أيقونات البحث والسلة — Search & Cart Icons ─── */
 .default_header_container svg {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ─── هوفر أيقونات البحث والسلة — Search & Cart Icons Hover ─── */
 .default_header_container svg:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     transition: color 0.2s ease !important;
 }
 
 /* ─── خط الفاصل تحت الهيدر — Header Border Line ─── */
 .default_header_container .border-b {
-    border-bottom-color: #ce982e !important;
+    border-bottom-color: var(--k-gold) !important;
 }
 
 .default_header_container .border-b > div.h-14.flex.items-center,
@@ -969,13 +963,13 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     font-family: 'Tajawal', sans-serif !important;
     position: relative !important;
     text-decoration: none !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     padding-bottom: 4px !important;
     transition: color 0.3s ease !important;
 }
 
 .default_header_container .space-s-8 > a:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 .default_header_container .space-s-8 > a::after {
@@ -985,7 +979,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     left: 0 !important;
     width: 0 !important;
     height: 2.5px !important;
-    background-color: #bf6000 !important;
+    background-color: var(--k-orange) !important;
     transition: width 0.3s ease-in-out !important;
     border-radius: 2px !important;
 }
@@ -1007,7 +1001,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     font-size: 17px !important;
     font-weight: 600 !important;
     font-family: 'Tajawal', sans-serif !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     text-decoration: none !important;
     padding-bottom: 4px !important;
     position: relative !important;
@@ -1031,7 +1025,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 
 .default_header_container .space-s-8 button[id*="headlessui-popover-button"]:hover,
 .default_header_container .space-s-8 [id*="headlessui-popover-button"]:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 .default_header_container .space-s-8 button[id*="headlessui-popover-button"] svg,
@@ -1056,7 +1050,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     left: 0 !important;
     width: 0 !important;
     height: 2.5px !important;
-    background-color: #bf6000 !important;
+    background-color: var(--k-orange) !important;
     transition: width 0.3s ease-in-out !important;
     border-radius: 2px !important;
 }
@@ -1165,7 +1159,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     display: inline-block !important;
     width: auto !important;
     padding: 4px 0 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-size: 15px !important;
     font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -1182,7 +1176,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 [id*="headlessui-popover-panel"] a:hover,
 [id*="headlessui-popover-panel"] [class*="group"] a:hover {
     background-color: transparent !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* فاصل بين الأقسام */
@@ -1202,14 +1196,14 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 .category_section_header_title,
 h1[class*="category_section_header_title"],
 .text-heading {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 .ql-direction-rtl,
 p[class*="ql-direction-rtl"],
 .ql-editor,
 [class*="ql-editor"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 h3.text-heading,
@@ -1221,21 +1215,21 @@ h3[class*="text-heading"],
 }
 
 .max-w-prose.mx-auto h1 span {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 .max-w-prose h1 span.font-extrabold {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 .ql-align-right.ql-direction-rtl strong,
 .ql-editor strong {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 h1.product_name,
 .product_name {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 .product_price,
@@ -1244,7 +1238,7 @@ h1.product_name,
 #price span,
 .product_price .font-\[inherit\],
 .product_price [class*="text-gray"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -1255,27 +1249,27 @@ h1.product_name,
 [data-search="container"] label,
 [data-search="container"] label.text-sm,
 [data-search="container"] label.font-medium {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-weight: 700 !important;
 }
 
 /* Input نفسه */
 [data-search="container"] input,
 [data-search="container"] input[type="text"] {
-    color: #bf6000 !important;
-    border-color: #ce982e !important;
+    color: var(--k-orange) !important;
+    border-color: var(--k-gold) !important;
 }
 
 [data-search="container"] input::placeholder {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 [data-search="container"] input:focus {
     outline: none !important;
-    border-color: #ce982e !important;
-    box-shadow: 0 0 0 1px #ce982e !important;
-    --tw-ring-color: #ce982e !important;
-    --tw-ring-offset-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
+    box-shadow: 0 0 0 1px var(--k-gold) !important;
+    --tw-ring-color: var(--k-gold) !important;
+    --tw-ring-offset-color: var(--k-gold) !important;
 }
 
 /* زرار "بحث" */
@@ -1290,15 +1284,15 @@ button[data-search="button"] {
     align-items: center !important;
     justify-content: center !important;
     background-color: #ffffff !important;
-    color: #ce982e !important;
-    border-color: #ce982e !important;
+    color: var(--k-gold) !important;
+    border-color: var(--k-gold) !important;
 }
 
 [data-search="button"]:hover,
 button[data-search="button"]:hover {
-    background-color: #ce982e !important;
+    background-color: var(--k-gold) !important;
     color: #ffffff !important;
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -1307,20 +1301,20 @@ button[data-search="button"]:hover {
 
 [data-product-preview="title"],
 h1[data-product-preview="title"] {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* السعر الأصلي/الواحد — الرقم */
 [data-product-preview="price"] > [data-product-preview="current-price"]:only-child {
     font-size: 1.5rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الأصلي/الواحد — Popup */
 [data-product-preview="price"] > [data-product-preview="current-price"]:only-child .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.6rem !important;
     top: -0.3rem !important;
     margin-right: 0.1rem !important;
@@ -1330,13 +1324,13 @@ h1[data-product-preview="title"] {
 [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] {
     font-size: 1.5rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 /* EGP السعر الحالي (خصم) — Popup */
 [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] .font-\[inherit\]::after {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 0.6rem !important;
     top: -0.3rem !important;
     margin-right: 0.1rem !important;
@@ -1346,7 +1340,7 @@ h1[data-product-preview="title"] {
 [data-product-preview="price"] > [data-product-preview="original-price"] {
     font-size: 0.9rem !important;
     font-weight: 400 !important;
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     text-decoration: line-through !important;
     opacity: 0.75 !important;
     margin-left: 8px !important;
@@ -1355,7 +1349,7 @@ h1[data-product-preview="title"] {
 
 /* EGP السعر المشطوب — Popup */
 [data-product-preview="price"] > [data-product-preview="original-price"] .font-\[inherit\]::after {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 0.5rem !important;
     top: -0.3rem !important;
     margin-right: 0px !important;
@@ -1382,13 +1376,13 @@ button[data-product-preview="add-to-cart"] {
 /* رابط "فلاش كاردز" */
 [data-product-preview="category"],
 a[data-product-preview="category"] {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     transition: color 0.2s ease !important;
 }
 
 [data-product-preview="category"]:hover,
 a[data-product-preview="category"]:hover {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 a[href*="/products/"],
@@ -1397,7 +1391,7 @@ div.mt-4 a,
 div.md\:mt-4 a,
 .p-5 a,
 div.p-5 a {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 a[href*="/products/"]:hover,
@@ -1406,7 +1400,7 @@ div.mt-4 a:hover,
 div.md\:mt-4 a:hover,
 .p-5 a:hover,
 div.p-5 a:hover {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* وصف المنتج في البوب-أب */
@@ -1415,7 +1409,7 @@ div.p-5 a:hover {
 .product_description [class*="ql-direction-rtl"],
 .product_description .ql-editor strong,
 .product_description .ql-editor b {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -1426,7 +1420,7 @@ div.p-5 a:hover {
 .contact-info-heading h2,
 section.contact-info-heading h2,
 .text-lg.font-medium.text-gray-900 {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 700 !important;
 }
 
@@ -1434,7 +1428,7 @@ section.contact-info-heading h2,
 .checkout_order_summary h2,
 section[aria-labelledby="summary-heading"] h2,
 .bg-gray-50 h2 {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 700 !important;
     margin-bottom: -13px !important;
 }
@@ -1444,9 +1438,9 @@ section[aria-labelledby="summary-heading"] h2,
 .contact-info-heading input,
 .checkout_container input,
 section.contact-info-heading input {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
     --tw-border-opacity: 1 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 .checkout_form input:focus,
@@ -1454,16 +1448,16 @@ section.contact-info-heading input {
 .checkout_container input:focus,
 section.contact-info-heading input:focus {
     outline: none !important;
-    border-color: #f2e4be !important;
-    box-shadow: 0 0 0 1px #f2e4be !important;
-    --tw-ring-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
+    box-shadow: 0 0 0 1px var(--k-cream) !important;
+    --tw-ring-color: var(--k-cream) !important;
 }
 
 .checkout_form input::placeholder,
 .contact-info-heading input::placeholder,
 .checkout_container input::placeholder,
 section.contact-info-heading input::placeholder {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     opacity: 1 !important;
 }
 
@@ -1473,34 +1467,34 @@ section.contact-info-heading input::placeholder {
 .contact-info-heading label,
 section.contact-info-heading label,
 form.checkout_form label {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 500 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 label[style*="color"] {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* Dropdown — بوردر الصندوق */
 .select__control,
 [class*="select__control"] {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
 }
 
 .select__control--is-focused,
 [class*="select__control"][class*="is-focused"] {
-    border-color: #f2e4be !important;
-    box-shadow: 0 0 0 1px #f2e4be !important;
+    border-color: var(--k-cream) !important;
+    box-shadow: 0 0 0 1px var(--k-cream) !important;
 }
 
 /* سهم dropdown لأسفل */
 .select__indicator svg,
 .select__dropdown-indicator svg,
 [class*="indicator"] svg {
-    color: #f2e4be !important;
-    stroke: #f2e4be !important;
-    fill: #f2e4be !important;
+    color: var(--k-cream) !important;
+    stroke: var(--k-cream) !important;
+    fill: var(--k-cream) !important;
 }
 
 /* الفاصل الرأسي في صندوق المحافظة */
@@ -1508,37 +1502,37 @@ label[style*="color"] {
 [class*="indicator-separator"],
 .select__control .css-1wy0on6 span,
 .select__control [class*="indicatorSeparator"] {
-    background-color: #f2e4be !important;
+    background-color: var(--k-cream) !important;
 }
 
 /* المحافظة المختارة (بعد الاختيار) */
 .select__single-value,
 [class*="singleValue"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* لستة المحافظات جوا القايمة */
 .select__option,
 [class*="select__option"]:not([class*="is-selected"]) {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 .select__option:hover,
 [class*="select__option"]:hover {
-    color: #bf6000 !important;
-    background-color: #fcf5e2 !important;
+    color: var(--k-orange) !important;
+    background-color: var(--k-light-cream) !important;
 }
 
 .select__option--is-focused,
 [class*="select__option"][class*="is-focused"] {
-    color: #bf6000 !important;
-    background-color: #fcf5e2 !important;
+    color: var(--k-orange) !important;
+    background-color: var(--k-light-cream) !important;
 }
 
 .select__option--is-selected,
 [class*="select__option"][class*="is-selected"] {
-    color: #bf6000 !important;
-    background-color: #fcf5e2 !important;
+    color: var(--k-orange) !important;
+    background-color: var(--k-light-cream) !important;
 }
 
 body {
@@ -1563,7 +1557,7 @@ button.payment_card {
     padding: 12px 0 !important;
     height: auto !important;
     min-height: 60px !important;
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
     position: relative !important;
 }
 
@@ -1595,27 +1589,27 @@ button.payment_card {
 }
 
 .payment_card:hover {
-    border-color: #bf6000 !important;
+    border-color: var(--k-orange) !important;
 }
 
 .radio_circle.bg-blue-500,
 [class*="radio_circle"][class*="bg-blue"] {
-    background-color: #ce982e !important;
+    background-color: var(--k-gold) !important;
 }
 
 .payment_card_name,
 [class*="payment_card_name"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 .payment_card_description,
 [class*="payment_card_description"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 span.text-lg.font-bold.text-gray-700,
 [class*="payments"] span[class*="text-lg"] {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 500 !important;
     display: block !important;
     margin-top: 2rem !important;
@@ -1635,49 +1629,49 @@ p[data-cart="item-total"] {
 
 h3[data-cart="item-name"],
 .cart-item h3 {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 600 !important;
 }
 
 p[data-cart="item-price"],
 .cart-item p[data-cart="item-price"],
 .checkout_cart_items_container p[data-cart="item-price"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 p[data-cart="item-price"] .font-\[inherit\],
 p[data-cart="item-price"] span {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 .checkout_order_summary .text-xl.font-bold,
 .checkout_order_summary [class*="text-xl"][class*="font-bold"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 [data-cart="item-image-wrapper"],
 .cart-item a.h-24.w-24 {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
 }
 
 .checkout_order_summary .border-b,
 .checkout_order_summary [class*="border-b"],
 section.checkout_order_summary .border-gray-200,
 .checkout_order_summary .divide-y > * {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
 }
 
 .checkout_cart_items_container.divide-y,
 .checkout_cart_items_container [class*="divide-y"],
 .cart-item + .cart-item {
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* الفاتورة — Invoice */
 dt.text-gray-600,
 [data-invoice="invoice-subtotal"] dt,
 dl[data-invoice="invoice"] dt {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-size: 23px !important;
     font-weight: 700 !important;
 }
@@ -1685,20 +1679,20 @@ dl[data-invoice="invoice"] dt {
 dd[data-invoice="invoice-subtotal-value"],
 [data-invoice="invoice-subtotal-value"],
 dl[data-invoice="invoice"] dd {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-size: 23px !important;
     font-weight: 700 !important;
 }
 
 dd[data-invoice="invoice-subtotal-value"] .font-\[inherit\],
 dd[data-invoice="invoice-subtotal-value"] span {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ✅ استبعاد label.block.text-sm.font-medium.text-black من هنا */
 dl[data-invoice="invoice"] label,
 [data-invoice="invoice"] label {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-size: 16px !important;
     font-weight: 700 !important;
 }
@@ -1706,7 +1700,7 @@ dl[data-invoice="invoice"] label,
 p.text-gray-600,
 dl[data-invoice="invoice"] p,
 [data-invoice="invoice"] p {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-size: 17px !important;
 }
 
@@ -1715,10 +1709,10 @@ dl[data-invoice="invoice"] p,
 .checkout_order_summary div.mt-2.flex.justify-between button,
 dl[data-invoice="invoice"] div.mt-2 button[type="button"],
 dl[data-invoice="invoice"] div.mt-2 button {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-size: 14px !important;
     font-weight: 600 !important;
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
     background-color: #ffffff !important;
 }
 
@@ -1726,9 +1720,9 @@ dl[data-invoice="invoice"] div.mt-2 button {
 .checkout_order_summary div.mt-2.flex.justify-between button:hover,
 dl[data-invoice="invoice"] div.mt-2 button[type="button"]:hover,
 dl[data-invoice="invoice"] div.mt-2 button:hover {
-    background-color: #ce982e !important;
+    background-color: var(--k-gold) !important;
     color: #ffffff !important;
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* ─── Placeholder Tajawal — كل الحقول ─── */
@@ -1744,7 +1738,7 @@ section.contact-info-heading input::placeholder {
 .select__single-value:only-child,
 .select__single-value.css-1dimb5e-singleValue,
 [class*="singleValue"] {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -1752,7 +1746,7 @@ section.contact-info-heading input::placeholder {
 .select__control--is-focused .select__single-value,
 .select__control--menu-is-open .select__single-value,
 .select__value-container--has-value .select__single-value {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -1809,25 +1803,25 @@ footer a,
 footer div,
 footer nav,
 footer address {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* هوفر الروابط */
 footer a:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
     transition: color 0.2s ease !important;
 }
 
 /* رابط "المزيد" في عناوين الأقسام */
 .home_section_top_container > a,
 .home_section_top_container > a[href*="/collections"] {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     transition: color 0.2s ease !important;
 }
 
 .home_section_top_container > a:hover,
 .home_section_top_container > a[href*="/collections"]:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* توسيط الإيميل في الفوتر */
@@ -1848,8 +1842,7 @@ footer .default_footer_link {
 
 footer .default_footer a,
 footer .default_footer_link a {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
+    /* transform: translateZ(0) removed — old device optimization */
 }
 
 .default_product_featured_card,
@@ -1857,14 +1850,6 @@ footer .default_footer_link a {
 .home_products_grid_card,
 .group[class*="hover:shadow-product"] {
     contain: layout paint !important;
-}
-
-.default_product_featured_card .mt-2.flex.flex-row-reverse,
-.default_product_list_card .flex.items-center.text-heading,
-.home_products_grid_card .flex.items-center.text-heading,
-.group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -1933,7 +1918,7 @@ footer .default_footer_link a {
     content: "شكراً لشرائكم من كنوزي" !important;
     font-size: 2.25rem !important;
     font-weight: 700 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
     display: block !important;
     white-space: nowrap !important;
@@ -1944,7 +1929,7 @@ footer .default_footer_link a {
     content: "نشوفكم تاني قريب" !important;
     font-size: 1.7rem !important;
     font-weight: 500 !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
     display: block !important;
     white-space: nowrap !important;
@@ -1973,15 +1958,15 @@ footer .default_footer_link a {
 .thanks_container a[href="/"] {
     display: inline-block !important;
     margin-top: 2.5rem !important;
-    background-color: #bf6000 !important;
-    border-color: #bf6000 !important;
+    background-color: var(--k-orange) !important;
+    border-color: var(--k-orange) !important;
     color: #ffffff !important;
     transition: background-color 0.25s ease, border-color 0.25s ease !important;
 }
 
 .thanks_container a[href="/"]:hover {
-    background-color: #ce982e !important;
-    border-color: #ce982e !important;
+    background-color: var(--k-gold) !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* ─── إخفاء زر "اضغط هنا لنسخ رابط التتبع" ─── */
@@ -1993,7 +1978,7 @@ footer .default_footer_link a {
 .order_invoice_container .border-t,
 .order_invoice_container .border:not(:has(button img[alt="refund"])),
 .order_invoice_container [class*="border-gray-200"] {
-    border-color: #f2e4be !important;
+    border-color: var(--k-cream) !important;
 }
 
 /* ══════════════════════
@@ -2004,7 +1989,7 @@ footer .default_footer_link a {
 .order_invoice_container address,
 .order_invoice_container address h3,
 .order_invoice_container address span {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
 }
@@ -2044,7 +2029,7 @@ footer .default_footer_link a {
 /* الـ links المحددة — لونها برتقالي */
 .order_invoice_container address a[href*="kunuzee.com"],
 .order_invoice_container address a[href^="mailto:"] {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     text-decoration: none !important;
     transition: color 0.2s ease !important;
 }
@@ -2052,7 +2037,7 @@ footer .default_footer_link a {
 /* هوفر الـ links — ذهبي */
 .order_invoice_container address a[href*="kunuzee.com"]:hover,
 .order_invoice_container address a[href^="mailto:"]:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ══════════════
@@ -2074,7 +2059,7 @@ footer .default_footer_link a {
     top: 0 !important;
     font-size: 1.1rem !important;
     font-weight: 700 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-family: 'Tajawal', sans-serif !important;
     display: block !important;
     white-space: nowrap !important;
@@ -2113,9 +2098,9 @@ footer .default_footer_link a {
     align-items: center !important;
 }
 
-/* Labels (العناوين الداخلية) — #134f4f، 400، 1rem */
+/* Labels (العناوين الداخلية) — var(--k-teal)، 400، 1rem */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt span:first-child {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 400 !important;
     font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -2123,7 +2108,7 @@ footer .default_footer_link a {
 
 /* الـ dt نفسه — لون البيانات (الـ text node هيرثه) */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-weight: 400 !important;
     font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -2131,7 +2116,7 @@ footer .default_footer_link a {
 
 /* Label: الـ span الأول (اللي هو العنوان) — أخضر */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt > span:first-child {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 400 !important;
     font-size: 1rem !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -2139,7 +2124,7 @@ footer .default_footer_link a {
 
 /* Value: لو الـ value wrapped في span تاني */
 .order_invoice_container .border.p-4.rounded-lg.shadow-sm:has(dt.flex.flex-wrap.justify-between) dt > span:first-child + span {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ════════════════════
@@ -2162,7 +2147,7 @@ footer .default_footer_link a {
 }
 
 .order_invoice_container ul.rounded-lg.border > li > span::after {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 700 !important;
     font-size: inherit !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -2171,7 +2156,7 @@ footer .default_footer_link a {
 /* ─── تاريخ/وقت التايم لاين ─── */
 .order_invoice_container ul.rounded-lg.border > li:first-child > span.text-gray-500,
 .order_invoice_container ul.rounded-lg.border > li > span:last-child {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -2181,7 +2166,7 @@ footer .default_footer_link a {
 
 /* العنوان "حالة الطلب:" */
 .order_invoice_container dt.flex.flex-wrap.justify-between:not(:has(> div)) > span:first-child {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
     margin-top: -0.3rem !important;
@@ -2189,7 +2174,7 @@ footer .default_footer_link a {
 
 /* البيان "تم الدفع" */
 .order_invoice_container dt.flex.flex-wrap.justify-between:not(:has(> div)) > span:last-child {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
     margin-top: 0 !important;
@@ -2215,7 +2200,7 @@ footer .default_footer_link a {
 /* ─── سعر المنتج في الفاتورة — نفس تنسيق باقي الموقع ─── */
 /* الرقم */
 .order_invoice_container p.text-lg > span:first-child {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-weight: 500 !important; /* بدل 700 */
     font-size: 1.2rem !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -2223,7 +2208,7 @@ footer .default_footer_link a {
 
 /* EGP */
 .order_invoice_container p.text-lg > span:nth-child(2) {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
     font-weight: 500 !important;
     font-size: 0.8rem !important;
     position: relative !important;
@@ -2251,7 +2236,7 @@ footer .default_footer_link a {
     top: 0 !important;
     font-size: 1.1rem !important;
     font-weight: 700 !important;
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-family: 'Tajawal', sans-serif !important;
     display: block !important;
     white-space: nowrap !important;
@@ -2264,7 +2249,7 @@ footer .default_footer_link a {
 
 /* ─── label اسم المنتج فوق رابط التحميل ─── */
 .download-product-label {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-size: 1rem !important;
     font-weight: 400 !important;
     font-family: 'Tajawal', sans-serif !important;
@@ -2275,17 +2260,17 @@ footer .default_footer_link a {
 
 /* خلفية البوكس كامل */
 .order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm:has(> h3.font-medium) {
-    background-color: #fcf5e2 !important;
+    background-color: var(--k-light-cream) !important;
 }
 
 /* بوردر بوكس "تفاصيل الطلب وروابط التحميل" */
 .order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm:has(> h3.font-medium) {
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* خلفية كل رابط تحميل */
 .order_invoice_container .flex.flex-col.gap-6.p-5.border.rounded-lg.shadow-sm:has(> h3.font-medium) .bg-gray-50.rounded-lg {
-    background-color: #f2e4be !important;
+    background-color: var(--k-cream) !important;
 }
 
 /* ════════════════════
@@ -2325,7 +2310,7 @@ footer .default_footer_link a {
 /* ─── سطر "إجمالي المنتجات" + "كود الخصم" ─── */
 /* الـ div كله (الرقم + ج.م) */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div {
-  color: #bf6000 !important;
+  color: var(--k-orange) !important;
   font-weight: 400 !important;
   font-size: 1rem !important;
   font-family: 'Tajawal', sans-serif !important;
@@ -2341,7 +2326,7 @@ footer .default_footer_link a {
   content: "EGP" !important;
   font-size: 0.65rem !important;
   font-weight: 400 !important;
-  color: #bf6000 !important;
+  color: var(--k-orange) !important;
   position: relative !important;
   opacity: 1 !important;
   top: -0.2rem !important;
@@ -2350,7 +2335,7 @@ footer .default_footer_link a {
 
 /* Labels */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > span:first-child {
-  color: #134f4f !important;
+  color: var(--k-teal) !important;
   font-weight: 400 !important;
   font-size: 1rem !important;
   font-family: 'Tajawal', sans-serif !important;
@@ -2359,7 +2344,7 @@ footer .default_footer_link a {
 /* ─── آخر سطر "الإجمالي" ─── */
 /* الـ div كله */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div {
-  color: #bf6000 !important;
+  color: var(--k-orange) !important;
   font-weight: 700 !important;
   font-size: 1.2rem !important;
   font-family: 'Tajawal', sans-serif !important;
@@ -2375,7 +2360,7 @@ footer .default_footer_link a {
   content: "EGP" !important;
   font-size: 0.75rem !important;
   font-weight: 700 !important;
-  color: #bf6000 !important;
+  color: var(--k-orange) !important;
   position: relative !important;
   opacity: 1 !important;
   top: -0.3rem !important;
@@ -2384,7 +2369,7 @@ footer .default_footer_link a {
 
 /* Label "الإجمالي" */
 .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > span:first-child {
-  color: #134f4f !important;
+  color: var(--k-teal) !important;
   font-weight: 700 !important;
   font-size: 1.2rem !important;
   font-family: 'Tajawal', sans-serif !important;
@@ -2402,7 +2387,7 @@ footer .default_footer_link a {
     gap: 6px !important;
     font-weight: 400 !important;
     font-family: 'Tajawal', sans-serif !important;
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 .order-item-city .gov-flag {
@@ -2419,18 +2404,18 @@ footer .default_footer_link a {
 
 /* ─── الحاوية الرئيسية — بوردر ذهبي في كل الأماكن ─── */
 div:has(> div > button img[alt="refund"]) {
-    background-color: #fcf5e2 !important;
-    border-color: #ce982e !important;
+    background-color: var(--k-light-cream) !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* ─── العناصر الداخلية (الخط الفاصل) ─── */
 div:has(> div > button img[alt="refund"]) > * {
-    border-color: #bf6000 !important;
+    border-color: var(--k-orange) !important;
 }
 
 /* ─── زر الـ Accordion — نص ثابت أخضر داكن ─── */
 button:has(img[alt="refund"]) {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-weight: 700 !important;
     font-family: 'Tajawal', sans-serif !important;
 }
@@ -2442,18 +2427,18 @@ button img[alt="refund"] {
 
 /* ─── أيقونة السهم — لونها أخضر داكن ─── */
 button:has(img[alt="refund"]) svg {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     transition: color 0.2s ease !important;
 }
 
 /* ─── هوفر السهم بس — يتحول ذهبي ─── */
 button:has(img[alt="refund"]):hover svg {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ─── المحتوى المنسدح (لما يتفتح) ─── */
 div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
@@ -2463,13 +2448,13 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* الأيقونة (العدسة) — محدد بالـ class chain الكامل */
 .animate-slideIn.flex.flex-col.items-center.justify-center.py-20.gap-4.text-center > svg {
-    color: #f2e4be !important;
-    stroke: #f2e4be !important;
+    color: var(--k-cream) !important;
+    stroke: var(--k-cream) !important;
 }
 
 /* النص — نفس العنصر الأب بالظبط */
 .animate-slideIn.flex.flex-col.items-center.justify-center.py-20.gap-4.text-center > p.text-gray-400 {
-    color: #f2e4be !important;
+    color: var(--k-cream) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -2478,27 +2463,27 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* ١- نص "خطأ 404" */
 .py-16 .text-center > p.text-sm.font-semibold.text-indigo-600.uppercase.tracking-wide {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
 }
 
 /* ٢- نص "الذهاب للرئيسية" */
 .py-16 .text-center a[href="/"] {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     transition: color 0.2s ease !important;
 }
 
 .py-16 .text-center a[href="/"]:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ٣- نص "الصفحة غير موجودة" */
 .py-16 .text-center > h1.text-4xl.font-extrabold.text-gray-900.tracking-tight {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ٤- نص "الصفحة التي تبحث عنها غير موجودة" */
 .py-16 .text-center > p.text-base.text-gray-500 {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -2507,18 +2492,18 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* نص "أو" */
 [data-cart="continue-wrapper"] > p {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* CART OVERLAY CLOSE BUTTON */
 /* اللون الأساسي */
 [data-cart="close-button"] {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* اللون عند الهوفر */
 [data-cart="close-button"]:hover {
-    color: #bf6000 !important;
+    color: var(--k-orange) !important;
 }
 
 /* الـ SVG جواه يورث اللون */
@@ -2538,14 +2523,14 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* عناوين الأقسام */
 .category_card_name {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     transition: color 0.2s ease !important;
 }
 
 /* هوفر العناوين */
 .category_card:hover .category_card_name,
 .category_card_name:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -2554,57 +2539,57 @@ div:has(> div > button img[alt="refund"]) [id*="headlessui-disclosure-panel"] {
 
 /* ─── الزرار نفسه — البوردر ─── */
 [id*="headlessui-listbox-button"] {
-    border-color: #ce982e !important;
+    border-color: var(--k-gold) !important;
 }
 
 /* ─── أيقونة السهم (للفوق/لتحت) ─── */
 [id*="headlessui-listbox-button"] svg {
-    color: #ce982e !important;
-    stroke: #ce982e !important;
+    color: var(--k-gold) !important;
+    stroke: var(--k-gold) !important;
 }
 
 /* ─── الزرار نفسه — عند الهوفر ─── */
 [id*="headlessui-listbox-button"]:hover {
-    background-color: #fcf5e2 !important;
+    background-color: var(--k-light-cream) !important;
 }
 
 /* ─── بوردر القايمة المنسدلة ─── */
 ul[id*="headlessui-listbox-options"] {
-    --tw-ring-color: #ce982e !important;
-    border-color: #ce982e !important;
+    --tw-ring-color: var(--k-gold) !important;
+    border-color: var(--k-gold) !important;
     z-index: 99999 !important;
 }
 
 /* ─── النصوص الأساسية ─── */
 li[id*="headlessui-listbox-option-"] span {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     transition: color 0.15s ease !important;
 }
 
 /* ─── النصوص عند الهوفر ─── */
 li[id*="headlessui-listbox-option-"]:hover span {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ─── خلفية العنصر الواحد (li) عند الهوفر ─── */
 li[id*="headlessui-listbox-option-"]:hover {
-    background-color: #fcf5e2 !important;
+    background-color: var(--k-light-cream) !important;
 }
 
 /* ─── خلفية العنصر المختار ─── */
 li[id*="headlessui-listbox-option-"][aria-selected="true"] {
-    background-color: #ce982e !important;
+    background-color: var(--k-gold) !important;
 }
 
 /* ─── نص العنصر المختار ─── */
 li[id*="headlessui-listbox-option-"][aria-selected="true"] span {
-    color: #fcf5e2 !important;
+    color: var(--k-light-cream) !important;
 }
 
 /* ─── علامة الصح (الأيقونة) ─── */
 li[id*="headlessui-listbox-option-"][aria-selected="true"] svg {
-    color: #fcf5e2 !important;
-    fill: #fcf5e2 !important;
+    color: var(--k-light-cream) !important;
+    fill: var(--k-light-cream) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -2672,12 +2657,12 @@ body {
 }
 
 .select__menu-list::-webkit-scrollbar-thumb {
-    background-color: #ce982e !important;
+    background-color: var(--k-gold) !important;
     border-radius: 12px !important;
 }
 
 .select__menu-list::-webkit-scrollbar-thumb:hover {
-    background-color: #bf6000 !important;
+    background-color: var(--k-orange) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -2687,7 +2672,7 @@ body {
 /* بوردر القايمة المنسدلة فقط */
 .select__menu,
 [class*="select__menu"] {
-    border: 1px solid #f2e4be !important;
+    border: 1px solid var(--k-cream) !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
@@ -2773,27 +2758,27 @@ body {
 
 /* ─── ألوان العناوين ─── */
 .default_category_card_name {
-    color: #134f4f !important;
+    color: var(--k-teal) !important;
     transition: color 0.2s ease !important;
 }
 
 .default_category_card:hover .default_category_card_name,
 .default_category_card_name:hover {
-    color: #ce982e !important;
+    color: var(--k-gold) !important;
 }
 
 /* ─── تخصيص أزرار السهم ─── */
 .carouselWrapper:has(.default_category_card) .slider_buttons_container .slider_button {
     background-color: #ffffff !important;
-    color: #bf6000 !important;
-    border: 1px solid #f2e4be !important;
+    color: var(--k-orange) !important;
+    border: 1px solid var(--k-cream) !important;
     transition: all 0.25s ease !important;
 }
 
 .carouselWrapper:has(.default_category_card) .slider_buttons_container .slider_button:hover {
-    background-color: #bf6000 !important;
+    background-color: var(--k-orange) !important;
     color: #ffffff !important;
-    border-color: #bf6000 !important;
+    border-color: var(--k-orange) !important;
 }
 
 /* ─── المسافات ─── */
