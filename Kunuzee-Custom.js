@@ -1529,7 +1529,7 @@ setInterval(fixHeader, 300);
             // نعمل span للنص نفسه
             var span = document.createElement('span');
             span.className = 'kfq-text';
-            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.3rem;padding-left:1.3rem;';
+            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.4rem;padding-left:1.4rem;';
             span.textContent = textNode.textContent.trim();
 
             wrap.appendChild(span);
@@ -1549,7 +1549,7 @@ setInterval(fixHeader, 300);
                 wrap.style.width = wrapWidth + 'px';
 
                 // ═══ Blur Fade لـ RTL ═══
-                var mask = 'linear-gradient(to left, transparent 0%, black 5%, black 95%, transparent 100%)';
+                var mask = 'linear-gradient(to left, transparent 0%, black 4%, black 96%, transparent 100%)';
                 wrap.style.webkitMaskImage = mask;
                 wrap.style.maskImage = mask;
 
