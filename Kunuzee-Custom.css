@@ -1752,24 +1752,26 @@ section.contact-info-heading input::placeholder {
 /* ───────────────────────────────────────────────────────────────
    SECTION 12.1: PAYMENT CARD MOBILE & TABLET FIX
    ───────────────────────────────────────────────────────────────
-   المشكلة: الصورة بتتداخل مع النص على الموبايل والتابلت
-   الحل: 2 breakpoints — موبايل (layout عمودي) + آيباد/تابلت (3 أعمدة مصغرة)
+   المشكلة: الصورة بتتداخل مع النص على الموبايل بورتريه
+   الحل: بورتريه = radio + نص في صف / صورة تحت — لاندسكيب+تابلت = 3 أعمدة
    ─────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════
-   أ) الموبايل الصغير (< 640px) — layout عمودي
+   أ) الموبايل بورتريه (طولي) — radio + نص / صورة تحتهم
    ═══════════════════════════════════════════ */
 @media (max-width: 639px) {
     .payment_card,
     button.payment_card {
         display: grid !important;
         grid-template-columns: 40px 1fr !important;
-        grid-template-areas: "radio content" !important;
+        grid-template-areas: 
+            "radio content"
+            "img   img" !important;
         grid-template-rows: auto auto !important;
         align-items: start !important;
         padding: 12px !important;
         min-height: auto !important;
-        gap: 0 8px !important;
+        gap: 8px 12px !important;
     }
 
     .radio_container,
@@ -1778,7 +1780,7 @@ section.contact-info-heading input::placeholder {
         justify-self: center !important;
         align-self: start !important;
         margin: 0 !important;
-        margin-top: 4px !important;
+        margin-top: 2px !important;
     }
 
     .payment_card_content,
@@ -1787,38 +1789,36 @@ section.contact-info-heading input::placeholder {
         justify-self: stretch !important;
         align-self: start !important;
         text-align: right !important;
-        padding-right: 0 !important;
+        padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
     }
 
-    /* الصورة تبقى static تحت النص بدل absolute */
+    /* الصورة في صف تاني تحت النص */
     .payment_card_img_container,
     [class*="payment_card_img_container"] {
+        grid-area: img !important;
         position: static !important;
         transform: none !important;
         left: auto !important;
         top: auto !important;
-        margin: 10px 0 0 0 !important;
+        margin: 0 !important;
+        margin-top: 4px !important;
         width: 100% !important;
-        max-width: 200px !important;
-        align-self: flex-end !important;
-    }
-
-    .payment_card_img_container .payment_card_img,
-    .payment_card_img_container [class*="payment_card_img"] {
-        width: 100% !important;
-        max-width: 200px !important;
+        max-width: none !important;
+        align-self: center !important;
+        justify-self: center !important;
+        display: flex !important;
+        justify-content: center !important;
     }
 
     .payment_card_img_container img,
     [class*="payment_card_img_container"] img {
-        max-height: 48px !important;
+        max-height: 52px !important;
         width: auto !important;
         object-fit: contain !important;
     }
 
-    /* تعديل حجم النصوص */
     .payment_card_name,
     [class*="payment_card_name"] {
         font-size: 14px !important;
@@ -1834,18 +1834,19 @@ section.contact-info-heading input::placeholder {
 }
 
 /* ═══════════════════════════════════════════
-   ب) الآيباد والتابلت (640px – 1023px) — 3 أعمدة مصغرة
+   ب) لاندسكيب موبايل + آيباد + تابلت (640px – 1023px)
+      نفس 3 أعمدة بس أحجام مصغرة
    ═══════════════════════════════════════════ */
 @media (min-width: 640px) and (max-width: 1023px) {
     .payment_card,
     button.payment_card {
         display: grid !important;
-        grid-template-columns: 48px 1fr 110px !important;
+        grid-template-columns: 48px 1fr 120px !important;
         grid-template-areas: "radio content img" !important;
         align-items: center !important;
         padding: 12px 8px !important;
         min-height: auto !important;
-        gap: 0 6px !important;
+        gap: 0 8px !important;
     }
 
     .radio_container,
@@ -1866,7 +1867,6 @@ section.contact-info-heading input::placeholder {
         margin: 0 !important;
     }
 
-    /* الصورة absolute بس مصغرة ومظبوطة */
     .payment_card_img_container,
     [class*="payment_card_img_container"] {
         position: absolute !important;
@@ -1874,12 +1874,12 @@ section.contact-info-heading input::placeholder {
         top: 50% !important;
         transform: translateY(-50%) !important;
         margin: 0 !important;
-        max-width: 100px !important;
+        max-width: 110px !important;
     }
 
     .payment_card_img_container img,
     [class*="payment_card_img_container"] img {
-        max-height: 44px !important;
+        max-height: 48px !important;
         width: auto !important;
         object-fit: contain !important;
     }
