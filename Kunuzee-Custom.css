@@ -1752,12 +1752,12 @@ section.contact-info-heading input::placeholder {
 /* ───────────────────────────────────────────────────────────────
    SECTION 12.1: PAYMENT CARD MOBILE & TABLET FIX
    ───────────────────────────────────────────────────────────────
-   المشكلة: الصورة بتتداخل مع النص على الموبايل بورتريه
-   الحل: بورتريه = radio + نص في صف / صورة تحت — لاندسكيب+تابلت = 3 أعمدة
+   الموبايل بورتريه: radio + نص متوسطنين / صورة تحتهم بكامل العرض
+   لاندسكيب+تابلت: 3 أعمدة مصغرة (نفس الديسكتوب)
    ─────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════
-   أ) الموبايل بورتريه (طولي) — radio + نص / صورة تحتهم
+   أ) الموبايل بورتريه (طولي) — توسيط + صورة بكامل العرض
    ═══════════════════════════════════════════ */
 @media (max-width: 639px) {
     .payment_card,
@@ -1768,33 +1768,33 @@ section.contact-info-heading input::placeholder {
             "radio content"
             "img   img" !important;
         grid-template-rows: auto auto !important;
-        align-items: start !important;
+        align-items: center !important;
+        justify-items: center !important;
         padding: 12px !important;
         min-height: auto !important;
-        gap: 8px 12px !important;
+        gap: 10px 12px !important;
     }
 
     .radio_container,
     [class*="radio_container"] {
         grid-area: radio !important;
         justify-self: center !important;
-        align-self: start !important;
+        align-self: center !important;
         margin: 0 !important;
-        margin-top: 2px !important;
     }
 
     .payment_card_content,
     [class*="payment_card_content"] {
         grid-area: content !important;
-        justify-self: stretch !important;
-        align-self: start !important;
-        text-align: right !important;
+        justify-self: center !important;
+        align-self: center !important;
+        text-align: center !important;
         padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
     }
 
-    /* الصورة في صف تاني تحت النص */
+    /* الصورة في صف تاني تحت — بكامل عرض البوكس */
     .payment_card_img_container,
     [class*="payment_card_img_container"] {
         grid-area: img !important;
@@ -1803,26 +1803,26 @@ section.contact-info-heading input::placeholder {
         left: auto !important;
         top: auto !important;
         margin: 0 !important;
-        margin-top: 4px !important;
         width: 100% !important;
         max-width: none !important;
-        align-self: center !important;
-        justify-self: center !important;
         display: flex !important;
         justify-content: center !important;
+        align-items: center !important;
     }
 
     .payment_card_img_container img,
     [class*="payment_card_img_container"] img {
-        max-height: 52px !important;
-        width: auto !important;
+        width: 100% !important;
+        max-height: 56px !important;
         object-fit: contain !important;
     }
 
+    /* النصوص متوسطة */
     .payment_card_name,
     [class*="payment_card_name"] {
         font-size: 14px !important;
         line-height: 1.3 !important;
+        text-align: center !important;
     }
 
     .payment_card_description,
@@ -1830,12 +1830,12 @@ section.contact-info-heading input::placeholder {
         font-size: 12px !important;
         line-height: 1.4 !important;
         margin-top: 2px !important;
+        text-align: center !important;
     }
 }
 
 /* ═══════════════════════════════════════════
    ب) لاندسكيب موبايل + آيباد + تابلت (640px – 1023px)
-      نفس 3 أعمدة بس أحجام مصغرة
    ═══════════════════════════════════════════ */
 @media (min-width: 640px) and (max-width: 1023px) {
     .payment_card,
