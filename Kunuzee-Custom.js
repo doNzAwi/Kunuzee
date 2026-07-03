@@ -1496,7 +1496,7 @@ setInterval(fixHeader, 300);
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 18: FAQ — Fixed Height + JS Marquee (Final)
+// FUNCTION 18: FAQ — Fixed Box + Smooth Marquee + Blur Fade
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
@@ -1517,9 +1517,9 @@ setInterval(fixHeader, 300);
             }
             if (!textNode) return;
 
-            // نحسب مساحة السهم
+            // نحسب مساحة السهم + مسافة صغيرة جداً قبله
             var svg = btn.querySelector('svg');
-            var svgWidth = svg ? svg.getBoundingClientRect().width + 20 : 32;
+            var svgWidth = svg ? svg.getBoundingClientRect().width + 4 : 28;
 
             // نعمل wrapper للنص (بياخد المساحة المتاحة ويقص الزيادة)
             var wrap = document.createElement('span');
@@ -1542,11 +1542,15 @@ setInterval(fixHeader, 300);
 
             // نحسب بعد ما الـ layout يتظبط
             setTimeout(function() {
-                var btnPad = 32; // padding تقريبي
+                var btnPad = 16; // padding أقل (8px من كل جانب تقريباً)
                 var wrapWidth = btn.clientWidth - svgWidth - btnPad;
-                if (wrapWidth < 100) wrapWidth = 100;
+                if (wrapWidth < 80) wrapWidth = 80;
 
                 wrap.style.width = wrapWidth + 'px';
+
+                // ═══ Blur Fade على اليمين والشمال ═══
+                wrap.style.webkitMaskImage = 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)';
+                wrap.style.maskImage = 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)';
 
                 var textWidth = span.scrollWidth;
                 var overflow = textWidth - wrapWidth;
@@ -1572,7 +1576,7 @@ setInterval(fixHeader, 300);
                 return;
             }
 
-            var speed = 0.35; // بطيء وهادي عشان الـ reader يلحق يقرأ
+            var speed = 0.35; // بطيء وهادي
 
             if (item.dir === 1) {
                 // ==== بيتحرك يمين: أول الجملة يختفي، آخر الجملة يظهر ====
