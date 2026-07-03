@@ -1506,12 +1506,8 @@ setInterval(fixHeader, 300);
     function init() {
         document.querySelectorAll('.szh-accordion__item-btn:not([data-kfq])').forEach(function(btn) {
             btn.dataset.kfq = '1';
-            
-            // نخلي الزرار يقص الزيادة
-            btn.style.setProperty('overflow', 'hidden', 'important');
-            btn.style.setProperty('position', 'relative', 'important');
-            
-            // نلاقي أول text node
+
+            // نلاقي أول text node (نص السؤال)
             var textNode = null;
             for (var i = 0; i < btn.childNodes.length; i++) {
                 if (btn.childNodes[i].nodeType === 3 && btn.childNodes[i].textContent.trim()) {
@@ -1521,68 +1517,95 @@ setInterval(fixHeader, 300);
             }
             if (!textNode) return;
 
-            // نلف النص في span
-            var span = document.createElement('span');
-            span.textContent = textNode.textContent.trim();
-            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;';
-            btn.replaceChild(span, textNode);
+            // نحسب مساحة السهم
+            var svg = btn.querySelector('svg');
+            var svgWidth = svg ? svg.getBoundingClientRect().width + 20 : 32;
 
-            // نحسب بعد شوية
+            // نعمل wrapper للنص (بياخد المساحة المتاحة ويقص الزيادة)
+            var wrap = document.createElement('span');
+            wrap.className = 'kfq-wrap';
+            wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:middle;position:relative;';
+
+            // نعمل span للنص نفسه
+            var span = document.createElement('span');
+            span.className = 'kfq-text';
+            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;';
+            span.textContent = textNode.textContent.trim();
+
+            wrap.appendChild(span);
+            btn.replaceChild(wrap, textNode);
+
+            // نضمن إن السهم مابيتحركش
+            if (svg) {
+                svg.style.flexShrink = '0';
+            }
+
+            // نحسب بعد ما الـ layout يتظبط
             setTimeout(function() {
-                var svg = btn.querySelector('svg');
-                var svgW = svg ? (svg.getBoundingClientRect().width + 16) : 0;
-                var pad = 32;
-                var avail = btn.clientWidth - svgW - pad;
-                
-                if (span.scrollWidth > avail) {
+                var btnPad = 32; // padding تقريبي
+                var wrapWidth = btn.clientWidth - svgWidth - btnPad;
+                if (wrapWidth < 100) wrapWidth = 100;
+
+                wrap.style.width = wrapWidth + 'px';
+
+                var textWidth = span.scrollWidth;
+                var overflow = textWidth - wrapWidth;
+
+                if (overflow > 0) {
                     items.push({
                         span: span,
-                        minOffset: avail - span.scrollWidth, // سالب (مثلاً -120)
+                        overflow: overflow,
                         pos: 0,
-                        dir: -1, // -1 = للشمال (عشان يظهر البداية)
-                        waiting: 0
+                        dir: 1,      // 1 = بيتحرك يمين (أول الجملة يختفي)
+                        wait: 0,
+                        pause: 120   // 2 ثانية وقفة عند كل طرف
                     });
                 }
-            }, 300);
+            }, 500);
         });
     }
 
     function animate() {
         items.forEach(function(item) {
-            if (item.waiting > 0) {
-                item.waiting--;
+            if (item.wait > 0) {
+                item.wait--;
                 return;
             }
 
-            if (item.dir === -1) {
-                // بيتحرك للشمال (عشان يظهر بداية السؤال)
-                item.pos -= 0.4;
-                if (item.pos <= item.minOffset) {
-                    item.pos = item.minOffset;
-                    item.dir = 1;
-                    item.waiting = 90; // 1.5 ثانية wait
+            var speed = 0.35; // بطيء وهادي عشان الـ reader يلحق يقرأ
+
+            if (item.dir === 1) {
+                // ==== بيتحرك يمين: أول الجملة يختفي، آخر الجملة يظهر ====
+                item.pos += speed;
+                if (item.pos >= item.overflow) {
+                    item.pos = item.overflow;
+                    item.dir = -1;
+                    item.wait = item.pause;
                 }
             } else {
-                // بيرجع لليمين (لأول السؤال)
-                item.pos += 0.4;
-                if (item.pos >= 0) {
+                // ==== بيتحرك يسار: آخر الجملة يختفي، أول الجملة يرجع ====
+                item.pos -= speed;
+                if (item.pos <= 0) {
                     item.pos = 0;
-                    item.dir = -1;
-                    item.waiting = 90; // 1.5 ثانية wait
+                    item.dir = 1;
+                    item.wait = item.pause;
                 }
             }
-            
+
             item.span.style.transform = 'translateX(' + item.pos + 'px)';
         });
-        
+
         requestAnimationFrame(animate);
     }
 
+    // اشتغل
     init();
-    setInterval(init, 500);
-    
-    var obs = new MutationObserver(function() { init(); });
+    setInterval(init, 1000);
+
+    var obs = new MutationObserver(function() {
+        init();
+    });
     obs.observe(document.body, { childList: true, subtree: true });
-    
+
     animate();
 })();
