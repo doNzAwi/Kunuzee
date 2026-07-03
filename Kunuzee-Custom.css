@@ -911,16 +911,31 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     }
 }
 
-/* ─── MOBILE & TABLET (<1024px): بعيد شوية للخارج (ناحية الحافة) ─── */
+/* ─── MOBILE & TABLET (<1024px): بعيد شوية للخارج ─── */
 @media (max-width: 1023px) {
     .default_header_container .ms-auto.flex.items-center,
     .default_header_container div.ms-auto.flex.items-center {
-        margin-left: 4px !important;        /* ✅ سالب = للخارج */
+        transform: translateX(6px) !important;   /* ✅ للخارج بدون ما نخرب الـ layout */
+    }
+}
+
+/* ─── DESKTOP (≥1024px): زي ما كان ─── */
+@media (min-width: 1024px) {
+    .default_header_container .ms-auto.flex.items-center,
+    .default_header_container div.ms-auto.flex.items-center {
+        width: 120px !important;
+        min-width: 120px !important;
         margin-right: auto !important;
-        margin-inline-start: -6px !important;
+        margin-left: 0 !important;
+        margin-inline-start: 0 !important;
         margin-inline-end: auto !important;
-        padding-left: 0 !important;
         padding-right: 0 !important;
+        padding-left: 0 !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 12px !important;
+        box-sizing: border-box !important;
     }
 }
 
