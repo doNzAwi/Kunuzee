@@ -8,15 +8,11 @@
 (function() {
     'use strict';
     
-    // بنضيف style tag فوري في الـ head قبل ما المتصفح يبدأ يرندر البودي
     var style = document.createElement('style');
     style.id = 'kunuzee-instant-fouc-fix';
     style.textContent = [
-        /* 1. أي <p> جوه .thanks_content مالوش class underline (اللي هو "عرض أحدث العروض") */
         '.thanks_content p:not(.underline):not([class*="underline"]) { display: none !important; }',
-        /* 2. أي div مباشر جوه .mt-6 مالوش mb-12 (زرار العودة) */
         '.thanks_content .mt-6 > div:not(.mb-12) { display: none !important; }',
-        /* 3. أي div مباشر جوه .thanks_content مالوش svg ولا .mt-6 */
         '.thanks_content > div:not(:has(svg)):not(.mt-6) { display: none !important; }'
     ].join(' ');
     
@@ -48,7 +44,7 @@
 
     function shouldHide(el) {
         var text = (el.textContent || '').trim();
-        if (!text || text.length > 200) return false; // نتجاهل النصوص الطويلة (الفاتورة)
+        if (!text || text.length > 200) return false;
         return HIDE_KEYWORDS.some(function(kw) {
             return text.indexOf(kw) !== -1;
         });
@@ -113,48 +109,82 @@ var KUNUZEE_GOVERNORATES = {
     'الوادي الجديد': { img: 'https://i.ibb.co/23WFRW9X/NVA.png' }
 };
 
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 1: fixHeader — تعديل الهيدر
-// ───────────────────────────────────────────────────────────────
-function fixHeader() {
-    var borderDiv = document.querySelector('.default_header_container > div.border-b');
-    var row = document.querySelector('.default_header_container > div > div.h-14.flex.items-center');
-    var logoDiv = document.querySelector('.default_header_logo a > div');
-    var logoImg = document.querySelector('.default_header_logo img');
-
-    if (borderDiv) {
-        borderDiv.setAttribute('style', 'height: auto !important; min-height: auto !important; overflow: visible !important;');
-    }
-    if (row) {
-        row.classList.remove('h-14');
-        row.setAttribute('style', 'height: auto !important; min-height: auto !important; max-height: none !important; padding-top: 12px !important; padding-bottom: 12px !important; overflow: visible !important; display: flex !important; align-items: center !important;');
-    }
-    if (logoDiv) {
-        logoDiv.classList.remove('h-8', 'overflow-hidden');
-        logoDiv.setAttribute('style', 'height: auto !important; min-height: auto !important; max-height: none !important; overflow: visible !important; display: flex !important; align-items: center !important;');
-    }
-    if (logoImg) {
-        logoImg.classList.remove('h-8', 'h-full', 'w-full');
-        logoImg.setAttribute('style', 'height: 65px !important; min-height: 65px !important; max-height: none !important; max-width: none !important; width: auto !important; object-fit: contain !important; display: block !important;');
-    }
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fixHeader);
-} else {
-    fixHeader();
-}
-setInterval(fixHeader, 300);
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 2: Governorate Flags — أعلام المحافظات (React Select Override)
-// ───────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// UNIFIED MUTATION OBSERVER — مراقب واحد لكل التعديلات
+// ═══════════════════════════════════════════════════════════════
 (function() {
     'use strict';
 
-    const GOVERNORATES = KUNUZEE_GOVERNORATES;
+    var tasks = [];
+    var pending = false;
+    var rafId = null;
 
-    const GROUPS = [
+    function schedule() {
+        if (pending) return;
+        pending = true;
+
+        if (window.requestIdleCallback) {
+            rafId = requestIdleCallback(runTasks, { timeout: 100 });
+        } else {
+            rafId = requestAnimationFrame(runTasks);
+        }
+    }
+
+    function runTasks() {
+        pending = false;
+        var now = performance.now();
+
+        while (tasks.length > 0 && (performance.now() - now) < 12) {
+            var task = tasks.shift();
+            try { task(); } catch(e) {}
+        }
+
+        if (tasks.length > 0) {
+            schedule();
+        }
+    }
+
+    function addTask(fn, priority) {
+        if (priority === 'high') {
+            tasks.unshift(fn);
+        } else {
+            tasks.push(fn);
+        }
+        schedule();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 1: fixHeader — تعديل الهيدر (على التغيير فقط)
+    // ═══════════════════════════════════════════════════════════════
+    function fixHeader() {
+        var borderDiv = document.querySelector('.default_header_container > div.border-b');
+        var row = document.querySelector('.default_header_container > div > div.h-14.flex.items-center');
+        var logoDiv = document.querySelector('.default_header_logo a > div');
+        var logoImg = document.querySelector('.default_header_logo img');
+
+        if (borderDiv) {
+            borderDiv.setAttribute('style', 'height: auto !important; min-height: auto !important; overflow: visible !important;');
+        }
+        if (row) {
+            row.classList.remove('h-14');
+            row.setAttribute('style', 'height: auto !important; min-height: auto !important; max-height: none !important; padding-top: 12px !important; padding-bottom: 12px !important; overflow: visible !important; display: flex !important; align-items: center !important;');
+        }
+        if (logoDiv) {
+            logoDiv.classList.remove('h-8', 'overflow-hidden');
+            logoDiv.setAttribute('style', 'height: auto !important; min-height: auto !important; max-height: none !important; overflow: visible !important; display: flex !important; align-items: center !important;');
+        }
+        if (logoImg) {
+            logoImg.classList.remove('h-8', 'h-full', 'w-full');
+            logoImg.setAttribute('style', 'height: 65px !important; min-height: 65px !important; max-height: none !important; max-width: none !important; width: auto !important; object-fit: contain !important; display: block !important;');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 2: Governorate Flags — أعلام المحافظات
+    // ═══════════════════════════════════════════════════════════════
+    var GOVERNORATES = KUNUZEE_GOVERNORATES;
+
+    var GROUPS = [
         { title: '', items: ['من فضلك قم باختيار محافظتك من القائمة'] },
         { title: '', items: ['القاهرة', 'الجيزة', 'الإسكندرية'] },
         { title: 'محافظات الوجه البحري ومطروح', items: ['القليوبية', 'المنوفية', 'الشرقية', 'الغربية', 'البحيرة', 'دمياط', 'الدقهلية', 'كفر الشيخ', 'مطروح'] },
@@ -167,8 +197,8 @@ setInterval(fixHeader, 300);
     }
 
     function getGroupInfo(name) {
-        for (let i = 0; i < GROUPS.length; i++) {
-            const idx = GROUPS[i].items.indexOf(name.trim());
+        for (var i = 0; i < GROUPS.length; i++) {
+            var idx = GROUPS[i].items.indexOf(name.trim());
             if (idx !== -1) {
                 return { index: i, title: GROUPS[i].title, innerIndex: idx };
             }
@@ -177,24 +207,24 @@ setInterval(fixHeader, 300);
     }
 
     function fixSingleValue() {
-        const sv = document.querySelector('.select__single-value');
+        var sv = document.querySelector('.select__single-value');
         if (!sv) return;
 
-        const text = sv.textContent.trim();
-        const flag = getFlag(text);
+        var text = sv.textContent.trim();
+        var flag = getFlag(text);
         if (!flag) {
-            const existing = sv.querySelector('.gov-flag');
+            var existing = sv.querySelector('.gov-flag');
             if (existing) existing.remove();
             return;
         }
 
-        const existing = sv.querySelector('.gov-flag');
+        var existing = sv.querySelector('.gov-flag');
         if (existing) {
             if (existing.src !== flag) existing.src = flag;
             return;
         }
 
-        const img = document.createElement('img');
+        var img = document.createElement('img');
         img.src = flag;
         img.className = 'gov-flag';
         img.alt = text;
@@ -202,60 +232,56 @@ setInterval(fixHeader, 300);
     }
 
     function fixMenuOptions() {
-        const menu = document.querySelector('.select__menu');
+        var menu = document.querySelector('.select__menu');
         if (!menu) return;
         if (menu.dataset.govFixed === 'true') return;
 
         menu.dataset.govFixed = 'true';
-        menu.querySelectorAll('.gov-group-header').forEach(h => h.remove());
+        menu.querySelectorAll('.gov-group-header').forEach(function(h) { h.remove(); });
 
-        const menuList = menu.querySelector('.select__menu-list') || menu;
-        let allOptions = Array.from(menuList.querySelectorAll('.select__option'));
+        var menuList = menu.querySelector('.select__menu-list') || menu;
+        var allOptions = Array.from(menuList.querySelectorAll('.select__option'));
 
-        allOptions.forEach(opt => {
+        allOptions.forEach(function(opt) {
             if (opt.querySelector('.gov-flag')) return;
-            const text = opt.textContent.trim();
-            const flag = getFlag(text);
+            var text = opt.textContent.trim();
+            var flag = getFlag(text);
             if (!flag) return;
 
-            const img = document.createElement('img');
+            var img = document.createElement('img');
             img.src = flag;
             img.className = 'gov-flag';
             img.alt = text;
             opt.insertBefore(img, opt.firstChild);
         });
 
-        const mapped = allOptions.map(opt => {
-            const text = opt.textContent.trim();
-            const info = getGroupInfo(text);
-            return { opt, text, groupIndex: info.index, title: info.title, innerIndex: info.innerIndex };
+        var mapped = allOptions.map(function(opt) {
+            var text = opt.textContent.trim();
+            var info = getGroupInfo(text);
+            return { opt: opt, text: text, groupIndex: info.index, title: info.title, innerIndex: info.innerIndex };
         });
 
-        mapped.sort((a, b) => {
+        mapped.sort(function(a, b) {
             if (a.groupIndex !== b.groupIndex) return a.groupIndex - b.groupIndex;
             return a.innerIndex - b.innerIndex;
         });
 
-        let currentGroup = -1;
-        mapped.forEach(({ opt, groupIndex, title }) => {
-            if (groupIndex !== currentGroup && title) {
-                const header = document.createElement('div');
+        var currentGroup = -1;
+        mapped.forEach(function(item) {
+            if (item.groupIndex !== currentGroup && item.title) {
+                var header = document.createElement('div');
                 header.className = 'gov-group-header';
-                header.textContent = title;
+                header.textContent = item.title;
                 header.setAttribute('aria-hidden', 'true');
                 menuList.appendChild(header);
             }
-            currentGroup = groupIndex;
-            menuList.appendChild(opt);
+            currentGroup = item.groupIndex;
+            menuList.appendChild(item.opt);
         });
 
-        // ═══════════════════════════════════════
-        // SCROLL TO SELECTED GOVERNORATE
-        // ═══════════════════════════════════════
         setTimeout(function() {
             var selected = menuList.querySelector('.select__option--is-selected');
             if (!selected) return;
-
             var menuRect = menuList.getBoundingClientRect();
             var selectedRect = selected.getBoundingClientRect();
             var offset = selectedRect.top - menuRect.top - (menuRect.height / 2) + (selectedRect.height / 2);
@@ -263,73 +289,17 @@ setInterval(fixHeader, 300);
         }, 0);
     }
 
-    const observer = new MutationObserver(function(mutations) {
-        let needSingle = false;
-        let needMenu = false;
-
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType !== 1) return;
-                    if (node.classList?.contains('select__menu')) {
-                        node.dataset.govFixed = '';
-                        needMenu = true;
-                    }
-                    if (node.querySelector?.('.select__menu')) needMenu = true;
-                    if (node.classList?.contains('select__option')) needMenu = true;
-                    if (node.classList?.contains('select__single-value')) needSingle = true;
-                });
-            }
-            if (mutation.type === 'characterData') {
-                const parent = mutation.target.parentElement;
-                if (parent && parent.classList?.contains('select__single-value')) needSingle = true;
-            }
-        });
-
-        if (needSingle) fixSingleValue();
-        if (needMenu) {
-            setTimeout(fixMenuOptions, 0);
-            setTimeout(fixMenuOptions, 50);
-        }
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        characterData: true,
-        characterDataOldValue: true
-    });
-
-    function runAll() {
+    function runGovernorates() {
         fixSingleValue();
         fixMenuOptions();
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', runAll);
-    } else {
-        runAll();
-    }
-    setInterval(runAll, 300);
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            runAll();
-            setTimeout(runAll, 600);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 3: fixDropdownPosition — تثبيت القائمة تحت منتصف زر القسم
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 3: fixDropdownPosition — تثبيت القائمة تحت منتصف زر القسم
+    // ═══════════════════════════════════════════════════════════════
     var GAP = 12;
     var MIN_WIDTH = 220;
+    var lastDropdownRun = 0;
 
     function getPanelWidth(panel) {
         var wasHidden = panel.style.display === 'none' || window.getComputedStyle(panel).display === 'none';
@@ -375,6 +345,10 @@ setInterval(fixHeader, 300);
     }
 
     function fixDropdownPosition() {
+        var now = performance.now();
+        if (now - lastDropdownRun < 16) return; // Max 60fps
+        lastDropdownRun = now;
+
         var panels = document.querySelectorAll('[id*="headlessui-popover-panel"]');
         panels.forEach(function(panel) {
             var style = window.getComputedStyle(panel);
@@ -402,45 +376,9 @@ setInterval(fixHeader, 300);
         });
     }
 
-    var observer = new MutationObserver(function(mutations) {
-        var hasPanel = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && node.id && node.id.includes('headlessui-popover-panel')) {
-                    hasPanel = true;
-                }
-            });
-        });
-        if (hasPanel) {
-            setTimeout(fixDropdownPosition, 0);
-            setTimeout(fixDropdownPosition, 50);
-            setTimeout(fixDropdownPosition, 150);
-            setTimeout(fixDropdownPosition, 300);
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-    setInterval(fixDropdownPosition, 50);
-
-    document.addEventListener('click', function(e) {
-        var btn = e.target.closest('button[id*="headlessui-popover-button"]');
-        if (btn) {
-            setTimeout(fixDropdownPosition, 0);
-            setTimeout(fixDropdownPosition, 50);
-            setTimeout(fixDropdownPosition, 150);
-            setTimeout(fixDropdownPosition, 300);
-        }
-    });
-
-    window.addEventListener('scroll', fixDropdownPosition, true);
-    window.addEventListener('resize', fixDropdownPosition);
-    fixDropdownPosition();
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 4: cloneDescription — نسخ الوصف ووضعه بعد الـ header + إخفاء الأصلي
-// ───────────────────────────────────────────────────────────────
-(function() {
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 4: cloneDescription — نسخ الوصف ووضعه بعد الـ header
+    // ═══════════════════════════════════════════════════════════════
     function cloneDescription() {
         var original = document.querySelector('div.ql-editor:not(.ql-editor-clone), div[class*="ql-editor"]:not(.ql-editor-clone)');
         var header = document.querySelector('.category_section_header, [class*="category_section_header"]');
@@ -458,44 +396,13 @@ setInterval(fixHeader, 300);
 
         var clone = original.cloneNode(true);
         clone.classList.add('ql-editor-clone');
-        clone.style.cssText = 'color: #bf6000 !important; margin-top: 12px !important; display: block !important; width: 100% !important;';
+        clone.style.cssText = 'color: var(--k-orange) !important; margin-top: 12px !important; display: block !important; width: 100% !important;';
         header.parentNode.insertBefore(clone, header.nextSibling);
     }
 
-    cloneDescription();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasEditor = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('ql-editor') ||
-                    node.querySelector?.('.ql-editor')
-                )) {
-                    hasEditor = true;
-                }
-            });
-        });
-        if (hasEditor) cloneDescription();
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            var oldClone = document.querySelector('.ql-editor-clone');
-            if (oldClone) oldClone.remove();
-            cloneDescription();
-        }
-    }, 100);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 5: fixDiscountBadge — تعديل نص badge الخصم في Featured Cards
-// ───────────────────────────────────────────────────────────────
-(function() {
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 5: fixDiscountBadge — تعديل نص badge الخصم
+    // ═══════════════════════════════════════════════════════════════
     function fixDiscountBadge() {
         document.querySelectorAll('.default_product_featured_card > span.absolute').forEach(function(badge) {
             var text = badge.textContent.trim();
@@ -507,75 +414,48 @@ setInterval(fixHeader, 300);
         });
     }
 
-    fixDiscountBadge();
-    setTimeout(fixDiscountBadge, 300);
-    setTimeout(fixDiscountBadge, 600);
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasBadge = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('default_product_featured_card') ||
-                    node.querySelector?.('.default_product_featured_card')
-                )) {
-                    hasBadge = true;
-                }
-            });
-        });
-        if (hasBadge) {
-            setTimeout(fixDiscountBadge, 0);
-            setTimeout(fixDiscountBadge, 300);
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            fixDiscountBadge();
-            setTimeout(fixDiscountBadge, 300);
-            setTimeout(fixDiscountBadge, 600);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 6: fixThankYouSvg — تغيير ألوان أنيميشن صفحة الشكر
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 6: fixThankYouSvg — تغيير ألوان أنيميشن صفحة الشكر
+    // ═══════════════════════════════════════════════════════════════
     function norm(c) {
         return c ? c.replace(/\s*,\s*/g, ',').trim().toLowerCase() : '';
     }
 
-    const COLOR_MAP = {
-        'rgb(110,35,250)': '#bf6000', 'rgb(96,12,252)': '#bf6000',
-        'rgb(134,69,255)': '#bf6000', 'rgb(105,25,255)': '#bf6000',
-        'rgb(83,88,253)': '#bf6000', 'rgb(89,0,255)': '#bf6000',
-        'rgb(115,42,249)': '#bf6000', 'rgb(92,17,232)': '#bf6000',
-        'rgb(107,32,248)': '#bf6000', 'rgb(106,28,251)': '#bf6000',
-        'rgb(93,8,251)': '#bf6000', 'rgb(90,2,252)': '#bf6000',
-        'rgb(106,26,253)': '#bf6000',
-        'rgb(178,137,255)': '#ce982e', 'rgb(139,96,220)': '#ce982e',
-        'rgb(184,151,246)': '#ce982e', 'rgb(175,133,253)': '#ce982e',
-        'rgb(0,182,255)': '#ce982e', 'rgb(2,181,252)': '#ce982e',
-        'rgb(0,181,254)': '#ce982e',
-        'rgb(0,193,162)': '#134f4f', 'rgb(44,195,170)': '#134f4f',
-        'rgb(66,234,206)': '#134f4f', 'rgb(16,253,214)': '#134f4f',
-        'rgb(26,253,215)': '#134f4f', 'rgb(0,221,179)': '#134f4f',
-        'rgb(35,178,154)': '#134f4f', 'rgb(15,245,206)': '#134f4f',
-        'rgb(4,244,204)': '#134f4f', 'rgb(2,252,210)': '#134f4f',
-        'rgb(15,250,210)': '#134f4f', 'rgb(57,248,216)': '#134f4f',
-        'rgb(20,255,215)': '#134f4f', 'rgb(89,92,185)': '#134f4f',
-        'rgb(9,97,82)': '#134f4f', 'rgb(53,114,104)': '#134f4f',
-        'rgb(216,216,216)': '#f2e4be'
+    var COLOR_MAP = {
+        'rgb(110,35,250)': 'var(--k-orange)', 'rgb(96,12,252)': 'var(--k-orange)',
+        'rgb(134,69,255)': 'var(--k-orange)', 'rgb(105,25,255)': 'var(--k-orange)',
+        'rgb(83,88,253)': 'var(--k-orange)', 'rgb(89,0,255)': 'var(--k-orange)',
+        'rgb(115,42,249)': 'var(--k-orange)', 'rgb(92,17,232)': 'var(--k-orange)',
+        'rgb(107,32,248)': 'var(--k-orange)', 'rgb(106,28,251)': 'var(--k-orange)',
+        'rgb(93,8,251)': 'var(--k-orange)', 'rgb(90,2,252)': 'var(--k-orange)',
+        'rgb(106,26,253)': 'var(--k-orange)',
+        'rgb(178,137,255)': 'var(--k-gold)', 'rgb(139,96,220)': 'var(--k-gold)',
+        'rgb(184,151,246)': 'var(--k-gold)', 'rgb(175,133,253)': 'var(--k-gold)',
+        'rgb(0,182,255)': 'var(--k-gold)', 'rgb(2,181,252)': 'var(--k-gold)',
+        'rgb(0,181,254)': 'var(--k-gold)',
+        'rgb(0,193,162)': 'var(--k-teal)', 'rgb(44,195,170)': 'var(--k-teal)',
+        'rgb(66,234,206)': 'var(--k-teal)', 'rgb(16,253,214)': 'var(--k-teal)',
+        'rgb(26,253,215)': 'var(--k-teal)', 'rgb(0,221,179)': 'var(--k-teal)',
+        'rgb(35,178,154)': 'var(--k-teal)', 'rgb(15,245,206)': 'var(--k-teal)',
+        'rgb(4,244,204)': 'var(--k-teal)', 'rgb(2,252,210)': 'var(--k-teal)',
+        'rgb(15,250,210)': 'var(--k-teal)', 'rgb(57,248,216)': 'var(--k-teal)',
+        'rgb(20,255,215)': 'var(--k-teal)', 'rgb(89,92,185)': 'var(--k-teal)',
+        'rgb(9,97,82)': 'var(--k-teal)', 'rgb(53,114,104)': 'var(--k-teal)',
+        'rgb(216,216,216)': 'var(--k-cream)'
     };
 
+    var svgLastRun = 0;
+    var svgFrameCount = 0;
+
     function fixThankYouSvg() {
+        var now = performance.now();
+        svgFrameCount++;
+
+        // Run every 3rd frame (20fps instead of 60fps) — enough for color changes
+        if (svgFrameCount % 3 !== 0) return;
+        if (now - svgLastRun < 50) return;
+        svgLastRun = now;
+
         var svg = document.querySelector('.thanks_container svg');
         if (!svg) return;
 
@@ -602,7 +482,6 @@ setInterval(fixHeader, 300);
             }
         });
 
-        // إظهار الأنيميشن بعد ما الألوان تتغير
         if (changed) {
             var container = document.querySelector('.thanks_container');
             if (container && !container.classList.contains('kunuzee-svg-ready')) {
@@ -611,25 +490,9 @@ setInterval(fixHeader, 300);
         }
     }
 
-    fixThankYouSvg();
-    function loop() {
-        fixThankYouSvg();
-        requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-
-    var observer = new MutationObserver(function() {
-        fixThankYouSvg();
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 6.1: fixBackHomeButton — تعديل زر "العودة للرئيسية"
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 6.1: fixBackHomeButton — تعديل زر "العودة للرئيسية"
+    // ═══════════════════════════════════════════════════════════════
     function fixBackHomeButton() {
         var link = document.querySelector('.thanks_container a[href="/"]');
         if (!link) return;
@@ -638,13 +501,8 @@ setInterval(fixHeader, 300);
         if (!span) return;
         if (span.dataset.arrowFixed === 'true') return;
 
-        // غير السهم
         span.textContent = '→';
-
-        // حط السهم قبل النص
         link.insertBefore(span, link.firstChild);
-
-        // ابعد السهم عن النص
         span.style.marginLeft = '0.5rem';
         span.style.marginRight = '0';
         span.style.display = 'inline-block';
@@ -652,45 +510,9 @@ setInterval(fixHeader, 300);
         span.dataset.arrowFixed = 'true';
     }
 
-    fixBackHomeButton();
-
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1) {
-                    if (node.classList?.contains('thanks_container') ||
-                        node.querySelector?.('.thanks_container') ||
-                        node.matches?.('.thanks_container a[href="/"]') ||
-                        node.querySelector?.('a[href="/"]')) {
-                        setTimeout(fixBackHomeButton, 0);
-                        setTimeout(fixBackHomeButton, 100);
-                        setTimeout(fixBackHomeButton, 300);
-                    }
-                }
-            });
-        });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            setTimeout(fixBackHomeButton, 300);
-            setTimeout(fixBackHomeButton, 600);
-        }
-    }, 300);
-
-    window.addEventListener('load', fixBackHomeButton);
-})();
-
-// ───────────────────────────────────────────────────────────────────
-// FUNCTION 7: swapRefundAndTimeline — تبديل صندوقي سياسة الاسترداد والـ Timeline
-// ───────────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 7: swapRefundAndTimeline — تبديل صندوقي سياسة الاسترداد والـ Timeline
+    // ═══════════════════════════════════════════════════════════════
     function findRefundBox(container) {
         var buttons = container.querySelectorAll('button');
         for (var i = 0; i < buttons.length; i++) {
@@ -711,64 +533,27 @@ setInterval(fixHeader, 300);
 
         if (!refundBox || !timelineBox) return;
 
-        // Check if already in correct order (timeline before refund)
         var children = Array.from(container.children);
         var refundIndex = children.indexOf(refundBox);
         var timelineIndex = children.indexOf(timelineBox);
 
-        if (timelineIndex < refundIndex) return; // Already correct
-
+        if (timelineIndex < refundIndex) return;
         container.insertBefore(timelineBox, refundBox);
     }
 
-    swapRefundAndTimeline();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasInvoice = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('order_invoice_container') ||
-                    node.querySelector?.('.order_invoice_container')
-                )) {
-                    hasInvoice = true;
-                }
-            });
-        });
-        if (hasInvoice) setTimeout(swapRefundAndTimeline, 100);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            setTimeout(swapRefundAndTimeline, 300);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 8: fixKunuzeeBox — تعديل بوكس "كنوزي" في صفحة الشكر
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 8: fixKunuzeeBox — تعديل بوكس "كنوزي" في صفحة الشكر
+    // ═══════════════════════════════════════════════════════════════
     function fixKunuzeeBox() {
         var address = document.querySelector('.order_invoice_container address');
         if (!address) return;
-
-        // ✅ لو اتعدل قبل كده، ماتعدلش تاني
         if (address.dataset.kunuzeeFixed === 'true') return;
 
-        // 1. إخفاء الهاتف بالكامل
         var phoneLink = address.querySelector('a[href^="tel:"], a[href="tel:undefined"]');
         if (phoneLink) {
             phoneLink.style.display = 'none';
         }
 
-        // 2. إخفاء العنوان الفارغ
         var spans = address.querySelectorAll('span');
         spans.forEach(function(span) {
             if (span.textContent.includes('العنوان:')) {
@@ -780,21 +565,17 @@ setInterval(fixHeader, 300);
             }
         });
 
-        // 3. تعديل البريد الإلكتروني — نفصل الـ label عن الـ link
         var emailLink = address.querySelector('a[href^="mailto:"]');
         if (emailLink) {
             var emailAddress = 'kunuzeestore@gmail.com';
-            
             var emailWrapper = document.createElement('span');
             emailWrapper.className = 'flex items-center gap-2 flex-wrap';
             emailWrapper.innerHTML = 
                 '<span>البريد الإلكتروني: </span>' +
                 '<a href="mailto:' + emailAddress + '">' + emailAddress + '</a>';
-            
             emailLink.parentNode.replaceChild(emailWrapper, emailLink);
         }
 
-        // 4. إضافة "العنوان: kunuzee.com" قبل البريد الإلكتروني
         var emailWrapper = address.querySelector('span:has(> a[href^="mailto:"])');
         if (emailWrapper) {
             var addressWrapper = document.createElement('span');
@@ -802,51 +583,15 @@ setInterval(fixHeader, 300);
             addressWrapper.innerHTML = 
                 '<span>العنوان: </span>' +
                 '<a href="https://kunuzee.com" target="_blank" rel="noopener noreferrer">kunuzee.com</a>';
-            
             emailWrapper.parentNode.insertBefore(addressWrapper, emailWrapper);
         }
 
-        // ✅ علّم إن الـ address اتعدل
         address.dataset.kunuzeeFixed = 'true';
     }
 
-    fixKunuzeeBox();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasAddress = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.tagName === 'ADDRESS' ||
-                    node.querySelector?.('address')
-                )) {
-                    hasAddress = true;
-                }
-            });
-        });
-        if (hasAddress) setTimeout(fixKunuzeeBox, 100);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            // ✅ لما الـ URL يتغير، شيل العلامة عشان يتعدل من جديد
-            var address = document.querySelector('.order_invoice_container address');
-            if (address) address.dataset.kunuzeeFixed = '';
-            setTimeout(fixKunuzeeBox, 300);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل"
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 9: fixDeliveryInfoBox — تعديل بوكس "بيانات التوصيل"
+    // ═══════════════════════════════════════════════════════════════
     function fixDeliveryInfoBox() {
         var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
         var deliveryBox = null;
@@ -888,11 +633,10 @@ setInterval(fixHeader, 300);
                 dt.classList.add('order-item-city');
                 labelSpan.textContent = 'المحافظة:';
                 
-                // ✅ إضافة علم المحافظة — نلاقي الـ text node الديناميكي ونلفه في span
                 if (!dt.querySelector('.gov-value') && typeof KUNUZEE_GOVERNORATES !== 'undefined') {
                     var textNode = null;
                     for (var j = 0; j < dt.childNodes.length; j++) {
-                        if (dt.childNodes[j].nodeType === 3) { // Text node
+                        if (dt.childNodes[j].nodeType === 3) {
                             var txt = dt.childNodes[j].textContent.trim();
                             if (txt) {
                                 textNode = dt.childNodes[j];
@@ -907,15 +651,12 @@ setInterval(fixHeader, 300);
                         if (govData && govData.img) {
                             var valueWrapper = document.createElement('span');
                             valueWrapper.className = 'gov-value';
-                            
                             var img = document.createElement('img');
                             img.src = govData.img;
                             img.className = 'gov-flag';
                             img.alt = govName;
-                            
                             valueWrapper.appendChild(img);
                             valueWrapper.appendChild(document.createTextNode(' ' + govName));
-                            
                             dt.replaceChild(valueWrapper, textNode);
                         }
                     }
@@ -937,49 +678,10 @@ setInterval(fixHeader, 300);
         deliveryBox.dataset.deliveryFixed = 'true';
     }
 
-    fixDeliveryInfoBox();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasDelivery = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.querySelector?.('h3')?.textContent?.includes('بيانات التوصيل') ||
-                    node.textContent?.includes('بيانات التوصيل')
-                )) {
-                    hasDelivery = true;
-                }
-            });
-        });
-        if (hasDelivery) setTimeout(fixDeliveryInfoBox, 100);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
-            allBoxes.forEach(function(box) {
-                var h3 = box.querySelector('h3');
-                if (h3 && h3.textContent.includes('بيانات التوصيل')) {
-                    box.dataset.deliveryFixed = '';
-                }
-            });
-            setTimeout(fixDeliveryInfoBox, 300);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 10: fixTimelineTime — تحويل وقت التايم لاين لـ 24 ساعة
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 10: fixTimelineTime — تحويل وقت التايم لاين لـ 24 ساعة
+    // ═══════════════════════════════════════════════════════════════
     function convertTo24Hour(timeStr) {
-        // النمط: "6/23/2026, 5:51:53 AM" أو "12/31/2025, 11:59:59 PM"
         var match = timeStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4}),\s*(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)$/i);
         if (!match) return null;
 
@@ -995,8 +697,6 @@ setInterval(fixHeader, 300);
         if (period === 'AM' && hour === 12) hour = 0;
 
         var hour24 = hour.toString().padStart(2, '0');
-
-        // صيغة بريطانية: DD/MM/YYYY, HH:MM:SS
         return day + '/' + month + '/' + year + ', ' + hour24 + ':' + minute + ':' + second;
     }
 
@@ -1014,7 +714,6 @@ setInterval(fixHeader, 300);
             var converted = convertTo24Hour(original);
 
             if (converted) {
-                // نحتفظ بالنص الأصلي في attribute عشان لو حبينا نرجعه
                 if (!timeSpan.dataset.originalTime) {
                     timeSpan.dataset.originalTime = original;
                 }
@@ -1025,45 +724,9 @@ setInterval(fixHeader, 300);
         timeline.dataset.timeFixed = 'true';
     }
 
-    fixTimelineTime();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasTimeline = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.tagName === 'UL' && node.classList.contains('rounded-lg') ||
-                    node.querySelector?.('ul.rounded-lg.border')
-                )) {
-                    hasTimeline = true;
-                }
-            });
-        });
-        if (hasTimeline) {
-            // نشيل العلامة عشان يتعادل على التايم لاين الجديد
-            var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
-            if (timeline) timeline.dataset.timeFixed = '';
-            setTimeout(fixTimelineTime, 100);
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
-            if (timeline) timeline.dataset.timeFixed = '';
-            setTimeout(fixTimelineTime, 300);
-        }
-    }, 300);
-})();
-
-// ─── إخفاء "الاجمالي" وإظهار السعر بـ EGP يدوياً ───
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 10.1: fixProductTotal — إخفاء "الاجمالي" وإظهار السعر بـ EGP
+    // ═══════════════════════════════════════════════════════════════
     function fixProductTotal() {
         var products = document.querySelectorAll('.order_invoice_container .col-span-2 > div.flex.flex-col.gap-6 > div.flex.flex-col.gap-4.md\\:flex-row');
         
@@ -1078,40 +741,29 @@ setInterval(fixHeader, 300);
 
             var price = match[1];
             
-            // نخلي الـ p فاضي
             totalP.innerHTML = '';
-            totalP.style.cssText = 'display:flex;align-items:baseline;gap:4px;color:#bf6000;font-weight:700;font-size:1.5rem;font-family:"Tajawal",sans-serif;';
+            totalP.style.cssText = 'display:flex;align-items:baseline;gap:4px;color:var(--k-orange);font-weight:700;font-size:1.5rem;font-family:"Tajawal",sans-serif;';
             
-            // الرقم
             var numSpan = document.createElement('span');
             numSpan.textContent = price;
             totalP.appendChild(numSpan);
             
-            // EGP يدوياً (نفس style بتاع CSS)
             var egpSpan = document.createElement('span');
             egpSpan.textContent = 'EGP';
-            egpSpan.style.cssText = 'font-size:0.8rem;font-weight:500;color:#bf6000;position:relative;top:-0.3rem;margin-right:0.05rem;font-family:"Tajawal",sans-serif;';
+            egpSpan.style.cssText = 'font-size:0.8rem;font-weight:500;color:var(--k-orange);position:relative;top:-0.3rem;margin-right:0.05rem;font-family:"Tajawal",sans-serif;';
             totalP.appendChild(egpSpan);
 
             totalP.dataset.totalFixed = 'true';
         });
     }
 
-    fixProductTotal();
-    setInterval(fixProductTotal, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 11: addProductLabelsToDownloads — إضافة اسم المنتج فوق رابط التحميل
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 11: addProductLabelsToDownloads — إضافة اسم المنتج فوق رابط التحميل
+    // ═══════════════════════════════════════════════════════════════
     function addProductLabels() {
         var container = document.querySelector('.order_invoice_container');
         if (!container) return;
 
-        // نقرأ أسماء المنتجات من كل h4
         var productNames = [];
         var h4s = container.querySelectorAll('h4');
         for (var i = 0; i < h4s.length; i++) {
@@ -1119,16 +771,11 @@ setInterval(fixHeader, 300);
             if (name) productNames.push(name);
         }
 
-        // نقرأ روابط التحميل (div.bg-gray-50 اللي فيه رابط)
         var linkContainers = container.querySelectorAll('div.bg-gray-50.rounded-lg');
         
         for (var i = 0; i < linkContainers.length; i++) {
             var linkContainer = linkContainers[i];
-            
-            // نتأكد إن الـ div ده فيه رابط فعلاً
             if (!linkContainer.querySelector('a[href]')) continue;
-            
-            // نتأكد إن ماتعدلش قبل كده
             if (linkContainer.getAttribute('data-label-fixed') === 'true') continue;
             
             if (i >= productNames.length) break;
@@ -1142,31 +789,9 @@ setInterval(fixHeader, 300);
         }
     }
 
-    addProductLabels();
-    setInterval(addProductLabels, 500);
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasChanges = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && node.querySelector && 
-                    (node.querySelector('h4') || node.querySelector('div.bg-gray-50'))) {
-                    hasChanges = true;
-                }
-            });
-        });
-        if (hasChanges) setTimeout(addProductLabels, 100);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 12: fixCouponCode — تلوين كود الخصم في بوكس الإجمالي
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 12: fixCouponCode — تلوين كود الخصم في بوكس الإجمالي
+    // ═══════════════════════════════════════════════════════════════
     function fixCouponCode() {
         var dts = document.querySelectorAll('.order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt');
         
@@ -1178,7 +803,6 @@ setInterval(fixHeader, 300);
             var text = span.textContent.trim();
             if (!text.includes('كود الخصم:')) return;
 
-            // فصل الـ label عن الكود
             var parts = text.split(':');
             if (parts.length < 2) return;
 
@@ -1189,11 +813,11 @@ setInterval(fixHeader, 300);
             
             var labelSpan = document.createElement('span');
             labelSpan.textContent = label;
-            labelSpan.style.color = '#134f4f';
+            labelSpan.style.color = 'var(--k-teal)';
             
             var codeSpan = document.createElement('span');
             codeSpan.textContent = ' ' + code;
-            codeSpan.style.color = '#bf6000';
+            codeSpan.style.color = 'var(--k-orange)';
 
             span.appendChild(labelSpan);
             span.appendChild(codeSpan);
@@ -1202,192 +826,112 @@ setInterval(fixHeader, 300);
         });
     }
 
-    fixCouponCode();
-    setInterval(fixCouponCode, 500);
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasInvoice = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('order_invoice_container') ||
-                    node.querySelector?.('.order_invoice_container')
-                )) {
-                    hasInvoice = true;
-                }
-            });
-        });
-        if (hasInvoice) setTimeout(fixCouponCode, 100);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            setTimeout(fixCouponCode, 300);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 13: fixGovPlaceholder — لون ذهبي + Tajawal للـ option الوهمي
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 13: fixGovPlaceholder — لون ذهبي + Tajawal للـ option الوهمي
+    // ═══════════════════════════════════════════════════════════════
     var PLACEHOLDER_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
 
     function fixGovPlaceholder() {
-        // الـ single value (لما مش menu مفتوح)
         var singleValues = document.querySelectorAll('.select__single-value');
         singleValues.forEach(function(sv) {
             if (sv.textContent.trim() === PLACEHOLDER_TEXT) {
-                sv.style.setProperty('color', '#ce982e', 'important');
+                sv.style.setProperty('color', 'var(--k-gold)', 'important');
                 sv.style.setProperty('font-family', '"Tajawal", sans-serif', 'important');
             }
         });
 
-        // الـ option في القائمة المنسدلة
         var options = document.querySelectorAll('.select__option');
         options.forEach(function(opt) {
             if (opt.textContent.trim() === PLACEHOLDER_TEXT) {
-                opt.style.setProperty('color', '#ce982e', 'important');
+                opt.style.setProperty('color', 'var(--k-gold)', 'important');
                 opt.style.setProperty('font-family', '"Tajawal", sans-serif', 'important');
             }
         });
     }
 
-    fixGovPlaceholder();
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 14: preventBodyShift — منع React Select من زحزحة الصفحة
+    // ═══════════════════════════════════════════════════════════════
+    (function() {
+        'use strict';
 
-    var observer = new MutationObserver(function(mutations) {
-        var needsFix = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('select__single-value') ||
-                    node.classList?.contains('select__option') ||
-                    node.querySelector?.('.select__single-value, .select__option')
-                )) {
-                    needsFix = true;
+        var originalSetProperty = CSSStyleDeclaration.prototype.setProperty;
+        var originalSetAttribute = Element.prototype.setAttribute;
+
+        CSSStyleDeclaration.prototype.setProperty = function(property, value, priority) {
+            if (this.cssText && this.cssText.indexOf('body') !== -1 && property === 'padding-right') {
+                return;
+            }
+            if (property === 'padding-right' && value && value.indexOf && value.indexOf('px') !== -1) {
+                var el = this.parentElement || this.element;
+                if (el && el.tagName === 'BODY') {
+                    return;
+                }
+            }
+            return originalSetProperty.apply(this, arguments);
+        };
+
+        Element.prototype.setAttribute = function(name, value) {
+            if (this.tagName === 'BODY' && name === 'style') {
+                if (value && value.indexOf('padding-right') !== -1) {
+                    value = value.replace(/padding-right:\s*[^;]+;?/g, '');
+                }
+            }
+            return originalSetAttribute.apply(this, arguments);
+        };
+
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    var body = document.body;
+                    if (body && body.style.paddingRight) {
+                        body.style.paddingRight = '';
+                        body.style.removeProperty('padding-right');
+                    }
                 }
             });
         });
-        if (needsFix) setTimeout(fixGovPlaceholder, 0);
-    });
 
-    observer.observe(document.body, { childList: true, subtree: true });
-    setInterval(fixGovPlaceholder, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 14: preventBodyShift — منع React Select من زحزحة الصفحة
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    var originalSetProperty = CSSStyleDeclaration.prototype.setProperty;
-    var originalSetAttribute = Element.prototype.setAttribute;
-
-    // نمنع React Select من إضافة padding-right على الbody
-    CSSStyleDeclaration.prototype.setProperty = function(property, value, priority) {
-        if (this.cssText && this.cssText.indexOf('body') !== -1 && property === 'padding-right') {
-            return;
-        }
-        if (property === 'padding-right' && value && value.indexOf && value.indexOf('px') !== -1) {
-            var el = this.parentElement || this.element;
-            if (el && el.tagName === 'BODY') {
-                return;
-            }
-        }
-        return originalSetProperty.apply(this, arguments);
-    };
-
-    // نمنع setAttribute('style') على الbody
-    Element.prototype.setAttribute = function(name, value) {
-        if (this.tagName === 'BODY' && name === 'style') {
-            // نشيل أي padding-right من الـ value
-            if (value && value.indexOf('padding-right') !== -1) {
-                value = value.replace(/padding-right:\s*[^;]+;?/g, '');
-            }
-        }
-        return originalSetAttribute.apply(this, arguments);
-    };
-
-    // Observer يشيل padding-right من الbody فوراً
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                var body = document.body;
-                if (body && body.style.paddingRight) {
-                    body.style.paddingRight = '';
-                    body.style.removeProperty('padding-right');
-                }
-            }
-        });
-    });
-
-    if (document.body) {
-        observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
+        if (document.body) {
             observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-        });
-    }
-})();
+        } else {
+            document.addEventListener('DOMContentLoaded', function() {
+                observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+            });
+        }
+    })();
 
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 15: fixGovColor — لون المحافظة المختارة
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-    
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 15: fixGovColor — لون المحافظة المختارة
+    // ═══════════════════════════════════════════════════════════════
     var DEFAULT_TEXT = 'من فضلك قم باختيار محافظتك من القائمة';
-    var lastText = '';
+    var lastGovText = '';
     
     function fixGovColor() {
         var sv = document.querySelector('.select__single-value');
         if (!sv) return;
         
         var text = sv.textContent.trim();
-        if (text === lastText) return;
-        lastText = text;
+        if (text === lastGovText) return;
+        lastGovText = text;
         
         var hasFlag = sv.querySelector('.gov-flag');
-        var color = (hasFlag || text !== DEFAULT_TEXT) ? '#bf6000' : '#ce982e';
+        var color = (hasFlag || text !== DEFAULT_TEXT) ? 'var(--k-orange)' : 'var(--k-gold)';
         
-        // نستخدم setProperty مع !important عشان نغلب أي CSS قديم
         sv.style.setProperty('color', color, 'important');
     }
-    
-    fixGovColor();
-    
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.select__option, .select__control')) {
-            setTimeout(fixGovColor, 50);
-            setTimeout(fixGovColor, 150);
-        }
-    });
-})();
 
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 16: fixDefaultCategoryCards — تخصيص كروت الأقسام الفرعية
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 16: fixDefaultCategoryCards — تخصيص كروت الأقسام الفرعية
+    // ═══════════════════════════════════════════════════════════════
     function fixDefaultCategoryCards() {
         document.querySelectorAll('.default_category_card').forEach(function(card) {
-            // إخفاء overlay
             var overlay = card.querySelector('.absolute.top.left.bg-black');
             if (overlay) overlay.style.display = 'none';
             
-            // إخفاء أيقونة link
             var iconContainer = card.querySelector('.absolute.top.left.h-full.w-full.flex.items-center.justify-center');
             if (iconContainer) iconContainer.style.display = 'none';
             
-            // الصور الدائرية
             var imgContainer = card.querySelector('.default_category_card_img');
             if (imgContainer) {
                 imgContainer.style.borderRadius = '9999px';
@@ -1402,7 +946,6 @@ setInterval(fixHeader, 300);
                 img.classList.add('rounded-full');
             }
             
-            // الـ parent container
             var parent = card.querySelector('.relative.inline-flex');
             if (parent) {
                 parent.style.borderRadius = '9999px';
@@ -1413,48 +956,12 @@ setInterval(fixHeader, 300);
         });
     }
 
-    fixDefaultCategoryCards();
-
-    var observer = new MutationObserver(function(mutations) {
-        var hasCards = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.classList?.contains('default_category_card') ||
-                    node.querySelector?.('.default_category_card')
-                )) {
-                    hasCards = true;
-                }
-            });
-        });
-        if (hasCards) {
-            setTimeout(fixDefaultCategoryCards, 0);
-            setTimeout(fixDefaultCategoryCards, 300);
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            setTimeout(fixDefaultCategoryCards, 300);
-            setTimeout(fixDefaultCategoryCards, 600);
-        }
-    }, 300);
-})();
-
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 17: scrollToTopOnNavigation — سكرول لفوق عند التنقل
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    var lastUrl = location.href;
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 17: scrollToTopOnNavigation — سكرول لفوق عند التنقل
+    // ═══════════════════════════════════════════════════════════════
+    var lastNavUrl = location.href;
     var isFromHomeProduct = false;
 
-    // نتحقق لو الـ click جاي من كارت منتج على الرئيسية
     document.addEventListener('click', function(e) {
         var card = e.target.closest('.default_product_featured_card, .default_product_list_card, .home_products_grid_card');
         if (card) {
@@ -1462,52 +969,15 @@ setInterval(fixHeader, 300);
         }
     });
 
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            
-            // لو الـ URL جديد هو صفحة منتج وجاي من الرئيسية
-            if (isFromHomeProduct && location.pathname.includes('/products/')) {
-                isFromHomeProduct = false;
-                // نستنى الـ DOM يتحمل ونرجع نعمل scroll لفوق
-                setTimeout(function() {
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-                }, 50);
-                setTimeout(function() {
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-                }, 150);
-                setTimeout(function() {
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-                }, 300);
-            } else {
-                isFromHomeProduct = false;
-            }
-        }
-    }, 100);
-})();
+    // ═══════════════════════════════════════════════════════════════
+    // FUNCTION 18: FAQ — Fixed Box + Smooth Marquee + Blur Fade (RTL)
+    // ═══════════════════════════════════════════════════════════════
+    var faqItems = [];
 
-// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
-// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
-// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
-// ───────────────────────────────────────────────────────────────
-// FUNCTION 18: FAQ — Fixed Box + Smooth Marquee + Blur Fade (RTL)
-// ───────────────────────────────────────────────────────────────
-(function() {
-    'use strict';
-
-    var items = [];
-
-    function init() {
+    function initFaq() {
         document.querySelectorAll('.szh-accordion__item-btn:not([data-kfq])').forEach(function(btn) {
             btn.dataset.kfq = '1';
 
-            // نلاقي أول text node (نص السؤال)
             var textNode = null;
             for (var i = 0; i < btn.childNodes.length; i++) {
                 if (btn.childNodes[i].nodeType === 3 && btn.childNodes[i].textContent.trim()) {
@@ -1517,16 +987,13 @@ setInterval(fixHeader, 300);
             }
             if (!textNode) return;
 
-            // نحسب مساحة السهم + مسافة صغيرة جداً قبله
             var svg = btn.querySelector('svg');
             var svgWidth = svg ? svg.getBoundingClientRect().width + 4 : 28;
 
-            // نعمل wrapper للنص
             var wrap = document.createElement('span');
             wrap.className = 'kfq-wrap';
             wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:middle;position:relative;';
 
-            // نعمل span للنص نفسه
             var span = document.createElement('span');
             span.className = 'kfq-text';
             span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.7rem;padding-left:1.5rem;';
@@ -1535,12 +1002,10 @@ setInterval(fixHeader, 300);
             wrap.appendChild(span);
             btn.replaceChild(wrap, textNode);
 
-            // نضمن إن السهم مابيتحركش
             if (svg) {
                 svg.style.flexShrink = '0';
             }
 
-            // نحسب بعد ما الـ layout يتظبط
             setTimeout(function() {
                 var btnPad = 16;
                 var wrapWidth = btn.clientWidth - svgWidth - btnPad;
@@ -1548,7 +1013,6 @@ setInterval(fixHeader, 300);
 
                 wrap.style.width = wrapWidth + 'rem';
 
-                // ═══ Blur Fade لـ RTL ═══
                 var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 93%, transparent 100%)';
                 wrap.style.webkitMaskImage = mask;
                 wrap.style.maskImage = mask;
@@ -1557,7 +1021,7 @@ setInterval(fixHeader, 300);
                 var overflow = textWidth - wrapWidth;
 
                 if (overflow > 0) {
-                    items.push({
+                    faqItems.push({
                         span: span,
                         overflow: overflow,
                         pos: 0,
@@ -1570,8 +1034,8 @@ setInterval(fixHeader, 300);
         });
     }
 
-    function animate() {
-        items.forEach(function(item) {
+    function animateFaq() {
+        faqItems.forEach(function(item) {
             if (item.wait > 0) {
                 item.wait--;
                 return;
@@ -1598,16 +1062,239 @@ setInterval(fixHeader, 300);
             item.span.style.transform = 'translateX(' + item.pos + 'px)';
         });
 
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animateFaq);
     }
 
-    init();
-    setInterval(init, 1000);
+    // ═══════════════════════════════════════════════════════════════
+    // UNIFIED DISPATCH — توزيع المهام من Observer واحد
+    // ═══════════════════════════════════════════════════════════════
+    var urlCheckInterval = null;
+    var lastUrl = location.href;
 
-    var obs = new MutationObserver(function() {
-        init();
+    function checkUrlChange() {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            // Reset page-specific flags
+            var timeline = document.querySelector('.order_invoice_container ul.rounded-lg.border');
+            if (timeline) timeline.dataset.timeFixed = '';
+            
+            var allBoxes = document.querySelectorAll('.order_invoice_container .border.p-4.rounded-lg.shadow-sm');
+            allBoxes.forEach(function(box) {
+                var h3 = box.querySelector('h3');
+                if (h3 && h3.textContent.includes('بيانات التوصيل')) {
+                    box.dataset.deliveryFixed = '';
+                }
+            });
+
+            var address = document.querySelector('.order_invoice_container address');
+            if (address) address.dataset.kunuzeeFixed = '';
+
+            // Schedule all tasks
+            addTask(fixHeader);
+            addTask(runGovernorates);
+            addTask(cloneDescription);
+            addTask(fixDiscountBadge);
+            addTask(fixBackHomeButton);
+            addTask(swapRefundAndTimeline);
+            addTask(fixKunuzeeBox);
+            addTask(fixDeliveryInfoBox);
+            addTask(fixTimelineTime);
+            addTask(fixProductTotal);
+            addTask(addProductLabels);
+            addTask(fixCouponCode);
+            addTask(fixGovPlaceholder);
+            addTask(fixGovColor);
+            addTask(fixDefaultCategoryCards);
+        }
+    }
+
+    // Main observer
+    var mainObserver = new MutationObserver(function(mutations) {
+        var hasChanges = false;
+        var hasSelect = false;
+        var hasInvoice = false;
+        var hasThanks = false;
+        var hasCards = false;
+        var hasFaq = false;
+
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType !== 1) return;
+
+                // Check for select menu
+                if (node.classList && (
+                    node.classList.contains('select__menu') ||
+                    node.classList.contains('select__single-value') ||
+                    node.classList.contains('select__option') ||
+                    node.querySelector('.select__menu, .select__single-value, .select__option')
+                )) {
+                    hasSelect = true;
+                }
+
+                // Check for invoice
+                if (node.classList && (
+                    node.classList.contains('order_invoice_container') ||
+                    node.querySelector('.order_invoice_container')
+                )) {
+                    hasInvoice = true;
+                }
+
+                // Check for thanks page
+                if (node.classList && (
+                    node.classList.contains('thanks_container') ||
+                    node.querySelector('.thanks_container')
+                )) {
+                    hasThanks = true;
+                }
+
+                // Check for category cards
+                if (node.classList && (
+                    node.classList.contains('default_category_card') ||
+                    node.querySelector('.default_category_card')
+                )) {
+                    hasCards = true;
+                }
+
+                // Check for FAQ
+                if (node.classList && (
+                    node.classList.contains('szh-accordion__item-btn') ||
+                    node.querySelector('.szh-accordion__item-btn')
+                )) {
+                    hasFaq = true;
+                }
+
+                hasChanges = true;
+            });
+        });
+
+        if (hasSelect) {
+            addTask(runGovernorates);
+            addTask(fixGovPlaceholder);
+            addTask(fixGovColor);
+        }
+
+        if (hasInvoice) {
+            addTask(swapRefundAndTimeline);
+            addTask(fixKunuzeeBox);
+            addTask(fixDeliveryInfoBox);
+            addTask(fixTimelineTime);
+            addTask(fixProductTotal);
+            addTask(addProductLabels);
+            addTask(fixCouponCode);
+        }
+
+        if (hasThanks) {
+            addTask(fixBackHomeButton);
+        }
+
+        if (hasCards) {
+            addTask(fixDefaultCategoryCards);
+        }
+
+        if (hasFaq) {
+            addTask(initFaq);
+        }
+
+        if (hasChanges) {
+            addTask(fixHeader);
+            addTask(cloneDescription);
+            addTask(fixDiscountBadge);
+        }
     });
-    obs.observe(document.body, { childList: true, subtree: true });
 
-    animate();
+    // ═══════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════════════
+    function init() {
+        // Run all tasks immediately on load
+        fixHeader();
+        runGovernorates();
+        cloneDescription();
+        fixDiscountBadge();
+        fixBackHomeButton();
+        swapRefundAndTimeline();
+        fixKunuzeeBox();
+        fixDeliveryInfoBox();
+        fixTimelineTime();
+        fixProductTotal();
+        addProductLabels();
+        fixCouponCode();
+        fixGovPlaceholder();
+        fixGovColor();
+        fixDefaultCategoryCards();
+        initFaq();
+
+        // Start observer
+        mainObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            characterDataOldValue: true
+        });
+
+        // URL change detection (lightweight, every 300ms)
+        urlCheckInterval = setInterval(checkUrlChange, 300);
+
+        // Scroll listener for dropdown
+        window.addEventListener('scroll', function() {
+            addTask(fixDropdownPosition);
+        }, true);
+
+        // Resize listener
+        window.addEventListener('resize', function() {
+            addTask(fixDropdownPosition);
+        });
+
+        // Click listener for dropdown buttons
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('button[id*="headlessui-popover-button"]');
+            if (btn) {
+                addTask(fixDropdownPosition);
+            }
+        });
+
+        // FAQ animation
+        animateFaq();
+
+        // SVG color fix (throttled to 20fps)
+        function svgLoop() {
+            fixThankYouSvg();
+            requestAnimationFrame(svgLoop);
+        }
+        svgLoop();
+
+        // Navigation scroll
+        setInterval(function() {
+            if (location.href !== lastNavUrl) {
+                lastNavUrl = location.href;
+                
+                if (isFromHomeProduct && location.pathname.includes('/products/')) {
+                    isFromHomeProduct = false;
+                    setTimeout(function() {
+                        window.scrollTo(0, 0);
+                        document.documentElement.scrollTop = 0;
+                        document.body.scrollTop = 0;
+                    }, 50);
+                    setTimeout(function() {
+                        window.scrollTo(0, 0);
+                        document.documentElement.scrollTop = 0;
+                        document.body.scrollTop = 0;
+                    }, 150);
+                    setTimeout(function() {
+                        window.scrollTo(0, 0);
+                        document.documentElement.scrollTop = 0;
+                        document.body.scrollTop = 0;
+                    }, 300);
+                } else {
+                    isFromHomeProduct = false;
+                }
+            }
+        }, 100);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 })();
