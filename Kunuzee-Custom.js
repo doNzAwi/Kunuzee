@@ -1529,7 +1529,7 @@ setInterval(fixHeader, 300);
             // نعمل span للنص نفسه
             var span = document.createElement('span');
             span.className = 'kfq-text';
-            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.2rem;padding-left:1.2rem;';
+            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.3rem;padding-left:1.3rem;';
             span.textContent = textNode.textContent.trim();
 
             wrap.appendChild(span);
