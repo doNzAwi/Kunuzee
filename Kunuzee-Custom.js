@@ -1551,46 +1551,97 @@ setInterval(function() {
     'use strict';
 
     var items = [];
+    var styleInjected = false;
+
+    function injectStyles() {
+        if (styleInjected) return;
+        styleInjected = true;
+
+        var style = document.createElement('style');
+        style.textContent = [
+            '.kph-wrap {',
+            '    display: block !important;',
+            '    position: absolute !important;',
+            '    top: 0 !important;',
+            '    left: 0 !important;',
+            '    right: 0 !important;',
+            '    bottom: 0 !important;',
+            '    overflow: hidden !important;',
+            '    pointer-events: none !important;',
+            '    z-index: 10 !important;',
+            '    direction: rtl !important;',
+            '    padding: 0.5rem 0.75rem !important;',
+            '    box-sizing: border-box !important;',
+            '    height: 100% !important;',
+            '    display: flex !important;',
+            '    align-items: center !important;',
+            '}',
+            '.kph-text {',
+            '    display: inline-block !important;',
+            '    white-space: nowrap !important;',
+            '    direction: rtl !important;',
+            '    font-family: "Tajawal", sans-serif !important;',
+            '    font-size: 0.875rem !important;',
+            '    color: var(--k-gold) !important;',
+            '    opacity: 0.9 !important;',
+            '    line-height: 1.25 !important;',
+            '}',
+            '.kph-wrap.kph-hidden {',
+            '    display: none !important;',
+            '}'
+        ].join(' ');
+        document.head.appendChild(style);
+    }
 
     function init() {
-        document.querySelectorAll('.szh-accordion__item-btn:not([data-kfq])').forEach(function(btn) {
-            btn.dataset.kfq = '1';
+        // Only run on checkout page
+        if (!document.querySelector('.checkout_form, .checkout_container, .contact-info-heading, [class*="checkout"]')) {
+            return;
+        }
 
-            var textNode = null;
-            for (var i = 0; i < btn.childNodes.length; i++) {
-                if (btn.childNodes[i].nodeType === 3 && btn.childNodes[i].textContent.trim()) {
-                    textNode = btn.childNodes[i];
-                    break;
-                }
+        injectStyles();
+
+        // Target the exact structure: input inside div.relative.mt-1 inside label's parent
+        var inputs = document.querySelectorAll('.checkout_form input.global_input, .checkout_container input.global_input, .contact-info-heading input.global_input, section.contact-info-heading input.global_input');
+
+        inputs.forEach(function(input) {
+            if (input.dataset.kph === '1') return;
+            input.dataset.kph = '1';
+
+            var originalPlaceholder = input.getAttribute('placeholder') || '';
+            if (!originalPlaceholder || originalPlaceholder.length < 10) return;
+
+            // Find the parent div.relative (the container that holds the input)
+            var relativeParent = input.closest('div.relative, div[class*="relative"]');
+            if (!relativeParent) {
+                relativeParent = input.parentElement;
             }
-            if (!textNode) return;
 
-            var svg = btn.querySelector('svg');
-            var svgWidth = svg ? svg.getBoundingClientRect().width + 4 : 28;
+            // Store original placeholder and clear it
+            input.dataset.originalPlaceholder = originalPlaceholder;
+            input.setAttribute('placeholder', '');
 
+            // Create wrapper (same structure as FAQ kfq-wrap)
             var wrap = document.createElement('span');
-            wrap.className = 'kfq-wrap';
-            wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:middle;position:relative;';
+            wrap.className = 'kph-wrap';
 
+            // Create text span (same as FAQ kfq-text)
             var span = document.createElement('span');
-            span.className = 'kfq-text';
-            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.7rem;padding-left:1.5rem;';
-            span.textContent = textNode.textContent.trim();
+            span.className = 'kph-text';
+            span.textContent = originalPlaceholder;
 
             wrap.appendChild(span);
-            btn.replaceChild(wrap, textNode);
+            relativeParent.appendChild(wrap);
 
-            if (svg) {
-                svg.style.flexShrink = '0';
-            }
-
+            // Measure after layout settles
             setTimeout(function() {
-                var btnPad = 16;
-                var wrapWidth = btn.clientWidth - svgWidth - btnPad;
+                var wrapWidth = relativeParent.offsetWidth;
                 if (wrapWidth < 80) wrapWidth = 80;
 
-                wrap.style.width = wrapWidth + 'rem';
+                // Set wrap width to match parent
+                wrap.style.width = wrapWidth + 'px';
 
+                // Blur fade mask — same gradient direction as FAQ (RTL)
                 var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 93%, transparent 100%)';
                 wrap.style.webkitMaskImage = mask;
                 wrap.style.maskImage = mask;
@@ -1605,10 +1656,26 @@ setInterval(function() {
                         pos: 0,
                         dir: 1,
                         wait: 0,
-                        pause: 120
+                        pause: 120,
+                        wrap: wrap,
+                        input: input
                     });
                 }
-            }, 500);
+            }, 300);
+
+            // Show/hide based on input value
+            function updateVisibility() {
+                if (input.value && input.value.trim().length > 0) {
+                    wrap.classList.add('kph-hidden');
+                } else {
+                    wrap.classList.remove('kph-hidden');
+                }
+            }
+
+            input.addEventListener('input', updateVisibility);
+            input.addEventListener('focus', updateVisibility);
+            input.addEventListener('blur', updateVisibility);
+            updateVisibility();
         });
     }
 
