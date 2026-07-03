@@ -915,7 +915,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
 @media (max-width: 1023px) {
     .default_header_container .ms-auto.flex.items-center,
     .default_header_container div.ms-auto.flex.items-center {
-        margin-left: -6px !important;        /* ✅ سالب = للخارج */
+        margin-left: 4px !important;        /* ✅ سالب = للخارج */
         margin-right: auto !important;
         margin-inline-start: -6px !important;
         margin-inline-end: auto !important;
