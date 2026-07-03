@@ -916,8 +916,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     /* الـ container الرئيسي */
     .default_header_container .ms-auto.flex.items-center,
     .default_header_container div.ms-auto.flex.items-center {
-        margin-right: 2px !important;        /* ✅ مسافة من اليمين */
-        margin-left: 0 !important;
+        margin-left: 2px !important;        /* ✅ مسافة من اليمين */
         margin-inline-start: auto !important;
         margin-inline-end: 6px !important;
         padding-right: 0 !important;
