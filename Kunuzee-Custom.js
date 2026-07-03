@@ -1550,80 +1550,86 @@ setInterval(function() {
 (function() {
     'use strict';
 
-    var PLACEHOLDER_SPEED = 0.5;
-    var PLACEHOLDER_PAUSE = 60;
-    var placeholderItems = [];
-    var placeholderInterval = null;
+    var items = [];
 
-    function initPlaceholderMarquee() {
-        // Only run on checkout page
-        if (!document.querySelector('.checkout_form, .checkout_container, .contact-info-heading, [class*="checkout"]')) {
-            return;
-        }
+    function init() {
+        document.querySelectorAll('.szh-accordion__item-btn:not([data-kfq])').forEach(function(btn) {
+            btn.dataset.kfq = '1';
 
-        var inputs = document.querySelectorAll('.checkout_form input, .checkout_container input, .contact-info-heading input, section.contact-info-heading input, .checkout_form textarea, .checkout_container textarea');
-        
-        inputs.forEach(function(input) {
-            if (input.dataset.placeholderMarquee === '1') return;
-            input.dataset.placeholderMarquee = '1';
+            var textNode = null;
+            for (var i = 0; i < btn.childNodes.length; i++) {
+                if (btn.childNodes[i].nodeType === 3 && btn.childNodes[i].textContent.trim()) {
+                    textNode = btn.childNodes[i];
+                    break;
+                }
+            }
+            if (!textNode) return;
 
-            var originalPlaceholder = input.getAttribute('placeholder') || '';
-            if (!originalPlaceholder || originalPlaceholder.length < 15) return;
+            var svg = btn.querySelector('svg');
+            var svgWidth = svg ? svg.getBoundingClientRect().width + 4 : 28;
 
-            // Store original
-            input.dataset.originalPlaceholder = originalPlaceholder;
+            var wrap = document.createElement('span');
+            wrap.className = 'kfq-wrap';
+            wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:middle;position:relative;';
 
-            // Create a hidden span to measure text width
-            var measureSpan = document.createElement('span');
-            measureSpan.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:"Tajawal",sans-serif;font-size:1rem;';
-            measureSpan.textContent = originalPlaceholder;
-            document.body.appendChild(measureSpan);
-            var textWidth = measureSpan.offsetWidth;
-            measureSpan.remove();
+            var span = document.createElement('span');
+            span.className = 'kfq-text';
+            span.style.cssText = 'display:inline-block;white-space:nowrap;direction:rtl;padding-right:0.7rem;padding-left:1.5rem;';
+            span.textContent = textNode.textContent.trim();
 
-            // Get input width
-            var inputWidth = input.offsetWidth - 24; // padding
-            if (inputWidth < 100) inputWidth = 100;
+            wrap.appendChild(span);
+            btn.replaceChild(wrap, textNode);
 
-            var overflow = textWidth - inputWidth;
-            if (overflow <= 0) return;
+            if (svg) {
+                svg.style.flexShrink = '0';
+            }
 
-            // Add to animation items
-            placeholderItems.push({
-                input: input,
-                original: originalPlaceholder,
-                overflow: overflow,
-                pos: 0,
-                dir: 1,
-                wait: 0,
-                pause: PLACEHOLDER_PAUSE,
-                textWidth: textWidth,
-                inputWidth: inputWidth
-            });
+            setTimeout(function() {
+                var btnPad = 16;
+                var wrapWidth = btn.clientWidth - svgWidth - btnPad;
+                if (wrapWidth < 80) wrapWidth = 80;
+
+                wrap.style.width = wrapWidth + 'rem';
+
+                var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 93%, transparent 100%)';
+                wrap.style.webkitMaskImage = mask;
+                wrap.style.maskImage = mask;
+
+                var textWidth = span.scrollWidth;
+                var overflow = textWidth - wrapWidth;
+
+                if (overflow > 0) {
+                    items.push({
+                        span: span,
+                        overflow: overflow,
+                        pos: 0,
+                        dir: 1,
+                        wait: 0,
+                        pause: 120
+                    });
+                }
+            }, 500);
         });
-
-        // Start animation if not already running
-        if (!placeholderInterval && placeholderItems.length > 0) {
-            placeholderInterval = setInterval(animatePlaceholders, 50);
-        }
     }
 
-    function animatePlaceholders() {
-        placeholderItems.forEach(function(item) {
+    function animate() {
+        items.forEach(function(item) {
             if (item.wait > 0) {
                 item.wait--;
                 return;
             }
 
+            var speed = 0.35;
+
             if (item.dir === 1) {
-                item.pos += PLACEHOLDER_SPEED;
+                item.pos += speed;
                 if (item.pos >= item.overflow) {
                     item.pos = item.overflow;
                     item.dir = -1;
                     item.wait = item.pause;
                 }
             } else {
-                item.pos -= PLACEHOLDER_SPEED;
+                item.pos -= speed;
                 if (item.pos <= 0) {
                     item.pos = 0;
                     item.dir = 1;
@@ -1631,64 +1637,21 @@ setInterval(function() {
                 }
             }
 
-            // Show substring based on position
-            var startIdx = Math.floor((item.pos / item.overflow) * (item.original.length * 0.3));
-            if (startIdx < 0) startIdx = 0;
-            
-            var visibleText = item.original.substring(startIdx);
-            item.input.setAttribute('placeholder', visibleText);
+            item.span.style.transform = 'translateX(' + item.pos + 'px)';
         });
+
+        requestAnimationFrame(animate);
     }
 
-    // Cleanup function for when leaving checkout
-    function cleanupPlaceholderMarquee() {
-        if (placeholderInterval) {
-            clearInterval(placeholderInterval);
-            placeholderInterval = null;
-        }
-        placeholderItems.forEach(function(item) {
-            if (item.input.dataset.originalPlaceholder) {
-                item.input.setAttribute('placeholder', item.input.dataset.originalPlaceholder);
-            }
-        });
-        placeholderItems = [];
-    }
+    init();
+    setInterval(init, 1000);
 
-    // Run on load
-    initPlaceholderMarquee();
-
-    // Re-run when URL changes (for SPA navigation)
-    var lastUrl = location.href;
-    setInterval(function() {
-        if (location.href !== lastUrl) {
-            lastUrl = location.href;
-            // Check if we're still on checkout
-            if (document.querySelector('.checkout_form, .checkout_container, [class*="checkout"]')) {
-                setTimeout(initPlaceholderMarquee, 300);
-            } else {
-                cleanupPlaceholderMarquee();
-            }
-        }
-    }, 500);
-
-    // Observer for dynamically added inputs
-    var observer = new MutationObserver(function(mutations) {
-        var hasInputs = false;
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1 && (
-                    node.tagName === 'INPUT' ||
-                    node.tagName === 'TEXTAREA' ||
-                    node.querySelector?.('input, textarea')
-                )) {
-                    hasInputs = true;
-                }
-            });
-        });
-        if (hasInputs) setTimeout(initPlaceholderMarquee, 100);
+    var obs = new MutationObserver(function() {
+        init();
     });
+    obs.observe(document.body, { childList: true, subtree: true });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    animate();
 })();
 
 // ───────────────────────────────────────────────────────────────
