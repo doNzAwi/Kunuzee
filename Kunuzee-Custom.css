@@ -1822,7 +1822,7 @@ section.contact-info-heading input::placeholder {
         .payment_card_content,
         [class*="payment_card_content"] {
             width: 50% !important;
-            margin-left: 12px !important;
+            margin-right: 12px !important;
             padding-right: 0 !important;
             padding-left: 0 !important;
         }
