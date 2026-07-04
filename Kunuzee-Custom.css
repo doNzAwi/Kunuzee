@@ -1818,15 +1818,44 @@ section.contact-info-heading input::placeholder {
     /* ═══════════════════
        ١- iPad Pro: نص أدق — margin سالب من ناحية الصورة
        ═══════════════════ */
-    @media (min-width: 1024px) and (max-width: 1366px) {
-        .payment_card_content,
-        [class*="payment_card_content"] {
-            width: 50% !important;
-            margin-right: 12px !important;
-            padding-right: 0 !important;
-            padding-left: 0 !important;
-        }
+   @media (min-width: 1024px) and (max-width: 1366px) {
+    .payment_card,
+    button.payment_card {
+        grid-template-columns: 15% 50% 35% !important; /* صغرنا النص، كبرنا الصورة */
     }
+
+    .payment_card_content,
+    [class*="payment_card_content"] {
+        padding-left: 8px !important; /* مسافة أمان من الصورة في RTL */
+    }
+}
+
+.radio_container,
+[class*="radio_container"] {
+    grid-area: radio !important;
+    justify-self: center !important;
+    align-self: center !important;
+    margin: 0 !important;
+}
+
+.payment_card_content,
+[class*="payment_card_content"] {
+    grid-area: content !important;
+    justify-self: end !important;
+    align-self: center !important;
+    text-align: right !important;
+    padding-right: 12px !important;
+    margin: 0 !important;
+}
+
+.payment_card_img_container,
+[class*="payment_card_img_container"] {
+    position: absolute !important;
+    left: 3% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+}
 
     /* الصورة — آخر حاجة، كامل العرض */
     .payment_card_img_container,
