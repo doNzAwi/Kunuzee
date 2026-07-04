@@ -1785,7 +1785,7 @@ section.contact-info-heading input::placeholder {
     }
 
     /* ═══════════════════
-       ٢- توحيد حجم الخط = 1rem في كل الموبايل والتابلت
+       ٢- توحيد حجم الخط = 1rem
        ═══════════════════ */
     .payment_card_content,
     [class*="payment_card_content"] {
@@ -1816,13 +1816,13 @@ section.contact-info-heading input::placeholder {
     }
 
     /* ═══════════════════
-       ١- iPad Pro (1024px - 1366px): نص أدق عشان مايستضمش بالصورة
+       ١- iPad Pro: نص أدق عشان مايستضمش بالصورة
        ═══════════════════ */
     @media (min-width: 1024px) and (max-width: 1366px) {
         .payment_card_content,
         [class*="payment_card_content"] {
-            width: 55% !important; /* بدل 60% */
-            padding-left: 8px !important; /* مسافة أمان من الصورة */
+            width: 50% !important; /* صغرنا تاني من 55% */
+            padding-left: 12px !important;
         }
     }
 
@@ -1845,6 +1845,28 @@ section.contact-info-heading input::placeholder {
         height: auto !important;
         object-fit: contain !important;
         display: block !important;
+    }
+}
+
+/* ═══════════════════
+   ٣- TABLET (≥768px): زرار إتمام الطلب مش sticky
+   ═══════════════════ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .checkout_buy_now,
+    button.checkout_buy_now,
+    .fixed.bottom-0 button.checkout_buy_now {
+        position: static !important;
+        width: 100% !important;
+    }
+
+    /* نشيل الـ fixed container اللي حواليه */
+    .fixed.bottom-0.left-0.right-0.z-50:has(.checkout_buy_now),
+    .fixed.bottom-0:has(.checkout_buy_now) {
+        position: static !important;
+        border-top: none !important;
+        background: transparent !important;
+        padding: 0 !important;
     }
 }
 
