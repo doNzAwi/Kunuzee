@@ -1752,107 +1752,96 @@ section.contact-info-heading input::placeholder {
 /* ───────────────────────────────────────────────────────────────
    SECTION 12.1: PAYMENT CARD MOBILE & TABLET FIX
    ───────────────────────────────────────────────────────────────
-   بورتريه: Flexbox + display: contents
-            الصف العلوي = راديو (٢٥٪ متوسطن) | نص (٧٥٪)
-            الصف السفلي = صورة بكامل العرض
+   بورتريه: block + absolute positioning
+            • راديو مطلق في الربع الأيسر (٢٥٪)
+            • نص في الـ ٧٥٪ من اليمين
+            • صورة بتخرج من الـ ٧٥٪ بـ negative margin → بكامل العرض
    لاندسكيب+تابلت: ٣ أعمدة مصغرة (نفس الديسكتوب)
    ─────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════
-   أ) الموبايل بورتريه (طولي) — Flexbox + order
+   أ) الموبايل بورتريه (طولي) — block + absolute + negative margin
    ═══════════════════════════════════════════ */
 @media (max-width: 639px) {
     .payment_card,
     button.payment_card {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        flex-direction: row !important;
-        align-items: flex-start !important;
-        justify-content: flex-start !important;
+        display: block !important;
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
         padding: 12px !important;
         min-height: auto !important;
-        gap: 0 !important;
-        width: 100% !important;
     }
 
     /* ═══════════════════════════════════════════
-       كسر: نخلي أطفال الـ content أبناء مباشرين للـ button
-       ═══════════════════════════════════════════ */
-    .payment_card_content,
-    [class*="payment_card_content"] {
-        display: contents !important;
-    }
-
-    /* ═══════════════════════════════════════════
-       الربع الأول — زرار الراديو (متوسطن أفقي + رأسي)
+       زرار الراديو — مطلق في الربع الأيسر (٢٥٪)
+       متوسطن أفقي ورأسي
        ═══════════════════════════════════════════ */
     .radio_container,
     [class*="radio_container"] {
+        position: absolute !important;
+        top: 12px !important;
+        left: 0 !important;
         width: 25% !important;
-        order: 1 !important;
+        height: 40px !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
         margin: 0 !important;
         padding: 0 !important;
-        flex-shrink: 0 !important;
     }
 
     /* ═══════════════════════════════════════════
-       الـ ٣ أرباع العلوية — العنوان (aligned right)
+       الـ content — ٧٥٪ من اليمين
        ═══════════════════════════════════════════ */
+    .payment_card_content,
+    [class*="payment_card_content"] {
+        display: block !important;
+        width: 75% !important;
+        margin-left: 25% !important;
+        padding: 0 8px 0 0 !important;
+    }
+
     .payment_card_name,
     [class*="payment_card_name"] {
-        width: 75% !important;
-        order: 2 !important;
+        display: block !important;
         text-align: right !important;
         font-size: 14px !important;
         line-height: 1.3 !important;
-        padding: 0 8px 0 0 !important;
         margin: 0 !important;
-        flex-shrink: 0 !important;
     }
 
-    /* ═══════════════════════════════════════════
-       الـ ٣ أرباع العلوية — الوصف (تحت العنوان، aligned right)
-       ═══════════════════════════════════════════ */
     .payment_card_description,
     [class*="payment_card_description"] {
-        width: 75% !important;
-        margin-left: 25% !important;
-        order: 3 !important;
+        display: block !important;
         text-align: right !important;
         font-size: 12px !important;
         line-height: 1.4 !important;
-        padding: 2px 8px 0 0 !important;
-        margin-top: 0 !important;
-        flex-shrink: 0 !important;
+        margin: 2px 0 0 0 !important;
     }
 
     /* ═══════════════════════════════════════════
-       الصف السفلي — الصورة بكامل عرض البوكس
+       الصورة — تخرج من الـ ٧٥٪ بـ negative margin
+       عشان تمتد بكامل عرض البوكس
        ═══════════════════════════════════════════ */
     .payment_card_img_container,
     [class*="payment_card_img_container"] {
-        width: 100% !important;
-        order: 4 !important;
-        margin: 8px 0 0 0 !important;
-        padding: 0 !important;
-        position: static !important;
-        transform: none !important;
-        left: auto !important;
+        position: relative !important;
+        width: 133.333% !important;
+        margin-left: -33.333% !important;
+        margin-top: 8px !important;
+        left: 0 !important;
         top: auto !important;
-        flex-shrink: 0 !important;
+        transform: none !important;
     }
 
-    .payment_card_img_container .payment_card_img,
-    .payment_card_img_container [class*="payment_card_img"] {
+    /* نلغي overflow:hidden عشان الصورة متتقصش */
+    .payment_card_img_container > div,
+    .payment_card_img_container > div[class*="relative"] {
+        overflow: visible !important;
         width: 100% !important;
-        max-width: none !important;
         margin: 0 !important;
         padding: 0 !important;
-        overflow: hidden !important;
-        display: block !important;
     }
 
     .payment_card_img_container img,
@@ -1863,6 +1852,7 @@ section.contact-info-heading input::placeholder {
         max-height: 60px !important;
         object-fit: contain !important;
         display: block !important;
+        margin: 0 !important;
     }
 }
 
@@ -1881,17 +1871,15 @@ section.contact-info-heading input::placeholder {
         gap: 0 8px !important;
     }
 
-    .payment_card_content,
-    [class*="payment_card_content"] {
-        display: block !important;
-    }
-
     .radio_container,
     [class*="radio_container"] {
         grid-area: radio !important;
         justify-self: center !important;
         align-self: center !important;
         margin: 0 !important;
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
     }
 
     .payment_card_content,
@@ -1902,6 +1890,8 @@ section.contact-info-heading input::placeholder {
         text-align: right !important;
         padding-right: 8px !important;
         margin: 0 !important;
+        width: auto !important;
+        display: block !important;
     }
 
     .payment_card_img_container,
@@ -1912,6 +1902,12 @@ section.contact-info-heading input::placeholder {
         transform: translateY(-50%) !important;
         margin: 0 !important;
         max-width: 110px !important;
+        width: auto !important;
+    }
+
+    .payment_card_img_container > div,
+    .payment_card_img_container > div[class*="relative"] {
+        overflow: hidden !important;
     }
 
     .payment_card_img_container img,
