@@ -1752,21 +1752,25 @@ section.contact-info-heading input::placeholder {
 /* ───────────────────────────────────────────────────────────────
    SECTION 12.1: PAYMENT CARD MOBILE & TABLET FIX
    ───────────────────────────────────────────────────────────────
-   بورتريه: ٤ أرباع رأسية — راديو في الربع الأول (متوسطن)
-            نص + صورة في الـ ٣ أرباع الباقية (النص فوق، الصورة بكامل العرض)
+   بورتريه: صفين رأسيين
+            الصف العلوي = ٤ أرباع أفقية (راديو | نص | نص | نص)
+            الصف السفلي = صورة بكامل عرض البوكس
    لاندسكيب+تابلت: ٣ أعمدة مصغرة (نفس الديسكتوب)
    ─────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════
-   أ) الموبايل بورتريه (طولي) — ٤ أرباع رأسية
+   أ) الموبايل بورتريه (طولي) — صفين رأسيين
    ═══════════════════════════════════════════ */
 @media (max-width: 639px) {
     .payment_card,
     button.payment_card {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr 1fr !important;
-        grid-template-areas: "radio content content content" !important;
-        align-items: start !important;
+        grid-template-rows: auto auto !important;
+        grid-template-areas:
+            "radio text text text"
+            "img   img  img  img" !important;
+        align-items: center !important;
         justify-items: stretch !important;
         padding: 12px !important;
         min-height: auto !important;
@@ -1774,6 +1778,9 @@ section.contact-info-heading input::placeholder {
         width: 100% !important;
     }
 
+    /* ═══════════════════════════════════════════
+       الربع الأول — زرار الراديو (متوسطن أفقي + رأسي)
+       ═══════════════════════════════════════════ */
     .radio_container,
     [class*="radio_container"] {
         grid-area: radio !important;
@@ -1783,20 +1790,20 @@ section.contact-info-heading input::placeholder {
     }
 
     /* ═══════════════════════════════════════════
-       الـ ٣ أرباع الباقية — نلغي flex الأصلي ونخليها block
+       الـ ٣ أرباع العلوية — النص (aligned right)
        ═══════════════════════════════════════════ */
     .payment_card_content,
     [class*="payment_card_content"] {
-        grid-area: content !important;
+        grid-area: text !important;
         justify-self: stretch !important;
-        align-self: stretch !important;
+        align-self: center !important;
         width: 100% !important;
         max-width: none !important;
         min-width: 0 !important;
         padding: 0 !important;
         margin: 0 !important;
         text-align: right !important;
-        display: block !important; /* ← نلغي flex الأصلي */
+        display: block !important;
     }
 
     .payment_card_name,
@@ -1819,10 +1826,13 @@ section.contact-info-heading input::placeholder {
     }
 
     /* ═══════════════════════════════════════════
-       الصورة — بكامل عرض الـ ٣ أرباع
+       الصف السفلي — الصورة بكامل عرض البوكس
        ═══════════════════════════════════════════ */
     .payment_card_img_container,
     [class*="payment_card_img_container"] {
+        grid-area: img !important;
+        justify-self: stretch !important;
+        align-self: stretch !important;
         position: static !important;
         transform: none !important;
         left: auto !important;
