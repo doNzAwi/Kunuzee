@@ -1784,7 +1784,9 @@ section.contact-info-heading input::placeholder {
         order: 0 !important;
     }
 
-    /* العنوان + النص — aligned right */
+    /* ═══════════════════
+       ٢- توحيد حجم الخط = 1rem في كل الموبايل والتابلت
+       ═══════════════════ */
     .payment_card_content,
     [class*="payment_card_content"] {
         grid-area: auto !important;
@@ -1795,6 +1797,33 @@ section.contact-info-heading input::placeholder {
         margin: 0 !important;
         width: 100% !important;
         order: 0 !important;
+    }
+
+    .payment_card_name,
+    [class*="payment_card_name"] {
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        color: var(--k-orange) !important;
+        font-family: 'Tajawal', sans-serif !important;
+    }
+
+    .payment_card_description,
+    [class*="payment_card_description"] {
+        font-size: 1rem !important;
+        font-weight: 400 !important;
+        color: var(--k-orange) !important;
+        font-family: 'Tajawal', sans-serif !important;
+    }
+
+    /* ═══════════════════
+       ١- iPad Pro (1024px - 1366px): نص أدق عشان مايستضمش بالصورة
+       ═══════════════════ */
+    @media (min-width: 1024px) and (max-width: 1366px) {
+        .payment_card_content,
+        [class*="payment_card_content"] {
+            width: 55% !important; /* بدل 60% */
+            padding-left: 8px !important; /* مسافة أمان من الصورة */
+        }
     }
 
     /* الصورة — آخر حاجة، كامل العرض */
