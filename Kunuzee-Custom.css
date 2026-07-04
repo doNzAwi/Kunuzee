@@ -1750,6 +1750,76 @@ section.contact-info-heading input::placeholder {
 }
 
 /* ───────────────────────────────────────────────────────────────
+   SECTION 12.1: PAYMENT CARD RESPONSIVE — البايمنت كارد ريسبونسيف
+   ═══════════════════════════════════════════════════════════════
+   يُضاف بعد: SECTION 12
+   يُضاف قبل: SECTION 13
+   ─────────────────────────────────────────────────────────────── */
+
+/* ═══════════════════
+   MOBILE & TABLET (<1024px): Flex Column
+   ═══════════════════ */
+
+@media (max-width: 1023px) {
+    .payment_card,
+    button.payment_card {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 16px !important;
+        height: auto !important;
+        min-height: auto !important;
+        border-color: var(--k-gold) !important;
+        position: relative !important;
+    }
+
+    /* الراديو — متوسطن فوق */
+    .radio_container,
+    [class*="radio_container"] {
+        grid-area: auto !important;
+        justify-self: auto !important;
+        align-self: center !important;
+        margin: 0 !important;
+        order: 0 !important;
+    }
+
+    /* العنوان + النص — aligned right */
+    .payment_card_content,
+    [class*="payment_card_content"] {
+        grid-area: auto !important;
+        justify-self: auto !important;
+        align-self: stretch !important;
+        text-align: right !important;
+        padding-right: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        order: 0 !important;
+    }
+
+    /* الصورة — آخر حاجة، كامل العرض */
+    .payment_card_img_container,
+    [class*="payment_card_img_container"] {
+        grid-area: auto !important;
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+        order: 0 !important;
+    }
+
+    .payment_card_img_container img,
+    [class*="payment_card_img_container"] img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+    }
+}
+
+/* ───────────────────────────────────────────────────────────────
    SECTION 13: FOOTER — الفوتر
    ─────────────────────────────────────────────────────────────── */
 
