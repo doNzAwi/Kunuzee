@@ -7,13 +7,13 @@
    ══════════════════════════════════════════════ */
 
 /* ١. الـ wrapper الخارجي: static (مش sticky) → الشريط يمشي مع السكرول */
-div.bg-white.sticky.top-0.w-full.z-20:has(> header.default_header) {
+div.bg-white.sticky.top-0.w-full.z-20:has(> header.default_header),
+div.bg-white.sticky.top-0.w-full.z-20 {
     position: static !important;
 }
 
-/* ٢. شريط التنبيهات — لون ملفت + relative (مش sticky) */
+/* ٢. شريط التنبيهات — لون ملفت (أحمر زاهي) */
 .default_header_top_text {
-    position: relative !important;
     background-color: #dc2626 !important;
     color: #ffffff !important;
     font-weight: 700 !important;
@@ -23,22 +23,22 @@ div.bg-white.sticky.top-0.w-full.z-20:has(> header.default_header) {
     border-bottom: 2px solid #b91c1c !important;
 }
 
-/* ٣. الهيدر — sticky + نلغي relative الأصلي + زجاج مصنفر */
-header.default_header,
-header.default_header.relative {
+/* ٣. الهيدر الحقيقي (الـ nav) — sticky + زجاج مصنفر */
+/* نفس القيم بالظبط من القوايم المنسدلة في الكود الكبير */
+.default_header_container {
     position: -webkit-sticky !important;
     position: sticky !important;
     top: 0 !important;
     z-index: 9999 !important;
-    /* الزجاج المصنفر (نفس قيم القوايم المنسدلة) */
-    background: rgba(255, 255, 255, 0.85) !important;
+    background: rgba(255, 255, 255, 0.7) !important;
     backdrop-filter: blur(16px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
     border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
 }
 
-/* نلغي الخلفية البيضاء الثابتة عشان الزجاج يبان */
+/* نلغي الخلفية البيضاء الثابتة */
+.default_header_container.bg-white,
 header.default_header.bg-white {
     background-color: transparent !important;
 }
