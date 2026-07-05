@@ -1812,6 +1812,125 @@ setInterval(function() {
     document.head.appendChild(style);
 })();
 
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 20: Announcement Bar Show/Hide (FIXED HEADER)
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var isInit = false;
+
+    function init() {
+        if (isInit) return;
+        
+        var header = document.querySelector('.default_header');
+        var bar = document.querySelector('.default_header_top_text');
+        var container = document.querySelector('.default_header_container');
+        
+        if (!header || !bar || !container) return;
+        isInit = true;
+
+        // ═══════════════════
+        // أ- نحقن CSS حرج جوا الصفحة مباشرة (مش بنستنى ملف خارجي)
+        // ═══════════════════
+        var style = document.createElement('style');
+        style.textContent = [
+            '.default_header {',
+            '    position: fixed !important;',
+            '    top: 0 !important; left: 0 !important; right: 0 !important;',
+            '    z-index: 99999 !important;',
+            '}',
+            '.default_header_top_text {',
+            '    transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease !important;',
+            '    overflow: hidden !important;',
+            '    will-change: max-height, opacity !important;',
+            '}'
+        ].join(' ');
+        document.head.appendChild(style);
+
+        // ═══════════════════
+        // ب- نحسب الارتفاعات
+        // ═══════════════════
+        var barHeight = bar.offsetHeight;
+        var containerHeight = container.offsetHeight;
+        var totalHeight = barHeight + containerHeight;
+
+        // ═══════════════════
+        // ج- نزود padding للـ body عشان المحتوى ما يقفش تحت الهيدر
+        // ═══════════════════
+        document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
+
+        // ═══════════════════
+        // د- Scroll handler
+        // ═══════════════════
+        var isHidden = false;
+        var rafId = null;
+        var THRESHOLD = 10;
+
+        function update() {
+            var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+
+            if (scrollY > THRESHOLD && !isHidden) {
+                bar.style.setProperty('max-height', '0', 'important');
+                bar.style.setProperty('opacity', '0', 'important');
+                bar.style.setProperty('padding-top', '0', 'important');
+                bar.style.setProperty('padding-bottom', '0', 'important');
+                document.body.style.setProperty('padding-top', containerHeight + 'px', 'important');
+                isHidden = true;
+            } else if (scrollY <= THRESHOLD && isHidden) {
+                bar.style.setProperty('max-height', barHeight + 'px', 'important');
+                bar.style.setProperty('opacity', '1', 'important');
+                bar.style.setProperty('padding-top', '', '');
+                bar.style.setProperty('padding-bottom', '', '');
+                document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
+                isHidden = false;
+            }
+        }
+
+        function onScroll() {
+            if (rafId) return;
+            rafId = requestAnimationFrame(function() {
+                update();
+                rafId = null;
+            });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        update();
+
+        // Resize handler
+        window.addEventListener('resize', function() {
+            barHeight = bar.offsetHeight;
+            containerHeight = container.offsetHeight;
+            totalHeight = barHeight + containerHeight;
+            document.body.style.setProperty('padding-top', isHidden ? containerHeight + 'px' : totalHeight + 'px', 'important');
+        });
+    }
+
+    // ═══════════════════
+    // محاولات متعددة عشان نضمن إننا بنلحق الـ DOM
+    // ═══════════════════
+    
+    // محاولة ١: فوراً
+    init();
+
+    // محاولة ٢: بعد DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    }
+
+    // محاولة ٣: MutationObserver
+    var obs = new MutationObserver(function() {
+        init();
+        if (isInit) obs.disconnect();
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+
+    // محاولة ٤: بعد 1 و 2 ثانية
+    setTimeout(init, 1000);
+    setTimeout(init, 2000);
+})();
+
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
