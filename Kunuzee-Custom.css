@@ -6,40 +6,15 @@
    ANNOUNCEMENT BAR + HEADER STICKY GLASSMORPHISM
    ══════════════════════════════════════════════ */
 
-/* ١. الـ wrapper الخارجي: static (مش sticky) */
-div.bg-white.sticky.top-0.w-full.z-20,
-div[class*="bg-white"][class*="sticky"][class*="top-0"] {
-    position: static !important;
-}
-
 /* ٢. شريط التنبيهات — لون ملفت (أحمر زاهي) */
 .default_header_top_text {
     background-color: #dc2626 !important;
     color: #ffffff !important;
-    font-weight: 700 !important;
+    font-weight: 300 !important;
     font-size: 1rem !important;
     letter-spacing: 0.5px !important;
     text-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
     border-bottom: 2px solid #b91c1c !important;
-}
-
-/* ٣. الـ nav: sticky + زجاج مصنفر (نفس قيم القوايم المنسدلة) */
-.default_header_container {
-    position: -webkit-sticky !important;
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 9999 !important;
-    background: rgba(255, 255, 255, 0.7) !important;
-    backdrop-filter: blur(16px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
-}
-
-/* نلغي الخلفية البيضاء */
-.default_header_container.bg-white,
-.default_header_container[class*="bg-white"] {
-    background-color: transparent !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
