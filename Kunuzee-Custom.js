@@ -1812,11 +1812,48 @@ setInterval(function() {
     document.head.appendChild(style);
 })();
 
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 20: Announcement Bar Show/Hide on Scroll
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    var bar = document.querySelector('.default_header_top_text');
+    if (!bar) return;
+
+    var isHidden = false;
+    var rafId = null;
+
+    function updateBar() {
+        var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        var shouldHide = scrollY > 5;
+
+        if (shouldHide && !isHidden) {
+            bar.classList.add('kunuzee-bar-hidden');
+            isHidden = true;
+        } else if (!shouldHide && isHidden) {
+            bar.classList.remove('kunuzee-bar-hidden');
+            isHidden = false;
+        }
+    }
+
+    function onScroll() {
+        if (rafId) return;
+        rafId = requestAnimationFrame(function() {
+            updateBar();
+            rafId = null;
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateBar();
+})();
+
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
 // ───────────────────────────────────────────────────────────────
-// FUNCTION 20: FAQ — Fixed Box + Smooth Marquee + Blur Fade (RTL)
+// FUNCTION 21: FAQ — Fixed Box + Smooth Marquee + Blur Fade (RTL)
 // ───────────────────────────────────────────────────────────────
 (function() {
     'use strict';
