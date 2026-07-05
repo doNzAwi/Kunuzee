@@ -38,44 +38,33 @@
     var bar = document.querySelector('.default_header_top_text');
     if (!header || !bar) return;
 
-    function setHeaderTop(offset) {
-        header.style.setProperty('top', offset + 'px', 'important');
+    // نحسب ارتفاع الهيدر ونضيف padding على body عشان المحتوى مايتغطاش
+    function setBodyPadding() {
+        var headH = header.offsetHeight;
+        document.body.style.paddingTop = headH + 'px';
     }
 
-    var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                // الـ bar لسه ظاهر → الهيدر يبقى تحته
-                setHeaderTop(bar.offsetHeight);
-            } else {
-                // الـ bar اختفى → الهيدر يلزق فوق
-                setHeaderTop(0);
-            }
-        });
-    }, {
-        threshold: 0,
-        rootMargin: '0px'
-    });
-
-    observer.observe(bar);
-
-    // Resize safety
-    window.addEventListener('resize', function() {
-        var rect = bar.getBoundingClientRect();
-        if (rect.bottom > 0) {
-            setHeaderTop(bar.offsetHeight);
+    function update() {
+        var barH = bar.offsetHeight;
+        if (window.scrollY > barH) {
+            // الشريط اختفى → الهيدر يلزق فوق
+            header.style.transform = 'translateY(0)';
         } else {
-            setHeaderTop(0);
+            // الشريط ظاهر → الهيدر ينزل تحت الشريط
+            header.style.transform = 'translateY(' + barH + 'px)';
         }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function() {
+        setBodyPadding();
+        update();
     });
 
-    // Initial check
-    var initialRect = bar.getBoundingClientRect();
-    if (initialRect.bottom > 0) {
-        setHeaderTop(bar.offsetHeight);
-    } else {
-        setHeaderTop(0);
-    }
+    // Initial run
+    setBodyPadding();
+    setTimeout(update, 50);
+    setTimeout(update, 300);
 })();
 
 // ════════════════════════════════════════════════════════
