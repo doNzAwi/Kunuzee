@@ -6,9 +6,9 @@
    ANNOUNCEMENT BAR + HEADER STICKY GLASSMORPHISM
    ══════════════════════════════════════════════ */
 
-/* ١. الـ wrapper الخارجي: static (مش sticky) → الشريط يمشي مع السكرول */
-div.bg-white.sticky.top-0.w-full.z-20:has(> header.default_header),
-div.bg-white.sticky.top-0.w-full.z-20 {
+/* ١. الـ wrapper الخارجي: static (مش sticky) */
+div.bg-white.sticky.top-0.w-full.z-20,
+div[class*="bg-white"][class*="sticky"][class*="top-0"] {
     position: static !important;
 }
 
@@ -23,8 +23,7 @@ div.bg-white.sticky.top-0.w-full.z-20 {
     border-bottom: 2px solid #b91c1c !important;
 }
 
-/* ٣. الهيدر الحقيقي (الـ nav) — sticky + زجاج مصنفر */
-/* نفس القيم بالظبط من القوايم المنسدلة في الكود الكبير */
+/* ٣. الـ nav: sticky + زجاج مصنفر (نفس قيم القوايم المنسدلة) */
 .default_header_container {
     position: -webkit-sticky !important;
     position: sticky !important;
@@ -37,9 +36,9 @@ div.bg-white.sticky.top-0.w-full.z-20 {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
 }
 
-/* نلغي الخلفية البيضاء الثابتة */
+/* نلغي الخلفية البيضاء */
 .default_header_container.bg-white,
-header.default_header.bg-white {
+.default_header_container[class*="bg-white"] {
     background-color: transparent !important;
 }
 
