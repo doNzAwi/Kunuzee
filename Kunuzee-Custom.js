@@ -1820,56 +1820,63 @@ setInterval(function() {
 
     var header = document.querySelector('.default_header');
     var bar = document.querySelector('.default_header_top_text');
-    if (!header || !bar) return;
+    var container = document.querySelector('.default_header_container');
+    if (!header || !bar || !container) return;
 
     // ═══════════════════
-    // ١- نخلّي الهيدر كله sticky (inline = أقوى من أي class)
+    // ١- نحسب الارتفاعات
     // ═══════════════════
-    header.style.setProperty('position', 'sticky', 'important');
+    function getHeights() {
+        return {
+            bar: bar.offsetHeight,
+            container: container.offsetHeight
+        };
+    }
+
+    var heights = getHeights();
+    var totalHeight = heights.bar + heights.container;
+
+    // ═══════════════════
+    // ٢- نخلي الهيدر fixed (أقوى من sticky ولا يتكسر)
+    // ═══════════════════
+    header.style.setProperty('position', 'fixed', 'important');
     header.style.setProperty('top', '0', 'important');
-    header.style.setProperty('z-index', '9999', 'important');
+    header.style.setProperty('left', '0', 'important');
+    header.style.setProperty('right', '0', 'important');
+    header.style.setProperty('z-index', '99999', 'important');
 
     // ═══════════════════
-    // ٢- نجهّز الشريط للأنيميشن
+    // ٣- نزود padding للـ body عشان المحتوى ما يقفش تحت الهيدر
     // ═══════════════════
-    bar.style.setProperty('transition', 'max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, padding 0.35s ease, border-width 0.35s ease', 'important');
-    bar.style.setProperty('overflow', 'hidden', 'important');
-    bar.style.setProperty('will-change', 'max-height, opacity', 'important');
+    document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
 
-    // نحفظ الـ height الطبيعي عشان نرجعه
-    var naturalHeight = bar.scrollHeight || 60;
+    // ═══════════════════
+    // ٤- نجهّز الشريط للأنيميشن
+    // ═══════════════════
+    bar.style.setProperty('transition', 'transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease', 'important');
+    bar.style.setProperty('will-change', 'transform, opacity', 'important');
+
     var isHidden = false;
     var rafId = null;
     var THRESHOLD = 8;
 
-    function showBar() {
-        bar.style.setProperty('max-height', naturalHeight + 'px', 'important');
-        bar.style.setProperty('opacity', '1', 'important');
-        bar.style.setProperty('padding-top', '', '');
-        bar.style.setProperty('padding-bottom', '', '');
-        bar.style.setProperty('border-bottom-width', '', '');
-        bar.style.setProperty('margin', '', '');
-        isHidden = false;
-    }
-
-    function hideBar() {
-        bar.style.setProperty('max-height', '0', 'important');
-        bar.style.setProperty('opacity', '0', 'important');
-        bar.style.setProperty('padding-top', '0', 'important');
-        bar.style.setProperty('padding-bottom', '0', 'important');
-        bar.style.setProperty('border-bottom-width', '0', 'important');
-        bar.style.setProperty('margin', '0', 'important');
-        isHidden = true;
-    }
-
     function updateBar() {
         var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-        var shouldHide = scrollY > THRESHOLD;
 
-        if (shouldHide && !isHidden) {
-            hideBar();
-        } else if (!shouldHide && isHidden) {
-            showBar();
+        if (scrollY > THRESHOLD && !isHidden) {
+            // إخفاء الشريط — يطلع لفوق
+            bar.style.setProperty('transform', 'translateY(-100%)', 'important');
+            bar.style.setProperty('opacity', '0', 'important');
+            // نقلص الـ padding للـ body = ارتفاع الكونتينر بس
+            document.body.style.setProperty('padding-top', heights.container + 'px', 'important');
+            isHidden = true;
+        } else if (scrollY <= THRESHOLD && isHidden) {
+            // إظهار الشريط — ينزل من فوق
+            bar.style.setProperty('transform', 'translateY(0)', 'important');
+            bar.style.setProperty('opacity', '1', 'important');
+            // نرجع الـ padding للـ body = الارتفاع الكلي
+            document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
+            isHidden = false;
         }
     }
 
@@ -1883,9 +1890,15 @@ setInterval(function() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Recalculate height on resize
+    // Recalculate on resize
     window.addEventListener('resize', function() {
-        if (!isHidden) naturalHeight = bar.scrollHeight || 60;
+        heights = getHeights();
+        totalHeight = heights.bar + heights.container;
+        if (!isHidden) {
+            document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
+        } else {
+            document.body.style.setProperty('padding-top', heights.container + 'px', 'important');
+        }
     });
 
     // Run immediately
