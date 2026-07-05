@@ -28,9 +28,59 @@
     }
 })();
 
-// ═══════════════════════════════════════════════════════
-// FUNCTION 0: hideOrderReceivedText — تأمين إضافي بالـ content
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// FUNCTION 0: Sticky Header — الهيدر ثابت والتنبيهات بتتحرك عادي
+// ══════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    var header = document.querySelector('.default_header_container');
+    var bar = document.querySelector('.default_header_top_text');
+    if (!header || !bar) return;
+
+    function setHeaderTop(offset) {
+        header.style.setProperty('top', offset + 'px', 'important');
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                // الـ bar لسه ظاهر → الهيدر يبقى تحته
+                setHeaderTop(bar.offsetHeight);
+            } else {
+                // الـ bar اختفى → الهيدر يلزق فوق
+                setHeaderTop(0);
+            }
+        });
+    }, {
+        threshold: 0,
+        rootMargin: '0px'
+    });
+
+    observer.observe(bar);
+
+    // Resize safety
+    window.addEventListener('resize', function() {
+        var rect = bar.getBoundingClientRect();
+        if (rect.bottom > 0) {
+            setHeaderTop(bar.offsetHeight);
+        } else {
+            setHeaderTop(0);
+        }
+    });
+
+    // Initial check
+    var initialRect = bar.getBoundingClientRect();
+    if (initialRect.bottom > 0) {
+        setHeaderTop(bar.offsetHeight);
+    } else {
+        setHeaderTop(0);
+    }
+})();
+
+// ════════════════════════════════════════════════════════
+// FUNCTION 00: hideOrderReceivedText — تأمين إضافي بالـ content
+// ════════════════════════════════════════════════════════
 (function() {
     'use strict';
 
