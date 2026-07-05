@@ -1818,23 +1818,58 @@ setInterval(function() {
 (function() {
     'use strict';
 
+    var header = document.querySelector('.default_header');
     var bar = document.querySelector('.default_header_top_text');
-    if (!bar) return;
+    if (!header || !bar) return;
 
+    // ═══════════════════
+    // ١- نخلّي الهيدر كله sticky (inline = أقوى من أي class)
+    // ═══════════════════
+    header.style.setProperty('position', 'sticky', 'important');
+    header.style.setProperty('top', '0', 'important');
+    header.style.setProperty('z-index', '9999', 'important');
+
+    // ═══════════════════
+    // ٢- نجهّز الشريط للأنيميشن
+    // ═══════════════════
+    bar.style.setProperty('transition', 'max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, padding 0.35s ease, border-width 0.35s ease', 'important');
+    bar.style.setProperty('overflow', 'hidden', 'important');
+    bar.style.setProperty('will-change', 'max-height, opacity', 'important');
+
+    // نحفظ الـ height الطبيعي عشان نرجعه
+    var naturalHeight = bar.scrollHeight || 60;
     var isHidden = false;
     var rafId = null;
     var THRESHOLD = 8;
 
+    function showBar() {
+        bar.style.setProperty('max-height', naturalHeight + 'px', 'important');
+        bar.style.setProperty('opacity', '1', 'important');
+        bar.style.setProperty('padding-top', '', '');
+        bar.style.setProperty('padding-bottom', '', '');
+        bar.style.setProperty('border-bottom-width', '', '');
+        bar.style.setProperty('margin', '', '');
+        isHidden = false;
+    }
+
+    function hideBar() {
+        bar.style.setProperty('max-height', '0', 'important');
+        bar.style.setProperty('opacity', '0', 'important');
+        bar.style.setProperty('padding-top', '0', 'important');
+        bar.style.setProperty('padding-bottom', '0', 'important');
+        bar.style.setProperty('border-bottom-width', '0', 'important');
+        bar.style.setProperty('margin', '0', 'important');
+        isHidden = true;
+    }
+
     function updateBar() {
-        var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
         var shouldHide = scrollY > THRESHOLD;
 
         if (shouldHide && !isHidden) {
-            bar.classList.add('kunuzee-bar-hidden');
-            isHidden = true;
+            hideBar();
         } else if (!shouldHide && isHidden) {
-            bar.classList.remove('kunuzee-bar-hidden');
-            isHidden = false;
+            showBar();
         }
     }
 
@@ -1847,6 +1882,13 @@ setInterval(function() {
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Recalculate height on resize
+    window.addEventListener('resize', function() {
+        if (!isHidden) naturalHeight = bar.scrollHeight || 60;
+    });
+
+    // Run immediately
     updateBar();
 })();
 
