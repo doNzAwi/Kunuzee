@@ -1823,10 +1823,11 @@ setInterval(function() {
 
     var isHidden = false;
     var rafId = null;
+    var THRESHOLD = 8;
 
     function updateBar() {
         var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-        var shouldHide = scrollY > 5;
+        var shouldHide = scrollY > THRESHOLD;
 
         if (shouldHide && !isHidden) {
             bar.classList.add('kunuzee-bar-hidden');
