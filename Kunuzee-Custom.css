@@ -2936,7 +2936,6 @@ body {
 /* ───────────────────────────────────────────────────────────────
    SECTION 27: RESPONSIVE PRICES — تخصيص الأسعار للموبايل والتابلت
    ─────────────────────────────────────────────────────────────── */
-
 /* ═══════════════════
    MOBILE (< 768px)
    ═══════════════════ */
@@ -2950,7 +2949,7 @@ body {
     .product_price .font-\[inherit\]::after,
     #price .font-\[inherit\]::after {
         font-size: 1.0rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     #sale-price {
@@ -2958,7 +2957,7 @@ body {
     }
     #sale-price + span .font-\[inherit\]::after {
         font-size: 1.0rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     .line-through,
@@ -2968,7 +2967,7 @@ body {
     .line-through + span .font-\[inherit\]::after,
     .line-through ~ span .font-\[inherit\]::after {
         font-size: 0.6rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
@@ -2978,7 +2977,7 @@ body {
     }
     .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child .font-\[inherit\]::after {
         font-size: 0.75rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading {
@@ -2986,7 +2985,7 @@ body {
     }
     .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading .font-\[inherit\]::after {
         font-size: 0.75rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     .default_product_featured_card .mt-2.flex.flex-row-reverse > del {
@@ -2994,7 +2993,7 @@ body {
     }
     .default_product_featured_card .mt-2.flex.flex-row-reverse > del span.font-\[inherit\]::after {
         font-size: 0.65rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
@@ -3013,7 +3012,7 @@ body {
     .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
     .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
         font-size: 0.7rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
@@ -3031,7 +3030,7 @@ body {
     .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
     .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
         font-size: 0.7rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
@@ -3049,7 +3048,7 @@ body {
     .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del span.font-\[inherit\]::after,
     .category_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
         font-size: 0.55rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
@@ -3059,7 +3058,7 @@ body {
     }
     [data-product-preview="price"] > [data-product-preview="current-price"]:only-child .font-\[inherit\]::after {
         font-size: 0.55rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] {
@@ -3067,7 +3066,7 @@ body {
     }
     [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] .font-\[inherit\]::after {
         font-size: 0.55rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     [data-product-preview="price"] > [data-product-preview="original-price"] {
@@ -3075,7 +3074,7 @@ body {
     }
     [data-product-preview="price"] > [data-product-preview="original-price"] .font-\[inherit\]::after {
         font-size: 0.45rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
@@ -3096,7 +3095,7 @@ body {
     }
     [data-invoice="invoice-subtotal-value"] .font-\[inherit\]::after {
         font-size: 0.7rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
     .p-4 .font-\[inherit\]::after {
@@ -3136,7 +3135,7 @@ body {
     }
     .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\]::after {
         font-size: 0.65rem !important;
-        top: -0.25rem !important;
+        top: -0.35rem !important;
         margin-right: -0.1rem !important;
     }
 
