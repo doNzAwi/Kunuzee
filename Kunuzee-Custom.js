@@ -28,48 +28,9 @@
     }
 })();
 
-// ══════════════════════════════════════════════════
-// FUNCTION 0: Sticky Header — الهيدر ثابت والتنبيهات بتتحرك عادي
-// ══════════════════════════════════════════════════
-(function() {
-    'use strict';
-
-    var header = document.querySelector('.default_header_container');
-    var bar = document.querySelector('.default_header_top_text');
-    if (!header || !bar) return;
-
-    // نحسب ارتفاع الهيدر ونضيف padding على body عشان المحتوى مايتغطاش
-    function setBodyPadding() {
-        var headH = header.offsetHeight;
-        document.body.style.paddingTop = headH + 'px';
-    }
-
-    function update() {
-        var barH = bar.offsetHeight;
-        if (window.scrollY > barH) {
-            // الشريط اختفى → الهيدر يلزق فوق
-            header.style.transform = 'translateY(0)';
-        } else {
-            // الشريط ظاهر → الهيدر ينزل تحت الشريط
-            header.style.transform = 'translateY(' + barH + 'px)';
-        }
-    }
-
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', function() {
-        setBodyPadding();
-        update();
-    });
-
-    // Initial run
-    setBodyPadding();
-    setTimeout(update, 50);
-    setTimeout(update, 300);
-})();
-
-// ════════════════════════════════════════════════════════
-// FUNCTION 00: hideOrderReceivedText — تأمين إضافي بالـ content
-// ════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// FUNCTION 0: hideOrderReceivedText — تأمين إضافي بالـ content
+// ═══════════════════════════════════════════════════════
 (function() {
     'use strict';
 
