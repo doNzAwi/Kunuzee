@@ -16,40 +16,6 @@
     letter-spacing: 0.5px !important;
 }
 
-/* الهيدر كله sticky في سقف الشاشة */
-.default_header {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 9999 !important;
-}
-
-/* الشريط يختفي بسلاسة لما ننزل سكرول */
-.default_header_top_text {
-    animation: kunuzee-bar-hide linear both !important;
-    animation-timeline: scroll(root) !important;
-    animation-range: 0px 80px !important;
-    will-change: transform, opacity !important;
-}
-
-@keyframes kunuzee-bar-hide {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-}
-
-/* الكونتينر الرئيسي: sticky بس هو */
-.default_header_container {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 9999 !important;
-    background-color: #ffffff !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
    ─────────────────────────────────────────────────────────────── */
