@@ -17,28 +17,6 @@
     border-bottom: 2px solid #b91c1c !important;
 }
 
-/* ═════════════════════════════════════════
-   SECTION: STICKY HEADER — الهيدر ثابت عند السكرول
-   ═════════════════════════════════════════ */
-
-/* نلغي أي overflow على الأجداد اللي بيكسر الـ fixed/sticky */
-html, body {
-    overflow-x: visible !important;
-}
-
-/* الهيدر fixed عشان يشتغل 100% */
-.default_header_container {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 9999 !important;
-    transition: transform 0.3s ease !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-}
-
 /* ───────────────────────────────────────────────────────────────
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
    ─────────────────────────────────────────────────────────────── */
