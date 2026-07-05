@@ -17,6 +17,23 @@
     border-bottom: 2px solid #b91c1c !important;
 }
 
+/* ═════════════════════════════════════════
+   SECTION: STICKY HEADER — الهيدر ثابت عند السكرول
+   ═════════════════════════════════════════ */
+
+/* الهيدر sticky */
+.default_header_container {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    transition: top 0.25s ease !important;
+}
+
+/* نضمن إن الـ container الداخلي مفيوش overflow يكسر الـ sticky */
+.default_header_container > div {
+    overflow: visible !important;
+}
+
 /* ───────────────────────────────────────────────────────────────
    SECTION 1: GLOBAL VARIABLES & BASE STYLES
    ─────────────────────────────────────────────────────────────── */
