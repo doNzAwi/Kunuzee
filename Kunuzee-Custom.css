@@ -23,29 +23,31 @@
     z-index: 9999 !important;
 }
 
-/* الشريط — الحالة العادية (ظاهر) */
+/* الشريط يختفي بسلاسة لما ننزل سكرول */
 .default_header_top_text {
-    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    max-height: 80px !important;
-    opacity: 1 !important;
-    overflow: hidden !important;
-    will-change: max-height, opacity !important;
+    animation: kunuzee-bar-hide linear both !important;
+    animation-timeline: scroll(root) !important;
+    animation-range: 0px 80px !important;
+    will-change: transform, opacity !important;
 }
 
-/* ═══════════════════
-   الحالة المخفية — specificity عالية جداً عشان تكسر أي override
-   ═══════════════════ */
-header.default_header > p.default_header_top_text.kunuzee-bar-hidden,
-.default_header .default_header_top_text.kunuzee-bar-hidden {
-    max-height: 0 !important;
-    opacity: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    border-bottom-width: 0 !important;
-    margin: 0 !important;
+@keyframes kunuzee-bar-hide {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+/* الكونتينر الرئيسي: sticky بس هو */
+.default_header_container {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    background-color: #ffffff !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
