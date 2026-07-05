@@ -1818,117 +1818,140 @@ setInterval(function() {
 (function() {
     'use strict';
 
-    var isInit = false;
+    var ACTIVE = false;
+    var bar = null;
+    var header = null;
+    var container = null;
+    var isHidden = false;
+    var barHeight = 0;
+    var containerHeight = 0;
 
-    function init() {
-        if (isInit) return;
-        
-        var header = document.querySelector('.default_header');
-        var bar = document.querySelector('.default_header_top_text');
-        var container = document.querySelector('.default_header_container');
-        
-        if (!header || !bar || !container) return;
-        isInit = true;
-
-        // ═══════════════════
-        // أ- نحقن CSS حرج جوا الصفحة مباشرة (مش بنستنى ملف خارجي)
-        // ═══════════════════
-        var style = document.createElement('style');
-        style.textContent = [
-            '.default_header {',
-            '    position: fixed !important;',
-            '    top: 0 !important; left: 0 !important; right: 0 !important;',
-            '    z-index: 99999 !important;',
-            '}',
-            '.default_header_top_text {',
-            '    transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease !important;',
-            '    overflow: hidden !important;',
-            '    will-change: max-height, opacity !important;',
-            '}'
-        ].join(' ');
-        document.head.appendChild(style);
-
-        // ═══════════════════
-        // ب- نحسب الارتفاعات
-        // ═══════════════════
-        var barHeight = bar.offsetHeight;
-        var containerHeight = container.offsetHeight;
-        var totalHeight = barHeight + containerHeight;
-
-        // ═══════════════════
-        // ج- نزود padding للـ body عشان المحتوى ما يقفش تحت الهيدر
-        // ═══════════════════
-        document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
-
-        // ═══════════════════
-        // د- Scroll handler
-        // ═══════════════════
-        var isHidden = false;
-        var rafId = null;
-        var THRESHOLD = 10;
-
-        function update() {
-            var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-
-            if (scrollY > THRESHOLD && !isHidden) {
-                bar.style.setProperty('max-height', '0', 'important');
-                bar.style.setProperty('opacity', '0', 'important');
-                bar.style.setProperty('padding-top', '0', 'important');
-                bar.style.setProperty('padding-bottom', '0', 'important');
-                document.body.style.setProperty('padding-top', containerHeight + 'px', 'important');
-                isHidden = true;
-            } else if (scrollY <= THRESHOLD && isHidden) {
-                bar.style.setProperty('max-height', barHeight + 'px', 'important');
-                bar.style.setProperty('opacity', '1', 'important');
-                bar.style.setProperty('padding-top', '', '');
-                bar.style.setProperty('padding-bottom', '', '');
-                document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
-                isHidden = false;
-            }
-        }
-
-        function onScroll() {
-            if (rafId) return;
-            rafId = requestAnimationFrame(function() {
-                update();
-                rafId = null;
-            });
-        }
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        update();
-
-        // Resize handler
-        window.addEventListener('resize', function() {
-            barHeight = bar.offsetHeight;
-            containerHeight = container.offsetHeight;
-            totalHeight = barHeight + containerHeight;
-            document.body.style.setProperty('padding-top', isHidden ? containerHeight + 'px' : totalHeight + 'px', 'important');
-        });
+    function findElements() {
+        header = document.querySelector('.default_header');
+        bar = document.querySelector('.default_header_top_text');
+        container = document.querySelector('.default_header_container');
+        return header && bar && container;
     }
 
-    // ═══════════════════
-    // محاولات متعددة عشان نضمن إننا بنلحق الـ DOM
-    // ═══════════════════
-    
-    // محاولة ١: فوراً
+    function measure() {
+        if (!bar || !container) return;
+        // نحسب الارتفاع من الـ computed style عشان نضمن الدقة
+        var barStyle = window.getComputedStyle(bar);
+        barHeight = bar.offsetHeight || parseFloat(barStyle.height) || 40;
+        containerHeight = container.offsetHeight || parseFloat(window.getComputedStyle(container).height) || 60;
+    }
+
+    function applyFixed() {
+        if (!header) return;
+        // نخلي الهيدر fixed — inline style = أقوى حاجة
+        header.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 99999 !important;';
+    }
+
+    function applyBodyPadding() {
+        if (!bar || !container) return;
+        var total = isHidden ? containerHeight : (barHeight + containerHeight);
+        document.body.style.setProperty('padding-top', total + 'px', 'important');
+    }
+
+    function hideBar() {
+        if (!bar || isHidden) return;
+        bar.style.cssText = 'max-height: 0 !important; opacity: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; margin: 0 !important; overflow: hidden !important; transition: max-height 0.3s ease, opacity 0.3s ease !important;';
+        isHidden = true;
+        applyBodyPadding();
+    }
+
+    function showBar() {
+        if (!bar || !isHidden) return;
+        bar.style.cssText = 'max-height: ' + barHeight + 'px !important; opacity: 1 !important; overflow: hidden !important; transition: max-height 0.3s ease, opacity 0.3s ease !important;';
+        isHidden = false;
+        applyBodyPadding();
+    }
+
+    function update() {
+        if (!bar || !header) return;
+        var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (scrollY > 10) {
+            hideBar();
+        } else {
+            showBar();
+        }
+    }
+
+    function init() {
+        if (ACTIVE) return;
+        if (!findElements()) return;
+
+        ACTIVE = true;
+        measure();
+        applyFixed();
+        applyBodyPadding();
+
+        // Scroll listener
+        window.addEventListener('scroll', function() {
+            requestAnimationFrame(update);
+        }, { passive: true });
+
+        // Resize listener
+        window.addEventListener('resize', function() {
+            measure();
+            applyBodyPadding();
+        });
+
+        update();
+    }
+
+    // ═══════════════════════════════════════════════════
+    // ١- نشتغل فوراً
+    // ═══════════════════════════════════════════════════
     init();
 
-    // محاولة ٢: بعد DOM ready
+    // ═══════════════════════════════════════════════════
+    // ٢- نستنى DOMContentLoaded
+    // ═══════════════════════════════════════════════════
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     }
 
-    // محاولة ٣: MutationObserver
+    // ═══════════════════════════════════════════════════
+    // ٣- MutationObserver يشتغل طول الوقت (مش بيفصل)
+    // ═══════════════════════════════════════════════════
     var obs = new MutationObserver(function() {
-        init();
-        if (isInit) obs.disconnect();
+        if (!ACTIVE) {
+            init();
+        } else {
+            // لو المنصة رجعت تعدّل على الهيدر، نرجع نطبّق fixed
+            if (header && window.getComputedStyle(header).position !== 'fixed') {
+                applyFixed();
+            }
+            // لو رجعت تعدّل على الشريط وهو hidden، نرجع نخفيه
+            if (bar && isHidden && window.getComputedStyle(bar).maxHeight !== '0px') {
+                hideBar();
+            }
+        }
     });
-    obs.observe(document.documentElement, { childList: true, subtree: true });
+    obs.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
 
-    // محاولة ٤: بعد 1 و 2 ثانية
-    setTimeout(init, 1000);
-    setTimeout(init, 2000);
+    // ═══════════════════════════════════════════════════
+    // ٤- Interval كل 200ms عشان نضمن إننا بنلحق أي override
+    // ═══════════════════════════════════════════════════
+    setInterval(function() {
+        if (!ACTIVE) {
+            init();
+        } else {
+            applyFixed();
+            if (isHidden) hideBar();
+            else showBar();
+        }
+    }, 200);
+
+    // ═══════════════════════════════════════════════════
+    // ٥- بعد load كامل
+    // ═══════════════════════════════════════════════════
+    window.addEventListener('load', function() {
+        init();
+        setTimeout(init, 500);
+        setTimeout(init, 1500);
+    });
 })();
 
 // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── //
