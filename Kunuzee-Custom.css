@@ -21,17 +21,22 @@
    SECTION: STICKY HEADER — الهيدر ثابت عند السكرول
    ═════════════════════════════════════════ */
 
-/* الهيدر sticky */
-.default_header_container {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 9999 !important;
-    transition: top 0.25s ease !important;
+/* نلغي أي overflow على الأجداد اللي بيكسر الـ fixed/sticky */
+html, body {
+    overflow-x: visible !important;
 }
 
-/* نضمن إن الـ container الداخلي مفيوش overflow يكسر الـ sticky */
-.default_header_container > div {
-    overflow: visible !important;
+/* الهيدر fixed عشان يشتغل 100% */
+.default_header_container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    transition: transform 0.3s ease !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
