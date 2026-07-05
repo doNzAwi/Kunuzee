@@ -16,39 +16,36 @@
     letter-spacing: 0.5px !important;
 }
 
-/* نلغي sticky من الـ header نفسه */
+/* الهيدر كله sticky في سقف الشاشة */
 .default_header {
-    position: relative !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
 }
 
-/* الشريط: يختفي بسلاسة */
+/* الشريط — الحالة العادية (ظاهر) */
 .default_header_top_text {
     transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
                 opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
                 padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                border-bottom-width 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
     max-height: 80px !important;
     opacity: 1 !important;
     overflow: hidden !important;
     will-change: max-height, opacity !important;
 }
 
-/* الحالة المخفية */
-.default_header_top_text.kunuzee-bar-hidden {
+/* ═══════════════════
+   الحالة المخفية — specificity عالية جداً عشان تكسر أي override
+   ═══════════════════ */
+header.default_header > p.default_header_top_text.kunuzee-bar-hidden,
+.default_header .default_header_top_text.kunuzee-bar-hidden {
     max-height: 0 !important;
     opacity: 0 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     border-bottom-width: 0 !important;
-}
-
-/* الكونتينر الرئيسي: sticky بس هو */
-.default_header_container {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 9999 !important;
-    background-color: #ffffff !important;
+    margin: 0 !important;
 }
 
 /* ───────────────────────────────────────────────────────────────
