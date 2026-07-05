@@ -2932,3 +2932,400 @@ body {
     border-radius: 9999px !important;
     overflow: hidden !important;
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 27: RESPONSIVE PRICES — تخصيص الأسعار للموبايل والتابلت
+   ─────────────────────────────────────────────────────────────── */
+
+/* ═══════════════════
+   MOBILE (< 768px)
+   ═══════════════════ */
+@media (max-width: 767px) {
+
+    /* ─── SECTION 2: Product Page ─── */
+    #price,
+    .product_price {
+        font-size: 1.8rem !important;
+    }
+    .product_price .font-\[inherit\]::after,
+    #price .font-\[inherit\]::after {
+        font-size: 1.0rem !important;
+        top: -0.25rem !important;
+    }
+    #sale-price {
+        font-size: 1.8rem !important;
+    }
+    #sale-price + span .font-\[inherit\]::after {
+        font-size: 1.0rem !important;
+        top: -0.25rem !important;
+    }
+    .line-through,
+    .text-gray-500.line-through {
+        font-size: 0.85rem !important;
+    }
+    .line-through + span .font-\[inherit\]::after,
+    .line-through ~ span .font-\[inherit\]::after {
+        font-size: 0.6rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* ─── SECTION 3: Featured Products ─── */
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child {
+        font-size: 1.3rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child .font-\[inherit\]::after {
+        font-size: 0.75rem !important;
+        top: -0.25rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading {
+        font-size: 1.3rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading .font-\[inherit\]::after {
+        font-size: 0.75rem !important;
+        top: -0.25rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del {
+        font-size: 1.0rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del span.font-\[inherit\]::after {
+        font-size: 0.65rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* ─── SECTION 2.1 / 4 / 5 / 6 / 6.1: Grid / List / Search / Category / Related ─── */
+    /* السعر الواحد (مفيش خصم) */
+    .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+    .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+    .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)),
+    .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
+        font-size: 1.15rem !important;
+    }
+    .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
+        font-size: 0.7rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* السعر الحالي (في خصم) */
+    .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
+    .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child,
+    .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child,
+    .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
+        font-size: 1.15rem !important;
+    }
+    .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
+        font-size: 0.7rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* السعر المشطوب */
+    .products_grid_card .flex.items-center.text-heading > del,
+    .default_product_list_card .flex.items-center.text-heading > del,
+    .home_products_grid_card .flex.items-center.text-heading > del,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del,
+    .category_products_grid_card .flex.items-center.text-heading > del {
+        font-size: 0.95rem !important;
+    }
+    .products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+    .default_product_list_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+    .home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del span.font-\[inherit\]::after,
+    .category_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
+        font-size: 0.55rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* ─── SECTION 11: Popup Prices ─── */
+    [data-product-preview="price"] > [data-product-preview="current-price"]:only-child {
+        font-size: 1.15rem !important;
+    }
+    [data-product-preview="price"] > [data-product-preview="current-price"]:only-child .font-\[inherit\]::after {
+        font-size: 0.55rem !important;
+        top: -0.25rem !important;
+    }
+    [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] {
+        font-size: 1.15rem !important;
+    }
+    [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] .font-\[inherit\]::after {
+        font-size: 0.55rem !important;
+        top: -0.25rem !important;
+    }
+    [data-product-preview="price"] > [data-product-preview="original-price"] {
+        font-size: 0.75rem !important;
+    }
+    [data-product-preview="price"] > [data-product-preview="original-price"] .font-\[inherit\]::after {
+        font-size: 0.45rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* ─── SECTION 7: Cart & Invoice ─── */
+    .cart-item p[data-cart="item-price"],
+    .checkout_cart_items_container p[data-cart="item-price"] {
+        font-size: 1.0rem !important;
+    }
+    .cart-item .font-\[inherit\]::after,
+    .checkout_order_summary .font-\[inherit\]::after {
+        font-size: 0.65rem !important;
+        top: -0.08rem !important;
+    }
+    dd[data-invoice="invoice-subtotal-value"],
+    [data-invoice="invoice-subtotal-value"] {
+        font-size: 1.0rem !important;
+    }
+    [data-invoice="invoice-subtotal-value"] .font-\[inherit\]::after {
+        font-size: 0.7rem !important;
+        top: -0.25rem !important;
+    }
+    .p-4 .font-\[inherit\]::after {
+        font-size: 9px !important;
+    }
+
+    /* ─── SECTION 17: Thank You Page / Invoice ─── */
+    /* سعر المنتج في الفاتورة */
+    .order_invoice_container p.text-lg > span:first-child {
+        font-size: 1.0rem !important;
+    }
+    .order_invoice_container p.text-lg > span:nth-child(2) {
+        font-size: 0.7rem !important;
+        top: -0.35rem !important;
+    }
+
+    /* إجمالي المنتجات + كود الخصم */
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div {
+        font-size: 0.85rem !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\] {
+        font-size: 0 !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\]::after {
+        font-size: 0.55rem !important;
+        top: -0.15rem !important;
+    }
+
+    /* الإجمالي النهائي */
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div {
+        font-size: 1.0rem !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\] {
+        font-size: 0 !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\]::after {
+        font-size: 0.65rem !important;
+        top: -0.25rem !important;
+    }
+
+    /* ─── Search Results EGP ─── */
+    [class*="search"] .font-\[inherit\]::after,
+    [class*="search-result"] .font-\[inherit\]::after,
+    [class*="search_results"] .font-\[inherit\]::after,
+    img + div .font-\[inherit\]::after,
+    h3 + div .font-\[inherit\]::after,
+    body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::after {
+        font-size: 9px !important;
+    }
+}
+
+/* ═══════════════════
+   TABLET / iPad (768px – 1023px)
+   ═══════════════════ */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    /* ─── SECTION 2: Product Page ─── */
+    #price,
+    .product_price {
+        font-size: 2.0rem !important;
+    }
+    .product_price .font-\[inherit\]::after,
+    #price .font-\[inherit\]::after {
+        font-size: 1.1rem !important;
+        top: -0.28rem !important;
+    }
+    #sale-price {
+        font-size: 2.0rem !important;
+    }
+    #sale-price + span .font-\[inherit\]::after {
+        font-size: 1.1rem !important;
+        top: -0.28rem !important;
+    }
+    .line-through,
+    .text-gray-500.line-through {
+        font-size: 0.9rem !important;
+    }
+    .line-through + span .font-\[inherit\]::after,
+    .line-through ~ span .font-\[inherit\]::after {
+        font-size: 0.65rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* ─── SECTION 3: Featured Products ─── */
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child {
+        font-size: 1.5rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > .text-heading:first-child .font-\[inherit\]::after {
+        font-size: 0.85rem !important;
+        top: -0.28rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading {
+        font-size: 1.5rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del + .text-heading .font-\[inherit\]::after {
+        font-size: 0.85rem !important;
+        top: -0.28rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del {
+        font-size: 1.15rem !important;
+    }
+    .default_product_featured_card .mt-2.flex.flex-row-reverse > del span.font-\[inherit\]::after {
+        font-size: 0.75rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* ─── SECTION 2.1 / 4 / 5 / 6 / 6.1: Grid / List / Search / Category / Related ─── */
+    /* السعر الواحد (مفيش خصم) */
+    .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+    .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+    .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)),
+    .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) {
+        font-size: 1.3rem !important;
+    }
+    .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+    .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
+        font-size: 0.75rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* السعر الحالي (في خصم) */
+    .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
+    .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child,
+    .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child,
+    .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child {
+        font-size: 1.3rem !important;
+    }
+    .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+    .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
+        font-size: 0.75rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* السعر المشطوب */
+    .products_grid_card .flex.items-center.text-heading > del,
+    .default_product_list_card .flex.items-center.text-heading > del,
+    .home_products_grid_card .flex.items-center.text-heading > del,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del,
+    .category_products_grid_card .flex.items-center.text-heading > del {
+        font-size: 1.05rem !important;
+    }
+    .products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+    .default_product_list_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+    .home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+    .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del span.font-\[inherit\]::after,
+    .category_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after {
+        font-size: 0.6rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* ─── SECTION 11: Popup Prices ─── */
+    [data-product-preview="price"] > [data-product-preview="current-price"]:only-child {
+        font-size: 1.3rem !important;
+    }
+    [data-product-preview="price"] > [data-product-preview="current-price"]:only-child .font-\[inherit\]::after {
+        font-size: 0.55rem !important;
+        top: -0.28rem !important;
+    }
+    [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] {
+        font-size: 1.3rem !important;
+    }
+    [data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] .font-\[inherit\]::after {
+        font-size: 0.55rem !important;
+        top: -0.28rem !important;
+    }
+    [data-product-preview="price"] > [data-product-preview="original-price"] {
+        font-size: 0.8rem !important;
+    }
+    [data-product-preview="price"] > [data-product-preview="original-price"] .font-\[inherit\]::after {
+        font-size: 0.48rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* ─── SECTION 7: Cart & Invoice ─── */
+    .cart-item p[data-cart="item-price"],
+    .checkout_cart_items_container p[data-cart="item-price"] {
+        font-size: 1.1rem !important;
+    }
+    .cart-item .font-\[inherit\]::after,
+    .checkout_order_summary .font-\[inherit\]::after {
+        font-size: 0.7rem !important;
+        top: -0.1rem !important;
+    }
+    dd[data-invoice="invoice-subtotal-value"],
+    [data-invoice="invoice-subtotal-value"] {
+        font-size: 1.1rem !important;
+    }
+    [data-invoice="invoice-subtotal-value"] .font-\[inherit\]::after {
+        font-size: 0.75rem !important;
+        top: -0.28rem !important;
+    }
+    .p-4 .font-\[inherit\]::after {
+        font-size: 9.5px !important;
+    }
+
+    /* ─── SECTION 17: Thank You Page / Invoice ─── */
+    .order_invoice_container p.text-lg > span:first-child {
+        font-size: 1.1rem !important;
+    }
+    .order_invoice_container p.text-lg > span:nth-child(2) {
+        font-size: 0.75rem !important;
+        top: -0.4rem !important;
+    }
+
+    /* إجمالي المنتجات + كود الخصم */
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div {
+        font-size: 0.9rem !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\] {
+        font-size: 0 !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child div.font-medium > dt > div .font-\[inherit\]::after {
+        font-size: 0.6rem !important;
+        top: -0.18rem !important;
+    }
+
+    /* الإجمالي النهائي */
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div {
+        font-size: 1.1rem !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\] {
+        font-size: 0 !important;
+    }
+    .order_invoice_container .col-span-2 > div.p-5.border.rounded-lg.shadow-sm:last-child > dt > div .font-\[inherit\]::after {
+        font-size: 0.7rem !important;
+        top: -0.28rem !important;
+    }
+
+    /* ─── Search Results EGP ─── */
+    [class*="search"] .font-\[inherit\]::after,
+    [class*="search-result"] .font-\[inherit\]::after,
+    [class*="search_results"] .font-\[inherit\]::after,
+    img + div .font-\[inherit\]::after,
+    h3 + div .font-\[inherit\]::after,
+    body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::after {
+        font-size: 10px !important;
+    }
+}
