@@ -8,9 +8,9 @@
 
 /* ٢. شريط التنبيهات — لون ملفت (أحمر زاهي) */
 .default_header_top_text {
-    background-color: #fff600 !important;
-    border-bottom: 2px solid #fff600 !important;
-    color: #ff0000 !important;
+    background-color: #ff0000 !important;
+    border-bottom: 2px solid #ff0000 !important;
+    color: #f2e4be !important;
     font-weight: 400 !important;
     font-size: 1rem !important;
     letter-spacing: 0.5px !important;
