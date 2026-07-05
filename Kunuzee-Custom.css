@@ -2,19 +2,21 @@
    KUNUZEE STORE — CUSTOM STYLESHEET
    Platform: Easy Orders
    ═══════════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    ANNOUNCEMENT BAR + HEADER STICKY GLASSMORPHISM
-   ═══════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════ */
 
-/* ─── ١. إلغاء الـ sticky من الـ wrapper اللي بيحتوي الهيدر + الشريط ─── */
-div.bg-white.sticky.top-0.w-full.z-20:has(> header.default_header) {
-    position: static !important;
+/* ─── ١. إلغاء الـ sticky من الـ wrapper الخارجي (الشريط يتحرك مع السكرول) ─── */
+div.bg-white.sticky.top-0.w-full.z-20:has(> header.default_header),
+div.bg-white.sticky.top-0.w-full.z-20 {
+    position: relative !important;
 }
 
-/* ─── ٢. شريط التنبيهات — لون ملفت جداً (أحمر زاهي) ─── */
+/* ─── ٢. شريط التنبيهات ─── */
 .default_header_top_text,
 p.default_header_top_text,
-.bg-skin-primary.default_header_top_text {
+.bg-skin-primary.default_header_top_text,
+[class*="default_header_top_text"] {
     background-color: #dc2626 !important;
     color: #ffffff !important;
     font-weight: 700 !important;
@@ -22,17 +24,20 @@ p.default_header_top_text,
     letter-spacing: 0.5px !important;
     text-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
     border-bottom: 2px solid #b91c1c !important;
-    /* نلغي أي متغيرات Tailwind اللي ممكن تتعارض */
     --tw-bg-opacity: 1 !important;
     --tw-text-opacity: 1 !important;
 }
 
-/* ─── ٣. الهيدر — sticky + زجاج مصنفر (نفس قيم القوايم المنسدلة) ─── */
-header.default_header {
+/* ─── ٣. الهيدر — sticky + زجاج مصنفر على كل الشاشات ─── */
+header.default_header,
+.default_header,
+header.default_header.relative,
+.default_header.relative {
+    position: -webkit-sticky !important;
     position: sticky !important;
     top: 0 !important;
-    z-index: 20 !important;
-    /* نفس القيم بالظبط من Popover Panels في الكود الكبير */
+    z-index: 9999 !important;
+    /* نفس قيم القوايم المنسدلة بالظبط من الكود الكبير */
     background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(16px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
@@ -40,9 +45,34 @@ header.default_header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* ─── ٤. نلغي الخلفية البيضاء الثابتة على الهيدر عشان الزجاج يبان ─── */
-header.default_header.bg-white {
+/* نلغي الخلفية البيضاء الثابتة عشان الزجاج يبان */
+header.default_header.bg-white,
+.default_header.bg-white,
+header.default_header[class*="bg-white"] {
     background-color: transparent !important;
+}
+
+/* ─── ٤. ديسكتوب صريح (≥1024px) — تأكيد إضافي ─── */
+@media (min-width: 1024px) {
+    header.default_header,
+    .default_header,
+    header.default_header.relative,
+    .default_header.relative {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 9999 !important;
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(16px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    header.default_header.bg-white,
+    .default_header.bg-white {
+        background-color: transparent !important;
+    }
 }
 
 /* ───────────────────────────────────────────────────────────────
