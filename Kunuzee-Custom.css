@@ -2949,16 +2949,16 @@ body {
     .product_price .font-\[inherit\]::after,
     #price .font-\[inherit\]::after {
         font-size: 1.0rem !important;
-        top: -0.45rem !important;
-        margin-right: -0.1rem !important;
+        top: -0.55rem !important;
+        margin-right: -0.2rem !important;
     }
     #sale-price {
         font-size: 1.8rem !important;
     }
     #sale-price + span .font-\[inherit\]::after {
         font-size: 1.0rem !important;
-        top: -0.45rem !important;
-        margin-right: -0.1rem !important;
+        top: -0.55rem !important;
+        margin-right: -0.2rem !important;
     }
     .line-through,
     .text-gray-500.line-through {
