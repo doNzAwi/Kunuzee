@@ -3094,8 +3094,8 @@ body {
         font-size: 1.0rem !important;
     }
     [data-invoice="invoice-subtotal-value"] .font-\[inherit\]::after {
-        font-size: 0.75rem !important;
-        top: -0.5rem !important;
+        font-size: 0.8rem !important;
+        top: -0.45rem !important;
         margin-right: -0.05rem !important;
     }
     .p-4 .font-\[inherit\]::after {
