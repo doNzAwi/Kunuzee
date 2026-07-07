@@ -1027,85 +1027,7 @@ button[data-search="button"]:hover {
    SECTION 11: POPUP PRICES — أسعار البوب-أب
    ─────────────────────────────────────────────────────────────── */
 
-[data-product-preview="title"],
-h1[data-product-preview="title"] {
-    color: var(--k-teal) !important;
-}
-
-[data-product-preview="price"] > [data-product-preview="current-price"]:only-child {
-    font-size: 1.5rem !important;
-    font-weight: 700 !important;
-    color: var(--k-orange) !important;
-    font-family: 'Tajawal', sans-serif !important;
-}
-
-[data-product-preview="price"] > [data-product-preview="current-price"]:only-child .font-\[inherit\]::after {
-    color: var(--k-orange) !important;
-    font-size: 0.6rem !important;
-    top: -0.3rem !important;
-    margin-right: 0.1rem !important;
-}
-
-[data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] {
-    font-size: 1.5rem !important;
-    font-weight: 700 !important;
-    color: var(--k-orange) !important;
-    font-family: 'Tajawal', sans-serif !important;
-}
-
-[data-product-preview="price"]:has(> [data-product-preview="original-price"]) > [data-product-preview="current-price"] .font-\[inherit\]::after {
-    color: var(--k-orange) !important;
-    font-size: 0.6rem !important;
-    top: -0.3rem !important;
-    margin-right: 0.1rem !important;
-}
-
-[data-product-preview="price"] > [data-product-preview="original-price"] {
-    font-size: 0.9rem !important;
-    font-weight: 400 !important;
-    color: var(--k-gold) !important;
-    text-decoration: line-through !important;
-    opacity: 0.75 !important;
-    margin-left: 8px !important;
-    font-family: 'Tajawal', sans-serif !important;
-}
-
-[data-product-preview="price"] > [data-product-preview="original-price"] .font-\[inherit\]::after {
-    color: var(--k-gold) !important;
-    font-size: 0.5rem !important;
-    top: -0.3rem !important;
-    margin-right: 0px !important;
-    opacity: 0.6 !important;
-    display: inline-block !important;
-    text-decoration: none !important;
-    text-decoration-line: none !important;
-}
-
-[data-product-preview="quantity-control"],
-div[data-product-preview="quantity-control"] {
-    display: none !important;
-}
-
-[data-product-preview="add-to-cart"],
-button[data-product-preview="add-to-cart"] {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: none !important;
-}
-
-[data-product-preview="category"],
-a[data-product-preview="category"] {
-    color: var(--k-gold) !important;
-    transition: color 0.2s ease !important;
-}
-
-[data-product-preview="category"]:hover,
-a[data-product-preview="category"]:hover {
-    color: var(--k-orange) !important;
-}
-
 a[href*="/products/"],
-div[data-product-preview="details"] a,
 div.mt-4 a,
 div.md\:mt-4 a,
 .p-5 a,
@@ -1114,7 +1036,6 @@ div.p-5 a {
 }
 
 a[href*="/products/"]:hover,
-div[data-product-preview="details"] a:hover,
 div.mt-4 a:hover,
 div.md\:mt-4 a:hover,
 .p-5 a:hover,
@@ -1253,7 +1174,6 @@ body {
 }
 
 .select__menu,
-[data-product-preview="modal"],
 .checkout_form,
 .contact-info-heading {
     z-index: 1 !important;
