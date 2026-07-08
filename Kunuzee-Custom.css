@@ -2725,7 +2725,7 @@ body {
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── Container & Editor (من التخصيص الأصلي) ─── */
+/* ─── Container (من التخصيص الأصلي بالظبط) ─── */
 .home_section_container:has(.szh-accordion),
 .home_section_container:has(.szh-accordion) .ql-container .ql-editor {
     padding: 40px 20px !important;
@@ -2735,7 +2735,7 @@ body {
     box-sizing: border-box !important;
 }
 
-/* ─── Main title (h3) — من التخصيص الأصلي + 1.3rem default ─── */
+/* ─── Main title (h3) ─── */
 .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
     color: var(--k-teal) !important;
     text-align: center !important;
@@ -2754,7 +2754,7 @@ body {
     padding: 0 !important;
 }
 
-/* ─── Subtitle / description — من التخصيص الأصلي + 1rem default ─── */
+/* ─── Subtitle / description ─── */
 .home_section_container:has(.szh-accordion) .description {
     text-align: center !important;
     font-size: 1rem !important;
@@ -2766,7 +2766,7 @@ body {
     margin: 0 !important;
 }
 
-/* ─── Accordion button (question) — من التخصيص الأصلي ─── */
+/* ─── Accordion button ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
     color: var(--k-teal) !important;
     text-align: right !important;
@@ -2774,10 +2774,9 @@ body {
     font-style: normal !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
-    direction: rtl !important;
 }
 
-/* ─── Accordion panel (answer) — من التخصيص الأصلي ─── */
+/* ─── Accordion panel ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
     padding: 20px !important;
     border: 0 !important;
@@ -2787,11 +2786,9 @@ body {
     font-style: normal !important;
     font-weight: 300 !important;
     line-height: 30px !important;
-    direction: rtl !important;
-    text-align: right !important;
 }
 
-/* ─── Title+description wrapper gap — من التخصيص الأصلي ─── */
+/* ─── Title+description wrapper ─── */
 .home_section_container:has(.szh-accordion) > div > div:first-of-type {
     padding: 0 !important;
     display: flex !important;
@@ -2800,7 +2797,7 @@ body {
     padding-bottom: 20px !important;
 }
 
-/* ─── Item cards — من التخصيص الأصلي ─── */
+/* ─── Item cards (من التخصيص الأصلي) ─── */
 .home_section_container:has(.szh-accordion) .css-1ifr9s1,
 .home_section_container:has(.szh-accordion) .muirtl-new-12b2el2,
 .home_section_container:has(.szh-accordion) [class*="muirtl-new-12b2el2"] {
@@ -2815,22 +2812,24 @@ body {
     border: 1px solid var(--k-gold) !important;
 }
 
-/* ─── Accordion container — من التخصيص الأصلي ─── */
+/* ─── Accordion container (من التخصيص الأصلي — تعديل minmax فقط) ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion {
     padding: 0 !important;
     margin: 45px 0 !important;
     gap: 20px !important;
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;  /* ← 280px + 1fr */
     border-radius: 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-/* ─── SVG color — من التخصيص الأصلي ─── */
+/* ─── SVG ─── */
 .home_section_container:has(.szh-accordion) svg {
     color: var(--k-teal) !important;
 }
 
-/* ─── RTL direction — من التخصيص الأصلي ─── */
+/* ─── RTL ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion,
 .home_section_container:has(.szh-accordion) .szh-accordion__item-btn,
 .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
@@ -2838,7 +2837,7 @@ body {
     text-align: right !important;
 }
 
-/* ─── Button flex layout — من التخصيص الأصلي ─── */
+/* ─── Button flex ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
     display: flex !important;
     justify-content: space-between !important;
@@ -2850,15 +2849,15 @@ body {
     flex-shrink: 0 !important;
 }
 
-/* ══════════════════════════════════════════════
-   FAQ — RESPONSIVE (من التخصيص الأصلي + تعديلات الأحجام)
-   ══════════════════════════════════════════════ */
+/* ══════════
+   RESPONSIVE
+   ══════════ */
 
 /* ─── Desktop (≥1280px) — من التخصيص الأصلي ─── */
 @media (min-width: 1280px) {
     .home_section_container:has(.szh-accordion) .szh-accordion {
         display: grid !important;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 2fr)) !important;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;  /* ← 1fr */
         margin: 45px 0 !important;
         max-width: 1200px !important;
         width: 100% !important;
@@ -2879,25 +2878,14 @@ body {
     }
 }
 
-/* ─── Tablet (≤1023px) — من التخصيص الأصلي ─── */
-@media (max-width: 1023px) {
-    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.2rem !important;
-    }
-
-    .home_section_container:has(.szh-accordion) .description {
-        font-size: 0.95rem !important;
-    }
-}
-
-/* ─── Mobile (≤767px) — العناوين 1.2rem / 1rem زي ما طلبت ─── */
+/* ─── Mobile (≤767px) — عناوين أكبر للـ 6S Plus ─── */
 @media (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.2rem !important;
+        font-size: 1.35rem !important;  /* ← درجة أكبر */
     }
 
     .home_section_container:has(.szh-accordion) .description {
-        font-size: 1rem !important;
+        font-size: 1.05rem !important;  /* ← درجة أكبر */
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
@@ -2911,10 +2899,18 @@ body {
     }
 }
 
-/* ─── Small mobile (≤375px) ─── */
+/* ─── Small mobile (≤375px) — iPhone 13 ─── */
 @media (max-width: 375px) {
     .home_section_container:has(.szh-accordion) {
-        padding: 30px 12px !important;
+        padding: 30px 16px !important;  /* ← padding أقل */
+    }
+
+    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
+        font-size: 1.2rem !important;  /* ← زي ما طلبت */
+    }
+
+    .home_section_container:has(.szh-accordion) .description {
+        font-size: 1rem !important;  /* ← زي ما طلبت */
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
