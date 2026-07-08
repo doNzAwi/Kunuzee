@@ -2728,7 +2728,7 @@ body {
 /* ─── Container ─── */
 .home_section_container:has(.szh-accordion),
 .home_section_container:has(.szh-accordion) .ql-container .ql-editor {
-    padding: 40px 10px 40px 30px !important;  /* ← right:10px, left:30px = دفع لليمين */
+    padding: 40px 20px !important;
     position: relative !important;
     width: 100% !important;
     background: #fff !important;
@@ -2774,6 +2774,7 @@ body {
     font-style: normal !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
+    direction: rtl !important;
 }
 
 /* ─── Accordion panel ─── */
@@ -2786,6 +2787,8 @@ body {
     font-style: normal !important;
     font-weight: 300 !important;
     line-height: 30px !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 /* ─── Title+description wrapper ─── */
@@ -2876,14 +2879,20 @@ body {
     .home_section_container:has(.szh-accordion) .description {
         font-size: 1.25rem !important;
     }
+   
+}/* ─── Tablet (≤1023px) — من التخصيص الأصلي ─── */
+@media (max-width: 1023px) {
+    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
+        font-size: 1.2rem !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .description {
+        font-size: 0.95rem !important;
+    }
 }
 
 /* ─── Mobile (≤767px) — العناوين 1.2rem / 1rem زي ما طلبت ─── */
 @media (min-width: 391px) and (max-width: 767px) {
-    .home_section_container:has(.szh-accordion) {
-        margin: 12px 32px !important;
-    }
-   
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.9rem !important;
     }
