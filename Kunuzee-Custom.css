@@ -221,7 +221,69 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 2.1 (merged): GRID / LIST / SEARCH / CATEGORY / RELATED
+   SECTION 2.1: GRID
+   Applies to: .home_products_grid_card (which uses
+   .justify-center in its price row selector — the only structural
+   difference between it and the other four, kept explicit below).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── الوضع الأول: سعر واحد (مفيش خصم) — الرقم ── */
+.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)), {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    color: var(--k-orange) !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* EGP السعر الواحد */
+.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after, {
+    color: var(--k-orange) !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    top: -0.35rem !important;
+    margin-right: 0.05rem !important;
+}
+
+/* ── الوضع الثاني: سعرين (في خصم) — السعر الحالي بعد الخصم ── */
+.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child, {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    color: var(--k-orange) !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after, {
+    color: var(--k-orange) !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    top: -0.35rem !important;
+    margin-right: 0.05rem !important;
+}
+
+/* ── السعر المشطوب ── */
+.home_products_grid_card .flex.items-center.text-heading > del, {
+    font-size: 1.2rem !important;
+    font-weight: 100 !important;
+    color: var(--k-gold) !important;
+    text-decoration: line-through !important;
+    opacity: 1 !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+.home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after, {
+    color: var(--k-gold) !important;
+    font-size: 0.65rem !important;
+    font-weight: 100 !important;
+    top: -0.35rem !important;
+    margin-right: 0.05rem !important;
+    opacity: 1 !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 2.2 (merged): LIST / SEARCH / CATEGORY / RELATED
    PRODUCT CARDS — SHARED PRICE STATES
    Applies to: .products_grid_card, .default_product_list_card,
    .home_products_grid_card, .category_products_grid_card, and the
@@ -233,7 +295,6 @@
 /* ── الوضع الأول: سعر واحد (مفيش خصم) — الرقم ── */
 .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
 .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
-.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
 .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
@@ -245,20 +306,18 @@
 /* EGP السعر الواحد */
 .products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
 .default_product_list_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
-.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
 .category_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after {
     color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
-    top: -0.35rem !important;
+    top: -0.3rem !important;
     margin-right: 0.05rem !important;
 }
 
 /* ── الوضع الثاني: سعرين (في خصم) — السعر الحالي بعد الخصم ── */
 .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
 .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child,
-.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
 .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child {
     font-size: 1.5rem !important;
@@ -269,7 +328,6 @@
 
 .products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
 .default_product_list_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
-.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
 .category_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after {
     color: var(--k-orange) !important;
@@ -282,7 +340,6 @@
 /* ── السعر المشطوب ── */
 .products_grid_card .flex.items-center.text-heading > del,
 .default_product_list_card .flex.items-center.text-heading > del,
-.home_products_grid_card .flex.items-center.text-heading > del,
 .category_products_grid_card .flex.items-center.text-heading > del,
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del {
     font-size: 1.2rem !important;
@@ -303,7 +360,6 @@
 
 .products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
 .default_product_list_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
-.home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
 .category_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
 .group[class*="hover:shadow-product"] .flex.items-center.justify-center.text-heading > del span.font-\[inherit\]::after {
     color: var(--k-gold) !important;
