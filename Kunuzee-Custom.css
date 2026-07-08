@@ -2854,7 +2854,7 @@ body {
    ══════════ */
 
 /* ─── Desktop (≥1280px) ─── */
-/*@media (min-width: 1280px) {
+@media (min-width: 1280px) {
     .home_section_container:has(.szh-accordion) .szh-accordion {
         display: grid !important;
         grid-template-columns: repeat(auto-fill, minmax(400px, 2fr)) !important;
@@ -2876,10 +2876,10 @@ body {
     .home_section_container:has(.szh-accordion) .description {
         font-size: 1.25rem !important;
     }
-}*/
+}
 
 /* ─── Mobile (≤767px) — 6S Plus: عناوين 1.7rem / 1.3rem ─── */
-@media (max-width: 767px) {
+@media (min-width: 391px) and (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.9rem !important;
     }
