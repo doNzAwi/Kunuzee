@@ -2879,11 +2879,32 @@ body {
 }
 
 /* ─── Mobile (≤767px) — 6S Plus: عناوين 1.7rem / 1.3rem ─── */
-@media (min-width: 391px) and (max-width: 767px) {
+/*@media (min-width: 391px) and (max-width: 767px) {
     .home_section_container:has(.szh-accordion) {
         margin: 12px 16px !important;
     }
    
+    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
+        font-size: 1.9rem !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .description {
+        font-size: 1.5rem !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
+        font-size: 16px !important;
+        padding: 14px !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
+        font-size: 16px !important;
+        line-height: 26px !important;
+    }
+}*/
+
+/* ─── Mobile (≤767px) — العناوين 1.2rem / 1rem زي ما طلبت ─── */
+@media (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.9rem !important;
     }
