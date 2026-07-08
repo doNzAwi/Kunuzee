@@ -2814,15 +2814,16 @@ body {
     border: 1px solid var(--k-gold) !important;
 }
 
-/* ─── Accordion container ─── */
+/* ─── Accordion container — max-width + centered ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion {
     padding: 0 !important;
-    margin: 45px 0 !important;
+    margin: 45px auto !important;           /* ← auto = centered */
     gap: 20px !important;
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;  /* ← 280px + 1fr */
     border-radius: 24px !important;
     width: 100% !important;
+    max-width: 100% !important;             /* ← ما يتعداش الـ container */
     box-sizing: border-box !important;
 }
 
@@ -2859,11 +2860,10 @@ body {
 @media (min-width: 1280px) {
     .home_section_container:has(.szh-accordion) .szh-accordion {
         display: grid !important;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 2fr)) !important;
-        margin: 45px 0 !important;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+        margin: 45px auto !important;
         max-width: 1200px !important;
         width: 100% !important;
-        margin: 0 auto !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
@@ -2878,8 +2878,9 @@ body {
     .home_section_container:has(.szh-accordion) .description {
         font-size: 1.25rem !important;
     }
-   
-}/* ─── Tablet (≤1023px) — من التخصيص الأصلي ─── */
+}
+
+/* ─── Tablet (≤1023px) ─── */
 @media (max-width: 1023px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.2rem !important;
@@ -2890,7 +2891,7 @@ body {
     }
 }
 
-/* ─── Mobile (≤767px) — العناوين 1.2rem / 1rem زي ما طلبت ─── */
+/* ─── Mobile (≤767px) — 6S Plus: عناوين أكبر ─── */
 @media (min-width: 391px) and (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.9rem !important;
@@ -2911,12 +2912,8 @@ body {
     }
 }
 
-/* ─── Small mobile (≤390px) — iPhone 13: توسيط + عناوين أصغر ─── */
+/* ─── Small mobile (≤390px) — iPhone 13 ─── */
 @media (max-width: 390px) {
-    .home_section_container:has(.szh-accordion) {
-        margin-right: -21px !important;
-    }
-
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.4rem !important;
     }
