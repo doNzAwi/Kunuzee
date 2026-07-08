@@ -2901,9 +2901,8 @@ body {
 
 /* ─── Small mobile (≤390px) — iPhone 13: توسيط + عناوين أصغر ─── */
 @media (max-width: 390px) {
-    .home_section_container:has(.szh-accordion),
-    .home_section_container:has(.szh-accordion) .ql-container .ql-editor {
-        padding: 8px 12px 8px 28px !important;  /* top - right - bottom - left */
+    .home_section_container:has(.szh-accordion) {
+        padding: 30px 16px !important;
     }
 
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
