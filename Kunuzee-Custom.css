@@ -2893,7 +2893,7 @@ body {
 /* ─── Mobile (≤767px) — العناوين 1.2rem / 1rem زي ما طلبت ─── */
 @media (min-width: 391px) and (max-width: 767px) {
     .home_section_container:has(.szh-accordion) {
-        margin-left: -26px !important;
+        margin-right: 30px !important;
     }
    
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
@@ -2918,7 +2918,7 @@ body {
 /* ─── Small mobile (≤390px) — iPhone 13: توسيط + عناوين أصغر ─── */
 @media (max-width: 390px) {
     .home_section_container:has(.szh-accordion) {
-        margin-right: -26px !important;
+        margin-right: -30px !important;
     }
 
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
