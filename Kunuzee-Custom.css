@@ -624,7 +624,7 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
         padding-inline-start: 0 !important;
         padding-inline-end: 0 !important;
         display: flex !important;
-        justify-content: center !important;
+        justify-content: flex-end !important;
         align-items: center !important;
         box-sizing: border-box !important;
     }
@@ -639,16 +639,34 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     .default_header_logo img {
         height: 50px !important;
         width: auto !important;
-
+        max-width: 80px !important;
         object-fit: contain !important;
         display: block !important;
     }
 
-
+    .default_header_container .ms-auto.flex.items-center,
+    .default_header_container div.ms-auto.flex.items-center {
+        transform: translateX(-14px) !important;
+    }
 }
 
 @media (min-width: 1024px) {
-
+    .default_header_container .ms-auto.flex.items-center,
+    .default_header_container div.ms-auto.flex.items-center {
+        width: 120px !important;
+        min-width: 120px !important;
+        margin-right: auto !important;
+        margin-left: 0 !important;
+        margin-inline-start: 0 !important;
+        margin-inline-end: auto !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 12px !important;
+        box-sizing: border-box !important;
+    }
 }
 
 .default_header_container div.hidden.lg\:ms-8.lg\:block.lg\:self-stretch,
@@ -775,7 +793,19 @@ body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::af
     width: 100% !important;
 }
 
-
+.default_header_container .ms-auto.flex.items-center {
+    width: 120px !important;
+    min-width: 120px !important;
+    margin-right: auto !important;
+    margin-left: 0 !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
+}
 
 /* ─── Popover Panel Styling ───
    NOTE: backdrop-filter blur is the most GPU-expensive rule in this
@@ -2689,152 +2719,4 @@ body {
     body:not([class*="product-page"]) .flex.items-center.gap-1 .font-\[inherit\]::after {
         font-size: 10px !important;
     }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 28: SAFE RESPONSIVE HEADER — تخصيص آمن للهيدر
-
-   APPROACH: Instead of overriding layout properties (width,
-   justify-content, transform) that break the theme's responsive
-   grid, we only customize VISUAL properties (colors, fonts,
-   spacing) and let the theme handle sizing and positioning.
-
-   The removed rules were:
-   - transform: translateX(-14px) — caused visual misalignment
-   - justify-content: flex-end on logo — unbalanced the header
-   - width: 120px on icons container — forced fixed width
-   - max-width: 80px on logo — restricted logo sizing
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ─── Mobile & Tablet: visual-only header tweaks ─── */
-@media (max-width: 1023px) {
-    /* Logo sizing: we only set height, let width be natural */
-    .default_header_logo img {
-        height: 50px !important;
-        width: auto !important;
-        object-fit: contain !important;
-        display: block !important;
-    }
-
-    /* Logo container: center alignment, minimal margins */
-    .default_header_logo {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        margin-inline-start: 6px !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
-    }
-
-    /* Icon colors preserved, layout untouched */
-    .default_header_container svg {
-        color: var(--k-orange) !important;
-    }
-    .default_header_container svg:hover {
-        color: var(--k-gold) !important;
-    }
-}
-
-/* ─── Desktop: same visual-only approach ─── */
-@media (min-width: 1024px) {
-    .default_header_logo img {
-        height: 65px !important;
-        width: auto !important;
-        object-fit: contain !important;
-        display: block !important;
-    }
-}
-
-/* ─── Header border color (all breakpoints) ─── */
-.default_header_container .border-b {
-    border-bottom-color: var(--k-gold) !important;
-}
-
-/* ─── Navigation links styling (all breakpoints) ─── */
-.default_header_container .space-s-8 > a {
-    font-size: 17px !important;
-    font-weight: 600 !important;
-    font-family: 'Tajawal', sans-serif !important;
-    color: var(--k-teal) !important;
-    padding-bottom: 4px !important;
-    position: relative !important;
-    text-decoration: none !important;
-    transition: color 0.3s ease !important;
-}
-
-.default_header_container .space-s-8 > a:hover {
-    color: var(--k-gold) !important;
-}
-
-.default_header_container .space-s-8 > a::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 0 !important;
-    height: 2.5px !important;
-    background-color: var(--k-orange) !important;
-    transition: width 0.3s ease-in-out !important;
-    border-radius: 2px !important;
-}
-
-.default_header_container .space-s-8 > a:hover::after {
-    width: 100% !important;
-}
-
-/* ─── Popover buttons styling (all breakpoints) ─── */
-.default_header_container .space-s-8 button[id*="headlessui-popover-button"],
-.default_header_container .space-s-8 [id*="headlessui-popover-button"] {
-    font-size: 17px !important;
-    font-weight: 600 !important;
-    font-family: 'Tajawal', sans-serif !important;
-    color: var(--k-teal) !important;
-    text-decoration: none !important;
-    padding-bottom: 4px !important;
-    position: relative !important;
-    background: none !important;
-    border: none !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    transition: color 0.3s ease !important;
-    line-height: 1.5 !important;
-}
-
-.default_header_container .space-s-8 button[id*="headlessui-popover-button"]:hover,
-.default_header_container .space-s-8 [id*="headlessui-popover-button"]:hover {
-    color: var(--k-gold) !important;
-}
-
-.default_header_container .space-s-8 button[id*="headlessui-popover-button"] svg,
-.default_header_container .space-s-8 [id*="headlessui-popover-button"] svg {
-    width: 10px !important;
-    height: 10px !important;
-    color: inherit !important;
-    transition: transform 0.3s ease !important;
-    flex-shrink: 0 !important;
-}
-
-.default_header_container .space-s-8 button[id*="headlessui-popover-button"][aria-expanded="true"] svg,
-.default_header_container .space-s-8 [id*="headlessui-popover-button"][aria-expanded="true"] svg {
-    transform: rotate(180deg) !important;
-}
-
-.default_header_container .space-s-8 button[id*="headlessui-popover-button"]::after,
-.default_header_container .space-s-8 [id*="headlessui-popover-button"]::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 0 !important;
-    height: 2.5px !important;
-    background-color: var(--k-orange) !important;
-    transition: width 0.3s ease-in-out !important;
-    border-radius: 2px !important;
-}
-
-.default_header_container .space-s-8 button[id*="headlessui-popover-button"]:hover::after,
-.default_header_container .space-s-8 [id*="headlessui-popover-button"]:hover::after {
-    width: 100% !important;
 }
