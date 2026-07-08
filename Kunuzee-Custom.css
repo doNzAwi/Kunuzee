@@ -2728,7 +2728,7 @@ body {
 /* ─── Container ─── */
 .home_section_container:has(.szh-accordion),
 .home_section_container:has(.szh-accordion) .ql-container .ql-editor {
-    padding: 40px 20px !important;
+    padding: 40px 10px 40px 30px !important;  /* ← right:10px, left:30px = دفع لليمين */
     position: relative !important;
     width: 100% !important;
     background: #fff !important;
@@ -2818,7 +2818,7 @@ body {
     margin: 45px 0 !important;
     gap: 20px !important;
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr)) !important;
     border-radius: 24px !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -2857,7 +2857,7 @@ body {
 @media (min-width: 1280px) {
     .home_section_container:has(.szh-accordion) .szh-accordion {
         display: grid !important;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 2fr)) !important;
         margin: 45px 0 !important;
         max-width: 1200px !important;
         width: 100% !important;
@@ -2878,14 +2878,14 @@ body {
     }
 }
 
-/* ─── Mobile (≤767px) — 6S Plus: عناوين أكبر ─── */
+/* ─── Mobile (≤767px) — 6S Plus: عناوين 1.7rem / 1.3rem ─── */
 @media (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.5rem !important;  /* ← 3 درجات أكبر */
+        font-size: 1.7rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .description {
-        font-size: 1.15rem !important;  /* ← 3 درجات أكبر */
+        font-size: 1.3rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
@@ -2899,18 +2899,19 @@ body {
     }
 }
 
-/* ─── Small mobile (≤390px) — iPhone 13: توسيط + عناوين أصغر ─── */
+/* ─── Small mobile (≤390px) — iPhone 13: عناوين أصغر + padding مظبوط ─── */
 @media (max-width: 390px) {
-    .home_section_container:has(.szh-accordion) {
-        padding: 30px 18px !important;  /* ← padding أقل شوية */
+    .home_section_container:has(.szh-accordion),
+    .home_section_container:has(.szh-accordion) .ql-container .ql-editor {
+        padding: 40px 16px 40px 24px !important;  /* ← right:16px, left:24px = دفع أقل لليمين */
     }
 
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.2rem !important;  /* ← زي ما طلبت */
+        font-size: 1.2rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .description {
-        font-size: 1rem !important;  /* ← زي ما طلبت */
+        font-size: 1rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
