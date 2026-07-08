@@ -2881,16 +2881,16 @@ body {
 /* ─── Mobile (≤767px) — 6S Plus: عناوين 1.7rem / 1.3rem ─── */
 @media (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 2.1rem !important;
+        font-size: 1.9rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .description {
-        font-size: 1.7rem !important;
+        font-size: 1.5rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
         font-size: 16px !important;
-        padding: 14px !important;
+        padding: 10px 2px !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
@@ -2902,7 +2902,7 @@ body {
 /* ─── Small mobile (≤390px) — iPhone 13: توسيط + عناوين أصغر ─── */
 @media (max-width: 390px) {
     .home_section_container:has(.szh-accordion) {
-        padding: 30px 2px !important;  /* ← padding أقل شوية */
+        padding: 10px -2px !important;  /* ← padding أقل شوية */
     }
 
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
