@@ -2728,7 +2728,6 @@ body {
 /* ─── Container ─── */
 .home_section_container:has(.szh-accordion),
 .home_section_container:has(.szh-accordion) .ql-container .ql-editor {
-    padding: 40px 20px !important;
     position: relative !important;
     width: 100% !important;
     background: #fff !important;
