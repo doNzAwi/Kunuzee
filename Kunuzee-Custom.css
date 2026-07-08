@@ -2725,32 +2725,10 @@ body {
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── العنوان الرئيسي (h3) ─── */
-.home_section_container h3 {
-    font-size: 1.3rem !important;
-    font-weight: 700 !important;
-    color: var(--k-teal) !important;
-    font-family: 'Tajawal', sans-serif !important;
-    text-align: center !important;
-    line-height: 1.4 !important;
-}
-
-/* ─── العنوان الفرعي (p.description) ─── */
-.home_section_container p.description {
-    font-size: 1rem !important;
-    font-weight: 500 !important;
-    color: var(--k-teal) !important;
-    font-family: 'Tajawal', sans-serif !important;
-    text-align: center !important;
-    line-height: 1.5 !important;
-    margin-top: 8px !important;
-}
-
-/* ─── توسيط الحاوية بشكل قاطع على كل الموبايل ─── */
-.home_section_container,
-.home_section_container > div,
-.home_section_container .animate-slideIn,
-.home_section_container .css-1gla2u2 {
+/* ─── التارجت: الحاوية اللي جواها .szh-accordion ───
+   ده بيضمن إن القواعد دي بتطبق على الـ FAQ section بس */
+.content_container:has(.szh-accordion),
+.content_container:has([data-szh-adn]) {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -2764,25 +2742,70 @@ body {
     box-sizing: border-box !important;
 }
 
-/* ─── الـ accordion نفسه يكون متوسط ─── */
-.home_section_container .szh-accordion {
+/* ─── العنوان الرئيسي (h3) جوه الـ FAQ بس ─── */
+.content_container:has(.szh-accordion) h3,
+.content_container:has([data-szh-adn]) h3 {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: var(--k-teal) !important;
+    font-family: 'Tajawal', sans-serif !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+}
+
+/* ─── العنوان الفرعي (p.description) جوه الـ FAQ بس ─── */
+.content_container:has(.szh-accordion) p.description,
+.content_container:has([data-szh-adn]) p.description {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    color: var(--k-teal) !important;
+    font-family: 'Tajawal', sans-serif !important;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    margin-top: 8px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+}
+
+/* ─── الـ animate-slideIn container (اللي فيه العناوين) ─── */
+.content_container:has(.szh-accordion) .animate-slideIn,
+.content_container:has([data-szh-adn]) .animate-slideIn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ─── الـ accordion نفسه ─── */
+.content_container:has(.szh-accordion) .szh-accordion,
+.content_container:has([data-szh-adn]) [data-szh-adn] {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    text-align: right !important; /* الـ accordion items RTL */
+    margin-top: 20px !important;
 }
 
-/* ─── كل accordion item يكون متوسط ─── */
-.home_section_container .szh-accordion__item {
+/* ─── كل accordion item ─── */
+.content_container:has(.szh-accordion) .szh-accordion__item,
+.content_container:has([data-szh-adn]) .szh-accordion__item {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
 
-/* ─── الـ button جوه الـ accordion item يكون متوسط ─── */
-.home_section_container .szh-accordion__item-btn {
+/* ─── الـ button جوه الـ item ─── */
+.content_container:has(.szh-accordion) .szh-accordion__item-btn,
+.content_container:has([data-szh-adn]) .szh-accordion__item-btn {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -2790,24 +2813,25 @@ body {
     width: 100% !important;
 }
 
-/* ─── الـ panel (الإجابة) يكون متوسط ─── */
-.home_section_container .szh-accordion__item-panel {
+/* ─── الـ panel (الإجابة) ─── */
+.content_container:has(.szh-accordion) .szh-accordion__item-panel,
+.content_container:has([data-szh-adn]) .szh-accordion__item-panel {
     text-align: right !important;
     width: 100% !important;
 }
 
 /* ─── Responsive: mobile ─── */
 @media (max-width: 767px) {
-    .home_section_container h3 {
+    .content_container:has(.szh-accordion) h3,
+    .content_container:has([data-szh-adn]) h3 {
         font-size: 1.15rem !important;
     }
-    .home_section_container p.description {
+    .content_container:has(.szh-accordion) p.description,
+    .content_container:has([data-szh-adn]) p.description {
         font-size: 0.9rem !important;
     }
-    .home_section_container,
-    .home_section_container > div,
-    .home_section_container .animate-slideIn,
-    .home_section_container .css-1gla2u2 {
+    .content_container:has(.szh-accordion),
+    .content_container:has([data-szh-adn]) {
         padding-left: 12px !important;
         padding-right: 12px !important;
     }
