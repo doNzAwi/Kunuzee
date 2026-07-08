@@ -2725,78 +2725,172 @@ body {
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── Container padding ─── */
-.home_section_container:has(.szh-accordion) {
+/* ─── Container & Editor (من التخصيص الأصلي) ─── */
+.home_section_container:has(.szh-accordion),
+.home_section_container:has(.szh-accordion) .ql-container .ql-editor {
     padding: 40px 20px !important;
+    position: relative !important;
+    width: 100% !important;
+    background: #fff !important;
     box-sizing: border-box !important;
 }
 
-/* ─── Title + description wrapper ─── */
-.home_section_container:has(.szh-accordion) > div > div:first-of-type {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding-bottom: 20px !important;
-}
-
-/* ─── Main title (h3) ─── */
+/* ─── Main title (h3) — من التخصيص الأصلي + 1.3rem default ─── */
 .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
     color: var(--k-teal) !important;
     text-align: center !important;
     font-size: 1.3rem !important;
+    font-style: normal !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
-    letter-spacing: -0.02em !important;
-    margin: 0 !important;
+    border-radius: 30px !important;
+    letter-spacing: -0.96px !important;
+    width: fit-content !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: 0 !important;
 }
 
-/* ─── Subtitle / description ─── */
+/* ─── Subtitle / description — من التخصيص الأصلي + 1rem default ─── */
 .home_section_container:has(.szh-accordion) .description {
     text-align: center !important;
     font-size: 1rem !important;
+    width: 100% !important;
+    word-break: break-word !important;
     color: var(--k-orange) !important;
+    font-style: normal !important;
     font-weight: 400 !important;
     margin: 0 !important;
 }
 
-/* ─── Accordion items styling ─── */
-.home_section_container:has(.szh-accordion) .szh-accordion__item {
-    background: var(--k-light-cream) !important;
-    border: 1px solid var(--k-gold) !important;
-    border-radius: 20px !important;
-}
-
-/* ─── Button (question) ─── */
+/* ─── Accordion button (question) — من التخصيص الأصلي ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
     color: var(--k-teal) !important;
+    text-align: right !important;
     font-size: 18px !important;
+    font-style: normal !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
     direction: rtl !important;
-    text-align: right !important;
 }
 
-.home_section_container:has(.szh-accordion) .szh-accordion__item-btn svg {
-    color: var(--k-teal) !important;
-}
-
-/* ─── Panel (answer) ─── */
+/* ─── Accordion panel (answer) — من التخصيص الأصلي ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
+    padding: 20px !important;
+    border: 0 !important;
+    border-top: 1px solid var(--k-gold) !important;
     color: var(--k-orange) !important;
     font-size: 18px !important;
+    font-style: normal !important;
     font-weight: 300 !important;
     line-height: 30px !important;
     direction: rtl !important;
     text-align: right !important;
-    border-top: 1px solid var(--k-gold) !important;
-    padding: 20px !important;
 }
 
-/* ═════════════════════════
-   RESPONSIVE — فقط أحجام الخطوط
-   ═════════════════════════ */
+/* ─── Title+description wrapper gap — من التخصيص الأصلي ─── */
+.home_section_container:has(.szh-accordion) > div > div:first-of-type {
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding-bottom: 20px !important;
+}
 
+/* ─── Item cards — من التخصيص الأصلي ─── */
+.home_section_container:has(.szh-accordion) .css-1ifr9s1,
+.home_section_container:has(.szh-accordion) .muirtl-new-12b2el2,
+.home_section_container:has(.szh-accordion) [class*="muirtl-new-12b2el2"] {
+    margin: 0 !important;
+    margin-inline: auto !important;
+    max-width: 100% !important;
+    box-shadow: unset !important;
+    border-radius: 20px !important;
+    width: 100% !important;
+    height: fit-content !important;
+    background: var(--k-light-cream) !important;
+    border: 1px solid var(--k-gold) !important;
+}
+
+/* ─── Accordion container — من التخصيص الأصلي ─── */
+.home_section_container:has(.szh-accordion) .szh-accordion {
+    padding: 0 !important;
+    margin: 45px 0 !important;
+    gap: 20px !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr)) !important;
+    border-radius: 24px !important;
+}
+
+/* ─── SVG color — من التخصيص الأصلي ─── */
+.home_section_container:has(.szh-accordion) svg {
+    color: var(--k-teal) !important;
+}
+
+/* ─── RTL direction — من التخصيص الأصلي ─── */
+.home_section_container:has(.szh-accordion) .szh-accordion,
+.home_section_container:has(.szh-accordion) .szh-accordion__item-btn,
+.home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+/* ─── Button flex layout — من التخصيص الأصلي ─── */
+.home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.home_section_container:has(.szh-accordion) .szh-accordion__item-btn svg {
+    margin-inline-start: auto !important;
+    flex-shrink: 0 !important;
+}
+
+/* ══════════════════════════════════════════════
+   FAQ — RESPONSIVE (من التخصيص الأصلي + تعديلات الأحجام)
+   ══════════════════════════════════════════════ */
+
+/* ─── Desktop (≥1280px) — من التخصيص الأصلي ─── */
+@media (min-width: 1280px) {
+    .home_section_container:has(.szh-accordion) .szh-accordion {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 2fr)) !important;
+        margin: 45px 0 !important;
+        max-width: 1200px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
+        font-size: 18px !important;
+        padding: 18px !important;
+    }
+
+    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
+        font-size: 1.8rem !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .description {
+        font-size: 1.25rem !important;
+    }
+}
+
+/* ─── Tablet (≤1023px) — من التخصيص الأصلي ─── */
+@media (max-width: 1023px) {
+    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
+        font-size: 1.2rem !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .description {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* ─── Mobile (≤767px) — العناوين 1.2rem / 1rem زي ما طلبت ─── */
 @media (max-width: 767px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
         font-size: 1.2rem !important;
@@ -2808,6 +2902,7 @@ body {
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
         font-size: 16px !important;
+        padding: 14px !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
@@ -2816,12 +2911,14 @@ body {
     }
 }
 
-@media (min-width: 1280px) {
-    .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.8rem !important;
+/* ─── Small mobile (≤375px) ─── */
+@media (max-width: 375px) {
+    .home_section_container:has(.szh-accordion) {
+        padding: 30px 12px !important;
     }
 
-    .home_section_container:has(.szh-accordion) .description {
-        font-size: 1.25rem !important;
+    .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
+        font-size: 15px !important;
+        padding: 12px !important;
     }
 }
