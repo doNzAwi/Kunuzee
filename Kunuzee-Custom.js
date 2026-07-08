@@ -1426,3 +1426,46 @@ function fixHeader() {
 
     Kunuzee.gatedLoop(function hasTarget() { return items.length > 0; }, tick);
 })();
+
+// ───────────────────────────────────────────────────────────────
+// FUNCTION 21: FAQ Section Centering — توسيط حاوية الأسئلة الشائعة
+// ───────────────────────────────────────────────────────────────
+(function() {
+    'use strict';
+
+    function fixFaqSection() {
+        // ندور على الـ accordion اللي فيه 10+ items = ده الـ FAQ
+        var accordions = document.querySelectorAll('.szh-accordion');
+        
+        accordions.forEach(function(acc) {
+            var items = acc.querySelectorAll('.szh-accordion__item');
+            // الـ FAQ عنده 10 أسئلة — نستخدم 8 كـ threshold عشون لو اتضاف/اتشال سؤال
+            if (items.length < 8) return;
+            if (acc.dataset.kunuzeeFaq === 'fixed') return;
+
+            // ندور على الـ parent containers ونضيف class
+            var section = acc.closest('.home_section_container, [class*="home_section"]');
+            var content = acc.closest('.content_container');
+            
+            if (section) section.classList.add('kunuzee-faq-section');
+            if (content) content.classList.add('kunuzee-faq-container');
+            
+            acc.dataset.kunuzeeFaq = 'fixed';
+        });
+    }
+
+    Kunuzee.onDomGrowth(fixFaqSection);
+    Kunuzee.onRouteChange(function() {
+        document.querySelectorAll('.kunuzee-faq-section').forEach(function(el) {
+            el.classList.remove('kunuzee-faq-section');
+        });
+        document.querySelectorAll('.kunuzee-faq-container').forEach(function(el) {
+            el.classList.remove('kunuzee-faq-container');
+        });
+        document.querySelectorAll('[data-kunuzee-faq]').forEach(function(el) {
+            el.dataset.kunuzeeFaq = '';
+        });
+        setTimeout(fixFaqSection, 300);
+    });
+    fixFaqSection();
+})();
