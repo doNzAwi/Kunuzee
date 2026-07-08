@@ -1389,7 +1389,6 @@ function fixHeader() {
                 var btnPad = 16;
                 var wrapWidth = btn.clientWidth - svgWidth - btnPad;
                 if (wrapWidth < 80) wrapWidth = 80;
-                wrap.style.width = wrapWidth + 'rem';
 
                 var mask = 'linear-gradient(to left, transparent 0%, black 3%, black 93%, transparent 100%)';
                 wrap.style.webkitMaskImage = mask;
