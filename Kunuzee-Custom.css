@@ -2890,7 +2890,7 @@ body {
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
         font-size: 16px !important;
-        padding: 10px 2px !important;
+        padding: 4px 0px 2px !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-panel {
@@ -2902,7 +2902,7 @@ body {
 /* ─── Small mobile (≤390px) — iPhone 13: توسيط + عناوين أصغر ─── */
 @media (max-width: 390px) {
     .home_section_container:has(.szh-accordion) {
-        padding: 10px -2px !important;  /* ← padding أقل شوية */
+        padding: 30px -2px !important;  /* ← padding أقل شوية */
     }
 
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
