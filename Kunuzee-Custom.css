@@ -228,7 +228,8 @@
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── الوضع الأول: سعر واحد (مفيش خصم) — الرقم ── */
-.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)), {
+.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)),
+.flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
     color: var(--k-orange) !important;
@@ -236,7 +237,8 @@
 }
 
 /* EGP السعر الواحد */
-.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after, {
+.home_products_grid_card .flex.items-center.text-heading > span:first-child:not(:has(~ del)) .font-\[inherit\]::after,
+.flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
@@ -245,14 +247,16 @@
 }
 
 /* ── الوضع الثاني: سعرين (في خصم) — السعر الحالي بعد الخصم ── */
-.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child, {
+.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child,
+.flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     font-size: 1.5rem !important;
     font-weight: 500 !important;
     color: var(--k-orange) !important;
     font-family: 'Tajawal', sans-serif !important;
 }
 
-.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after, {
+.home_products_grid_card .flex.items-center.text-heading:has(> del) > span:first-child .font-\[inherit\]::after,
+.flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     color: var(--k-orange) !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
@@ -270,7 +274,8 @@
     font-family: 'Tajawal', sans-serif !important;
 }
 
-.home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after, {
+.home_products_grid_card .flex.items-center.text-heading > del span.font-\[inherit\]::after,
+.flex.items-center.justify-center.text-heading > span:first-child:not(:has(~ del)) {
     color: var(--k-gold) !important;
     font-size: 0.65rem !important;
     font-weight: 100 !important;
