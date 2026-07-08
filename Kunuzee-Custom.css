@@ -2720,3 +2720,95 @@ body {
         font-size: 10px !important;
     }
 }
+
+/* ───────────────────────────────────────────────────────────────
+   SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
+   ─────────────────────────────────────────────────────────────── */
+
+/* ─── العنوان الرئيسي (h3) ─── */
+.home_section_container h3 {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: var(--k-teal) !important;
+    font-family: 'Tajawal', sans-serif !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+}
+
+/* ─── العنوان الفرعي (p.description) ─── */
+.home_section_container p.description {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    color: var(--k-teal) !important;
+    font-family: 'Tajawal', sans-serif !important;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    margin-top: 8px !important;
+}
+
+/* ─── توسيط الحاوية بشكل قاطع على كل الموبايل ─── */
+.home_section_container,
+.home_section_container > div,
+.home_section_container .animate-slideIn,
+.home_section_container .css-1gla2u2 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+}
+
+/* ─── الـ accordion نفسه يكون متوسط ─── */
+.home_section_container .szh-accordion {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: right !important; /* الـ accordion items RTL */
+}
+
+/* ─── كل accordion item يكون متوسط ─── */
+.home_section_container .szh-accordion__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ─── الـ button جوه الـ accordion item يكون متوسط ─── */
+.home_section_container .szh-accordion__item-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* ─── الـ panel (الإجابة) يكون متوسط ─── */
+.home_section_container .szh-accordion__item-panel {
+    text-align: right !important;
+    width: 100% !important;
+}
+
+/* ─── Responsive: mobile ─── */
+@media (max-width: 767px) {
+    .home_section_container h3 {
+        font-size: 1.15rem !important;
+    }
+    .home_section_container p.description {
+        font-size: 0.9rem !important;
+    }
+    .home_section_container,
+    .home_section_container > div,
+    .home_section_container .animate-slideIn,
+    .home_section_container .css-1gla2u2 {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+}
