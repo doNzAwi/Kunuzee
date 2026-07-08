@@ -2724,3 +2724,216 @@ body {
 /* ───────────────────────────────────────────────────────────────
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
+
+/* ─── Container — force full-width & centered on ALL sizes ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"].home_section_container,
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    padding: 40px 20px !important;
+    position: relative !important;
+}
+
+/* Inner flex wrapper — center children horizontally */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+}
+
+/* Title + description wrapper */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] > div > div:first-of-type {
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding-bottom: 20px !important;
+    width: 100% !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+}
+
+/* ─── Main title (h3) — default 1.3rem ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] h3:not(.szh-accordion__item-heading) {
+    color: var(--k-teal) !important;
+    text-align: center !important;
+    font-size: 1.3rem !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    border-radius: 30px !important;
+    letter-spacing: -0.02em !important;
+    width: fit-content !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: 0 !important;
+}
+
+/* ─── Subtitle / description — default 1rem ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .description {
+    text-align: center !important;
+    font-size: 1rem !important;
+    width: 100% !important;
+    word-break: break-word !important;
+    color: var(--k-orange) !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    margin: 0 !important;
+}
+
+/* ─── Accordion container ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion {
+    padding: 0 !important;
+    margin: 45px auto !important;
+    gap: 20px !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    border-radius: 24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    direction: rtl !important;
+}
+
+/* ─── Accordion item cards ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item,
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .css-1ifr9s1,
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] [class*="muirtl-new-12b2el2"] {
+    margin: 0 !important;
+    margin-inline: auto !important;
+    max-width: 100% !important;
+    box-shadow: unset !important;
+    border-radius: 20px !important;
+    width: 100% !important;
+    height: fit-content !important;
+    background: var(--k-light-cream) !important;
+    border: 1px solid var(--k-gold) !important;
+    box-sizing: border-box !important;
+}
+
+/* ─── Accordion button (question row) ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-btn {
+    color: var(--k-teal) !important;
+    text-align: right !important;
+    font-size: 18px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    direction: rtl !important;
+    padding: 18px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-btn svg {
+    color: var(--k-teal) !important;
+    margin-inline-start: auto !important;
+    flex-shrink: 0 !important;
+}
+
+/* ─── FAQ marquee wrapper — CSS-controlled width ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .kfq-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ─── Accordion panel (answer) ─── */
+[sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-panel {
+    padding: 20px !important;
+    border: 0 !important;
+    border-top: 1px solid var(--k-gold) !important;
+    color: var(--k-orange) !important;
+    font-size: 18px !important;
+    font-style: normal !important;
+    font-weight: 300 !important;
+    line-height: 30px !important;
+    text-align: right !important;
+    direction: rtl !important;
+    box-sizing: border-box !important;
+}
+
+/* ════════════════
+   FAQ — RESPONSIVE
+   ════════════════ */
+
+/* ─── Desktop (≥1280px) ─── */
+@media (min-width: 1280px) {
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+        max-width: 1200px !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] h3:not(.szh-accordion__item-heading) {
+        font-size: 1.8rem !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .description {
+        font-size: 1.25rem !important;
+    }
+}
+
+/* ─── Tablet (≤1023px) ─── */
+@media (max-width: 1023px) {
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] h3:not(.szh-accordion__item-heading) {
+        font-size: 1.2rem !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .description {
+        font-size: 0.95rem !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-btn {
+        font-size: 16px !important;
+        padding: 14px !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-panel {
+        font-size: 16px !important;
+        line-height: 26px !important;
+    }
+}
+
+/* ─── Mobile (≤767px) — single column, tight padding, forced center ─── */
+@media (max-width: 767px) {
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] {
+        padding: 30px 16px !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] h3:not(.szh-accordion__item-heading) {
+        font-size: 1.1rem !important;
+        gap: 10px !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .description {
+        font-size: 0.9rem !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion {
+        grid-template-columns: 1fr !important;
+        margin: 30px auto !important;
+        gap: 16px !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-btn {
+        font-size: 15px !important;
+        padding: 12px !important;
+    }
+
+    [sectionid="6582e855-0027-4a25-bf25-5d6af9771ac2"] .szh-accordion__item-panel {
+        font-size: 15px !important;
+        line-height: 24px !important;
+        padding: 16px !important;
+    }
+}
