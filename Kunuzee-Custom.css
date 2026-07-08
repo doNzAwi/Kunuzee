@@ -2725,9 +2725,7 @@ body {
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── Container — the section wrapper ─── */
-.home_section_container:has(> div > div > div > div > h3),
-.home_section_container:has(h3:contains("أسئلتكم")),
+/* ─── Container — force full-width & centered ─── */
 .home_section_container:has(.szh-accordion) {
     width: 100% !important;
     max-width: 100% !important;
@@ -2739,7 +2737,7 @@ body {
     position: relative !important;
 }
 
-/* ─── Inner flex wrapper — center everything ─── */
+/* ─── Inner flex wrapper — center children ─── */
 .home_section_container:has(.szh-accordion) > div {
     width: 100% !important;
     max-width: 100% !important;
@@ -2790,7 +2788,7 @@ body {
     margin: 0 !important;
 }
 
-/* ─── Accordion container ─── */
+/* ─── Accordion container — centered grid ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion {
     padding: 0 !important;
     margin: 45px auto !important;
@@ -2802,9 +2800,10 @@ body {
     max-width: 100% !important;
     box-sizing: border-box !important;
     direction: rtl !important;
+    justify-content: center !important;  /* ← center grid tracks */
 }
 
-/* ─── Accordion item cards ─── */
+/* ─── Accordion item cards — centered in grid cell ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item,
 .home_section_container:has(.szh-accordion) .css-1ifr9s1,
 .home_section_container:has(.szh-accordion) [class*="muirtl-new-12b2el2"] {
@@ -2818,6 +2817,7 @@ body {
     background: var(--k-light-cream) !important;
     border: 1px solid var(--k-gold) !important;
     box-sizing: border-box !important;
+    justify-self: center !important;  /* ← center in grid cell */
 }
 
 /* ─── Accordion button (question row) ─── */
@@ -2843,11 +2843,20 @@ body {
     flex-shrink: 0 !important;
 }
 
-/* ─── FAQ marquee wrapper — CSS-controlled width ─── */
+/* ─── FAQ marquee wrapper — JS controls width, CSS controls max ─── */
 .home_section_container:has(.szh-accordion) .kfq-wrap {
-    width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
+    /* width: 100% ← ما تحطهوش! سيب الـ JS يتحكم */
+}
+
+/* ─── FAQ marquee text ─── */
+.home_section_container:has(.szh-accordion) .kfq-text {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    direction: rtl !important;
+    padding-right: 0.7rem !important;
+    padding-left: 1.5rem !important;
 }
 
 /* ─── Accordion panel (answer) ─── */
