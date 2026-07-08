@@ -2725,7 +2725,7 @@ body {
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── Container — force full-width & centered ─── */
+/* ─── Container ─── */
 .home_section_container:has(.szh-accordion) {
     width: 100% !important;
     max-width: 100% !important;
@@ -2735,9 +2735,10 @@ body {
     background: #ffffff !important;
     padding: 40px 20px !important;
     position: relative !important;
+    overflow-x: hidden !important;  /* ← منع أي overflow أفقي */
 }
 
-/* ─── Inner flex wrapper — center children ─── */
+/* ─── Inner flex wrapper ─── */
 .home_section_container:has(.szh-accordion) > div {
     width: 100% !important;
     max-width: 100% !important;
@@ -2757,7 +2758,7 @@ body {
     box-sizing: border-box !important;
 }
 
-/* ─── Main title (h3) — default 1.3rem ─── */
+/* ─── Main title (h3) — default 1.3rem / mobile 1.2rem ─── */
 .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
     color: var(--k-teal) !important;
     text-align: center !important;
@@ -2788,22 +2789,23 @@ body {
     margin: 0 !important;
 }
 
-/* ─── Accordion container — centered grid ─── */
+/* ─── Accordion container — centered, contained grid ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion {
     padding: 0 !important;
     margin: 45px auto !important;
     gap: 20px !important;
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;  /* ← 280px بدل 300px */
     border-radius: 24px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
     direction: rtl !important;
-    justify-content: center !important;  /* ← center grid tracks */
+    justify-content: center !important;
+    overflow: hidden !important;  /* ← احتواء الـ grid */
 }
 
-/* ─── Accordion item cards — centered in grid cell ─── */
+/* ─── Accordion item cards ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item,
 .home_section_container:has(.szh-accordion) .css-1ifr9s1,
 .home_section_container:has(.szh-accordion) [class*="muirtl-new-12b2el2"] {
@@ -2817,10 +2819,11 @@ body {
     background: var(--k-light-cream) !important;
     border: 1px solid var(--k-gold) !important;
     box-sizing: border-box !important;
-    justify-self: center !important;  /* ← center in grid cell */
+    justify-self: center !important;
+    min-width: 0 !important;  /* ← مهم جداً للـ grid! */
 }
 
-/* ─── Accordion button (question row) ─── */
+/* ─── Accordion button ─── */
 .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
     color: var(--k-teal) !important;
     text-align: right !important;
@@ -2835,19 +2838,23 @@ body {
     padding: 18px !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    gap: 12px !important;  /* ← gap بين النص والـ svg */
 }
 
 .home_section_container:has(.szh-accordion) .szh-accordion__item-btn svg {
     color: var(--k-teal) !important;
     margin-inline-start: auto !important;
     flex-shrink: 0 !important;
+    min-width: 24px !important;  /* ← حجم ثابت للـ svg */
 }
 
-/* ─── FAQ marquee wrapper — JS controls width, CSS controls max ─── */
+/* ─── FAQ marquee wrapper ─── */
 .home_section_container:has(.szh-accordion) .kfq-wrap {
     max-width: 100% !important;
     box-sizing: border-box !important;
-    /* width: 100% ← ما تحطهوش! سيب الـ JS يتحكم */
+    overflow: hidden !important;
+    min-width: 0 !important;  /* ← مهم للـ flex/grid */
+    flex: 1 1 auto !important;  /* ← ياخد المساحة المتاحة */
 }
 
 /* ─── FAQ marquee text ─── */
@@ -2897,11 +2904,11 @@ body {
 /* ─── Tablet (≤1023px) ─── */
 @media (max-width: 1023px) {
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.2rem !important;
+        font-size: 1.3rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .description {
-        font-size: 0.95rem !important;
+        font-size: 1.05rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
@@ -2915,23 +2922,24 @@ body {
     }
 }
 
-/* ─── Mobile (≤767px) — single column, tight padding, forced center ─── */
+/* ─── Mobile (≤767px) ─── */
 @media (max-width: 767px) {
     .home_section_container:has(.szh-accordion) {
         padding: 30px 16px !important;
     }
 
+    /* ← الأساسي 1.2rem والفرعي 1rem زي ما طلبت */
     .home_section_container:has(.szh-accordion) h3:not(.szh-accordion__item-heading) {
-        font-size: 1.1rem !important;
+        font-size: 1.2rem !important;
         gap: 10px !important;
     }
 
     .home_section_container:has(.szh-accordion) .description {
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
     }
 
     .home_section_container:has(.szh-accordion) .szh-accordion {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr !important;  /* ← عمود واحد */
         margin: 30px auto !important;
         gap: 16px !important;
     }
@@ -2945,5 +2953,21 @@ body {
         font-size: 15px !important;
         line-height: 24px !important;
         padding: 16px !important;
+    }
+}
+
+/* ─── Small mobile (≤375px) — iPhone 13, etc. ─── */
+@media (max-width: 375px) {
+    .home_section_container:has(.szh-accordion) {
+        padding: 24px 12px !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .szh-accordion {
+        gap: 12px !important;
+    }
+
+    .home_section_container:has(.szh-accordion) .szh-accordion__item-btn {
+        padding: 10px !important;
+        font-size: 14px !important;
     }
 }
