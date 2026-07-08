@@ -2725,26 +2725,35 @@ body {
    SECTION 28: FAQ SECTION — حاوية الأسئلة الشائعة
    ─────────────────────────────────────────────────────────────── */
 
-/* ─── التارجت: الحاوية اللي جواها .szh-accordion ───
-   ده بيضمن إن القواعد دي بتطبق على الـ FAQ section بس */
-.content_container:has(.szh-accordion),
-.content_container:has([data-szh-adn]) {
+/* ─── الـ container الرئيسي ─── */
+.kunuzee-faq-section,
+.kunuzee-faq-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ─── الـ div الداخلي (اللي فيه العناوين + accordion) ─── */
+.kunuzee-faq-section > div,
+.kunuzee-faq-container > div {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
     width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
     box-sizing: border-box !important;
 }
 
-/* ─── العنوان الرئيسي (h3) جوه الـ FAQ بس ─── */
-.content_container:has(.szh-accordion) h3,
-.content_container:has([data-szh-adn]) h3 {
+/* ─── العنوان الرئيسي ─── */
+.kunuzee-faq-section h3,
+.kunuzee-faq-container h3 {
     font-size: 1.3rem !important;
     font-weight: 700 !important;
     color: var(--k-teal) !important;
@@ -2756,9 +2765,9 @@ body {
     width: 100% !important;
 }
 
-/* ─── العنوان الفرعي (p.description) جوه الـ FAQ بس ─── */
-.content_container:has(.szh-accordion) p.description,
-.content_container:has([data-szh-adn]) p.description {
+/* ─── العنوان الفرعي ─── */
+.kunuzee-faq-section p.description,
+.kunuzee-faq-container p.description {
     font-size: 1rem !important;
     font-weight: 500 !important;
     color: var(--k-teal) !important;
@@ -2771,67 +2780,53 @@ body {
     width: 100% !important;
 }
 
-/* ─── الـ animate-slideIn container (اللي فيه العناوين) ─── */
-.content_container:has(.szh-accordion) .animate-slideIn,
-.content_container:has([data-szh-adn]) .animate-slideIn {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-
-/* ─── الـ accordion نفسه ─── */
-.content_container:has(.szh-accordion) .szh-accordion,
-.content_container:has([data-szh-adn]) [data-szh-adn] {
+/* ─── الـ accordion ─── */
+.kunuzee-faq-section .szh-accordion,
+.kunuzee-faq-container .szh-accordion {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: 20px !important;
+    text-align: center !important;
 }
 
-/* ─── كل accordion item ─── */
-.content_container:has(.szh-accordion) .szh-accordion__item,
-.content_container:has([data-szh-adn]) .szh-accordion__item {
+/* ─── الـ items ─── */
+.kunuzee-faq-section .szh-accordion__item,
+.kunuzee-faq-container .szh-accordion__item {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
 
-/* ─── الـ button جوه الـ item ─── */
-.content_container:has(.szh-accordion) .szh-accordion__item-btn,
-.content_container:has([data-szh-adn]) .szh-accordion__item-btn {
+/* ─── الـ button (السؤال) ─── */
+.kunuzee-faq-section .szh-accordion__item-btn,
+.kunuzee-faq-container .szh-accordion__item-btn {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    text-align: center !important;
     width: 100% !important;
 }
 
 /* ─── الـ panel (الإجابة) ─── */
-.content_container:has(.szh-accordion) .szh-accordion__item-panel,
-.content_container:has([data-szh-adn]) .szh-accordion__item-panel {
+.kunuzee-faq-section .szh-accordion__item-panel,
+.kunuzee-faq-container .szh-accordion__item-panel {
     text-align: right !important;
     width: 100% !important;
 }
 
 /* ─── Responsive: mobile ─── */
 @media (max-width: 767px) {
-    .content_container:has(.szh-accordion) h3,
-    .content_container:has([data-szh-adn]) h3 {
+    .kunuzee-faq-section h3,
+    .kunuzee-faq-container h3 {
         font-size: 1.15rem !important;
     }
-    .content_container:has(.szh-accordion) p.description,
-    .content_container:has([data-szh-adn]) p.description {
+    .kunuzee-faq-section p.description,
+    .kunuzee-faq-container p.description {
         font-size: 0.9rem !important;
     }
-    .content_container:has(.szh-accordion),
-    .content_container:has([data-szh-adn]) {
+    .kunuzee-faq-section > div,
+    .kunuzee-faq-container > div {
         padding-left: 12px !important;
         padding-right: 12px !important;
     }
